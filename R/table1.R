@@ -400,6 +400,7 @@ has.units <- function(x) {
 #' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param groupspan A vector of integers specifying the number of strata to group together.
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
+#' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param render A function to render the table cells (see Details).
 #' @param ... Further arguments, depending on the method called.
 #'
@@ -457,7 +458,7 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", render=render.default, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass="Rtable1", render=render.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -474,8 +475,15 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", render=re
         rownames(y)[1] <- labels$variables[[v]]
         y })
 
-    cat('<table>
+    if (is.null(topclass) || topclass=="") {
+        cat('<table>
 <thead>')
+    } else if (is.character(topclass) && length(topclass)==1) {
+        cat(sprintf('<table class="%s">
+<thead>', topclass))
+    } else {
+        stop("topclass should be character and of length 1.")
+    }
 
     if (!is.null(groupspan)) {
         thead0 <- ifelse(is.na(labels$groups) | labels$groups=="", "", sprintf('<div>%s</div>', labels$groups))
@@ -502,7 +510,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", render=re
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", render=render.default, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass="Rtable1", render=render.default, ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -557,9 +565,9 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", render=r
 
     if (!is.null(m2) && length(m2) > 1) {
         labels$groups <- grouplabel
-        table1.default(x=strata, labels=labels, groupspan=groupspan, rowlabelhead=rowlabelhead)
+        table1.default(x=strata, labels=labels, groupspan=groupspan, rowlabelhead=rowlabelhead, topclass=topclass, render=render, ...)
     } else {
-        table1.default(x=strata, labels=labels, rowlabelhead=rowlabelhead)
+        table1.default(x=strata, labels=labels, rowlabelhead=rowlabelhead, topclass=topclass, render=render, ...)
     }
 }
 

@@ -9,10 +9,10 @@
 table1(x, ...)
 
 \method{table1}{default}(x, labels, groupspan = NULL, rowlabelhead = "",
-  render = render.default, ...)
+  topclass = "Rtable1", render = render.default, ...)
 
 \method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
-  render = render.default, ...)
+  topclass = "Rtable1", render = render.default, ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or \code{data.frame}.}
@@ -25,6 +25,8 @@ table1(x, ...)
 
 \item{rowlabelhead}{A heading for the first column of the table, which contains the row labels.}
 
+\item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
+
 \item{render}{A function to render the table cells (see Details).}
 
 \item{data}{For the formula interface, a \code{data.frame} from which the
@@ -34,7 +36,16 @@ variables in \code{x} should be taken.}
 should the column have? Specify \code{NULL} or \code{FALSE} to omit the column.}
 }
 \description{
-Generate an HTML table of descriptive statistics.
+There are two interfaces, the default, which typically takes a
+\code{data.frame} for \code{x}, and the formula interface. The formula
+interface is less flexible, but simpler to use and designed to handle the
+most common use cases. It is important to use factors appropriately for
+categorical variables (i.e. have the levels labelled properly and in the
+desired order). The contents of the table can be customized by providing
+user-defined `renderer' functions. Customization of the table appearance is
+deliberately not attempted, as this is best accomplished with CSS. To
+facilitate this, some tags (such as row labels) are given specific classes
+for easy CSS selection.
 }
 \section{Methods (by class)}{
 \itemize{
