@@ -82,7 +82,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 melanoma2 &lt;-<span class="st"> </span>melanoma
  
-<span class="co"># Factor the basic variables that </span>
+<span class="co"># Factor the basic variables that</span>
 <span class="co"># we're interested in</span>
 melanoma2$status &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">factor</span>(melanoma2$status, 
@@ -302,8 +302,8 @@ Median [Min, Max]
 </tr>
 </tbody>
 </table>
-<p>Note that the <code>table1</code> package uses a familiar formula interface, where the variables to include in the table are separated by ‘+’ symbols, the stratification variable (which creates the columns) appears to the right of a “conditioning” symbol ‘|’, and the data frame containing the variables in the formula is given as the <code>data</code> argument.</p>
-<p>By without giving the variables and categories nice labels, the result doesn’t look great. To improve it, we can do the following:</p>
+<p>Note that the <code>table1</code> package uses a familiar formula interface, where the variables to include in the table are separated by ‘+’ symbols, the “stratification” variable (which creates the columns) appears to the right of a “conditioning” symbol ‘|’, and the <code>data</code> argument specifies a <code>data.frame</code> that contains the variables in the formula.</p>
+<p>But because we don’t have nice labels for the variables and categories, it doesn’t look great. To improve things, we can create factors with descriptive labels for the categorical variables (<code>sex</code> and <code>ulcer</code>), label each variable the way we want, and specify units for the continuous variables (<code>age</code> and <code>thickness</code>), like this:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">melanoma2$sex &lt;-<span class="st"> </span>
 <span class="st">  </span><span class="kw">factor</span>(melanoma2$sex, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),
          <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Male&quot;</span>, 
@@ -533,7 +533,7 @@ Median [Min, Max]
 </tr>
 </tbody>
 </table>
-<p>That’s better, but still not quite the same as the original blog post. First, in the blog post the “Total” column in the first on the left, while we have it on the right. Second, the two “Death” strata (Melanoma and Non-melanoma) are grouped together under a common heading. Finally, the continuous variables Age and Thickness show only Means (SD), not Median [Min, Max] like the <code>table1</code> default output (I will not concern myself with the footnote here, but it can easily be added). To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
+<p>This looks better, but still not quite the same as the original blog post: in the blog post the “Total” column is on the left, while we have it on the right; the two “Death” strata (Melanoma and Non-melanoma) should be grouped together under a common heading; the continuous variables Age and Thickness show only Means (SD) (with a ±), and not Median [Min, Max] like the <code>table1</code> default output; most values are displayed with two significant digits rather than three (I will not concern myself with the footnote here, but it could be added as well). To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
 <p>First, we set up our labels differently, using a list:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">labels &lt;-<span class="st"> </span><span class="kw">list</span>(
     <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">sex=</span><span class="st">&quot;Sex&quot;</span>,
@@ -747,7 +747,7 @@ Mean (SD)
 </tr>
 </tbody>
 </table>
-<p>This is now looking pretty similar to the original blog post, but admittedly there are still some differences: the sexes are inverted (the original blog post got it wrong); I added units to the continuous variables; I include the number of individuals in each column under the column heading; the percentages are different, because I think they should add to 100% within a column, and in the original blog post they add to 100% along a row (except for the Total column, which adds to 100% within the column). This last point in the most contentious. In my version, it is easier to compare the different types of outcomes with respect to variables like sex, while in the original version it is easier to compare sexes with respect to outcomes. However, this is not really the standard application for these kinds of tables (at least not the one I have in mind). Usually, the columns would represent exposure or treatment groups, and we want to compare those groups with respect to the distribution of baseline characteristics, and for this purpose having percentages add up to 100% within columns makes the most sense. Let’s continue with an example of that nature, using simulated data.</p>
+<p>This is now looking pretty similar to the original blog post, but admittedly there are still some differences: the sexes are inverted (the original blog post got it wrong); I added units to the continuous variables; I include the number of individuals in each column under the column heading; the percentages are different, because I think they should add to 100% within a column, and in the original blog post they add to 100% along a row (except for the Total column, which adds to 100% within the column). This last point in the most contentious. In my version, it is easier to compare the different types of outcomes with respect to variables like sex, while in the original version it is easier to compare sexes with respect to outcomes. However, this is not really the standard application for these kinds of tables (at least not the one I have in mind). Usually, the columns would represent exposure or treatment groups, not outcomes, and we want to compare those groups with respect to the distribution of baseline characteristics, and for this purpose having percentages add up to 100% within columns makes the most sense. Let’s continue with an example of that nature, using simulated data.</p>
 </div>
 <div id="example-2" class="section level2">
 <h2>Example 2</h2>
@@ -757,9 +757,9 @@ Mean (SD)
 
 n &lt;-<span class="st"> </span><span class="dv">146</span>
 dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="dv">1</span>:n)
-dat$treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+dat$treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span>
 dat$age   &lt;-<span class="st"> </span><span class="kw">runif</span>(n, <span class="dv">18</span>, <span class="dv">65</span>)
-dat$sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, .<span class="dv">4</span>))
+dat$sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, .<span class="dv">4</span>))  <span class="co"># 60% female</span>
 dat$wt    &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>))
 
 <span class="co"># Add some missing data</span>
@@ -924,7 +924,7 @@ Missing
 </tr>
 </tbody>
 </table>
-<p>Note that when a continuous variable contains missing values (here weight), these are reported as a distinct category.</p>
+<p>Note that when contains missing values (here weight), be it continuous or categorical, these are reported as a distinct category (with count and percent).</p>
 <p>The “Overall” column can be easily removed (or relabeled):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>age +<span class="st"> </span>sex +<span class="st"> </span>wt |<span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">overall=</span>F)</code></pre></div>
 <table class="Rtable1">
@@ -1558,7 +1558,7 @@ Missing
 </tr>
 </tbody>
 </table>
-<p>Finally, we may again consider something more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg.</p>
+<p>Finally, we may again consider something a bit more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg, and we want columns for each dose level separately, as well as for all treated subjects:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat$dose &lt;-<span class="st"> </span>(dat$treat !=<span class="st"> &quot;Placebo&quot;</span>)*<span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">2</span>, n, <span class="dt">replace=</span>T)
 dat$dose &lt;-<span class="st"> </span><span class="kw">factor</span>(dat$dose, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))
 
@@ -1798,11 +1798,11 @@ Missing
 <div id="using-css-to-control-the-tables-appearance" class="section level2">
 <h2>Using CSS to control the table’s appearance</h2>
 <p>One thing I did not mention is that the output of <code>table1()</code> is just a bunch of HTML tags. To get the table to render, you have to open it in a web browser. If you were to just run the code above, paste the output in a file with the .html extension, and open it in your browser, it wouldn’t look the same as the output I presented. That is deliberate, because it is intended that table’s appearance be customized through CSS, which is ideally suited to this purpose (the trade-off is that you have to know some CSS to achieve the desired results).</p>
-<p>The expected way that this package is to used is in conjunction with <a href="rmarkdown.rstudio.com/">R Markdown</a>, along with the <code>results='asis'</code> chunk option (at least, that’s how I use it). You embed your own CSS in the document by including this in the YAML header of your file (where style.css is the name of the file that contains the CSS):</p>
+<p>The expected way that this package is to used is in conjunction with <a href="rmarkdown.rstudio.com/">R Markdown</a>, making use of the <code>results='asis'</code> chunk option to have the HTML output appear as is in the final document. (at least, that’s how I use it). You can embed your own CSS in the document by including this in the YAML header of your file (where style.css is the name of the file that contains the CSS):</p>
 <pre><code>output: 
   html_document:
     css: style.css</code></pre>
-<p>If <code>style.css</code> contains, these definitions, then you will get the same output as above:</p>
+<p>If <code>style.css</code> contains these definitions, then you will get the same output as above:</p>
 <pre><code>table.Rtable1 {
     font-family: &quot;Arial&quot;, Arial, sans-serif;
     font-size: 10pt;

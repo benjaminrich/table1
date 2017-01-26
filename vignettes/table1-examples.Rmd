@@ -46,13 +46,16 @@ table1(~ factor(sex) + age + factor(ulcer) + thickness | status, data=melanoma2)
 ```
 
 Note that the `table1` package uses a familiar formula interface, where the
-variables to include in the table are separated by '+' symbols, the stratification
-variable (which creates the columns) appears to the right of a "conditioning"
-symbol '|', and the data frame containing the variables in the formula is given
-as the `data` argument.
+variables to include in the table are separated by '+' symbols, the
+"stratification" variable (which creates the columns) appears to the right of a
+"conditioning" symbol '|', and the `data` argument specifies a `data.frame`
+that contains the variables in the formula.
 
-By without giving the variables and categories nice labels, the result doesn't
-look great. To improve it, we can do the following:
+But because we don't have nice labels for the variables and categories, it
+doesn't look great. To improve things, we can create factors with descriptive
+labels for the categorical variables (`sex` and `ulcer`), label each variable
+the way we want, and specify units for the continuous variables (`age` and
+`thickness`), like this:
 
 
 ```{r results='asis'}
@@ -77,13 +80,14 @@ units(melanoma2$thickness) <- "mm"
 table1(~ sex + age + ulcer + thickness | status, data=melanoma2, overall="Total")
 ```
 
-That's better, but still not quite the same as the original blog post. First,
-in the blog post the "Total" column in the first on the left, while we have it
-on the right. Second, the two "Death" strata (Melanoma and Non-melanoma) are
-grouped together under a common heading. Finally, the continuous variables Age
-and Thickness show only Means (SD), not Median [Min, Max] like the `table1`
-default output (I will not concern myself with the footnote here, but it can
-easily be added). To achieve the same result, we need to customize the output
+This looks better, but still not quite the same as the original blog post: in
+the blog post the "Total" column is on the left, while we have it on the right;
+the two "Death" strata (Melanoma and Non-melanoma) should be grouped together
+under a common heading; the continuous variables Age and Thickness show only
+Means (SD) (with a &plusmn;), and not Median [Min, Max] like the `table1`
+default output; most values are displayed with two significant digits rather
+than three (I will not concern myself with the footnote here, but it could be
+added as  well). To achieve the same result, we need to customize the output
 further, and in this case that involves using the slightly more complicated
 "default"  (i.e. non-formula) interface to `table1`.
 
@@ -140,10 +144,10 @@ outcomes with respect to variables like sex, while in the original version it
 is easier to compare sexes with respect to outcomes. However, this is not
 really the standard application for these kinds of tables (at least not the
 one I have in mind). Usually, the columns would represent exposure or treatment
-groups, and we want to compare those groups with respect to the distribution of
-baseline characteristics, and for this purpose having percentages add up to
-100% within columns makes the most sense. Let's continue with an example of
-that nature, using simulated data.
+groups, not outcomes, and we want to compare those groups with respect to the
+distribution of baseline characteristics, and for this purpose having
+percentages add up to 100% within columns makes the most sense. Let's continue
+with an example of that nature, using simulated data.
 
 ## Example 2
 
@@ -158,9 +162,9 @@ set.seed(427)
 
 n <- 146
 dat <- data.frame(id=1:n)
-dat$treat <- f(c("Placebo", "Treated"), n, prob=c(1, 2))
+dat$treat <- f(c("Placebo", "Treated"), n, prob=c(1, 2)) # 2:1 randomization
 dat$age   <- runif(n, 18, 65)
-dat$sex   <- f(c("Female", "Male"), n, prob=c(.6, .4))
+dat$sex   <- f(c("Female", "Male"), n, prob=c(.6, .4))  # 60% female
 dat$wt    <- exp(rnorm(n, log(70), 0.23))
 
 # Add some missing data
@@ -181,8 +185,9 @@ Using the default settings, we obtain this table:
 table1(~ age + sex + wt | treat, data=dat)
 ```
 
-Note that when a continuous variable contains missing values (here weight),
-these are reported as a distinct category.
+Note that when contains missing values (here weight), be it continuous or
+categorical, these are reported as a distinct category (with count and
+percent).
 
 The "Overall" column can be easily removed (or relabeled):
 
@@ -209,10 +214,11 @@ Or, no stratification:
 table1(~ treat + age + sex + wt, data=dat)
 ```
 
-Finally, we may again consider something more complicated, using the default
-(i.e., non-formula) interface. Suppose that instead of simply being assigned to
-placebo or active treatment, there were actually two doses of treatment
-randomized, 5 mg and 10 mg.
+Finally, we may again consider something a bit more complicated, using the
+default (i.e., non-formula) interface. Suppose that instead of simply being
+assigned to placebo or active treatment, there were actually two doses of
+treatment randomized, 5 mg and 10 mg, and we want columns for each dose level
+separately, as well as for all treated subjects:
 
 ```{r results='asis'}
 dat$dose <- (dat$treat != "Placebo")*sample(1:2, n, replace=T)
@@ -240,10 +246,11 @@ be customized through CSS, which is ideally suited to this purpose (the
 trade-off is that you have to know some CSS to achieve the desired results).
 
 The expected way that this package is to used is in conjunction with [R
-Markdown](rmarkdown.rstudio.com/), along with the `results='asis'` chunk option
-(at least, that's how I use it). You embed your own CSS in the document by
-including this in the YAML header of your file (where style.css is the name of
-the file that contains the CSS):
+Markdown](rmarkdown.rstudio.com/), making use of the `results='asis'` chunk
+option to have the HTML output appear as is in the final document. (at least,
+that's how I use it). You can embed your own CSS in the document by including
+this in the YAML header of your file (where style.css is the name of the file
+that contains the CSS):
 
 ```
 output: 
@@ -251,7 +258,7 @@ output:
     css: style.css
 ```
 
-If `style.css` contains, these definitions, then you will get the same output as above:
+If `style.css` contains these definitions, then you will get the same output as above:
 
 ```
 table.Rtable1 {

@@ -1,2 +1,3 @@
 ^\..*\.swp$
 ^.*\.R\.tmp\.R$
+^_config.yml$
