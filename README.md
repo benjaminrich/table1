@@ -1,10 +1,10 @@
 # table1
 An R package for generating tables of descriptive statistics in HTML, like this:
 
-<table style=" font-family: "Arial", Arial, sans-serif; font-size: 10pt; border-collapse: collapse; padding: 0px; margin: 0px; margin-bottom: 10pt; ">
+<table style="font-family: "Arial", Arial, sans-serif; font-size: 10pt; border-collapse: collapse; padding: 0px; margin: 0px; margin-bottom: 10pt">
 <thead>
 <tr>
-<th style=" padding-left: 0.5ex; font-weight: bold; ">
+<th style="padding-left: 0.5ex; font-weight: bold">
 </th>
 <th>
 Placebo<br>(n=52)
@@ -19,7 +19,7 @@ Overall<br>(n=146)
 </thead>
 <tbody>
 <tr>
-<td style=" padding-left: 0.5ex; font-weight: bold; ">
+<td style="padding-left: 0.5ex; font-weight: bold">
 Age (years)
 </td>
 <td>
@@ -30,7 +30,7 @@ Age (years)
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Mean (SD)
 </td>
 <td>
@@ -44,7 +44,7 @@ Mean (SD)
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Median [Min, Max]
 </td>
 <td>
@@ -58,7 +58,7 @@ Median [Min, Max]
 </td>
 </tr>
 <tr>
-<td style=" padding-left: 0.5ex; font-weight: bold; ">
+<td style="padding-left: 0.5ex; font-weight: bold">
 Sex
 </td>
 <td>
@@ -69,7 +69,7 @@ Sex
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Female
 </td>
 <td>
@@ -83,7 +83,7 @@ Female
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Male
 </td>
 <td>
@@ -97,7 +97,7 @@ Male
 </td>
 </tr>
 <tr>
-<td style=" padding-left: 0.5ex; font-weight: bold; ">
+<td style="padding-left: 0.5ex; font-weight: bold">
 Weight (kg)
 </td>
 <td>
@@ -108,7 +108,7 @@ Weight (kg)
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Mean (SD)
 </td>
 <td>
@@ -122,7 +122,7 @@ Mean (SD)
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Median [Min, Max]
 </td>
 <td>
@@ -136,7 +136,7 @@ Median [Min, Max]
 </td>
 </tr>
 <tr>
-<td style=" text-align: left; padding-left: 2.5ex; ">
+<td style="text-align: left; padding-left: 2.5ex">
 Missing
 </td>
 <td>
