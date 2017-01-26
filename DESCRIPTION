@@ -10,4 +10,6 @@ Description: Create HTML tables of descriptive statistics, as one would expect
 License: GPL-2
 Depends: Formula
 Imports: stats
+Suggests: knitr,boot
+VignetteBuilder: knitr
 RoxygenNote: 5.0.1

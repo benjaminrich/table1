@@ -1,0 +1,314 @@
+---
+title: "Using the table1 Package to Create HMTL Tables of Descriptive Statistics"
+author: "Benjamin Rich"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    css: [vignette.css, style.css]
+vignette: >
+  %\VignetteIndexEntry{Using the table1 Package to Create HMTL Tables of Descriptive Statistics}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteDepends{boot}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE, results='hide'}
+library(table1)
+```
+
+## Example 1
+
+The first example is inspired by [this blog
+post](http://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/),
+which is about how to accomplish a similar task using the `htmlTable` package.
+It uses the `melanoma` data set from the `boot` package for illustration, and
+I have copied here the code used to prepare the data:
+
+```{r}
+library(boot) 
+
+melanoma2 <- melanoma
+ 
+# Factor the basic variables that
+# we're interested in
+melanoma2$status <- 
+  factor(melanoma2$status, 
+         levels=c(2,1,3),
+         labels=c("Alive", # Reference
+                  "Melanoma death", 
+                  "Non-melanoma death"))
+```
+
+As I first attempt, we can do the following:
+
+```{r results='asis'}
+table1(~ factor(sex) + age + factor(ulcer) + thickness | status, data=melanoma2)
+```
+
+Note that the `table1` package uses a familiar formula interface, where the
+variables to include in the table are separated by '+' symbols, the stratification
+variable (which creates the columns) appears to the right of a "conditioning"
+symbol '|', and the data frame containing the variables in the formula is given
+as the `data` argument.
+
+By without giving the variables and categories nice labels, the result doesn't
+look great. To improve it, we can do the following:
+
+
+```{r results='asis'}
+melanoma2$sex <- 
+  factor(melanoma2$sex, levels=c(1,0),
+         labels=c("Male", 
+                  "Female"))
+ 
+melanoma2$ulcer <- 
+  factor(melanoma2$ulcer, levels=c(0,1),
+         labels=c("Absent", 
+                  "Present"))
+
+label(melanoma2$sex)       <- "Sex"
+label(melanoma2$age)       <- "Age"
+label(melanoma2$ulcer)     <- "Ulceration"
+label(melanoma2$thickness) <- "Thickness"
+
+units(melanoma2$age)       <- "years"
+units(melanoma2$thickness) <- "mm"
+
+table1(~ sex + age + ulcer + thickness | status, data=melanoma2, overall="Total")
+```
+
+That's better, but still not quite the same as the original blog post. First,
+in the blog post the "Total" column in the first on the left, while we have it
+on the right. Second, the two "Death" strata (Melanoma and Non-melanoma) are
+grouped together under a common heading. Finally, the continuous variables Age
+and Thickness show only Means (SD), not Median [Min, Max] like the `table1`
+default output (I will not concern myself with the footnote here, but it can
+easily be added). To achieve the same result, we need to customize the output
+further, and in this case that involves using the slightly more complicated
+"default"  (i.e. non-formula) interface to `table1`.
+
+First, we set up our labels differently, using a list:
+
+```{r}
+labels <- list(
+    variables=list(sex="Sex",
+                   age="Age (years)",
+                   ulcer="Ulceration",
+                   thickness="Thickness (mm)"),
+    groups=list("", "", "Death"))
+
+# Remove the word "death" from the labels, since it now appears above
+levels(melanoma2$status) <- c("Alive", "Melanoma", "Non-melanoma")
+```
+
+Next, we set up our "strata", or column, as a list of `data.frame`s, in the
+order we want them displayed:
+
+```{r}
+strata <- c(list(Total=melanoma2), split(melanoma2, melanoma2$status))
+```
+
+Finally, we customize the contents using custom renderers:
+
+```{r}
+myrendercont <- function(x) {
+    with(lapply(stats.default(x), signif_pad, digits=2), c("",
+        "Mean (SD)"=sprintf("%s (&plusmn; %s)", MEAN, SD)))
+}
+myrendercat <- function(x) {
+    c("", sapply(stats.default(x), function(y) with(y,
+        sprintf("%d (%0.0f %%)", FREQ, PCT))))
+}
+```
+
+And here is the result:
+
+```{r results='asis'}
+table1(strata, labels, groupspan=c(1, 1, 2),
+       render.continuous=myrendercont, render.categorical=myrendercat)
+```
+
+This is now looking pretty similar to the original blog post, but admittedly
+there are still some differences: the sexes are inverted (the original blog
+post got it wrong); I added units to the continuous variables; I include the
+number of individuals in each column under the column heading; the percentages
+are different, because I think they should add to 100% within a column, and in
+the original blog post they add to 100% along a row (except for the Total
+column, which adds to 100% within the column). This last point in the most
+contentious. In my version, it is easier to compare the different types of
+outcomes with respect to variables like sex, while in the original version it
+is easier to compare sexes with respect to outcomes. However, this is not
+really the standard application for these kinds of tables (at least not the
+one I have in mind). Usually, the columns would represent exposure or treatment
+groups, and we want to compare those groups with respect to the distribution of
+baseline characteristics, and for this purpose having percentages add up to
+100% within columns makes the most sense. Let's continue with an example of
+that nature, using simulated data.
+
+## Example 2
+
+For this second example, we will use simulated data. We imagine a clinical
+trial where subjects have been randomized in a 2:1 ratio to receive an active treatment or placebo.
+For simplicity, we will only consider three baseline characteristics: age, sex
+and weight.
+
+```{r}
+f <- function(x, n, ...) factor(sample(x, n, replace=T, ...), levels=x)
+set.seed(427)
+
+n <- 146
+dat <- data.frame(id=1:n)
+dat$treat <- f(c("Placebo", "Treated"), n, prob=c(1, 2))
+dat$age   <- runif(n, 18, 65)
+dat$sex   <- f(c("Female", "Male"), n, prob=c(.6, .4))
+dat$wt    <- exp(rnorm(n, log(70), 0.23))
+
+# Add some missing data
+dat$wt[sample.int(n, 5)] <- NA
+
+label(dat$age)   <- "Age"
+label(dat$sex)   <- "Sex"
+label(dat$wt)    <- "Weight"
+label(dat$treat) <- "Treatment Group"
+
+units(dat$age)   <- "years"
+units(dat$wt)    <- "kg"
+```
+
+Using the default settings, we obtain this table:
+
+```{r results='asis'}
+table1(~ age + sex + wt | treat, data=dat)
+```
+
+Note that when a continuous variable contains missing values (here weight),
+these are reported as a distinct category.
+
+The "Overall" column can be easily removed (or relabeled):
+
+```{r results='asis'}
+table1(~ age + sex + wt | treat, data=dat, overall=F)
+```
+
+We can also have stratification by two variables, in which case they are
+nested.  For example, to see each treatment group split by sex:
+
+```{r results='asis'}
+table1(~ age + wt | treat*sex, data=dat)
+```
+
+Or, switch the order:
+
+```{r results='asis'}
+table1(~ age + wt | sex*treat, data=dat)
+```
+
+Or, no stratification:
+
+```{r results='asis'}
+table1(~ treat + age + sex + wt, data=dat)
+```
+
+Finally, we may again consider something more complicated, using the default
+(i.e., non-formula) interface. Suppose that instead of simply being assigned to
+placebo or active treatment, there were actually two doses of treatment
+randomized, 5 mg and 10 mg.
+
+```{r results='asis'}
+dat$dose <- (dat$treat != "Placebo")*sample(1:2, n, replace=T)
+dat$dose <- factor(dat$dose, labels=c("Placebo", "5 mg", "10 mg"))
+
+strata <- c(split(dat, dat$dose), list("All treated"=subset(dat, treat=="Treated")), list(Overall=dat))
+
+labels <- list(
+    variables=list(age=render.varlabel(dat$age),
+                   sex=render.varlabel(dat$sex),
+                   wt=render.varlabel(dat$wt)),
+    groups=list("", "Treated", ""))
+
+table1(strata, labels, groupspan=c(1, 3, 1))
+```
+
+## Using CSS to control the table's appearance
+
+One thing I did not mention is that the output of `table1()` is just a bunch of
+HTML tags. To get the table to render, you have to open it in a web browser. If
+you were to just run the code above, paste the output in a file with the .html
+extension, and open it in your browser, it wouldn't look the same as the output
+I presented. That is deliberate, because it is intended that table's appearance
+be customized through CSS, which is ideally suited to this purpose (the
+trade-off is that you have to know some CSS to achieve the desired results).
+
+The expected way that this package is to used is in conjunction with [R
+Markdown](rmarkdown.rstudio.com/), along with the `results='asis'` chunk option
+(at least, that's how I use it). You embed your own CSS in the document by
+including this in the YAML header of your file (where style.css is the name of
+the file that contains the CSS):
+
+```
+output: 
+  html_document:
+    css: style.css
+```
+
+If `style.css` contains, these definitions, then you will get the same output as above:
+
+```
+table.Rtable1 {
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 10pt;
+    border-collapse: collapse;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 10pt;
+}
+.Rtable1 th, .Rtable1 td {
+    border: 0;
+    text-align: center;
+    padding: 0.5ex 1.5ex;
+    margin: 0px;
+}
+.Rtable1 thead>tr:first-child>th {
+    border-top: 2pt solid black;
+}
+.Rtable1 thead>tr:last-child>th {
+    border-bottom: 1pt solid black;
+}
+.Rtable1 tbody>tr:last-child>td {
+    border-bottom: 2pt solid black;
+}
+.Rtable1 th.grouplabel {
+    padding-left: 0;
+    padding-right: 0;
+}
+.Rtable1 th.grouplabel>div {
+    margin-left: 1.5ex;
+    margin-right: 1.5ex;
+    border-bottom: 1pt solid black;
+}
+.Rtable1 th.grouplabel:last-child>div {
+    margin-right: 0;
+}
+.Rtable1 .rowlabel {
+    text-align: left;
+    padding-left: 2.5ex;
+}
+.Rtable1 .firstrowlabel {
+    padding-left: 0.5ex;
+    font-weight: bold;
+}
+```
+
+By changing the CSS, you can change the appearance of the table to your liking.
+Two examples are given below for illustration purposes (the `topclass` argument
+allows the class attribute of the toplevel tag to be changed, which in turn
+allows different CSS styles to be applied).
+
+```{r results='asis'}
+table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style2")
+```
+
+```{r results='asis'}
+table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style3")
+```
+
