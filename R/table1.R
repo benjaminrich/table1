@@ -402,7 +402,9 @@ has.units <- function(x) {
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param render A function to render the table cells (see Details).
-#' @param ... Further arguments, depending on the method called.
+#' @param ... Further arguments, passed to \code{render}.
+#'
+#' @return None (invisible \code{NULL}). Called for its side effects.
 #'
 #' @examples
 #'

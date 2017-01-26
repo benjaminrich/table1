@@ -115,11 +115,11 @@ strata <- c(list(Total=melanoma2), split(melanoma2, melanoma2$status))
 Finally, we customize the contents using custom renderers:
 
 ```{r}
-myrendercont <- function(x) {
+my.render.cont <- function(x) {
     with(lapply(stats.default(x), signif_pad, digits=2), c("",
         "Mean (SD)"=sprintf("%s (&plusmn; %s)", MEAN, SD)))
 }
-myrendercat <- function(x) {
+my.render.cat <- function(x) {
     c("", sapply(stats.default(x), function(y) with(y,
         sprintf("%d (%0.0f %%)", FREQ, PCT))))
 }
@@ -129,7 +129,7 @@ And here is the result:
 
 ```{r results='asis'}
 table1(strata, labels, groupspan=c(1, 1, 2),
-       render.continuous=myrendercont, render.categorical=myrendercat)
+       render.continuous=my.render.cont, render.categorical=my.render.cat)
 ```
 
 This is now looking pretty similar to the original blog post, but admittedly
