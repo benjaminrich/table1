@@ -4,7 +4,7 @@
 \alias{render.default}
 \title{Render values for table output.}
 \usage{
-render.default(x, missing = any(is.na(x)),
+render.default(x, missing = any(is.na(x)), render.empty = "NA",
   render.continuous = "render.continuous",
   render.categorical = "render.categorical",
   render.missing = "render.missing")
@@ -13,6 +13,8 @@ render.default(x, missing = any(is.na(x)),
 \item{x}{A vector or numeric, factor, character or logical values.}
 
 \item{missing}{Should missing values be included?}
+
+\item{render.empty}{A \code{character} to return when \code{x} is empty.}
 
 \item{render.continuous}{A function to render continuous (i.e. \code{numeric}) values.}
 

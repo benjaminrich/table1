@@ -138,6 +138,7 @@ stats.default <- function(x, useNA=NULL) {
 #'
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param missing Should missing values be included?
+#' @param render.empty A \code{character} to return when \code{x} is empty.
 #' @param render.continuous A function to render continuous (i.e. \code{numeric}) values.
 #' @param render.categorical A function to render categorical
 #'        (i.e. \code{factor}, \code{character} or \code{logical}) values.
@@ -160,10 +161,13 @@ stats.default <- function(x, useNA=NULL) {
 #'
 #' @keywords utilities
 #' @export
-render.default <- function(x, missing=any(is.na(x)),
+render.default <- function(x, missing=any(is.na(x)), render.empty="NA",
                            render.continuous="render.continuous",
                            render.categorical="render.categorical",
                            render.missing="render.missing") {
+    if (length(x) == 0) {
+        return(render.empty)
+    }
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
     }
@@ -404,6 +408,7 @@ has.units <- function(x) {
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param render A function to render the table cells (see Details).
+#' @param droplevels Should empty factor levels be dropped?
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return None (invisible \code{NULL}). Called for its side effects.
@@ -514,7 +519,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass=
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass="Rtable1", render=render.default, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass="Rtable1", render=render.default, droplevels=TRUE, ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -528,6 +533,9 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
         }
         m2 <- lapply(m2, as.factor)
+        if (droplevels) {
+            m2 <- lapply(m2, droplevels)
+        }
         ncolumns <- prod(sapply(m2, nlevels))
         if (ncolumns > 12) {
             warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))

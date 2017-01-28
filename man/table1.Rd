@@ -12,7 +12,7 @@ table1(x, ...)
   topclass = "Rtable1", render = render.default, ...)
 
 \method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
-  topclass = "Rtable1", render = render.default, ...)
+  topclass = "Rtable1", render = render.default, droplevels = TRUE, ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or \code{data.frame}.}
@@ -34,6 +34,8 @@ variables in \code{x} should be taken.}
 
 \item{overall}{Should a column for the total population be included and if so, what label
 should the column have? Specify \code{NULL} or \code{FALSE} to omit the column.}
+
+\item{droplevels}{Should empty factor levels be dropped?}
 }
 \value{
 None (invisible \code{NULL}). Called for its side effects.
