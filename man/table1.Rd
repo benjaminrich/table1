@@ -17,7 +17,7 @@ table1(x, ...)
 \arguments{
 \item{x}{An object, typically a \code{formula} or \code{data.frame}.}
 
-\item{...}{Further arguments, depending on the method called.}
+\item{...}{Further arguments, passed to \code{render}.}
 
 \item{labels}{A list containing labels for variables, strata and groups (see Details).}
 
@@ -34,6 +34,9 @@ variables in \code{x} should be taken.}
 
 \item{overall}{Should a column for the total population be included and if so, what label
 should the column have? Specify \code{NULL} or \code{FALSE} to omit the column.}
+}
+\value{
+None (invisible \code{NULL}). Called for its side effects.
 }
 \description{
 There are two interfaces, the default, which typically takes a
