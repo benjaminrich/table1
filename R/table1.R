@@ -522,7 +522,14 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass
     }
     if (length(f)[2] > 1) {
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
+        if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
+            warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
+        }
+        m2 <- lapply(m2, as.factor)
         ncolumns <- prod(sapply(m2, nlevels))
+        if (ncolumns > 12) {
+            warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
+        }
         colspan <- c(cumprod(sapply(m2, nlevels)[-1]), 1)
         collabel <- lapply(m2, levels)
 
