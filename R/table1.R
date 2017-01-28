@@ -137,6 +137,7 @@ stats.default <- function(x, useNA=NULL) {
 #' the table output.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
+#' @param name Name of the variable to be rendered (ignored). 
 #' @param missing Should missing values be included?
 #' @param render.empty A \code{character} to return when \code{x} is empty.
 #' @param render.continuous A function to render continuous (i.e. \code{numeric}) values.
@@ -161,7 +162,7 @@ stats.default <- function(x, useNA=NULL) {
 #'
 #' @keywords utilities
 #' @export
-render.default <- function(x, missing=any(is.na(x)), render.empty="NA",
+render.default <- function(x, name, missing=any(is.na(x)), render.empty="NA",
                            render.continuous="render.continuous",
                            render.categorical="render.categorical",
                            render.missing="render.missing") {
@@ -479,7 +480,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass=
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
     tbody <- lapply(names(labels$variables), function(v) {
-        y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], missing=any.missing[v], ...)))
+        y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
         rownames(y) <- paste(rownames(y), sep="")
         rownames(y)[1] <- labels$variables[[v]]
         y })
