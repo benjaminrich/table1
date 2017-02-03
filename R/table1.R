@@ -395,8 +395,8 @@ has.units <- function(x) {
 #' @param x An object, typically a \code{formula} or \code{data.frame}.
 #' @param data For the formula interface, a \code{data.frame} from which the
 #'        variables in \code{x} should be taken.
-#' @param overall Should a column for the total population be included and if so, what label
-#'        should the column have? Specify \code{NULL} or \code{FALSE} to omit the column.
+#' @param overall A label for the "Overall" column. Specify \code{NULL} or
+#'        \code{FALSE} to omit the column altogether.
 #' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param groupspan A vector of integers specifying the number of strata to group together.
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
