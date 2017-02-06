@@ -289,42 +289,76 @@ render.varlabel <- function(x) {
 
 #' Convert to HTML table rows.
 #'
-#' Many functions exist in R to generate HTML tables.  This function is useful
-#' for generating an HTML table fragment (rather than a whole table), which can
-#' be embedded in a larger table structure. Row labels, if specified, have a
-#' special HTML \code{class} \code{rowlabel}, which can be useful as a hook to
-#' customize their appearance using CSS; the first row label has an additional
-#' \code{class} \code{firstrowlabel}.
+#' Many functions exist in R to generate HTML tables.  These functions are
+#' useful for generating HTML table fragments (rather than whole tables), which
+#' can then be used to build up complete tables. The first column my be used to
+#' label the rows of the table. Row labels, if specified, can have a special
+#' HTML \code{class} designated, which can be useful as a hook to customize
+#' their appearance using CSS. The same is true for the the first and last row
+#' of cells. 
 #'
 #' @param x A vector or table-like structure (e.g. a \code{\link{data.frame}} or \code{\link{matrix}}).
 #' @param row.labels Values for the first column, typically used to label the row, or \code{NULL} to omit.
 #' @param th A logical. Should \code{th} tags be used rather than \code{td}? 
+#' @param class HTML class attribute. Can be a single \code{character}, a vector or a matrix.
+#' @param rowlabelclass HTML class attribute for the row labels (i.e. first column).
+#' @param firstrowclass HTML class attribute for the first row of cells.
+#' @param lastrowclass HTML class attribute for the last row of cells.
+#' @param ... Additional arguments.
 #'
 #' @return A \code{character} which contains an HTML table fragment.
 #'
 #' @examples
 #' x <- matrix(signif_pad(exp(rnorm(100, 1, 1))), 10, 10)
+#' table.data(x)
 #' table.rows(x, NULL)
 #' table.rows(x, LETTERS[1:10])
 #' table.rows(LETTERS[1:3], "Headings", th=TRUE)
 #' @keywords utilities
 #' @export
-table.rows <- function(x, row.labels=rownames(x), th=FALSE) {
+table.rows <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
+    td <- table.data(x=x, row.labels=row.labels, th=th, class=class, rowlabelclass=rowlabelclass, firstrowclass=firstrowclass, lastrowclass=lastrowclass, ...)
+    tr <- paste("<tr>\n", td, "\n</tr>\n", sep="")
+    paste(tr, sep="", collapse="")
+}
+
+#' @describeIn table.rows Convert to HTML table data (cells).
+table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
     tag <- ifelse(th, "th", "td")
-    rowlabelclass <- rep("rowlabel", length(row.labels))
-    rowlabelclass[1] <- paste0(rowlabelclass[1], " firstrowlabel")
+    rl <- row.labels  # Make sure it gets evaluated early for default arg
     if (is.data.frame(x)) {
         x <- sapply(x, as.character)
-    } else if (is.null(dim(x))) {
+    } else if (is.null(dim(x)) || length(dim(x)) < 2) {
         x <- matrix(as.character(x), nrow=1)
+    } else if (length(dim(x)) > 2) {
+        stop("x cannot have more than 2 dimensions.")
     }
-    td <- paste("<", tag, ">", x, "</", tag, ">", sep="")
+    nr <- nrow(x)
+    nc <- ncol(x)
+    firstrowclass <- rep_len(as.character(firstrowclass), nc)
+    lastrowclass <- rep_len(as.character(lastrowclass), nc)
+    cls <- if (is.null(class)) NA else class
+    cls <- matrix(as.character(cls), nr, nc)
+    rl <- rep_len(as.character(row.labels), nr)
+    if (!is.null(rl)) {
+        x <- cbind(rl, x)
+        rowlabelclass <- rep_len(rowlabelclass, nr)
+        if (!is.null(rowlabelclass)) {
+            cls <- cbind(rowlabelclass, cls)
+        } else {
+            cls <- cbind(NA, cls)
+        }
+    }
+    if (!is.null(firstrowclass)) {
+        cls[1,] <- ifelse(is.na(cls[1,]), firstrowclass, paste(cls[1,], firstrowclass))
+    }
+    if (!is.null(lastrowclass)) {
+        cls[1,] <- ifelse(is.na(cls[1,]), firstrowclass, paste(cls[1,], firstrowclass))
+    }
+    cls <- ifelse(is.na(cls), "", paste0(" class='", cls, "'"))
+    td <- paste0("<", tag, cls, ">", x, "</", tag, ">")
     dim(td) <- dim(x)
-    if (!is.null(row.labels)) {
-        td <- cbind(paste("<", tag, " class=\"", rowlabelclass, "\">", row.labels, "</", tag, ">", sep=""), td)
-    }
-    tr <- paste("<tr>\n", apply(td, 1, paste, collapse="\n"), "\n</tr>\n", sep="")
-    paste(tr, sep="", collapse="")
+    apply(td, 1, paste, collapse="\n")
 }
 
 
