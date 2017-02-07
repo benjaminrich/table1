@@ -331,6 +331,7 @@ table.rows <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
 }
 
 #' @describeIn table.rows Convert to HTML table data (cells).
+#' @export
 table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
     tag <- ifelse(th, "th", "td")
     rl <- row.labels  # Make sure it gets evaluated early for default arg
@@ -508,7 +509,7 @@ has.units <- function(x) {
 #' table1(strata, labels, groupspan=c(1, 3, 1), render.continuous=my.render.cont)
 #'
 #' # Transposed table
-#' table1(~ age + wt | treat, data=dat, transpose=T)
+#' table1(~ age + wt | treat, data=dat, transpose=TRUE)
 #' 
 #' @keywords utilities
 #' @export
