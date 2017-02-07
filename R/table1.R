@@ -353,7 +353,7 @@ table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
         cls[1,] <- ifelse(is.na(cls[1,]), firstrowclass, paste(cls[1,], firstrowclass))
     }
     if (!is.null(lastrowclass)) {
-        cls[1,] <- ifelse(is.na(cls[1,]), firstrowclass, paste(cls[1,], firstrowclass))
+        cls[nr,] <- ifelse(is.na(cls[nr,]), lastrowclass, paste(cls[nr,], lastrowclass))
     }
     cls <- ifelse(is.na(cls), "", paste0(" class='", cls, "'"))
     td <- paste0("<", tag, cls, ">", x, "</", tag, ">")
