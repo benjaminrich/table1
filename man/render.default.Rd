@@ -4,15 +4,21 @@
 \alias{render.default}
 \title{Render values for table output.}
 \usage{
-render.default(x, missing = any(is.na(x)),
-  render.continuous = "render.continuous",
+render.default(x, name, missing = any(is.na(x)), transpose = F,
+  render.empty = "NA", render.continuous = "render.continuous",
   render.categorical = "render.categorical",
   render.missing = "render.missing")
 }
 \arguments{
 \item{x}{A vector or numeric, factor, character or logical values.}
 
+\item{name}{Name of the variable to be rendered (ignored).}
+
 \item{missing}{Should missing values be included?}
+
+\item{transpose}{Logical indicating whether on not the table is transposed.}
+
+\item{render.empty}{A \code{character} to return when \code{x} is empty.}
 
 \item{render.continuous}{A function to render continuous (i.e. \code{numeric}) values.}
 
