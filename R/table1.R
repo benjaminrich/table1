@@ -139,6 +139,7 @@ stats.default <- function(x, useNA=NULL) {
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param name Name of the variable to be rendered (ignored). 
 #' @param missing Should missing values be included?
+#' @param transpose Logical indicating whether on not the table is transposed.
 #' @param render.empty A \code{character} to return when \code{x} is empty.
 #' @param render.continuous A function to render continuous (i.e. \code{numeric}) values.
 #' @param render.categorical A function to render categorical
@@ -162,7 +163,8 @@ stats.default <- function(x, useNA=NULL) {
 #'
 #' @keywords utilities
 #' @export
-render.default <- function(x, name, missing=any(is.na(x)), render.empty="NA",
+render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
+                           render.empty="NA",
                            render.continuous="render.continuous",
                            render.categorical="render.categorical",
                            render.missing="render.missing") {
@@ -170,7 +172,7 @@ render.default <- function(x, name, missing=any(is.na(x)), render.empty="NA",
         return(render.empty)
     }
     if (is.logical(x)) {
-        x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
+        x <- factor(x, levels=c(T, F), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
         r <- do.call(render.categorical, list(x=x))
@@ -181,6 +183,9 @@ render.default <- function(x, name, missing=any(is.na(x)), render.empty="NA",
     }
     if (missing) {
         r <- c(r, do.call(render.missing, list(x=x)))
+    }
+    if (transpose) {
+        r <- paste0(sprintf("%s: %s", names(r), r), collapse="<br/>")
     }
     r
 }
@@ -264,6 +269,7 @@ render.missing <- function(x) {
 #'
 #' @param x A vector, usually with the \code{\link{label}} and (if appropriate)
 #' \code{\link{unit}} attributes.
+#' @param transpose Logical indicating whether on not the table is transposed.
 #'
 #' @return A \code{character}, which may contain HTML markup.
 #'
@@ -279,8 +285,10 @@ render.missing <- function(x) {
 #' render.varlabel(y)
 #' @keywords utilities
 #' @export
-render.varlabel <- function(x) {
-    if (has.units(x)) {
+render.varlabel <- function(x, transpose=F) {
+    if (has.units(x) && transpose) {
+        sprintf("%s<br/>(%s)", label(x), units(x))
+    } else if (has.units(x)) {
         sprintf("%s (%s)", label(x), units(x))
     } else {
         sprintf("%s", label(x))
@@ -289,42 +297,77 @@ render.varlabel <- function(x) {
 
 #' Convert to HTML table rows.
 #'
-#' Many functions exist in R to generate HTML tables.  This function is useful
-#' for generating an HTML table fragment (rather than a whole table), which can
-#' be embedded in a larger table structure. Row labels, if specified, have a
-#' special HTML \code{class} \code{rowlabel}, which can be useful as a hook to
-#' customize their appearance using CSS; the first row label has an additional
-#' \code{class} \code{firstrowlabel}.
+#' Many functions exist in R to generate HTML tables.  These functions are
+#' useful for generating HTML table fragments (rather than whole tables), which
+#' can then be used to build up complete tables. The first column my be used to
+#' label the rows of the table. Row labels, if specified, can have a special
+#' HTML \code{class} designated, which can be useful as a hook to customize
+#' their appearance using CSS. The same is true for the the first and last row
+#' of cells. 
 #'
 #' @param x A vector or table-like structure (e.g. a \code{\link{data.frame}} or \code{\link{matrix}}).
 #' @param row.labels Values for the first column, typically used to label the row, or \code{NULL} to omit.
 #' @param th A logical. Should \code{th} tags be used rather than \code{td}? 
+#' @param class HTML class attribute. Can be a single \code{character}, a vector or a matrix.
+#' @param rowlabelclass HTML class attribute for the row labels (i.e. first column).
+#' @param firstrowclass HTML class attribute for the first row of cells.
+#' @param lastrowclass HTML class attribute for the last row of cells.
+#' @param ... Additional arguments.
 #'
 #' @return A \code{character} which contains an HTML table fragment.
 #'
 #' @examples
 #' x <- matrix(signif_pad(exp(rnorm(100, 1, 1))), 10, 10)
+#' table.data(x)
 #' table.rows(x, NULL)
 #' table.rows(x, LETTERS[1:10])
 #' table.rows(LETTERS[1:3], "Headings", th=TRUE)
 #' @keywords utilities
 #' @export
-table.rows <- function(x, row.labels=rownames(x), th=FALSE) {
+table.rows <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
+    td <- table.data(x=x, row.labels=row.labels, th=th, class=class, rowlabelclass=rowlabelclass, firstrowclass=firstrowclass, lastrowclass=lastrowclass, ...)
+    tr <- paste("<tr>\n", td, "\n</tr>\n", sep="")
+    paste(tr, sep="", collapse="")
+}
+
+#' @describeIn table.rows Convert to HTML table data (cells).
+#' @export
+table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
     tag <- ifelse(th, "th", "td")
-    rowlabelclass <- rep("rowlabel", length(row.labels))
-    rowlabelclass[1] <- paste0(rowlabelclass[1], " firstrowlabel")
+    rl <- row.labels  # Make sure it gets evaluated early for default arg
     if (is.data.frame(x)) {
         x <- sapply(x, as.character)
-    } else if (is.null(dim(x))) {
+    } else if (is.null(dim(x)) || length(dim(x)) < 2) {
         x <- matrix(as.character(x), nrow=1)
+    } else if (length(dim(x)) > 2) {
+        stop("x cannot have more than 2 dimensions.")
     }
-    td <- paste("<", tag, ">", x, "</", tag, ">", sep="")
+    nr <- nrow(x)
+    nc <- ncol(x)
+    firstrowclass <- rep_len(as.character(firstrowclass), nc)
+    lastrowclass <- rep_len(as.character(lastrowclass), nc)
+    cls <- if (is.null(class)) NA else class
+    cls <- matrix(as.character(cls), nr, nc)
+    rl <- rep_len(as.character(row.labels), nr)
+    if (!is.null(rl)) {
+        x <- cbind(rl, x)
+        rowlabelclass <- rep_len(rowlabelclass, nr)
+        if (!is.null(rowlabelclass)) {
+            cls <- cbind(rowlabelclass, cls)
+        } else {
+            cls <- cbind(NA, cls)
+        }
+    }
+    if (!is.null(firstrowclass)) {
+        cls[1,] <- ifelse(is.na(cls[1,]), firstrowclass, paste(cls[1,], firstrowclass))
+    }
+    if (!is.null(lastrowclass)) {
+        cls[nr,] <- ifelse(is.na(cls[nr,]), lastrowclass, paste(cls[nr,], lastrowclass))
+    }
+    cls <- ifelse(is.na(cls), "", paste0(" class='", cls, "'"))
+    td <- paste0("<", tag, cls, ">", x, "</", tag, ">")
     dim(td) <- dim(x)
-    if (!is.null(row.labels)) {
-        td <- cbind(paste("<", tag, " class=\"", rowlabelclass, "\">", row.labels, "</", tag, ">", sep=""), td)
-    }
-    tr <- paste("<tr>\n", apply(td, 1, paste, collapse="\n"), "\n</tr>\n", sep="")
-    paste(tr, sep="", collapse="")
+    apply(td, 1, paste, collapse="\n")
 }
 
 
@@ -402,14 +445,15 @@ has.units <- function(x) {
 #' @param x An object, typically a \code{formula} or \code{data.frame}.
 #' @param data For the formula interface, a \code{data.frame} from which the
 #'        variables in \code{x} should be taken.
+#' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param overall Should a column for the total population be included and if so, what label
 #'        should the column have? Specify \code{NULL} or \code{FALSE} to omit the column.
-#' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param groupspan A vector of integers specifying the number of strata to group together.
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
+#' @param droplevels Should empty factor levels be dropped?
+#' @param transpose Logical. Should the table be transposed (i.e. strata as rows and variables as columns)?
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param render A function to render the table cells (see Details).
-#' @param droplevels Should empty factor levels be dropped?
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return None (invisible \code{NULL}). Called for its side effects.
@@ -418,25 +462,28 @@ has.units <- function(x) {
 #'
 #' dat <- expand.grid(id=1:10, sex=c("Male", "Female"), treat=c("Treated", "Placebo"))
 #' dat$age <- runif(nrow(dat), 10, 50)
-#' dat$age[3] <- NA
+#' dat$age[3] <- NA  # Add a missing value
+#' dat$wt <- exp(rnorm(nrow(dat), log(70), 0.2))
 #' 
 #' label(dat$sex) <- "Sex"
 #' label(dat$age) <- "Age"
 #' label(dat$treat) <- "Treatment Group"
+#' label(dat$wt) <- "Weight"
 #' 
 #' units(dat$age) <- "years"
+#' units(dat$wt) <- "kg"
 #' 
 #' # One level of stratification
-#' table1(~ sex + age | treat, data=dat)
+#' table1(~ sex + age + wt | treat, data=dat)
 #' 
 #' # Two levels of stratification (nesting)
-#' table1(~ age | treat*sex, data=dat)
+#' table1(~ age + wt | treat*sex, data=dat)
 #' 
 #' # Switch the order or nesting
-#' table1(~ age | sex*treat, data=dat)
+#' table1(~ age + wt | sex*treat, data=dat)
 #' 
 #' # No stratification
-#' table1(~ treat + sex + age, data=dat)
+#' table1(~ treat + sex + age + wt, data=dat)
 #' 
 #' # Something more complicated
 #' 
@@ -450,7 +497,8 @@ has.units <- function(x) {
 #' 
 #' labels <- list(
 #'     variables=list(sex=render.varlabel(dat$sex),
-#'                    age=render.varlabel(dat$age)),
+#'                    age=render.varlabel(dat$age),
+#'                    wt=render.varlabel(dat$wt)),
 #'     groups=list("", "Treated", ""))
 #' 
 #' my.render.cont <- function(x) {
@@ -459,6 +507,9 @@ has.units <- function(x) {
 #' }
 #' 
 #' table1(strata, labels, groupspan=c(1, 3, 1), render.continuous=my.render.cont)
+#'
+#' # Transposed table
+#' table1(~ age + wt | treat, data=dat, transpose=TRUE)
 #' 
 #' @keywords utilities
 #' @export
@@ -468,34 +519,47 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass="Rtable1", render=render.default, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
     if (is.null(names(labels$strata))) {
         names(labels$strata) <- names(x)
     }
-    thead <- t(sprintf("%s<br>(n=%d)", labels$strata[names(x)], sapply(x, nrow)))
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
-    tbody <- lapply(names(labels$variables), function(v) {
-        y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
-        rownames(y) <- paste(rownames(y), sep="")
-        rownames(y)[1] <- labels$variables[[v]]
-        y })
+    if (transpose) {
+        thead <- t(unlist(labels$variables))
+        tbody <- lapply(names(x), function(s) {
+            do.call(cbind, lapply(names(labels$variables), function(v) {
+                y <- render(x=x[[s]][[v]], name=v, missing=any.missing[v], transpose=T, ...)
+                y <- paste0(y, collapse="<br/>")
+                names(y) <- labels$variables[[v]]
+                y <- t(y)
+                rownames(y) <- sprintf("%s<br>(n=%d)", labels$strata[s], nrow(x[[s]]))
+                y }))})
+    } else {
+        thead <- t(sprintf("%s<br>(n=%d)", labels$strata[names(x)], sapply(x, nrow)))
+        tbody <- lapply(names(labels$variables), function(v) {
+            y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
+            rownames(y) <- paste(rownames(y), sep="")
+            rownames(y)[1] <- labels$variables[[v]]
+            y })
+    }
 
     if (is.null(topclass) || topclass=="") {
-        cat('<table>
-<thead>')
+        cat('<table>\n<thead>\n')
     } else if (is.character(topclass) && length(topclass)==1) {
-        cat(sprintf('<table class="%s">
-<thead>', topclass))
+        cat(sprintf('<table class="%s">\n<thead>\n', topclass))
     } else {
         stop("topclass should be character and of length 1.")
     }
 
     if (!is.null(groupspan)) {
+        if (transpose) {
+            stop("Nesting/grouping not supported with transpose = TRUE.")
+        }
         thead0 <- ifelse(is.na(labels$groups) | labels$groups=="", "", sprintf('<div>%s</div>', labels$groups))
         thead0 <- sprintf('<th colspan="%d" class="grouplabel">%s</th>', groupspan, thead0)
         thead0 <- c('<th class="grouplabel"></th>', thead0)
@@ -506,13 +570,11 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass=
     if (is.null(rowlabelhead)) rowlabelhead <- ""
     cat(table.rows(thead, row.labels=rowlabelhead, th=T))
 
-    cat('</thead>
-<tbody>')
+    cat('</thead>\n<tbody>\n')
 
     cat(paste(sapply(tbody, table.rows), collapse=""))
 
-    cat('</tbody>
-</table>')
+    cat('</tbody>\n</table>\n')
 
 }
 
@@ -520,7 +582,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", topclass=
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass="Rtable1", render=render.default, droplevels=TRUE, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", render=render.default, ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -580,14 +642,14 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", topclass
 
     labels <- list(
         strata=stratlabel,
-        variables=lapply(m1, render.varlabel))
+        variables=lapply(m1, render.varlabel, transpose=transpose))
     names(labels$strata) <- names(strata)
 
     if (!is.null(m2) && length(m2) > 1) {
         labels$groups <- grouplabel
-        table1.default(x=strata, labels=labels, groupspan=groupspan, rowlabelhead=rowlabelhead, topclass=topclass, render=render, ...)
+        table1.default(x=strata, labels=labels, groupspan=groupspan, rowlabelhead=rowlabelhead, transpose=transpose, topclass=topclass, render=render, ...)
     } else {
-        table1.default(x=strata, labels=labels, rowlabelhead=rowlabelhead, topclass=topclass, render=render, ...)
+        table1.default(x=strata, labels=labels, rowlabelhead=rowlabelhead, transpose=transpose, topclass=topclass, render=render, ...)
     }
 }
 

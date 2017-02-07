@@ -9,10 +9,11 @@
 table1(x, ...)
 
 \method{table1}{default}(x, labels, groupspan = NULL, rowlabelhead = "",
-  topclass = "Rtable1", render = render.default, ...)
+  transpose = FALSE, topclass = "Rtable1", render = render.default, ...)
 
 \method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
-  topclass = "Rtable1", render = render.default, droplevels = TRUE, ...)
+  transpose = FALSE, droplevels = TRUE, topclass = "Rtable1",
+  render = render.default, ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or \code{data.frame}.}
@@ -24,6 +25,8 @@ table1(x, ...)
 \item{groupspan}{A vector of integers specifying the number of strata to group together.}
 
 \item{rowlabelhead}{A heading for the first column of the table, which contains the row labels.}
+
+\item{transpose}{Logical. Should the table be transposed (i.e. strata as rows and variables as columns)?}
 
 \item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
 
@@ -62,25 +65,28 @@ for easy CSS selection.
 
 dat <- expand.grid(id=1:10, sex=c("Male", "Female"), treat=c("Treated", "Placebo"))
 dat$age <- runif(nrow(dat), 10, 50)
-dat$age[3] <- NA
+dat$age[3] <- NA  # Add a missing value
+dat$wt <- exp(rnorm(nrow(dat), log(70), 0.2))
 
 label(dat$sex) <- "Sex"
 label(dat$age) <- "Age"
 label(dat$treat) <- "Treatment Group"
+label(dat$wt) <- "Weight"
 
 units(dat$age) <- "years"
+units(dat$wt) <- "kg"
 
 # One level of stratification
-table1(~ sex + age | treat, data=dat)
+table1(~ sex + age + wt | treat, data=dat)
 
 # Two levels of stratification (nesting)
-table1(~ age | treat*sex, data=dat)
+table1(~ age + wt | treat*sex, data=dat)
 
 # Switch the order or nesting
-table1(~ age | sex*treat, data=dat)
+table1(~ age + wt | sex*treat, data=dat)
 
 # No stratification
-table1(~ treat + sex + age, data=dat)
+table1(~ treat + sex + age + wt, data=dat)
 
 # Something more complicated
 
@@ -94,7 +100,8 @@ strata <- c(split(dat, dat$dose),
 
 labels <- list(
     variables=list(sex=render.varlabel(dat$sex),
-                   age=render.varlabel(dat$age)),
+                   age=render.varlabel(dat$age),
+                   wt=render.varlabel(dat$wt)),
     groups=list("", "Treated", ""))
 
 my.render.cont <- function(x) {
@@ -103,6 +110,9 @@ my.render.cont <- function(x) {
 }
 
 table1(strata, labels, groupspan=c(1, 3, 1), render.continuous=my.render.cont)
+
+# Transposed table
+table1(~ age + wt | treat, data=dat, transpose=TRUE)
 
 }
 \keyword{utilities}
