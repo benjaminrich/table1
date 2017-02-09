@@ -37,7 +37,7 @@ table.Rtable1 {
     text-align: left;
     padding-left: 2.5ex;
 }
-.Rtable1 .firstrowlabel {
+.Rtable1 .firstrow {
     padding-left: 0.5ex;
     font-weight: bold;
 }
@@ -67,7 +67,7 @@ table.style3 {
 .style3 tbody>tr:last-child>td {
     border-bottom: 1pt solid black;
 }
-.style3 .firstrowlabel, .style3 .firstrowlabel ~ td {
+.style3 .firstrow, .style3 .firstrow ~ td {
     border-top: 1pt solid black;
 }
 
