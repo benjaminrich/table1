@@ -2152,20 +2152,20 @@ Missing
 </div>
 <div id="transposed-table" class="section level2">
 <h2>Transposed table</h2>
-<p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. This makes sense most of the time, but in some cases it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired.</p>
+<p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. In some cases, it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired. It can be achieved by using the <code>transpose = TRUE</code> option.</p>
 <p>An example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span>:<span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span>:<span class="dv">3</span>])
 dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span>*<span class="kw">nrow</span>(dat))), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))
 <span class="kw">names</span>(dat)[<span class="dv">3</span>:<span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span>:<span class="dv">6</span>)
 
-my.render.cont &lt;-<span class="st"> </span>function(x) {
+render &lt;-<span class="st"> </span>function(x, ...) {
     <span class="kw">with</span>(<span class="kw">lapply</span>(<span class="kw">stats.default</span>(x), signif_pad, <span class="dt">digits=</span><span class="dv">3</span>), 
         <span class="kw">c</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%s (%s%%)&lt;br/&gt;%s [%s, %s]&lt;br/&gt;%s (%s%%)&quot;</span>,
         MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
 }</code></pre></div>
 <p>Default:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
-       <span class="dt">render.continuous=</span>my.render.cont)</code></pre></div>
+       <span class="dt">render=</span>render)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>
 <tr>
@@ -2292,7 +2292,7 @@ V6
 </table>
 <p>Transposed:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
-       <span class="dt">render.continuous=</span>my.render.cont, <span class="dt">transpose=</span><span class="ot">TRUE</span>)</code></pre></div>
+       <span class="dt">render=</span>render, <span class="dt">transpose=</span><span class="ot">TRUE</span>)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>
 <tr>
