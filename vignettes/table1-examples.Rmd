@@ -260,7 +260,7 @@ output:
 
 If `style.css` contains these definitions, then you will get the same output as above:
 
-```
+```css
 table.Rtable1 {
     font-family: "Arial", Arial, sans-serif;
     font-size: 10pt;
@@ -300,7 +300,7 @@ table.Rtable1 {
     text-align: left;
     padding-left: 2.5ex;
 }
-.Rtable1 .firstrowlabel {
+.Rtable1 .firstrow {
     padding-left: 0.5ex;
     font-weight: bold;
 }

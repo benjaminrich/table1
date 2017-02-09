@@ -80,6 +80,7 @@ table.style3 {
 .style4 td.rowlabel {
     font-weight: bold;
     text-align: center;
+    padding-left: 2.5ex;
+    padding-right: 2.5ex;
 }
-
 
