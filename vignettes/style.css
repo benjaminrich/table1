@@ -71,3 +71,15 @@ table.style3 {
     border-top: 1pt solid black;
 }
 
+.style4 td {
+    white-space:nowrap
+}
+.style4 td.firstrow {
+    font-weight: normal;
+}
+.style4 td.rowlabel {
+    font-weight: bold;
+    text-align: center;
+}
+
+

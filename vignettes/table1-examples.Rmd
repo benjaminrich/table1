@@ -319,3 +319,39 @@ table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style2")
 table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style3")
 ```
 
+## Transposed table
+
+By default, the table produced by `table1` will have strata or subgroups as
+columns, and variables as rows. This makes sense most of the time, but in some
+cases it may be desirable to transpose the table such that each column is a
+variables and the rows are strata. This makes most sense when all
+the variables are continuous and when a compact representation is desired.
+
+An example:
+
+```{r}
+dat <- expand.grid(i=1:50, group=LETTERS[1:3])
+dat <- cbind(dat, matrix(exp(rnorm(6*nrow(dat))), nrow=nrow(dat)))
+names(dat)[3:8] <- paste0("V", 1:6)
+
+my.render.cont <- function(x) {
+    with(lapply(stats.default(x), signif_pad, digits=3), 
+        c(sprintf("%s (%s%%)<br/>%s [%s, %s]<br/>%s (%s%%)",
+        MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
+}
+```
+
+Default:
+
+```{r results='asis'}
+table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat, topclass="Rtable1 style3 style4",
+       render.continuous=my.render.cont)
+```
+
+Transposed:
+
+```{r results='asis'}
+table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat, topclass="Rtable1 style3 style4",
+       render.continuous=my.render.cont, transpose=TRUE)
+```
+
