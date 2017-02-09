@@ -185,7 +185,11 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
         r <- c(r, do.call(render.missing, list(x=x)))
     }
     if (transpose) {
-        r <- paste0(sprintf("%s: %s", names(r), r), collapse="<br/>")
+        if (!is.null(names(r))) {
+            r <- paste0(sprintf("%s: %s", names(r), r), collapse="<br/>")
+        } else {
+            r <- paste0(r, collapse="<br/>")
+        }
     }
     r
 }
