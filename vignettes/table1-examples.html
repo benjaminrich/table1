@@ -762,9 +762,9 @@ Mean (SD)
 n &lt;-<span class="st"> </span><span class="dv">146</span>
 dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="dv">1</span>:n)
 dat$treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span>
-dat$age   &lt;-<span class="st"> </span><span class="kw">runif</span>(n, <span class="dv">18</span>, <span class="dv">65</span>)
+dat$age   &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">18</span>:<span class="dv">65</span>, n, <span class="dt">replace=</span><span class="ot">TRUE</span>)
 dat$sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, .<span class="dv">4</span>))  <span class="co"># 60% female</span>
-dat$wt    &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>))
+dat$wt    &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>)), <span class="dv">1</span>)
 
 <span class="co"># Add some missing data</span>
 dat$wt[<span class="kw">sample.int</span>(n, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span>
@@ -811,13 +811,13 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 <td>
-42.3 (13.4)
+42.3 (13.7)
 </td>
 </tr>
 <tr>
@@ -825,13 +825,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 <td class="lastrow">
-43.5863235899014 [18.2256201021373, 64.6627155831084]
+43.5 [18, 65]
 </td>
 </tr>
 <tr>
@@ -895,7 +895,7 @@ Mean (SD)
 69.4 (17.9)
 </td>
 <td>
-69.3 (16.9)
+69.2 (16.9)
 </td>
 </tr>
 <tr>
@@ -903,13 +903,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 <td>
-66.6483666430104 [37.5426302033464, 118.786614257841]
+66.6 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -959,10 +959,10 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 </tr>
 <tr>
@@ -970,10 +970,10 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 </tr>
 <tr>
@@ -1032,10 +1032,10 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -1120,22 +1120,22 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-42.7 (13.8)
+42.8 (14.0)
 </td>
 <td>
-47.1 (12.1)
+47.2 (12.4)
 </td>
 <td>
-40.7 (13.5)
+40.7 (13.8)
 </td>
 <td>
-42.1 (13.4)
+42.2 (13.8)
 </td>
 <td>
-41.5 (13.6)
+41.5 (13.9)
 </td>
 <td>
-43.7 (13.1)
+43.8 (13.4)
 </td>
 </tr>
 <tr>
@@ -1143,22 +1143,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-42.6902810321189 [18.9829285629094, 64.6627155831084]
+43 [19, 65]
 </td>
 <td class="lastrow">
-51.5170831370633 [29.0672059394419, 64.5479690078646]
+52 [29, 65]
 </td>
 <td class="lastrow">
-40.6804440518608 [18.2256201021373, 64.0366728843655]
+41 [18, 65]
 </td>
 <td class="lastrow">
-46.0613266685978 [20.9424350485206, 60.9640475229826]
+46.5 [21, 61]
 </td>
 <td class="lastrow">
-42.0030180527829 [18.2256201021373, 64.6627155831084]
+42 [18, 65]
 </td>
 <td class="lastrow">
-47.4019243000075 [20.9424350485206, 64.5479690078646]
+48 [21, 65]
 </td>
 </tr>
 <tr>
@@ -1206,22 +1206,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.4304871836116 [47.1137879190531, 102.444335277582]
+66.4 [47.1, 102.4]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 92.2495570910251]
+66.3 [45.8, 92.2]
 </td>
 <td>
-67.9021532436549 [37.5426302033464, 110.575938576951]
+67.9 [37.5, 110.6]
 </td>
 <td>
-63.2326335097093 [40.0371116917358, 118.786614257841]
+63.2 [40, 118.8]
 </td>
 <td>
-67.3544090890894 [37.5426302033464, 110.575938576951]
+67.35 [37.5, 110.6]
 </td>
 <td>
-64.2470092296966 [40.0371116917358, 118.786614257841]
+64.2 [40, 118.8]
 </td>
 </tr>
 <tr>
@@ -1318,22 +1318,22 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-42.7 (13.8)
+42.8 (14.0)
 </td>
 <td>
-40.7 (13.5)
+40.7 (13.8)
 </td>
 <td>
-47.1 (12.1)
+47.2 (12.4)
 </td>
 <td>
-42.1 (13.4)
+42.2 (13.8)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 </tr>
 <tr>
@@ -1341,22 +1341,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-42.6902810321189 [18.9829285629094, 64.6627155831084]
+43 [19, 65]
 </td>
 <td class="lastrow">
-40.6804440518608 [18.2256201021373, 64.0366728843655]
+41 [18, 65]
 </td>
 <td class="lastrow">
-51.5170831370633 [29.0672059394419, 64.5479690078646]
+52 [29, 65]
 </td>
 <td class="lastrow">
-46.0613266685978 [20.9424350485206, 60.9640475229826]
+46.5 [21, 61]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 </tr>
 <tr>
@@ -1404,22 +1404,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.4304871836116 [47.1137879190531, 102.444335277582]
+66.4 [47.1, 102.4]
 </td>
 <td>
-67.9021532436549 [37.5426302033464, 110.575938576951]
+67.9 [37.5, 110.6]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 92.2495570910251]
+66.3 [45.8, 92.2]
 </td>
 <td>
-63.2326335097093 [40.0371116917358, 118.786614257841]
+63.2 [40, 118.8]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -1495,7 +1495,7 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-42.3 (13.4)
+42.3 (13.7)
 </td>
 </tr>
 <tr>
@@ -1503,7 +1503,7 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-43.5863235899014 [18.2256201021373, 64.6627155831084]
+43.5 [18, 65]
 </td>
 </tr>
 <tr>
@@ -1541,7 +1541,7 @@ Weight (kg)
 Mean (SD)
 </td>
 <td>
-69.3 (16.9)
+69.2 (16.9)
 </td>
 </tr>
 <tr>
@@ -1549,7 +1549,7 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.6483666430104 [37.5426302033464, 118.786614257841]
+66.6 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -1631,19 +1631,19 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-42.5 (13.5)
+42.6 (13.8)
 </td>
 <td>
-39.9 (13.4)
+39.9 (13.7)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 <td>
-42.3 (13.4)
+42.3 (13.7)
 </td>
 </tr>
 <tr>
@@ -1651,19 +1651,19 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-45.1451107200701 [18.2256201021373, 62.7896706275642]
+45 [18, 63]
 </td>
 <td class="lastrow">
-39.3697462151758 [20.9424350485206, 64.0366728843655]
+39 [21, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 <td class="lastrow">
-43.5863235899014 [18.2256201021373, 64.6627155831084]
+43.5 [18, 65]
 </td>
 </tr>
 <tr>
@@ -1753,7 +1753,7 @@ Mean (SD)
 69.4 (17.9)
 </td>
 <td>
-69.3 (16.9)
+69.2 (16.9)
 </td>
 </tr>
 <tr>
@@ -1761,19 +1761,19 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-63.3367847817176 [37.5426302033464, 118.786614257841]
+63.3 [37.5, 118.8]
 </td>
 <td>
-70.3485738855557 [48.1170966057588, 113.696075062743]
+70.3 [48.1, 113.7]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 <td>
-66.6483666430104 [37.5426302033464, 118.786614257841]
+66.6 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -1885,13 +1885,13 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 <td>
-42.3 (13.4)
+42.3 (13.7)
 </td>
 </tr>
 <tr>
@@ -1899,13 +1899,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 <td class="lastrow">
-43.5863235899014 [18.2256201021373, 64.6627155831084]
+43.5 [18, 65]
 </td>
 </tr>
 <tr>
@@ -1969,7 +1969,7 @@ Mean (SD)
 69.4 (17.9)
 </td>
 <td>
-69.3 (16.9)
+69.2 (16.9)
 </td>
 </tr>
 <tr>
@@ -1977,13 +1977,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 <td>
-66.6483666430104 [37.5426302033464, 118.786614257841]
+66.6 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -2036,13 +2036,13 @@ Age (years)
 Mean (SD)
 </td>
 <td>
-44.2 (13.3)
+44.2 (13.5)
 </td>
 <td>
-41.2 (13.4)
+41.3 (13.8)
 </td>
 <td>
-42.3 (13.4)
+42.3 (13.7)
 </td>
 </tr>
 <tr>
@@ -2050,13 +2050,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3271546225296 [18.9829285629094, 64.6627155831084]
+44 [19, 65]
 </td>
 <td class="lastrow">
-43.1743285914417 [18.2256201021373, 64.0366728843655]
+43 [18, 65]
 </td>
 <td class="lastrow">
-43.5863235899014 [18.2256201021373, 64.6627155831084]
+43.5 [18, 65]
 </td>
 </tr>
 <tr>
@@ -2120,7 +2120,7 @@ Mean (SD)
 69.4 (17.9)
 </td>
 <td>
-69.3 (16.9)
+69.2 (16.9)
 </td>
 </tr>
 <tr>
@@ -2128,13 +2128,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.2919763934454 [45.8380029720549, 102.444335277582]
+66.3 [45.8, 102.4]
 </td>
 <td>
-67.2113439446575 [37.5426302033464, 118.786614257841]
+67.2 [37.5, 118.8]
 </td>
 <td>
-66.6483666430104 [37.5426302033464, 118.786614257841]
+66.6 [37.5, 118.8]
 </td>
 </tr>
 <tr>
@@ -2159,7 +2159,7 @@ Missing
 <p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. In some cases, it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired. It can be achieved by using the <code>transpose = TRUE</code> option.</p>
 <p>An example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span>:<span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span>:<span class="dv">3</span>])
-dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span>*<span class="kw">nrow</span>(dat))), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))
+dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span>*<span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))
 <span class="kw">names</span>(dat)[<span class="dv">3</span>:<span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span>:<span class="dv">6</span>)
 
 render &lt;-<span class="st"> </span>function(x, ...) {
@@ -2168,8 +2168,8 @@ render &lt;-<span class="st"> </span>function(x, ...) {
         MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
 }</code></pre></div>
 <p>Default:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
-       <span class="dt">render=</span>render)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat,
+       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>, <span class="dt">render=</span>render)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>
 <tr>
@@ -2195,16 +2195,16 @@ Overall<br>(n=150)
 V1
 </td>
 <td class="firstrow lastrow">
-1.55 (95.7%)<br />1.21941452695709 [0.0639362125432928, 7.79851873162583]<br />1.07 (115%)
+1.55 (95.7%)<br />1.25 [0.1, 7.8]<br />1.08 (111%)
 </td>
 <td class="firstrow lastrow">
-1.64 (142%)<br />1.03401970282897 [0.0818244693637867, 12.7262880061249]<br />0.802 (197%)
+1.64 (142%)<br />1.05 [0.1, 12.7]<br />0.789 (206%)
 </td>
 <td class="firstrow lastrow">
-1.75 (154%)<br />1.04371725309588 [0.19941272837074, 13.6285882344748]<br />1.02 (120%)
+1.75 (154%)<br />1.05 [0.2, 13.6]<br />1.02 (122%)
 </td>
 <td class="firstrow lastrow">
-1.65 (135%)<br />1.0772976640538 [0.0639362125432928, 13.6285882344748]<br />0.958 (142%)
+1.64 (135%)<br />1.1 [0.1, 13.6]<br />0.952 (145%)
 </td>
 </tr>
 <tr>
@@ -2212,16 +2212,16 @@ V1
 V2
 </td>
 <td class="firstrow lastrow">
-1.16 (99.5%)<br />0.875358452486374 [0.156710136326168, 6.25133771223109]<br />0.776 (117%)
+1.17 (99.5%)<br />0.9 [0.2, 6.3]<br />0.781 (115%)
 </td>
 <td class="firstrow lastrow">
-1.60 (128%)<br />0.908489870629127 [0.110383963629683, 11.3522964430041]<br />0.905 (148%)
+1.60 (128%)<br />0.9 [0.1, 11.4]<br />0.913 (145%)
 </td>
 <td class="firstrow lastrow">
-1.44 (142%)<br />0.850352976870405 [0.066469203267659, 13.3556420995493]<br />0.823 (146%)
+1.45 (142%)<br />0.85 [0.1, 13.4]<br />0.829 (146%)
 </td>
 <td class="firstrow lastrow">
-1.40 (128%)<br />0.878388479082038 [0.066469203267659, 13.3556420995493]<br />0.833 (136%)
+1.41 (128%)<br />0.9 [0.1, 13.4]<br />0.839 (134%)
 </td>
 </tr>
 <tr>
@@ -2229,16 +2229,16 @@ V2
 V3
 </td>
 <td class="firstrow lastrow">
-1.71 (129%)<br />0.910037664237358 [0.0842588579312187, 10.2289191034926]<br />1.01 (133%)
+1.71 (129%)<br />0.9 [0.1, 10.2]<br />1.00 (134%)
 </td>
 <td class="firstrow lastrow">
-2.47 (343%)<br />0.904996036788029 [0.0591885909875645, 60.4921472036079]<br />0.932 (154%)
+2.48 (341%)<br />0.95 [0.1, 60.5]<br />0.961 (146%)
 </td>
 <td class="firstrow lastrow">
-1.42 (108%)<br />1.07250670934172 [0.190304060276759, 9.65884470034968]<br />0.986 (103%)
+1.43 (107%)<br />1.1 [0.2, 9.7]<br />0.992 (102%)
 </td>
 <td class="firstrow lastrow">
-1.87 (274%)<br />0.956495888708526 [0.0591885909875645, 60.4921472036079]<br />0.976 (128%)
+1.87 (273%)<br />1 [0.1, 60.5]<br />0.985 (126%)
 </td>
 </tr>
 <tr>
@@ -2246,16 +2246,16 @@ V3
 V4
 </td>
 <td class="firstrow lastrow">
-1.34 (110%)<br />0.859253146859667 [0.206546071064501, 7.40403430798148]<br />0.897 (106%)
+1.34 (110%)<br />0.9 [0.2, 7.4]<br />0.890 (109%)
 </td>
 <td class="firstrow lastrow">
-1.72 (158%)<br />0.854564510053974 [0.0722031752789099, 18.0063919702605]<br />0.995 (128%)
+1.72 (158%)<br />0.85 [0.1, 18]<br />0.992 (126%)
 </td>
 <td class="firstrow lastrow">
-1.69 (123%)<br />1.04603683724331 [0.0753253637664461, 12.2427235057011]<br />1.01 (141%)
+1.69 (122%)<br />1.05 [0.1, 12.2]<br />1.02 (138%)
 </td>
 <td class="firstrow lastrow">
-1.58 (135%)<br />0.913093961077018 [0.0722031752789099, 18.0063919702605]<br />0.965 (124%)
+1.58 (135%)<br />0.9 [0.1, 18]<br />0.966 (123%)
 </td>
 </tr>
 <tr>
@@ -2263,16 +2263,16 @@ V4
 V5
 </td>
 <td class="firstrow lastrow">
-1.56 (128%)<br />0.787703237743049 [0.151012581552906, 9.60964933285931]<br />0.899 (136%)
+1.56 (128%)<br />0.8 [0.2, 9.6]<br />0.912 (130%)
 </td>
 <td class="firstrow lastrow">
-1.78 (140%)<br />1.03305756267788 [0.0865146794140683, 15.1471053715604]<br />0.992 (153%)
+1.79 (139%)<br />1.05 [0.1, 15.1]<br />1.00 (150%)
 </td>
 <td class="firstrow lastrow">
-1.63 (66.0%)<br />1.2613944789753 [0.145344003272816, 4.5232780552101]<br />1.28 (88.2%)
+1.64 (65.8%)<br />1.3 [0.1, 4.5]<br />1.28 (90.9%)
 </td>
 <td class="firstrow lastrow">
-1.66 (117%)<br />1.06496017181704 [0.0865146794140683, 15.1471053715604]<br />1.04 (126%)
+1.66 (116%)<br />1.1 [0.1, 15.1]<br />1.05 (124%)
 </td>
 </tr>
 <tr>
@@ -2280,23 +2280,24 @@ V5
 V6
 </td>
 <td class="firstrow lastrow">
-1.60 (92.9%)<br />1.1993244587072 [0.0916461790071612, 7.05455073669208]<br />1.08 (122%)
+1.60 (93.6%)<br />1.2 [0.1, 7.1]<br />1.07 (122%)
 </td>
 <td class="firstrow lastrow">
-1.91 (202%)<br />0.774652765864209 [0.0954441597249235, 26.4220146929598]<br />0.883 (172%)
+1.92 (201%)<br />0.8 [0.1, 26.4]<br />0.894 (169%)
 </td>
 <td class="firstrow lastrow">
-2.31 (144%)<br />1.09402857978828 [0.0537781853599162, 19.9157917412168]<br />1.20 (178%)
+2.32 (144%)<br />1.05 [0.1, 19.9]<br />1.21 (170%)
 </td>
 <td class="firstrow lastrow">
-1.94 (158%)<br />1.03561711219326 [0.0537781853599162, 26.4220146929598]<br />1.04 (156%)
+1.94 (158%)<br />1 [0.1, 26.4]<br />1.05 (153%)
 </td>
 </tr>
 </tbody>
 </table>
 <p>Transposed:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
-       <span class="dt">render=</span>render, <span class="dt">transpose=</span><span class="ot">TRUE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat,
+       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>, <span class="dt">render=</span>render,
+       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>
 <tr>
@@ -2328,22 +2329,22 @@ V6
 A<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.55 (95.7%)<br />1.21941452695709 [0.0639362125432928, 7.79851873162583]<br />1.07 (115%)
+1.55 (95.7%)<br />1.25 [0.1, 7.8]<br />1.08 (111%)
 </td>
 <td class="firstrow lastrow">
-1.16 (99.5%)<br />0.875358452486374 [0.156710136326168, 6.25133771223109]<br />0.776 (117%)
+1.17 (99.5%)<br />0.9 [0.2, 6.3]<br />0.781 (115%)
 </td>
 <td class="firstrow lastrow">
-1.71 (129%)<br />0.910037664237358 [0.0842588579312187, 10.2289191034926]<br />1.01 (133%)
+1.71 (129%)<br />0.9 [0.1, 10.2]<br />1.00 (134%)
 </td>
 <td class="firstrow lastrow">
-1.34 (110%)<br />0.859253146859667 [0.206546071064501, 7.40403430798148]<br />0.897 (106%)
+1.34 (110%)<br />0.9 [0.2, 7.4]<br />0.890 (109%)
 </td>
 <td class="firstrow lastrow">
-1.56 (128%)<br />0.787703237743049 [0.151012581552906, 9.60964933285931]<br />0.899 (136%)
+1.56 (128%)<br />0.8 [0.2, 9.6]<br />0.912 (130%)
 </td>
 <td class="firstrow lastrow">
-1.60 (92.9%)<br />1.1993244587072 [0.0916461790071612, 7.05455073669208]<br />1.08 (122%)
+1.60 (93.6%)<br />1.2 [0.1, 7.1]<br />1.07 (122%)
 </td>
 </tr>
 <tr>
@@ -2351,22 +2352,22 @@ A<br>(n=50)
 B<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.64 (142%)<br />1.03401970282897 [0.0818244693637867, 12.7262880061249]<br />0.802 (197%)
+1.64 (142%)<br />1.05 [0.1, 12.7]<br />0.789 (206%)
 </td>
 <td class="firstrow lastrow">
-1.60 (128%)<br />0.908489870629127 [0.110383963629683, 11.3522964430041]<br />0.905 (148%)
+1.60 (128%)<br />0.9 [0.1, 11.4]<br />0.913 (145%)
 </td>
 <td class="firstrow lastrow">
-2.47 (343%)<br />0.904996036788029 [0.0591885909875645, 60.4921472036079]<br />0.932 (154%)
+2.48 (341%)<br />0.95 [0.1, 60.5]<br />0.961 (146%)
 </td>
 <td class="firstrow lastrow">
-1.72 (158%)<br />0.854564510053974 [0.0722031752789099, 18.0063919702605]<br />0.995 (128%)
+1.72 (158%)<br />0.85 [0.1, 18]<br />0.992 (126%)
 </td>
 <td class="firstrow lastrow">
-1.78 (140%)<br />1.03305756267788 [0.0865146794140683, 15.1471053715604]<br />0.992 (153%)
+1.79 (139%)<br />1.05 [0.1, 15.1]<br />1.00 (150%)
 </td>
 <td class="firstrow lastrow">
-1.91 (202%)<br />0.774652765864209 [0.0954441597249235, 26.4220146929598]<br />0.883 (172%)
+1.92 (201%)<br />0.8 [0.1, 26.4]<br />0.894 (169%)
 </td>
 </tr>
 <tr>
@@ -2374,22 +2375,22 @@ B<br>(n=50)
 C<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.75 (154%)<br />1.04371725309588 [0.19941272837074, 13.6285882344748]<br />1.02 (120%)
+1.75 (154%)<br />1.05 [0.2, 13.6]<br />1.02 (122%)
 </td>
 <td class="firstrow lastrow">
-1.44 (142%)<br />0.850352976870405 [0.066469203267659, 13.3556420995493]<br />0.823 (146%)
+1.45 (142%)<br />0.85 [0.1, 13.4]<br />0.829 (146%)
 </td>
 <td class="firstrow lastrow">
-1.42 (108%)<br />1.07250670934172 [0.190304060276759, 9.65884470034968]<br />0.986 (103%)
+1.43 (107%)<br />1.1 [0.2, 9.7]<br />0.992 (102%)
 </td>
 <td class="firstrow lastrow">
-1.69 (123%)<br />1.04603683724331 [0.0753253637664461, 12.2427235057011]<br />1.01 (141%)
+1.69 (122%)<br />1.05 [0.1, 12.2]<br />1.02 (138%)
 </td>
 <td class="firstrow lastrow">
-1.63 (66.0%)<br />1.2613944789753 [0.145344003272816, 4.5232780552101]<br />1.28 (88.2%)
+1.64 (65.8%)<br />1.3 [0.1, 4.5]<br />1.28 (90.9%)
 </td>
 <td class="firstrow lastrow">
-2.31 (144%)<br />1.09402857978828 [0.0537781853599162, 19.9157917412168]<br />1.20 (178%)
+2.32 (144%)<br />1.05 [0.1, 19.9]<br />1.21 (170%)
 </td>
 </tr>
 <tr>
@@ -2397,22 +2398,22 @@ C<br>(n=50)
 Overall<br>(n=150)
 </td>
 <td class="firstrow lastrow">
-1.65 (135%)<br />1.0772976640538 [0.0639362125432928, 13.6285882344748]<br />0.958 (142%)
+1.64 (135%)<br />1.1 [0.1, 13.6]<br />0.952 (145%)
 </td>
 <td class="firstrow lastrow">
-1.40 (128%)<br />0.878388479082038 [0.066469203267659, 13.3556420995493]<br />0.833 (136%)
+1.41 (128%)<br />0.9 [0.1, 13.4]<br />0.839 (134%)
 </td>
 <td class="firstrow lastrow">
-1.87 (274%)<br />0.956495888708526 [0.0591885909875645, 60.4921472036079]<br />0.976 (128%)
+1.87 (273%)<br />1 [0.1, 60.5]<br />0.985 (126%)
 </td>
 <td class="firstrow lastrow">
-1.58 (135%)<br />0.913093961077018 [0.0722031752789099, 18.0063919702605]<br />0.965 (124%)
+1.58 (135%)<br />0.9 [0.1, 18]<br />0.966 (123%)
 </td>
 <td class="firstrow lastrow">
-1.66 (117%)<br />1.06496017181704 [0.0865146794140683, 15.1471053715604]<br />1.04 (126%)
+1.66 (116%)<br />1.1 [0.1, 15.1]<br />1.05 (124%)
 </td>
 <td class="firstrow lastrow">
-1.94 (158%)<br />1.03561711219326 [0.0537781853599162, 26.4220146929598]<br />1.04 (156%)
+1.94 (158%)<br />1 [0.1, 26.4]<br />1.05 (153%)
 </td>
 </tr>
 </tbody>

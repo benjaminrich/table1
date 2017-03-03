@@ -12,8 +12,8 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r echo=FALSE, results='hide'}
-library(table1)
+```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+library(table1, quietly=TRUE)
 ```
 
 ## Introduction
@@ -179,9 +179,9 @@ set.seed(427)
 n <- 146
 dat <- data.frame(id=1:n)
 dat$treat <- f(c("Placebo", "Treated"), n, prob=c(1, 2)) # 2:1 randomization
-dat$age   <- runif(n, 18, 65)
+dat$age   <- sample(18:65, n, replace=TRUE)
 dat$sex   <- f(c("Female", "Male"), n, prob=c(.6, .4))  # 60% female
-dat$wt    <- exp(rnorm(n, log(70), 0.23))
+dat$wt    <- round(exp(rnorm(n, log(70), 0.23)), 1)
 
 # Add some missing data
 dat$wt[sample.int(n, 5)] <- NA
@@ -348,7 +348,7 @@ An example:
 
 ```{r}
 dat <- expand.grid(i=1:50, group=LETTERS[1:3])
-dat <- cbind(dat, matrix(exp(rnorm(6*nrow(dat))), nrow=nrow(dat)))
+dat <- cbind(dat, matrix(round(exp(rnorm(6*nrow(dat))), 1), nrow=nrow(dat)))
 names(dat)[3:8] <- paste0("V", 1:6)
 
 render <- function(x, ...) {
@@ -361,14 +361,15 @@ render <- function(x, ...) {
 Default:
 
 ```{r results='asis'}
-table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat, topclass="Rtable1 style3 style4",
-       render=render)
+table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
+       topclass="Rtable1 style3 style4", render=render)
 ```
 
 Transposed:
 
 ```{r results='asis'}
-table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat, topclass="Rtable1 style3 style4",
-       render=render, transpose=TRUE)
+table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
+       topclass="Rtable1 style3 style4", render=render,
+       transpose=TRUE)
 ```
 
