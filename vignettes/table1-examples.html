@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2017-02-09" />
+<meta name="date" content="2017-03-03" />
 
 <title>Using the table1 Package to Create HMTL Tables of Descriptive Statistics</title>
 
@@ -71,10 +71,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HMTL Tables of Descriptive Statistics</h1>
 <h4 class="author"><em>Benjamin Rich</em></h4>
-<h4 class="date"><em>2017-02-09</em></h4>
+<h4 class="date"><em>2017-03-03</em></h4>
 
 
 
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>It is standard practice in epidemiology and related fields that the first table of any journal article, referred to as “Table 1”, is a table that presents descriptive statistics of baseline characteristics of the study population stratified by exposure. This package makes it fairly straightforward to produce such a table using R. The output format is HTML (which has the advantage of being easy to copy into a Word document; Chrome browser works well). The preferred way of using this package is in combination with knitr (for HTML generation; use R markdown or the spin format, for instance), making use of the <code>results=&quot;asis&quot;</code> chunk option to pass the HTML output through untouched. The package does allow quite a bit of flexibility to customize the table’s contents and appearance, but this does come at the cost of ease-of-use (more programming, some knowledge of CSS).</p>
+</div>
 <div id="example-1" class="section level2">
 <h2>Example 1</h2>
 <p>The first example is inspired by <a href="http://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/">this blog post</a>, which is about how to accomplish a similar task using the <code>htmlTable</code> package. It uses the <code>melanoma</code> data set from the <code>boot</code> package for illustration, and I have copied here the code used to prepare the data:</p>
@@ -194,16 +198,16 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-52.0 [4.00, 84.0]
+52 [4, 84]
 </td>
 <td class="lastrow">
-56.0 [14.0, 95.0]
+56 [14, 95]
 </td>
 <td class="lastrow">
-65.0 [49.0, 86.0]
+65 [49, 86]
 </td>
 <td class="lastrow">
-54.0 [4.00, 95.0]
+54 [4, 95]
 </td>
 </tr>
 <tr>
@@ -288,16 +292,16 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-1.36 [0.100, 12.9]
+1.355 [0.1, 12.88]
 </td>
 <td class="lastrow">
-3.54 [0.320, 17.4]
+3.54 [0.32, 17.42]
 </td>
 <td class="lastrow">
-2.26 [0.160, 12.6]
+2.26 [0.16, 12.56]
 </td>
 <td class="lastrow">
-1.94 [0.100, 17.4]
+1.94 [0.1, 17.42]
 </td>
 </tr>
 </tbody>
@@ -425,16 +429,16 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-52.0 [4.00, 84.0]
+52 [4, 84]
 </td>
 <td class="lastrow">
-56.0 [14.0, 95.0]
+56 [14, 95]
 </td>
 <td class="lastrow">
-65.0 [49.0, 86.0]
+65 [49, 86]
 </td>
 <td class="lastrow">
-54.0 [4.00, 95.0]
+54 [4, 95]
 </td>
 </tr>
 <tr>
@@ -519,16 +523,16 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-1.36 [0.100, 12.9]
+1.355 [0.1, 12.88]
 </td>
 <td class="lastrow">
-3.54 [0.320, 17.4]
+3.54 [0.32, 17.42]
 </td>
 <td class="lastrow">
-2.26 [0.160, 12.6]
+2.26 [0.16, 12.56]
 </td>
 <td class="lastrow">
-1.94 [0.100, 17.4]
+1.94 [0.1, 17.42]
 </td>
 </tr>
 </tbody>
@@ -548,7 +552,7 @@ Median [Min, Max]
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">Total=</span>melanoma2), <span class="kw">split</span>(melanoma2, melanoma2$status))</code></pre></div>
 <p>Finally, we customize the contents using custom renderers:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.render.cont &lt;-<span class="st"> </span>function(x) {
-    <span class="kw">with</span>(<span class="kw">lapply</span>(<span class="kw">stats.default</span>(x), signif_pad, <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,
+    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,
         <span class="st">&quot;Mean (SD)&quot;</span>=<span class="kw">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))
 }
 my.render.cat &lt;-<span class="st"> </span>function(x) {
@@ -821,13 +825,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-43.6 [18.2, 64.7]
+43.5863235899014 [18.2256201021373, 64.6627155831084]
 </td>
 </tr>
 <tr>
@@ -899,13 +903,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 <td>
-66.6 [37.5, 119]
+66.6483666430104 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -966,10 +970,10 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 </tr>
 <tr>
@@ -1028,10 +1032,10 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -1139,22 +1143,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-42.7 [19.0, 64.7]
+42.6902810321189 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-51.5 [29.1, 64.5]
+51.5170831370633 [29.0672059394419, 64.5479690078646]
 </td>
 <td class="lastrow">
-40.7 [18.2, 64.0]
+40.6804440518608 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-46.1 [20.9, 61.0]
+46.0613266685978 [20.9424350485206, 60.9640475229826]
 </td>
 <td class="lastrow">
-42.0 [18.2, 64.7]
+42.0030180527829 [18.2256201021373, 64.6627155831084]
 </td>
 <td class="lastrow">
-47.4 [20.9, 64.5]
+47.4019243000075 [20.9424350485206, 64.5479690078646]
 </td>
 </tr>
 <tr>
@@ -1202,22 +1206,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.4 [47.1, 102]
+66.4304871836116 [47.1137879190531, 102.444335277582]
 </td>
 <td>
-66.3 [45.8, 92.2]
+66.2919763934454 [45.8380029720549, 92.2495570910251]
 </td>
 <td>
-67.9 [37.5, 111]
+67.9021532436549 [37.5426302033464, 110.575938576951]
 </td>
 <td>
-63.2 [40.0, 119]
+63.2326335097093 [40.0371116917358, 118.786614257841]
 </td>
 <td>
-67.4 [37.5, 111]
+67.3544090890894 [37.5426302033464, 110.575938576951]
 </td>
 <td>
-64.2 [40.0, 119]
+64.2470092296966 [40.0371116917358, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -1337,22 +1341,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-42.7 [19.0, 64.7]
+42.6902810321189 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-40.7 [18.2, 64.0]
+40.6804440518608 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-51.5 [29.1, 64.5]
+51.5170831370633 [29.0672059394419, 64.5479690078646]
 </td>
 <td class="lastrow">
-46.1 [20.9, 61.0]
+46.0613266685978 [20.9424350485206, 60.9640475229826]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 </tr>
 <tr>
@@ -1400,22 +1404,22 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.4 [47.1, 102]
+66.4304871836116 [47.1137879190531, 102.444335277582]
 </td>
 <td>
-67.9 [37.5, 111]
+67.9021532436549 [37.5426302033464, 110.575938576951]
 </td>
 <td>
-66.3 [45.8, 92.2]
+66.2919763934454 [45.8380029720549, 92.2495570910251]
 </td>
 <td>
-63.2 [40.0, 119]
+63.2326335097093 [40.0371116917358, 118.786614257841]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -1499,7 +1503,7 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-43.6 [18.2, 64.7]
+43.5863235899014 [18.2256201021373, 64.6627155831084]
 </td>
 </tr>
 <tr>
@@ -1545,7 +1549,7 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.6 [37.5, 119]
+66.6483666430104 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -1647,19 +1651,19 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-45.1 [18.2, 62.8]
+45.1451107200701 [18.2256201021373, 62.7896706275642]
 </td>
 <td class="lastrow">
-39.4 [20.9, 64.0]
+39.3697462151758 [20.9424350485206, 64.0366728843655]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-43.6 [18.2, 64.7]
+43.5863235899014 [18.2256201021373, 64.6627155831084]
 </td>
 </tr>
 <tr>
@@ -1757,19 +1761,19 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-63.3 [37.5, 119]
+63.3367847817176 [37.5426302033464, 118.786614257841]
 </td>
 <td>
-70.3 [48.1, 114]
+70.3485738855557 [48.1170966057588, 113.696075062743]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 <td>
-66.6 [37.5, 119]
+66.6483666430104 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -1895,13 +1899,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-43.6 [18.2, 64.7]
+43.5863235899014 [18.2256201021373, 64.6627155831084]
 </td>
 </tr>
 <tr>
@@ -1973,13 +1977,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 <td>
-66.6 [37.5, 119]
+66.6483666430104 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -2046,13 +2050,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td class="lastrow">
-44.3 [19.0, 64.7]
+44.3271546225296 [18.9829285629094, 64.6627155831084]
 </td>
 <td class="lastrow">
-43.2 [18.2, 64.0]
+43.1743285914417 [18.2256201021373, 64.0366728843655]
 </td>
 <td class="lastrow">
-43.6 [18.2, 64.7]
+43.5863235899014 [18.2256201021373, 64.6627155831084]
 </td>
 </tr>
 <tr>
@@ -2124,13 +2128,13 @@ Mean (SD)
 Median [Min, Max]
 </td>
 <td>
-66.3 [45.8, 102]
+66.2919763934454 [45.8380029720549, 102.444335277582]
 </td>
 <td>
-67.2 [37.5, 119]
+67.2113439446575 [37.5426302033464, 118.786614257841]
 </td>
 <td>
-66.6 [37.5, 119]
+66.6483666430104 [37.5426302033464, 118.786614257841]
 </td>
 </tr>
 <tr>
@@ -2159,7 +2163,7 @@ dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class
 <span class="kw">names</span>(dat)[<span class="dv">3</span>:<span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span>:<span class="dv">6</span>)
 
 render &lt;-<span class="st"> </span>function(x, ...) {
-    <span class="kw">with</span>(<span class="kw">lapply</span>(<span class="kw">stats.default</span>(x), signif_pad, <span class="dt">digits=</span><span class="dv">3</span>), 
+    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">3</span>), 
         <span class="kw">c</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%s (%s%%)&lt;br/&gt;%s [%s, %s]&lt;br/&gt;%s (%s%%)&quot;</span>,
         MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
 }</code></pre></div>
@@ -2191,16 +2195,16 @@ Overall<br>(n=150)
 V1
 </td>
 <td class="firstrow lastrow">
-1.55 (95.7%)<br />1.22 [0.0639, 7.80]<br />1.07 (115%)
+1.55 (95.7%)<br />1.21941452695709 [0.0639362125432928, 7.79851873162583]<br />1.07 (115%)
 </td>
 <td class="firstrow lastrow">
-1.64 (142%)<br />1.03 [0.0818, 12.7]<br />0.802 (197%)
+1.64 (142%)<br />1.03401970282897 [0.0818244693637867, 12.7262880061249]<br />0.802 (197%)
 </td>
 <td class="firstrow lastrow">
-1.75 (154%)<br />1.04 [0.199, 13.6]<br />1.02 (120%)
+1.75 (154%)<br />1.04371725309588 [0.19941272837074, 13.6285882344748]<br />1.02 (120%)
 </td>
 <td class="firstrow lastrow">
-1.65 (135%)<br />1.08 [0.0639, 13.6]<br />0.958 (142%)
+1.65 (135%)<br />1.0772976640538 [0.0639362125432928, 13.6285882344748]<br />0.958 (142%)
 </td>
 </tr>
 <tr>
@@ -2208,16 +2212,16 @@ V1
 V2
 </td>
 <td class="firstrow lastrow">
-1.16 (99.5%)<br />0.875 [0.157, 6.25]<br />0.776 (117%)
+1.16 (99.5%)<br />0.875358452486374 [0.156710136326168, 6.25133771223109]<br />0.776 (117%)
 </td>
 <td class="firstrow lastrow">
-1.60 (128%)<br />0.908 [0.110, 11.4]<br />0.905 (148%)
+1.60 (128%)<br />0.908489870629127 [0.110383963629683, 11.3522964430041]<br />0.905 (148%)
 </td>
 <td class="firstrow lastrow">
-1.44 (142%)<br />0.850 [0.0665, 13.4]<br />0.823 (146%)
+1.44 (142%)<br />0.850352976870405 [0.066469203267659, 13.3556420995493]<br />0.823 (146%)
 </td>
 <td class="firstrow lastrow">
-1.40 (128%)<br />0.878 [0.0665, 13.4]<br />0.833 (136%)
+1.40 (128%)<br />0.878388479082038 [0.066469203267659, 13.3556420995493]<br />0.833 (136%)
 </td>
 </tr>
 <tr>
@@ -2225,16 +2229,16 @@ V2
 V3
 </td>
 <td class="firstrow lastrow">
-1.71 (129%)<br />0.910 [0.0843, 10.2]<br />1.01 (133%)
+1.71 (129%)<br />0.910037664237358 [0.0842588579312187, 10.2289191034926]<br />1.01 (133%)
 </td>
 <td class="firstrow lastrow">
-2.47 (343%)<br />0.905 [0.0592, 60.5]<br />0.932 (154%)
+2.47 (343%)<br />0.904996036788029 [0.0591885909875645, 60.4921472036079]<br />0.932 (154%)
 </td>
 <td class="firstrow lastrow">
-1.42 (108%)<br />1.07 [0.190, 9.66]<br />0.986 (103%)
+1.42 (108%)<br />1.07250670934172 [0.190304060276759, 9.65884470034968]<br />0.986 (103%)
 </td>
 <td class="firstrow lastrow">
-1.87 (274%)<br />0.956 [0.0592, 60.5]<br />0.976 (128%)
+1.87 (274%)<br />0.956495888708526 [0.0591885909875645, 60.4921472036079]<br />0.976 (128%)
 </td>
 </tr>
 <tr>
@@ -2242,16 +2246,16 @@ V3
 V4
 </td>
 <td class="firstrow lastrow">
-1.34 (110%)<br />0.859 [0.207, 7.40]<br />0.897 (106%)
+1.34 (110%)<br />0.859253146859667 [0.206546071064501, 7.40403430798148]<br />0.897 (106%)
 </td>
 <td class="firstrow lastrow">
-1.72 (158%)<br />0.855 [0.0722, 18.0]<br />0.995 (128%)
+1.72 (158%)<br />0.854564510053974 [0.0722031752789099, 18.0063919702605]<br />0.995 (128%)
 </td>
 <td class="firstrow lastrow">
-1.69 (123%)<br />1.05 [0.0753, 12.2]<br />1.01 (141%)
+1.69 (123%)<br />1.04603683724331 [0.0753253637664461, 12.2427235057011]<br />1.01 (141%)
 </td>
 <td class="firstrow lastrow">
-1.58 (135%)<br />0.913 [0.0722, 18.0]<br />0.965 (124%)
+1.58 (135%)<br />0.913093961077018 [0.0722031752789099, 18.0063919702605]<br />0.965 (124%)
 </td>
 </tr>
 <tr>
@@ -2259,16 +2263,16 @@ V4
 V5
 </td>
 <td class="firstrow lastrow">
-1.56 (128%)<br />0.788 [0.151, 9.61]<br />0.899 (136%)
+1.56 (128%)<br />0.787703237743049 [0.151012581552906, 9.60964933285931]<br />0.899 (136%)
 </td>
 <td class="firstrow lastrow">
-1.78 (140%)<br />1.03 [0.0865, 15.1]<br />0.992 (153%)
+1.78 (140%)<br />1.03305756267788 [0.0865146794140683, 15.1471053715604]<br />0.992 (153%)
 </td>
 <td class="firstrow lastrow">
-1.63 (66.0%)<br />1.26 [0.145, 4.52]<br />1.28 (88.2%)
+1.63 (66.0%)<br />1.2613944789753 [0.145344003272816, 4.5232780552101]<br />1.28 (88.2%)
 </td>
 <td class="firstrow lastrow">
-1.66 (117%)<br />1.06 [0.0865, 15.1]<br />1.04 (126%)
+1.66 (117%)<br />1.06496017181704 [0.0865146794140683, 15.1471053715604]<br />1.04 (126%)
 </td>
 </tr>
 <tr>
@@ -2276,16 +2280,16 @@ V5
 V6
 </td>
 <td class="firstrow lastrow">
-1.60 (92.9%)<br />1.20 [0.0916, 7.05]<br />1.08 (122%)
+1.60 (92.9%)<br />1.1993244587072 [0.0916461790071612, 7.05455073669208]<br />1.08 (122%)
 </td>
 <td class="firstrow lastrow">
-1.91 (202%)<br />0.775 [0.0954, 26.4]<br />0.883 (172%)
+1.91 (202%)<br />0.774652765864209 [0.0954441597249235, 26.4220146929598]<br />0.883 (172%)
 </td>
 <td class="firstrow lastrow">
-2.31 (144%)<br />1.09 [0.0538, 19.9]<br />1.20 (178%)
+2.31 (144%)<br />1.09402857978828 [0.0537781853599162, 19.9157917412168]<br />1.20 (178%)
 </td>
 <td class="firstrow lastrow">
-1.94 (158%)<br />1.04 [0.0538, 26.4]<br />1.04 (156%)
+1.94 (158%)<br />1.03561711219326 [0.0537781853599162, 26.4220146929598]<br />1.04 (156%)
 </td>
 </tr>
 </tbody>
@@ -2324,22 +2328,22 @@ V6
 A<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.55 (95.7%)<br />1.22 [0.0639, 7.80]<br />1.07 (115%)
+1.55 (95.7%)<br />1.21941452695709 [0.0639362125432928, 7.79851873162583]<br />1.07 (115%)
 </td>
 <td class="firstrow lastrow">
-1.16 (99.5%)<br />0.875 [0.157, 6.25]<br />0.776 (117%)
+1.16 (99.5%)<br />0.875358452486374 [0.156710136326168, 6.25133771223109]<br />0.776 (117%)
 </td>
 <td class="firstrow lastrow">
-1.71 (129%)<br />0.910 [0.0843, 10.2]<br />1.01 (133%)
+1.71 (129%)<br />0.910037664237358 [0.0842588579312187, 10.2289191034926]<br />1.01 (133%)
 </td>
 <td class="firstrow lastrow">
-1.34 (110%)<br />0.859 [0.207, 7.40]<br />0.897 (106%)
+1.34 (110%)<br />0.859253146859667 [0.206546071064501, 7.40403430798148]<br />0.897 (106%)
 </td>
 <td class="firstrow lastrow">
-1.56 (128%)<br />0.788 [0.151, 9.61]<br />0.899 (136%)
+1.56 (128%)<br />0.787703237743049 [0.151012581552906, 9.60964933285931]<br />0.899 (136%)
 </td>
 <td class="firstrow lastrow">
-1.60 (92.9%)<br />1.20 [0.0916, 7.05]<br />1.08 (122%)
+1.60 (92.9%)<br />1.1993244587072 [0.0916461790071612, 7.05455073669208]<br />1.08 (122%)
 </td>
 </tr>
 <tr>
@@ -2347,22 +2351,22 @@ A<br>(n=50)
 B<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.64 (142%)<br />1.03 [0.0818, 12.7]<br />0.802 (197%)
+1.64 (142%)<br />1.03401970282897 [0.0818244693637867, 12.7262880061249]<br />0.802 (197%)
 </td>
 <td class="firstrow lastrow">
-1.60 (128%)<br />0.908 [0.110, 11.4]<br />0.905 (148%)
+1.60 (128%)<br />0.908489870629127 [0.110383963629683, 11.3522964430041]<br />0.905 (148%)
 </td>
 <td class="firstrow lastrow">
-2.47 (343%)<br />0.905 [0.0592, 60.5]<br />0.932 (154%)
+2.47 (343%)<br />0.904996036788029 [0.0591885909875645, 60.4921472036079]<br />0.932 (154%)
 </td>
 <td class="firstrow lastrow">
-1.72 (158%)<br />0.855 [0.0722, 18.0]<br />0.995 (128%)
+1.72 (158%)<br />0.854564510053974 [0.0722031752789099, 18.0063919702605]<br />0.995 (128%)
 </td>
 <td class="firstrow lastrow">
-1.78 (140%)<br />1.03 [0.0865, 15.1]<br />0.992 (153%)
+1.78 (140%)<br />1.03305756267788 [0.0865146794140683, 15.1471053715604]<br />0.992 (153%)
 </td>
 <td class="firstrow lastrow">
-1.91 (202%)<br />0.775 [0.0954, 26.4]<br />0.883 (172%)
+1.91 (202%)<br />0.774652765864209 [0.0954441597249235, 26.4220146929598]<br />0.883 (172%)
 </td>
 </tr>
 <tr>
@@ -2370,22 +2374,22 @@ B<br>(n=50)
 C<br>(n=50)
 </td>
 <td class="firstrow lastrow">
-1.75 (154%)<br />1.04 [0.199, 13.6]<br />1.02 (120%)
+1.75 (154%)<br />1.04371725309588 [0.19941272837074, 13.6285882344748]<br />1.02 (120%)
 </td>
 <td class="firstrow lastrow">
-1.44 (142%)<br />0.850 [0.0665, 13.4]<br />0.823 (146%)
+1.44 (142%)<br />0.850352976870405 [0.066469203267659, 13.3556420995493]<br />0.823 (146%)
 </td>
 <td class="firstrow lastrow">
-1.42 (108%)<br />1.07 [0.190, 9.66]<br />0.986 (103%)
+1.42 (108%)<br />1.07250670934172 [0.190304060276759, 9.65884470034968]<br />0.986 (103%)
 </td>
 <td class="firstrow lastrow">
-1.69 (123%)<br />1.05 [0.0753, 12.2]<br />1.01 (141%)
+1.69 (123%)<br />1.04603683724331 [0.0753253637664461, 12.2427235057011]<br />1.01 (141%)
 </td>
 <td class="firstrow lastrow">
-1.63 (66.0%)<br />1.26 [0.145, 4.52]<br />1.28 (88.2%)
+1.63 (66.0%)<br />1.2613944789753 [0.145344003272816, 4.5232780552101]<br />1.28 (88.2%)
 </td>
 <td class="firstrow lastrow">
-2.31 (144%)<br />1.09 [0.0538, 19.9]<br />1.20 (178%)
+2.31 (144%)<br />1.09402857978828 [0.0537781853599162, 19.9157917412168]<br />1.20 (178%)
 </td>
 </tr>
 <tr>
@@ -2393,22 +2397,22 @@ C<br>(n=50)
 Overall<br>(n=150)
 </td>
 <td class="firstrow lastrow">
-1.65 (135%)<br />1.08 [0.0639, 13.6]<br />0.958 (142%)
+1.65 (135%)<br />1.0772976640538 [0.0639362125432928, 13.6285882344748]<br />0.958 (142%)
 </td>
 <td class="firstrow lastrow">
-1.40 (128%)<br />0.878 [0.0665, 13.4]<br />0.833 (136%)
+1.40 (128%)<br />0.878388479082038 [0.066469203267659, 13.3556420995493]<br />0.833 (136%)
 </td>
 <td class="firstrow lastrow">
-1.87 (274%)<br />0.956 [0.0592, 60.5]<br />0.976 (128%)
+1.87 (274%)<br />0.956495888708526 [0.0591885909875645, 60.4921472036079]<br />0.976 (128%)
 </td>
 <td class="firstrow lastrow">
-1.58 (135%)<br />0.913 [0.0722, 18.0]<br />0.965 (124%)
+1.58 (135%)<br />0.913093961077018 [0.0722031752789099, 18.0063919702605]<br />0.965 (124%)
 </td>
 <td class="firstrow lastrow">
-1.66 (117%)<br />1.06 [0.0865, 15.1]<br />1.04 (126%)
+1.66 (117%)<br />1.06496017181704 [0.0865146794140683, 15.1471053715604]<br />1.04 (126%)
 </td>
 <td class="firstrow lastrow">
-1.94 (158%)<br />1.04 [0.0538, 26.4]<br />1.04 (156%)
+1.94 (158%)<br />1.03561711219326 [0.0537781853599162, 26.4220146929598]<br />1.04 (156%)
 </td>
 </tr>
 </tbody>
