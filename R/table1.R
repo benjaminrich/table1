@@ -139,8 +139,8 @@ stats.default <- function(x, useNA=NULL) {
 #' places (default 1) rather than a specific number of significant digits.
 #'
 #' @param x A list, as returned by \code{\link{stats.default}}.
-#' @param digits Number of significant digits.
-#' @param digits.pct Number of digits after the decimal place for percentages.
+#' @param digits An interger specifying the number of significant digits to keep.
+#' @param digits.pct An interger specifying the number of digits after the decimal place for percentages.
 #'
 #' @return A list with the same number of elements as \code{x}.
 #' @seealso
@@ -154,14 +154,22 @@ stats.default <- function(x, useNA=NULL) {
 #' @keywords utilities
 #' @export
 stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
-    r <- lapply(x, signif_pad, digits=digits)
-    nr <- c("N", "FREQ", "MEDIAN", "MIN", "MAX")
-    nr <- nr[nr %in% names(x)]
-    r[nr] <- x[nr]
-    if (!is.null(x$PCT)) {
-        r$PCT <- round(x$PCT, digits.pct)
+    if (!is.list(x)) {
+        stop("Expecting a list")
     }
-    r
+    if (is.list(x[[1]])) {
+        # Apply recursively
+        lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct)
+    } else {
+        r <- lapply(x, signif_pad, digits=digits)
+        nr <- c("N", "FREQ", "MEDIAN", "MIN", "MAX")
+        nr <- nr[nr %in% names(x)]
+        r[nr] <- x[nr]
+        if (!is.null(x$PCT)) {
+            r$PCT <- round(x$PCT, digits.pct)
+        }
+        r
+    }
 }
 
 #' Render values for table output.
@@ -174,6 +182,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
 #'
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param name Name of the variable to be rendered (ignored). 
+#' @param digits An interger specifying the number of significant digits to keep.
 #' @param missing Should missing values be included?
 #' @param transpose Logical indicating whether on not the table is transposed.
 #' @param render.empty A \code{character} to return when \code{x} is empty.
@@ -199,11 +208,20 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
 #'
 #' @keywords utilities
 #' @export
-render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
+render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F,
                            render.empty="NA",
-                           render.continuous="render.continuous",
-                           render.categorical="render.categorical",
-                           render.missing="render.missing") {
+                           render.continuous=render.continuous.default,
+                           render.categorical=render.categorical.default,
+                           render.missing=render.missing.default) {
+    if (is.character(render.continuous)) {
+        render.continuous <- parse.abbrev.render.code(code=render.continuous, digits=digits)
+    }
+    if (is.character(render.categorical)) {
+        render.categorical <- parse.abbrev.render.code(code=render.categorical, digits=digits)
+    }
+    if (is.character(render.missing)) {
+        render.missing <- parse.abbrev.render.code(code=render.missing, digits=digits)
+    }
     if (length(x) == 0) {
         return(render.empty)
     }
@@ -230,6 +248,70 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
     r
 }
 
+#' Parse abbreviated code for rendering table output.
+#'
+#' @param code A \code{character} vector specifying the statistics to display
+#' in abbreviated code. See Details. @param digits An interger specifying the
+#' number of significant digits to keep.
+#'
+#' @return A function that takes a single argument and returns a
+#' \code{character} vector.
+#'
+#' @details In abbreviated code, the words N, NMISS, MEAN, SD, MIN, MEDIAN,
+#' MAX, IQR, CV, GMEAN, GCV, FREQ and PCT are substituted for their respective
+#' values (see \code{\link{stats.default}}). The substitution is case
+#' insensitive, and the substituted values are rounded appropriately (see
+#' \code{\link{stats.apply.rounding}}). Other text is left unchanged. The
+#' \code{code} can be a vector, in which case each element is displayed in its
+#' own row in the table. The \code{\names} of \code{code} are used as row
+#' labels; if no names are present, then the \code{code} itself is used.
+#'
+#' @examples
+#' x <- round(exp(rnorm(100, log(20), 1)), 2)
+#' stats.default(x)
+#' f <- parse.abbrev.render.code(c("Mean (SD)", "Median [Min, Max]"), 3)
+#' f(x)
+#' f2 <- parse.abbrev.render.code(c("Geo. Mean (Geo. CV%)" = "GMean (GCV%)"), 3)
+#' f2(x)
+#' 
+#' x <- sample(c("Male", "Female"), 30, replace=T)
+#' stats.default(x)
+#' f <- parse.abbrev.render.code("Freq (Pct%)")
+#' f(x)
+#'
+#' @keywords utilities
+parse.abbrev.render.code <- function(code, digits=3) {
+    codestr <- code
+    dig <- digits
+    if (is.null(names(codestr))) {
+        names(codestr) <- codestr
+    }
+    function(x, digits=dig, ...) {
+        s <- stats.apply.rounding(stats.default(x), digits=digits)
+        g <- function(ss) {
+            res <- codestr
+            for (nm in names(ss)) {
+                res <- gsub(paste0("\\b", nm, "\\b"), ss[[nm]], res, ignore.case=T)
+            }
+            names(res) <- names(codestr)
+            res
+        }
+        if (!is.list(s)) {
+            stop("Expecting a list")
+        }
+        if (is.list(s[[1]])) {
+            res <- lapply(s, g)
+            nm <- ifelse(sapply(res, seq_along)==1, "1", "")
+            nm[nm=="1"] <- names(s)
+            res <- unlist(res)
+            names(res) <- nm 
+            c("", res)
+        } else {
+            c("", g(s))
+        }
+    }
+}
+
 #' Render continuous values for table output.
 #'
 #' Called from \code{\link{table1}} by default to render continuous (i.e.
@@ -245,11 +327,11 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #'
 #' @examples
 #' x <- exp(rnorm(100, 1, 1))
-#' render.continuous(x)
+#' render.continuous.default(x)
 #' 
 #' @keywords utilities
 #' @export
-render.continuous <- function(x) {
+render.continuous.default <- function(x) {
     with(stats.apply.rounding(stats.default(x)), c("",
         "Mean (SD)"=sprintf("%s (%s)", MEAN, SD),
         "Median [Min, Max]" = sprintf("%s [%s, %s]", MEDIAN, MIN, MAX)))
@@ -271,10 +353,10 @@ render.continuous <- function(x) {
 #' @examples
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
-#' render.categorical(y)
+#' render.categorical.default(y)
 #' @keywords utilities
 #' @export
-render.categorical <- function(x) {
+render.categorical.default <- function(x) {
     c("", sapply(stats.default(x), function(y) with(y,
         sprintf("%d (%0.1f%%)", FREQ, PCT))))
 }
@@ -294,10 +376,10 @@ render.categorical <- function(x) {
 #' @examples
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
-#' render.missing(y)
+#' render.missing.default(y)
 #' @keywords utilities
 #' @export
-render.missing <- function(x) {
+render.missing.default <- function(x) {
     with(stats.default(is.na(x))$Yes,
         c(Missing=sprintf("%d (%0.1f%%)", FREQ, PCT)))
 }
@@ -565,6 +647,9 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     }
     if (is.null(names(labels$strata))) {
         names(labels$strata) <- names(x)
+    }
+    if (is.character(render)) {
+        render <- parse.abbrev.render.code(code=render)
     }
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)

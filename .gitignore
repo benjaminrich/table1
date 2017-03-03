@@ -3,4 +3,5 @@
 *.bak
 *.tmp
 *.temp
+temp.*
 
