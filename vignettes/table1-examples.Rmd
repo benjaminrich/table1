@@ -26,10 +26,10 @@ such a table using R. The output format is HTML (which has the advantage of
 being easy to copy into a Word document; Chrome browser works well). The
 preferred way of using this package is in combination with knitr (for HTML
 generation; use R markdown or the spin format, for instance), making use of the
-`results="asis"` chunk option to pass the HTML output through untouched. The
-package does allow quite a bit of flexibility to customize the table's contents
-and appearance, but this does come at the cost of ease-of-use (more
-programming, some knowledge of CSS).
+`results="asis"` chunk option to pass the HTML output through untouched (this
+vignette is a good example). The package does allow quite a bit of flexibility
+to customize the table's contents and appearance, but this does come at the
+cost of ease-of-use (more programming, some knowledge of CSS).
 
 
 ## Example 1
@@ -128,7 +128,7 @@ order we want them displayed:
 strata <- c(list(Total=melanoma2), split(melanoma2, melanoma2$status))
 ```
 
-Finally, we customize the contents using custom renderers:
+Finally, we can customize the contents using custom renderers:
 
 ```{r}
 my.render.cont <- function(x) {
@@ -350,26 +350,22 @@ An example:
 dat <- expand.grid(i=1:50, group=LETTERS[1:3])
 dat <- cbind(dat, matrix(round(exp(rnorm(6*nrow(dat))), 1), nrow=nrow(dat)))
 names(dat)[3:8] <- paste0("V", 1:6)
-
-render <- function(x, ...) {
-    with(stats.apply.rounding(stats.default(x), digits=3), 
-        c(sprintf("%s (%s%%)<br/>%s [%s, %s]<br/>%s (%s%%)",
-        MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
-}
 ```
 
 Default:
 
 ```{r results='asis'}
 table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
-       topclass="Rtable1 style3 style4", render=render)
+       topclass="Rtable1 style3 style4",
+       render="Mean (CV%)<br/>Median [Min, Max]<br/>GMean (GCV%)")
 ```
 
 Transposed:
 
 ```{r results='asis'}
 table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
-       topclass="Rtable1 style3 style4", render=render,
+       topclass="Rtable1 style3 style4",
+       render="Mean (CV%)<br/>Median [Min, Max]<br/>GMean (GCV%)",
        transpose=TRUE)
 ```
 
