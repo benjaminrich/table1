@@ -128,6 +128,42 @@ stats.default <- function(x, useNA=NULL) {
     }
 }
 
+#' Apply rounding to basic descriptive statistics.
+#'
+#' Not all statistics should be rounded; in particular min, max and median should
+#' retain their original precision. This function will apply rounding
+#' selectively to a list of statistics as returned by
+#' \code{\link{stats.default}}. The rounded values will be \code{character},
+#' not \code{numeric}, and will have 0 padding to ensure consistent number of
+#' significant digits. Percentages are rounded to a fixed number of decimal
+#' places (default 1) rather than a specific number of significant digits.
+#'
+#' @param x A list, as returned by \code{\link{stats.default}}.
+#' @param digits Number of significant digits.
+#' @param digits.pct Number of digits after the decimal place for percentages.
+#'
+#' @return A list with the same number of elements as \code{x}.
+#' @seealso
+#' \code{\link{signif_pad}}
+#' \code{\link{stats.default}}
+#' @examples
+#' x <- exp(rnorm(100, 1, 1))
+#' stats.default(x)
+#' stats.apply.rounding(stats.default(x), digits=3)
+#'
+#' @keywords utilities
+#' @export
+stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
+    r <- lapply(x, signif_pad, digits=digits)
+    nr <- c("N", "FREQ", "MEDIAN", "MIN", "MAX")
+    nr <- nr[nr %in% names(x)]
+    r[nr] <- x[nr]
+    if (!is.null(x$PCT)) {
+        r$PCT <- round(x$PCT, digits.pct)
+    }
+    r
+}
+
 #' Render values for table output.
 #'
 #' Called from \code{\link{table1}} by default to render values for
@@ -214,7 +250,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' @keywords utilities
 #' @export
 render.continuous <- function(x) {
-    with(lapply(stats.default(x), signif_pad), c("",
+    with(stats.apply.rounding(stats.default(x)), c("",
         "Mean (SD)"=sprintf("%s (%s)", MEAN, SD),
         "Median [Min, Max]" = sprintf("%s [%s, %s]", MEDIAN, MIN, MAX)))
 }

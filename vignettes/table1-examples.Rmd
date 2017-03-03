@@ -16,6 +16,22 @@ vignette: >
 library(table1)
 ```
 
+## Introduction
+
+It is standard practice in epidemiology and related fields that the first table
+of any journal article, referred to as "Table 1", is a table that presents
+descriptive statistics of baseline characteristics of the study population
+stratified by exposure. This package makes it fairly straightforward to produce
+such a table using R. The output format is HTML (which has the advantage of
+being easy to copy into a Word document; Chrome browser works well). The
+preferred way of using this package is in combination with knitr (for HTML
+generation; use R markdown or the spin format, for instance), making use of the
+`results="asis"` chunk option to pass the HTML output through untouched. The
+package does allow quite a bit of flexibility to customize the table's contents
+and appearance, but this does come at the cost of ease-of-use (more
+programming, some knowledge of CSS).
+
+
 ## Example 1
 
 The first example is inspired by [this blog
@@ -116,7 +132,7 @@ Finally, we customize the contents using custom renderers:
 
 ```{r}
 my.render.cont <- function(x) {
-    with(lapply(stats.default(x), signif_pad, digits=2), c("",
+    with(stats.apply.rounding(stats.default(x), digits=2), c("",
         "Mean (SD)"=sprintf("%s (&plusmn; %s)", MEAN, SD)))
 }
 my.render.cat <- function(x) {
@@ -336,7 +352,7 @@ dat <- cbind(dat, matrix(exp(rnorm(6*nrow(dat))), nrow=nrow(dat)))
 names(dat)[3:8] <- paste0("V", 1:6)
 
 render <- function(x, ...) {
-    with(lapply(stats.default(x), signif_pad, digits=3), 
+    with(stats.apply.rounding(stats.default(x), digits=3), 
         c(sprintf("%s (%s%%)<br/>%s [%s, %s]<br/>%s (%s%%)",
         MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
 }
