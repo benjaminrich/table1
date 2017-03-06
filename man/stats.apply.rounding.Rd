@@ -7,28 +7,32 @@
 stats.apply.rounding(x, digits = 3, digits.pct = 1)
 }
 \arguments{
-\item{x}{A list, as returned by \code{\link{stats.default}}.}
+\item{x}{A list, such as that returned by \code{\link{stats.default}}.}
 
-\item{digits}{Number of significant digits.}
+\item{digits}{An interger specifying the number of significant digits to keep.}
 
-\item{digits.pct}{Number of digits after the decimal place for percentages.}
+\item{digits.pct}{An interger specifying the number of digits after the
+decimal place for percentages.}
 }
 \value{
-A list with the same number of elements as \code{x}.
+A list with the same number of elements as \code{x}. The rounded
+values will be \code{character} (not \code{numeric}) and will have 0 padding
+to ensure consistent number of significant digits.
 }
 \description{
-Not all statistics should be rounded; in particular min, max and median should
-retain their original precision. This function will apply rounding
-selectively to a list of statistics as returned by
-\code{\link{stats.default}}. The rounded values will be \code{character},
-not \code{numeric}, and will have 0 padding to ensure consistent number of
-significant digits. Percentages are rounded to a fixed number of decimal
-places (default 1) rather than a specific number of significant digits.
+Not all statistics should be rounded in the same way, or at all. This
+function will apply rounding selectively to a list of statistics as returned
+by \code{\link{stats.default}}. In particular we don't round counts (N and
+FREQ), and for MIN, MAX and MEDIAN the \code{digits} is interpreted as the
+\emph{minimum} number of significant digits, so that we don't loose any
+precision. Percentages are rounded to a fixed number of decimal places
+(default 1) rather than a specific number of significant digits.
 }
 \examples{
-x <- exp(rnorm(100, 1, 1))
+x <- round(exp(rnorm(100, 1, 1)), 6)
 stats.default(x)
 stats.apply.rounding(stats.default(x), digits=3)
+stats.apply.rounding(stats.default(round(x, 1)), digits=3)
 
 }
 \seealso{

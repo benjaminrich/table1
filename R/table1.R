@@ -130,30 +130,40 @@ stats.default <- function(x, useNA=NULL) {
 
 #' Apply rounding to basic descriptive statistics.
 #'
-#' Not all statistics should be rounded; in particular min, max and median should
-#' retain their original precision. This function will apply rounding
-#' selectively to a list of statistics as returned by
-#' \code{\link{stats.default}}. The rounded values will be \code{character},
-#' not \code{numeric}, and will have 0 padding to ensure consistent number of
-#' significant digits. Percentages are rounded to a fixed number of decimal
-#' places (default 1) rather than a specific number of significant digits.
+#' Not all statistics should be rounded in the same way, or at all. This
+#' function will apply rounding selectively to a list of statistics as returned
+#' by \code{\link{stats.default}}. In particular we don't round counts (N and
+#' FREQ), and for MIN, MAX and MEDIAN the \code{digits} is interpreted as the
+#' \emph{minimum} number of significant digits, so that we don't loose any
+#' precision. Percentages are rounded to a fixed number of decimal places
+#' (default 1) rather than a specific number of significant digits.
 #'
-#' @param x A list, as returned by \code{\link{stats.default}}.
+#' @param x A list, such as that returned by \code{\link{stats.default}}.
 #' @param digits An interger specifying the number of significant digits to keep.
-#' @param digits.pct An interger specifying the number of digits after the decimal place for percentages.
+#' @param digits.pct An interger specifying the number of digits after the
+#' decimal place for percentages.
 #'
-#' @return A list with the same number of elements as \code{x}.
+#' @return A list with the same number of elements as \code{x}. The rounded
+#' values will be \code{character} (not \code{numeric}) and will have 0 padding
+#' to ensure consistent number of significant digits. 
+#'
 #' @seealso
 #' \code{\link{signif_pad}}
 #' \code{\link{stats.default}}
 #' @examples
-#' x <- exp(rnorm(100, 1, 1))
+#' x <- round(exp(rnorm(100, 1, 1)), 6)
 #' stats.default(x)
 #' stats.apply.rounding(stats.default(x), digits=3)
+#' stats.apply.rounding(stats.default(round(x, 1)), digits=3)
 #'
 #' @keywords utilities
 #' @export
 stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
+    mindig <- function(x, digits) {
+        cx <- format(x)
+        ndig <- nchar(gsub("\\D", "", cx))
+        ifelse(ndig > digits, cx, signif_pad(x, digits=digits))
+    }
     if (!is.list(x)) {
         stop("Expecting a list")
     }
@@ -161,12 +171,16 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
         # Apply recursively
         lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct)
     } else {
+        cx <- lapply(x, format)
         r <- lapply(x, signif_pad, digits=digits)
-        nr <- c("N", "FREQ", "MEDIAN", "MIN", "MAX")
+        nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
-        r[nr] <- x[nr]
+        r[nr] <- cx[nr]
+        sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
+        sr <- sr[sr %in% names(x)]
+        r[sr] <- lapply(x[sr], mindig, digits=digits)
         if (!is.null(x$PCT)) {
-            r$PCT <- round(x$PCT, digits.pct)
+            r$PCT <- format(x$PCT, digits=digits.pct, format="f")
         }
         r
     }
@@ -253,6 +267,9 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
 #' @param code A \code{character} vector specifying the statistics to display
 #' in abbreviated code. See Details. @param digits An interger specifying the
 #' number of significant digits to keep.
+#' @param digits An interger specifying the number of significant digits to keep.
+#' @param digits.pct An interger specifying the number of digits after the
+#' decimal place for percentages.
 #'
 #' @return A function that takes a single argument and returns a
 #' \code{character} vector.
@@ -263,24 +280,32 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
 #' insensitive, and the substituted values are rounded appropriately (see
 #' \code{\link{stats.apply.rounding}}). Other text is left unchanged. The
 #' \code{code} can be a vector, in which case each element is displayed in its
-#' own row in the table. The \code{\names} of \code{code} are used as row
-#' labels; if no names are present, then the \code{code} itself is used.
+#' own row in the table. The \code{names} of \code{code} are used as row
+#' labels; if no names are present, then the \code{code} itself is used unless
+#' \code{code} is of length 1, in which case no label is used (for numeric
+#' variables only, categorical variables are always labeled by the class
+#' label). The special name '.' also indicates that \code{code} itself be is
+#' used as the row label.
 #'
 #' @examples
+#' \dontrun{
 #' x <- round(exp(rnorm(100, log(20), 1)), 2)
 #' stats.default(x)
 #' f <- parse.abbrev.render.code(c("Mean (SD)", "Median [Min, Max]"), 3)
 #' f(x)
 #' f2 <- parse.abbrev.render.code(c("Geo. Mean (Geo. CV%)" = "GMean (GCV%)"), 3)
 #' f2(x)
+#' f3 <- parse.abbrev.render.code(c("Mean (SD)"), 3)
+#' f3(x)
 #' 
 #' x <- sample(c("Male", "Female"), 30, replace=T)
 #' stats.default(x)
 #' f <- parse.abbrev.render.code("Freq (Pct%)")
 #' f(x)
+#' }
 #'
 #' @keywords utilities
-parse.abbrev.render.code <- function(code, digits=3) {
+parse.abbrev.render.code <- function(code, digits=3, digits.pct=1) {
     codestr <- code
     dig <- digits
     if (is.null(names(codestr)) && length(codestr) > 1) {
@@ -288,7 +313,7 @@ parse.abbrev.render.code <- function(code, digits=3) {
     }
     names(codestr)[names(codestr) == "."] <- codestr[names(codestr) == "."]
     function(x, digits=dig, ...) {
-        s <- stats.apply.rounding(stats.default(x), digits=digits)
+        s <- stats.apply.rounding(stats.default(x), digits=digits, digits.pct=digits.pct)
         g <- function(ss) {
             res <- codestr
             for (nm in names(ss)) {
@@ -306,11 +331,7 @@ parse.abbrev.render.code <- function(code, digits=3) {
             nm[nm=="1"] <- names(s)
             res <- unlist(res)
             names(res) <- nm 
-            if (length(codestr) == 1 && is.null(names(codestr))) {
-                res
-            } else {
-                c("", res)
-            }
+            c("", res)
         } else {
             if (length(codestr) == 1 && is.null(names(codestr))) {
                 g(s)

@@ -4,15 +4,18 @@
 \alias{render.default}
 \title{Render values for table output.}
 \usage{
-render.default(x, name, missing = any(is.na(x)), transpose = F,
-  render.empty = "NA", render.continuous = "render.continuous",
-  render.categorical = "render.categorical",
-  render.missing = "render.missing")
+render.default(x, name, digits = 3, missing = any(is.na(x)),
+  transpose = F, render.empty = "NA",
+  render.continuous = render.continuous.default,
+  render.categorical = render.categorical.default,
+  render.missing = render.missing.default)
 }
 \arguments{
 \item{x}{A vector or numeric, factor, character or logical values.}
 
 \item{name}{Name of the variable to be rendered (ignored).}
+
+\item{digits}{An interger specifying the number of significant digits to keep.}
 
 \item{missing}{Should missing values be included?}
 
