@@ -128,7 +128,12 @@ order we want them displayed:
 strata <- c(list(Total=melanoma2), split(melanoma2, melanoma2$status))
 ```
 
-Finally, we can customize the contents using custom renderers. Custom renders can be functions that take a vector as the first argument and return a character vector.
+Finally, we can customize the contents using custom renderers. A custom render
+can be a function that take a vector as the first argument and return a (named)
+character vector. There is also a simpler way to customize the table contents
+using an abbreviated code syntax instead of a render function, but it allows
+less control over rounding (see below). Here, for example, we specify render
+functions for the continuous and categorical variables as follows:
 
 ```{r}
 my.render.cont <- function(x) {
@@ -234,7 +239,7 @@ Finally, we may again consider something a bit more complicated, using the
 default (i.e., non-formula) interface. Suppose that instead of simply being
 assigned to placebo or active treatment, there were actually two doses of
 treatment randomized, 5 mg and 10 mg, and we want columns for each dose level
-separately, as well as for all treated subjects:
+separately, as well as for all treated subjects. 
 
 ```{r results='asis'}
 dat$dose <- (dat$treat != "Placebo")*sample(1:2, n, replace=T)
@@ -249,6 +254,31 @@ labels <- list(
     groups=list("", "Treated", ""))
 
 table1(strata, labels, groupspan=c(1, 3, 1))
+```
+
+## Using abbreviated code to specify a custom renderer.
+
+Suppose that for continuous variables, we want to display the percent
+coefficient of variation (CV%) instead of the standard deviation (SD). We also
+want to display the geometric mean and geometric coefficient of variation. We
+already discussed custom render functions that could be used to accomplish
+this, but a simpler alternative is to use abbreviated code. This is a character
+string that contains certain keywords which are substituted for computed values
+in the table output. The list of recognized keywords comes from the output of
+the `stats.default` function and includes: N, NMISS, MEAN, SD, CV, GMEAN, GCV,
+MEDIAN, MIN, MAX, IQR, FREQ, PCT. Keyword matching is case insensitive, and any
+text other than the keywords is left untouched. We can specify a vector of
+character strings, in which case each result will be displayed in its own row
+in the table. We can use a named vector to specify labels for each row; a dot
+('.') can be used to indicate that the abbreviated code string itself be used
+as the row label. Significant digits can be controlled using the `digits`
+argument (default: 3). Here is a continuation of the example from the previous
+section that produces the desired result:
+
+```{r results='asis'}
+table1(strata, labels, groupspan=c(1, 3, 1),
+       render.continuous=c(.="Mean (CV%)", .="Median [Min, Max]",
+                           "Geo. mean (Geo. CV%)"="GMEAN (GCV%)"))
 ```
 
 ## Using CSS to control the table's appearance

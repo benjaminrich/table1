@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2017-03-03" />
+<meta name="date" content="2017-03-06" />
 
 <title>Using the table1 Package to Create HMTL Tables of Descriptive Statistics</title>
 
@@ -71,13 +71,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HMTL Tables of Descriptive Statistics</h1>
 <h4 class="author"><em>Benjamin Rich</em></h4>
-<h4 class="date"><em>2017-03-03</em></h4>
+<h4 class="date"><em>2017-03-06</em></h4>
 
 
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>It is standard practice in epidemiology and related fields that the first table of any journal article, referred to as “Table 1”, is a table that presents descriptive statistics of baseline characteristics of the study population stratified by exposure. This package makes it fairly straightforward to produce such a table using R. The output format is HTML (which has the advantage of being easy to copy into a Word document; Chrome browser works well). The preferred way of using this package is in combination with knitr (for HTML generation; use R markdown or the spin format, for instance), making use of the <code>results=&quot;asis&quot;</code> chunk option to pass the HTML output through untouched. The package does allow quite a bit of flexibility to customize the table’s contents and appearance, but this does come at the cost of ease-of-use (more programming, some knowledge of CSS).</p>
+<p>It is standard practice in epidemiology and related fields that the first table of any journal article, referred to as “Table 1”, is a table that presents descriptive statistics of baseline characteristics of the study population stratified by exposure. This package makes it fairly straightforward to produce such a table using R. The output format is HTML (which has the advantage of being easy to copy into a Word document; Chrome browser works well). The preferred way of using this package is in combination with knitr (for HTML generation; use R markdown or the spin format, for instance), making use of the <code>results=&quot;asis&quot;</code> chunk option to pass the HTML output through untouched (this vignette is a good example). The package does allow quite a bit of flexibility to customize the table’s contents and appearance, but this does come at the cost of ease-of-use (more programming, some knowledge of CSS).</p>
 </div>
 <div id="example-1" class="section level2">
 <h2>Example 1</h2>
@@ -550,7 +550,7 @@ Median [Min, Max]
 <span class="kw">levels</span>(melanoma2$status) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Non-melanoma&quot;</span>)</code></pre></div>
 <p>Next, we set up our “strata”, or column, as a list of <code>data.frame</code>s, in the order we want them displayed:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">Total=</span>melanoma2), <span class="kw">split</span>(melanoma2, melanoma2$status))</code></pre></div>
-<p>Finally, we customize the contents using custom renderers:</p>
+<p>Finally, we can customize the contents using custom renderers. A custom render can be a function that take a vector as the first argument and return a (named) character vector. There is also a simpler way to customize the table contents using an abbreviated code syntax instead of a render function, but it allows less control over rounding (see below). Here, for example, we specify render functions for the continuous and categorical variables as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my.render.cont &lt;-<span class="st"> </span>function(x) {
     <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,
         <span class="st">&quot;Mean (SD)&quot;</span>=<span class="kw">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))
@@ -1562,7 +1562,7 @@ Missing
 </tr>
 </tbody>
 </table>
-<p>Finally, we may again consider something a bit more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg, and we want columns for each dose level separately, as well as for all treated subjects:</p>
+<p>Finally, we may again consider something a bit more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg, and we want columns for each dose level separately, as well as for all treated subjects.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat$dose &lt;-<span class="st"> </span>(dat$treat !=<span class="st"> &quot;Placebo&quot;</span>)*<span class="kw">sample</span>(<span class="dv">1</span>:<span class="dv">2</span>, n, <span class="dt">replace=</span>T)
 dat$dose &lt;-<span class="st"> </span><span class="kw">factor</span>(dat$dose, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))
 
@@ -1774,6 +1774,276 @@ Median [Min, Max]
 </td>
 <td>
 66.6 [37.5, 118.8]
+</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">
+Missing
+</td>
+<td class="lastrow">
+3 (5.8%)
+</td>
+<td class="lastrow">
+0 (0.0%)
+</td>
+<td class="lastrow">
+2 (4.4%)
+</td>
+<td class="lastrow">
+2 (2.1%)
+</td>
+<td class="lastrow">
+5 (3.4%)
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="using-abbreviated-code-to-specify-a-custom-renderer." class="section level2">
+<h2>Using abbreviated code to specify a custom renderer.</h2>
+<p>Suppose that for continuous variables, we want to display the percent coefficient of variation (CV%) instead of the standard deviation (SD). We also want to display the geometric mean and geometric coefficient of variation. We already discussed custom render functions that could be used to accomplish this, but a simpler alternative is to use abbreviated code. This is a character string that contains certain keywords which are substituted for computed values in the table output. The list of recognized keywords comes from the output of the <code>stats.default</code> function and includes: N, NMISS, MEAN, SD, CV, GMEAN, GCV, MEDIAN, MIN, MAX, IQR, FREQ, PCT. Keyword matching is case insensitive, and any text other than the keywords is left untouched. We can specify a vector of character strings, in which case each result will be displayed in its own row in the table. We can use a named vector to specify labels for each row; a dot (‘.’) can be used to indicate that the abbreviated code string itself be used as the row label. Significant digits can be controlled using the <code>digits</code> argument (default: 3). Here is a continuation of the example from the previous section that produces the desired result:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),
+       <span class="dt">render.continuous=</span><span class="kw">c</span>(<span class="dt">.=</span><span class="st">&quot;Mean (CV%)&quot;</span>, <span class="dt">.=</span><span class="st">&quot;Median [Min, Max]&quot;</span>,
+                           <span class="st">&quot;Geo. mean (Geo. CV%)&quot;</span>=<span class="st">&quot;GMEAN (GCV%)&quot;</span>))</code></pre></div>
+<table class="Rtable1">
+<thead>
+<tr>
+<th class="grouplabel">
+</th>
+<th colspan="1" class="grouplabel">
+</th>
+<th colspan="3" class="grouplabel">
+<div>
+Treated
+</div>
+</th>
+<th colspan="1" class="grouplabel">
+</th>
+</tr>
+<tr>
+<th class="rowlabel firstrow lastrow">
+</th>
+<th class="firstrow lastrow">
+Placebo<br>(n=52)
+</th>
+<th class="firstrow lastrow">
+5 mg<br>(n=49)
+</th>
+<th class="firstrow lastrow">
+10 mg<br>(n=45)
+</th>
+<th class="firstrow lastrow">
+All treated<br>(n=94)
+</th>
+<th class="firstrow lastrow">
+Overall<br>(n=146)
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="rowlabel firstrow">
+Age (years)
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Mean (CV%)
+</td>
+<td>
+44.2 (30.6%)
+</td>
+<td>
+42.6 (32.5%)
+</td>
+<td>
+39.9 (34.3%)
+</td>
+<td>
+41.3 (33.3%)
+</td>
+<td>
+42.3 (32.4%)
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Median [Min, Max]
+</td>
+<td>
+44 [19, 65]
+</td>
+<td>
+45 [18, 63]
+</td>
+<td>
+39 [21, 65]
+</td>
+<td>
+43 [18, 65]
+</td>
+<td>
+43.5 [18, 65]
+</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">
+Geo. mean (Geo. CV%)
+</td>
+<td class="lastrow">
+42.0 (34.4%)
+</td>
+<td class="lastrow">
+40.1 (38.3%)
+</td>
+<td class="lastrow">
+37.5 (37.2%)
+</td>
+<td class="lastrow">
+38.8 (37.7%)
+</td>
+<td class="lastrow">
+39.9 (36.6%)
+</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">
+Sex
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Female
+</td>
+<td>
+35 (67.3%)
+</td>
+<td>
+28 (57.1%)
+</td>
+<td>
+30 (66.7%)
+</td>
+<td>
+58 (61.7%)
+</td>
+<td>
+93 (63.7%)
+</td>
+</tr>
+<tr>
+<td class="rowlabel lastrow">
+Male
+</td>
+<td class="lastrow">
+17 (32.7%)
+</td>
+<td class="lastrow">
+21 (42.9%)
+</td>
+<td class="lastrow">
+15 (33.3%)
+</td>
+<td class="lastrow">
+36 (38.3%)
+</td>
+<td class="lastrow">
+53 (36.3%)
+</td>
+</tr>
+<tr>
+<td class="rowlabel firstrow">
+Weight (kg)
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+<td class="firstrow">
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Mean (CV%)
+</td>
+<td>
+69.0 (21.8%)
+</td>
+<td>
+66.6 (27.5%)
+</td>
+<td>
+72.5 (23.6%)
+</td>
+<td>
+69.4 (25.8%)
+</td>
+<td>
+69.2 (24.4%)
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Median [Min, Max]
+</td>
+<td>
+66.3 [45.8, 102.4]
+</td>
+<td>
+63.3 [37.5, 118.8]
+</td>
+<td>
+70.3 [48.1, 113.7]
+</td>
+<td>
+67.2 [37.5, 118.8]
+</td>
+<td>
+66.6 [37.5, 118.8]
+</td>
+</tr>
+<tr>
+<td class="rowlabel">
+Geo. mean (Geo. CV%)
+</td>
+<td>
+67.5 (21.5%)
+</td>
+<td>
+64.3 (27.3%)
+</td>
+<td>
+70.7 (23.1%)
+</td>
+<td>
+67.2 (25.7%)
+</td>
+<td>
+67.3 (24.3%)
 </td>
 </tr>
 <tr>
@@ -2160,16 +2430,11 @@ Missing
 <p>An example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span>:<span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span>:<span class="dv">3</span>])
 dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span>*<span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))
-<span class="kw">names</span>(dat)[<span class="dv">3</span>:<span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span>:<span class="dv">6</span>)
-
-render &lt;-<span class="st"> </span>function(x, ...) {
-    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">3</span>), 
-        <span class="kw">c</span>(<span class="kw">sprintf</span>(<span class="st">&quot;%s (%s%%)&lt;br/&gt;%s [%s, %s]&lt;br/&gt;%s (%s%%)&quot;</span>,
-        MEAN, CV, MEDIAN, MIN, MAX, GMEAN, GCV)))
-}</code></pre></div>
+<span class="kw">names</span>(dat)[<span class="dv">3</span>:<span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span>:<span class="dv">6</span>)</code></pre></div>
 <p>Default:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat,
-       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>, <span class="dt">render=</span>render)</code></pre></div>
+       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
+       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>
 <tr>
@@ -2296,7 +2561,8 @@ V6
 </table>
 <p>Transposed:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table1</span>(~<span class="st"> </span>V1 +<span class="st"> </span>V2 +<span class="st"> </span>V3 +<span class="st"> </span>V4 +<span class="st"> </span>V5 +<span class="st"> </span>V6 |<span class="st"> </span>group, <span class="dt">data=</span>dat,
-       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>, <span class="dt">render=</span>render,
+       <span class="dt">topclass=</span><span class="st">&quot;Rtable1 style3 style4&quot;</span>,
+       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,
        <span class="dt">transpose=</span><span class="ot">TRUE</span>)</code></pre></div>
 <table class="Rtable1 style3 style4">
 <thead>

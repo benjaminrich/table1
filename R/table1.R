@@ -283,9 +283,10 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
 parse.abbrev.render.code <- function(code, digits=3) {
     codestr <- code
     dig <- digits
-    if (is.null(names(codestr))) {
+    if (is.null(names(codestr)) && length(codestr) > 1) {
         names(codestr) <- codestr
     }
+    names(codestr)[names(codestr) == "."] <- codestr[names(codestr) == "."]
     function(x, digits=dig, ...) {
         s <- stats.apply.rounding(stats.default(x), digits=digits)
         g <- function(ss) {
@@ -305,9 +306,17 @@ parse.abbrev.render.code <- function(code, digits=3) {
             nm[nm=="1"] <- names(s)
             res <- unlist(res)
             names(res) <- nm 
-            c("", res)
+            if (length(codestr) == 1 && is.null(names(codestr))) {
+                res
+            } else {
+                c("", res)
+            }
         } else {
-            c("", g(s))
+            if (length(codestr) == 1 && is.null(names(codestr))) {
+                g(s)
+            } else {
+                c("", g(s))
+            }
         }
     }
 }
