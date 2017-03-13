@@ -47,6 +47,7 @@ signif_pad <- function(x, digits=3, round.integers=FALSE) {
     d <- gsub("[^0-9]", "", cx)            # The 'digits' of x
     d <- sub("^0*", "", d)                 # Remove any leading zeros
     nd <- nchar(d)                         # How many actual digits
+    nd[cx=="0"] <- 1                       # Special case "0"
     npad <- pmax(0, digits - nd)           # How many digits are missing
     pad <- sapply(npad, function(n) paste(rep("0", times=n), collapse=""))
 
