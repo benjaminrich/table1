@@ -4,7 +4,9 @@
 \alias{stats.apply.rounding}
 \title{Apply rounding to basic descriptive statistics.}
 \usage{
-stats.apply.rounding(x, digits = 3, digits.pct = 1)
+stats.apply.rounding(x, digits = 3, digits.pct = 1,
+  round.median.min.max = TRUE, round.integers = TRUE, round5up = TRUE,
+  ...)
 }
 \arguments{
 \item{x}{A list, such as that returned by \code{\link{stats.default}}.}
@@ -13,6 +15,18 @@ stats.apply.rounding(x, digits = 3, digits.pct = 1)
 
 \item{digits.pct}{An interger specifying the number of digits after the
 decimal place for percentages.}
+
+\item{round.median.min.max}{Should rounding applied to median, min and max?}
+
+\item{round.integers}{Should rounding be limited to digits to the right of
+the decimal point?}
+
+\item{round5up}{Should numbers with 5 as the last digit always be rounded
+up? The standard R approach is "go to the even digit" (IEC 60559 standard,
+see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
+always round up.}
+
+\item{...}{Further arguments.}
 }
 \value{
 A list with the same number of elements as \code{x}. The rounded

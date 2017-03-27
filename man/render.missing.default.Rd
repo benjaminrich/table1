@@ -8,6 +8,8 @@ render.missing.default(x)
 }
 \arguments{
 \item{x}{A vector.}
+
+\item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
 }
 \value{
 A \code{character} vector. Each element is to be displayed in a

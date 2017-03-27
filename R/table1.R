@@ -5,7 +5,12 @@
 #'
 #' @param x A numeric vector.
 #' @param digits An interger specifying the number of significant digits to keep.
-#' @param round.integers Should rounding be limited to digits to the right of the decimal point?
+#' @param round.integers Should rounding be limited to digits to the right of
+#' the decimal point?
+#' @param round5up Should numbers with 5 as the last digit always be rounded
+#' up? The standard R approach is "go to the even digit" (IEC 60559 standard,
+#' see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
+#' always round up.
 #'
 #' @return A character vector containing the rounded numbers.
 #'
@@ -35,11 +40,12 @@
 #' 
 #' @keywords utilities
 #' @export
-signif_pad <- function(x, digits=3, round.integers=FALSE) {
+signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
+    eps <- ifelse(round5up, x*(10^(-(digits + 3))), 0)
     if (round.integers) {
-        cx <- as.character(signif(x, digits))  # Character representation of x
+        cx <- as.character(signif(x+eps, digits))  # Character representation of x
     } else {
-        cx <- ifelse(x >= 10^digits, as.character(round(x)), as.character(signif(x, digits)))  # Character representation of x
+        cx <- ifelse(x >= 10^digits, as.character(round(x)), as.character(signif(x+eps, digits)))  # Character representation of x
     }
 
     cx[is.na(x)] <- "0"                    # Put in a dummy value for missing x
@@ -76,6 +82,8 @@ signif_pad <- function(x, digits=3, round.integers=FALSE) {
 #'   \item \code{MIN}: the minimum of the non-missing values
 #'   \item \code{MEDIAN}: the median of the non-missing values
 #'   \item \code{MAX}: the maximum of the non-missing values
+#'   \item \code{Q25}: the lower quartile of the non-missing values
+#'   \item \code{Q75}: the upper quartile of the non-missing values
 #'   \item \code{IQR}: the inter-quartile range of the non-missing values
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
@@ -100,7 +108,7 @@ signif_pad <- function(x, digits=3, round.integers=FALSE) {
 #'
 #' @keywords utilities
 #' @export
-#' @importFrom stats sd median IQR na.omit
+#' @importFrom stats sd median quantile IQR na.omit
 stats.default <- function(x, useNA=NULL) {
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
@@ -120,6 +128,8 @@ stats.default <- function(x, useNA=NULL) {
             MIN=min(x, na.rm=TRUE),
             MEDIAN=median(x, na.rm=TRUE),
             MAX=max(x, na.rm=TRUE),
+            Q25=quantile(x, probs=0.25, na.rm=TRUE),
+            Q75=quantile(x, probs=0.75, na.rm=TRUE),
             IQR=IQR(x, na.rm=TRUE),
             CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),
             GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
@@ -143,6 +153,14 @@ stats.default <- function(x, useNA=NULL) {
 #' @param digits An interger specifying the number of significant digits to keep.
 #' @param digits.pct An interger specifying the number of digits after the
 #' decimal place for percentages.
+#' @param round.median.min.max Should rounding applied to median, min and max?
+#' @param round.integers Should rounding be limited to digits to the right of
+#' the decimal point?
+#' @param round5up Should numbers with 5 as the last digit always be rounded
+#' up? The standard R approach is "go to the even digit" (IEC 60559 standard,
+#' see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
+#' always round up.
+#' @param ... Further arguments.
 #'
 #' @return A list with the same number of elements as \code{x}. The rounded
 #' values will be \code{character} (not \code{numeric}) and will have 0 padding
@@ -159,27 +177,32 @@ stats.default <- function(x, useNA=NULL) {
 #'
 #' @keywords utilities
 #' @export
-stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
+stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max=TRUE, round.integers=TRUE, round5up=TRUE, ...) {
     mindig <- function(x, digits) {
         cx <- format(x)
         ndig <- nchar(gsub("\\D", "", cx))
-        ifelse(ndig > digits, cx, signif_pad(x, digits=digits))
+        ifelse(ndig > digits, cx, signif_pad(x, digits=digits,
+                round.integers=round.integers, round5up=round5up))
     }
     if (!is.list(x)) {
         stop("Expecting a list")
     }
     if (is.list(x[[1]])) {
         # Apply recursively
-        lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct)
+        lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct,
+            round.integers=round.integers, round5up=round5up, ...)
     } else {
         cx <- lapply(x, format)
-        r <- lapply(x, signif_pad, digits=digits)
+        r <- lapply(x, signif_pad, digits=digits,
+                round.integers=round.integers, round5up=round5up)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
         r[nr] <- cx[nr]
-        sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
-        sr <- sr[sr %in% names(x)]
-        r[sr] <- lapply(x[sr], mindig, digits=digits)
+        if (!round.median.min.max) {
+            sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
+            sr <- sr[sr %in% names(x)]
+            r[sr] <- lapply(x[sr], mindig, digits=digits)
+        }
         if (!is.null(x$PCT)) {
             r$PCT <- format(x$PCT, digits=digits.pct, format="f")
         }
@@ -197,14 +220,20 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
 #'
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param name Name of the variable to be rendered (ignored). 
-#' @param digits An interger specifying the number of significant digits to keep.
 #' @param missing Should missing values be included?
 #' @param transpose Logical indicating whether on not the table is transposed.
 #' @param render.empty A \code{character} to return when \code{x} is empty.
-#' @param render.continuous A function to render continuous (i.e. \code{numeric}) values.
-#' @param render.categorical A function to render categorical
-#'        (i.e. \code{factor}, \code{character} or \code{logical}) values.
+#' @param render.continuous A function to render continuous (i.e.
+#' \code{numeric}) values. Can also be a \code{character} string, in which case
+#' it is passed to \code{\link{parse.abbrev.render.code}}.
+#' @param render.categorical A function to render categorical (i.e.
+#' \code{factor}, \code{character} or \code{logical}) values. Can also be a
+#' \code{character} string, in which case it is passed to
+#' \code{\link{parse.abbrev.render.code}}.
 #' @param render.missing A function to render missing (i.e. \code{NA}) values.
+#' Can also be a \code{character} string, in which case it is passed to
+#' \code{\link{parse.abbrev.render.code}}.
+#' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -223,19 +252,19 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1) {
 #'
 #' @keywords utilities
 #' @export
-render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F,
+render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
                            render.empty="NA",
                            render.continuous=render.continuous.default,
                            render.categorical=render.categorical.default,
-                           render.missing=render.missing.default) {
+                           render.missing=render.missing.default, ...) {
     if (is.character(render.continuous)) {
-        render.continuous <- parse.abbrev.render.code(code=render.continuous, digits=digits)
+        render.continuous <- parse.abbrev.render.code(code=render.continuous, ...)
     }
     if (is.character(render.categorical)) {
-        render.categorical <- parse.abbrev.render.code(code=render.categorical, digits=digits)
+        render.categorical <- parse.abbrev.render.code(code=render.categorical, ...)
     }
     if (is.character(render.missing)) {
-        render.missing <- parse.abbrev.render.code(code=render.missing, digits=digits)
+        render.missing <- parse.abbrev.render.code(code=render.missing, ...)
     }
     if (length(x) == 0) {
         return(render.empty)
@@ -244,14 +273,14 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
         x <- factor(x, levels=c(T, F), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
-        r <- do.call(render.categorical, list(x=x))
+        r <- do.call(render.categorical, c(list(x=x), list(...)))
     } else if (is.numeric(x)) {
-        r <- do.call(render.continuous, list(x=x))
+        r <- do.call(render.continuous, c(list(x=x), list(...)))
     } else {
         stop(paste("Unrecognized variable type:", class(x)))
     }
     if (missing) {
-        r <- c(r, do.call(render.missing, list(x=x)))
+        r <- c(r, do.call(render.missing, c(list(x=x), list(...))))
     }
     if (transpose) {
         if (!is.null(names(r))) {
@@ -266,11 +295,8 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
 #' Parse abbreviated code for rendering table output.
 #'
 #' @param code A \code{character} vector specifying the statistics to display
-#' in abbreviated code. See Details. @param digits An interger specifying the
-#' number of significant digits to keep.
-#' @param digits An interger specifying the number of significant digits to keep.
-#' @param digits.pct An interger specifying the number of digits after the
-#' decimal place for percentages.
+#' in abbreviated code. See Details. 
+#' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A function that takes a single argument and returns a
 #' \code{character} vector.
@@ -306,15 +332,15 @@ render.default <- function(x, name, digits=3, missing=any(is.na(x)), transpose=F
 #' }
 #'
 #' @keywords utilities
-parse.abbrev.render.code <- function(code, digits=3, digits.pct=1) {
+parse.abbrev.render.code <-
+function(code, ...) {
     codestr <- code
-    dig <- digits
     if (is.null(names(codestr)) && length(codestr) > 1) {
         names(codestr) <- codestr
     }
     names(codestr)[names(codestr) == "."] <- codestr[names(codestr) == "."]
-    function(x, digits=dig, ...) {
-        s <- stats.apply.rounding(stats.default(x), digits=digits, digits.pct=digits.pct)
+    function(x, ...) {
+        s <- stats.apply.rounding(stats.default(x), ...)
         g <- function(ss) {
             res <- codestr
             for (nm in names(ss)) {
@@ -349,6 +375,7 @@ parse.abbrev.render.code <- function(code, digits=3, digits.pct=1) {
 #' \code{numeric}) values for displaying in the table.
 #'
 #' @param x A numeric vector.
+#' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -362,8 +389,8 @@ parse.abbrev.render.code <- function(code, digits=3, digits.pct=1) {
 #' 
 #' @keywords utilities
 #' @export
-render.continuous.default <- function(x) {
-    with(stats.apply.rounding(stats.default(x)), c("",
+render.continuous.default <- function(x, ...) {
+    with(stats.apply.rounding(stats.default(x), ...), c("",
         "Mean (SD)"=sprintf("%s (%s)", MEAN, SD),
         "Median [Min, Max]" = sprintf("%s [%s, %s]", MEDIAN, MIN, MAX)))
 }
@@ -374,6 +401,7 @@ render.continuous.default <- function(x) {
 #' \code{factor}, \code{character} or \code{logical}) values for displaying in the table.
 #'
 #' @param x A vector of type \code{factor}, \code{character} or \code{logical}.
+#' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -388,8 +416,8 @@ render.continuous.default <- function(x) {
 #' @keywords utilities
 #' @export
 render.categorical.default <- function(x) {
-    c("", sapply(stats.default(x), function(y) with(y,
-        sprintf("%d (%0.1f%%)", FREQ, PCT))))
+    c("", sapply(stats.apply.rounding(stats.default(x)), function(y) with(y,
+        sprintf("%s (%s%%)", FREQ, PCT))))
 }
 
 #' Render missing values for table output.
@@ -398,6 +426,7 @@ render.categorical.default <- function(x) {
 #' \code{NA}) values for displaying in the table.
 #'
 #' @param x A vector.
+#' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -411,8 +440,8 @@ render.categorical.default <- function(x) {
 #' @keywords utilities
 #' @export
 render.missing.default <- function(x) {
-    with(stats.default(is.na(x))$Yes,
-        c(Missing=sprintf("%d (%0.1f%%)", FREQ, PCT)))
+    with(stats.apply.rounding(stats.default(is.na(x)))$Yes,
+        c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
 }
 
 #' Render variable labels for table output.
@@ -680,7 +709,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         names(labels$strata) <- names(x)
     }
     if (is.character(render)) {
-        render <- parse.abbrev.render.code(code=render)
+        render <- parse.abbrev.render.code(code=render, ...)
     }
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)

@@ -21,6 +21,8 @@ A list. For numeric \code{x}, the list contains the numeric elements:
   \item \code{MIN}: the minimum of the non-missing values
   \item \code{MEDIAN}: the median of the non-missing values
   \item \code{MAX}: the maximum of the non-missing values
+  \item \code{Q25}: the lower quartile of the non-missing values
+  \item \code{Q75}: the upper quartile of the non-missing values
   \item \code{IQR}: the inter-quartile range of the non-missing values
   \item \code{CV}: the percent coefficient of variation of the non-missing values
   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}

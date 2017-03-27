@@ -4,10 +4,12 @@
 \alias{render.continuous.default}
 \title{Render continuous values for table output.}
 \usage{
-render.continuous.default(x)
+render.continuous.default(x, ...)
 }
 \arguments{
 \item{x}{A numeric vector.}
+
+\item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
 }
 \value{
 A \code{character} vector. Each element is to be displayed in a

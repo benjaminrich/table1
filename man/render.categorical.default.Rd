@@ -8,6 +8,8 @@ render.categorical.default(x)
 }
 \arguments{
 \item{x}{A vector of type \code{factor}, \code{character} or \code{logical}.}
+
+\item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
 }
 \value{
 A \code{character} vector. Each element is to be displayed in a

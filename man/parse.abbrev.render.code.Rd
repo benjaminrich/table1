@@ -4,17 +4,13 @@
 \alias{parse.abbrev.render.code}
 \title{Parse abbreviated code for rendering table output.}
 \usage{
-parse.abbrev.render.code(code, digits = 3, digits.pct = 1)
+parse.abbrev.render.code(code, ...)
 }
 \arguments{
 \item{code}{A \code{character} vector specifying the statistics to display
-in abbreviated code. See Details. @param digits An interger specifying the
-number of significant digits to keep.}
+in abbreviated code. See Details.}
 
-\item{digits}{An interger specifying the number of significant digits to keep.}
-
-\item{digits.pct}{An interger specifying the number of digits after the
-decimal place for percentages.}
+\item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
 }
 \value{
 A function that takes a single argument and returns a

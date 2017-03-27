@@ -4,18 +4,15 @@
 \alias{render.default}
 \title{Render values for table output.}
 \usage{
-render.default(x, name, digits = 3, missing = any(is.na(x)),
-  transpose = F, render.empty = "NA",
-  render.continuous = render.continuous.default,
+render.default(x, name, missing = any(is.na(x)), transpose = F,
+  render.empty = "NA", render.continuous = render.continuous.default,
   render.categorical = render.categorical.default,
-  render.missing = render.missing.default)
+  render.missing = render.missing.default, ...)
 }
 \arguments{
 \item{x}{A vector or numeric, factor, character or logical values.}
 
 \item{name}{Name of the variable to be rendered (ignored).}
-
-\item{digits}{An interger specifying the number of significant digits to keep.}
 
 \item{missing}{Should missing values be included?}
 
@@ -23,12 +20,20 @@ render.default(x, name, digits = 3, missing = any(is.na(x)),
 
 \item{render.empty}{A \code{character} to return when \code{x} is empty.}
 
-\item{render.continuous}{A function to render continuous (i.e. \code{numeric}) values.}
+\item{render.continuous}{A function to render continuous (i.e.
+\code{numeric}) values. Can also be a \code{character} string, in which case
+it is passed to \code{\link{parse.abbrev.render.code}}.}
 
-\item{render.categorical}{A function to render categorical
-(i.e. \code{factor}, \code{character} or \code{logical}) values.}
+\item{render.categorical}{A function to render categorical (i.e.
+\code{factor}, \code{character} or \code{logical}) values. Can also be a
+\code{character} string, in which case it is passed to
+\code{\link{parse.abbrev.render.code}}.}
 
-\item{render.missing}{A function to render missing (i.e. \code{NA}) values.}
+\item{render.missing}{A function to render missing (i.e. \code{NA}) values.
+Can also be a \code{character} string, in which case it is passed to
+\code{\link{parse.abbrev.render.code}}.}
+
+\item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
 }
 \value{
 A \code{character} vector. Each element is to be displayed in a
