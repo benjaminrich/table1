@@ -4,7 +4,7 @@
 \alias{render.missing.default}
 \title{Render missing values for table output.}
 \usage{
-render.missing.default(x)
+render.missing.default(x, ...)
 }
 \arguments{
 \item{x}{A vector.}
