@@ -204,7 +204,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
             r[sr] <- lapply(x[sr], mindig, digits=digits)
         }
         if (!is.null(x$PCT)) {
-            r$PCT <- format(x$PCT, digits=digits.pct, format="f")
+            r$PCT <- formatC(x$PCT, digits=digits.pct, format="f")
         }
         r
     }
@@ -415,8 +415,8 @@ render.continuous.default <- function(x, ...) {
 #' render.categorical.default(y)
 #' @keywords utilities
 #' @export
-render.categorical.default <- function(x) {
-    c("", sapply(stats.apply.rounding(stats.default(x)), function(y) with(y,
+render.categorical.default <- function(x, ...) {
+    c("", sapply(stats.apply.rounding(stats.default(x), ...), function(y) with(y,
         sprintf("%s (%s%%)", FREQ, PCT))))
 }
 
@@ -439,8 +439,8 @@ render.categorical.default <- function(x) {
 #' render.missing.default(y)
 #' @keywords utilities
 #' @export
-render.missing.default <- function(x) {
-    with(stats.apply.rounding(stats.default(is.na(x)))$Yes,
+render.missing.default <- function(x, ...) {
+    with(stats.apply.rounding(stats.default(is.na(x)), ...)$Yes,
         c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
 }
 
