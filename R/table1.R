@@ -469,12 +469,26 @@ render.missing.default <- function(x, ...) {
 #' @export
 render.varlabel <- function(x, transpose=F) {
     if (has.units(x) && transpose) {
-        sprintf("%s<br/>(%s)", label(x), units(x))
+        sprintf("<span class='varlabel'>%s<br/><span class='varunits'>(%s)</span></span>", label(x), units(x))
     } else if (has.units(x)) {
-        sprintf("%s (%s)", label(x), units(x))
+        sprintf("<span class='varlabel'>%s<span class='varunits'> (%s)</span></span>", label(x), units(x))
     } else {
-        sprintf("%s", label(x))
+        sprintf("<span class='varlabel'>%s</span>", label(x))
     }
+}
+
+#' Render stata labels for table output.
+#'
+#' Called from \code{\link{table1.formula}} to render strata labels
+#' for displaying in the table.
+#'
+#' @param label A \code{character} vector containing the labels.
+#' @param n A \code{numeric} vector containing the sizes.
+#'
+#' @return A \code{character}, which may contain HTML markup.
+#' @keywords internal
+render.strat <- function(label, n, transpose=F) {
+    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(n=%d)</span></span>", label, n)
 }
 
 #' Convert to HTML table rows.
@@ -499,11 +513,11 @@ render.varlabel <- function(x, transpose=F) {
 #' @return A \code{character} which contains an HTML table fragment.
 #'
 #' @examples
-#' x <- matrix(signif_pad(exp(rnorm(100, 1, 1))), 10, 10)
+#' x <- matrix(signif_pad(exp(rnorm(100, 1, 1))), 5, 5)
 #' table.data(x)
-#' table.rows(x, NULL)
-#' table.rows(x, LETTERS[1:10])
-#' table.rows(LETTERS[1:3], "Headings", th=TRUE)
+#' cat(table.rows(x, NULL))
+#' cat(table.rows(x, LETTERS[1:10]))
+#' cat(table.rows(LETTERS[1:3], "Headings", th=TRUE))
 #' @keywords utilities
 #' @export
 table.rows <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabelclass="rowlabel", firstrowclass="firstrow", lastrowclass="lastrow", ...) {
@@ -530,8 +544,8 @@ table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
     lastrowclass <- rep_len(as.character(lastrowclass), nc)
     cls <- if (is.null(class)) NA else class
     cls <- matrix(as.character(cls), nr, nc)
-    rl <- rep_len(as.character(row.labels), nr)
     if (!is.null(rl)) {
+        rl <- rep_len(as.character(rl), nr)
         x <- cbind(rl, x)
         rowlabelclass <- rep_len(rowlabelclass, nr)
         if (!is.null(rowlabelclass)) {
@@ -613,8 +627,8 @@ has.units <- function(x) {
 
 #' Generate an HTML table of descriptive statistics.
 #'
-#' There are two interfaces, the default, which typically takes a
-#' \code{data.frame} for \code{x}, and the formula interface. The formula
+#' There are two interfaces, the default, which typically takes a list of
+#' \code{data.frame}s for \code{x}, and the formula interface. The formula
 #' interface is less flexible, but simpler to use and designed to handle the
 #' most common use cases. It is important to use factors appropriately for
 #' categorical variables (i.e. have the levels labelled properly and in the
@@ -623,19 +637,27 @@ has.units <- function(x) {
 #' deliberately not attempted, as this is best accomplished with CSS. To
 #' facilitate this, some tags (such as row labels) are given specific classes
 #' for easy CSS selection.
+#' 
+#' @details For the default version, is is expected that \code{x} is a named,
+#' list of \code{data.frame}s, one for each stratum, with names corresponding to
+#' strata labels.
 #'
-#' @param x An object, typically a \code{formula} or \code{data.frame}.
+#' @param x An object, typically a \code{formula} or list of \code{data.frame}s.
 #' @param data For the formula interface, a \code{data.frame} from which the
-#'        variables in \code{x} should be taken.
+#' variables in \code{x} should be taken.
 #' @param overall A label for the "Overall" column. Specify \code{NULL} or
-#'        \code{FALSE} to omit the column altogether.
+#' \code{FALSE} to omit the column altogether.
 #' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param groupspan A vector of integers specifying the number of strata to group together.
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
 #' @param droplevels Should empty factor levels be dropped?
-#' @param transpose Logical. Should the table be transposed (i.e. strata as rows and variables as columns)?
+#' @param transpose Logical. Should the table be transposed (i.e. strata as
+#' rows and variables as columns)?
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param render A function to render the table cells (see Details).
+#' @param standalone Should a standalone HTML document be generated and
+#' immediately displayed? Otherwise an HTML fragment is printed to
+#' \code{\link{stdout}}.
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return None (invisible \code{NULL}). Called for its side effects.
@@ -701,7 +723,113 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, standalone=!isTRUE(getOption("knitr.in.progress")), ...) {
+    if (standalone) {
+        viewer <- getOption("viewer")
+        if (is.null(viewer)) {
+            viewer <- utils::browseURL
+        }
+        dir <- tempfile()
+        dir.create(dir)
+        html.file <- file.path(dir, "table1.html")
+        cat(file=html.file, append=TRUE, html.standalone.head)
+        utils::capture.output(file=html.file, append=TRUE,
+            .table1.internal(x = x,
+                labels       = labels,
+                groupspan    = groupspan,
+                rowlabelhead = rowlabelhead,
+                transpose    = transpose,
+                topclass     = topclass,
+                render       = render,...))
+        cat(file=html.file, append=TRUE, html.standalone.foot)
+        viewer(html.file)
+    } else {
+        .table1.internal(x = x,
+            labels       = labels,
+            groupspan    = groupspan,
+            rowlabelhead = rowlabelhead,
+            transpose    = transpose,
+            topclass     = topclass,
+            render       = render, ...)
+    }
+}
+
+html.standalone.head <- '
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="table1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Table1 Output</title>
+<style type="text/css">
+table.Rtable1 {
+    font-family: "Arial", Arial, sans-serif;
+    font-size: 10pt;
+    border-collapse: collapse;
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 10pt;
+}
+.Rtable1 th, .Rtable1 td {
+    border: 0;
+    text-align: center;
+    padding: 0.5ex 1.5ex;
+    margin: 0px;
+}
+.Rtable1 thead>tr:first-child>th {
+    border-top: 2pt solid black;
+}
+.Rtable1 thead>tr:last-child>th {
+    border-bottom: 1pt solid black;
+}
+.Rtable1 tbody>tr:last-child>td {
+    border-bottom: 2pt solid black;
+}
+.Rtable1 th.grouplabel {
+    padding-left: 0;
+    padding-right: 0;
+}
+.Rtable1 th.grouplabel>div {
+    margin-left: 1.5ex;
+    margin-right: 1.5ex;
+    border-bottom: 1pt solid black;
+}
+.Rtable1 th.grouplabel:last-child>div {
+    margin-right: 0;
+}
+.Rtable1 .rowlabel {
+    text-align: left;
+    padding-left: 2.5ex;
+}
+.Rtable1 .firstrow {
+    padding-left: 0.5ex;
+    font-weight: bold;
+}
+.Rtable1.zebra tbody tr:nth-child(odd) {
+    background-color: #eee;
+}
+</style>
+</head>
+<body>
+'
+
+html.standalone.foot <- '
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+</html>
+'
+
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -711,6 +839,13 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     if (is.character(render)) {
         render <- parse.abbrev.render.code(code=render, ...)
     }
+
+    # Convert any character columns to factor
+    char2factor <- function(df) {
+        df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)], as.factor)
+        df
+    }
+    x <- lapply(x, char2factor)
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
@@ -722,10 +857,10 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 y <- paste0(y, collapse="<br/>")
                 names(y) <- labels$variables[[v]]
                 y <- t(y)
-                rownames(y) <- sprintf("%s<br>(n=%d)", labels$strata[s], nrow(x[[s]]))
+                rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]))
                 y }))})
     } else {
-        thead <- t(sprintf("%s<br>(n=%d)", labels$strata[names(x)], sapply(x, nrow)))
+        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
         tbody <- lapply(names(labels$variables), function(v) {
             y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
             rownames(y) <- paste(rownames(y), sep="")
@@ -767,7 +902,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", render=render.default, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", render=render.default, standalone=!isTRUE(getOption("knitr.in.progress")), ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -832,9 +967,22 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
 
     if (!is.null(m2) && length(m2) > 1) {
         labels$groups <- grouplabel
-        table1.default(x=strata, labels=labels, groupspan=groupspan, rowlabelhead=rowlabelhead, transpose=transpose, topclass=topclass, render=render, ...)
+        table1.default(x=strata,
+            labels=labels,
+            groupspan=groupspan,
+            rowlabelhead=rowlabelhead,
+            transpose=transpose,
+            topclass=topclass,
+            render=render,
+            standalone=standalone, ...)
     } else {
-        table1.default(x=strata, labels=labels, rowlabelhead=rowlabelhead, transpose=transpose, topclass=topclass, render=render, ...)
+        table1.default(x=strata,
+            labels=labels,
+            rowlabelhead=rowlabelhead,
+            transpose=transpose,
+            topclass=topclass,
+            render=render,
+            standalone=standalone, ...)
     }
 }
 

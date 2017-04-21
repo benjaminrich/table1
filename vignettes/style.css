@@ -72,7 +72,7 @@ table.style3 {
 }
 
 .style4 td {
-    white-space:nowrap
+    white-space:nowrap;
 }
 .style4 td.firstrow {
     font-weight: normal;
