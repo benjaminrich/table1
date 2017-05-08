@@ -803,12 +803,24 @@ table.Rtable1 {
     text-align: left;
     padding-left: 2.5ex;
 }
-.Rtable1 .firstrow {
+.Rtable1 .firstrow.rowlabel {
     padding-left: 0.5ex;
     font-weight: bold;
 }
 .Rtable1.zebra tbody tr:nth-child(odd) {
     background-color: #eee;
+}
+.Rtable1.grid th, .Rtable1.grid td {
+    border: 1pt solid black;
+}
+table.grayheader th {
+    background-color: #ccc;
+}
+.Rtable1.listing .stratn {
+    display: none;
+}
+.Rtable1.times {
+    font-family: "Times New Roman", Times, serif;
 }
 </style>
 </head>
@@ -850,6 +862,10 @@ html.standalone.foot <- '
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
     if (transpose) {
+        ncolumns <- length(labels$variables)
+        if (ncolumns > 12) {
+            warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
+        }
         thead <- t(unlist(labels$variables))
         tbody <- lapply(names(x), function(s) {
             do.call(cbind, lapply(names(labels$variables), function(v) {
@@ -860,6 +876,10 @@ html.standalone.foot <- '
                 rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]))
                 y }))})
     } else {
+        ncolumns <- length(x)
+        if (ncolumns > 12) {
+            warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
+        }
         thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
         tbody <- lapply(names(labels$variables), function(v) {
             y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
@@ -918,10 +938,6 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         m2 <- lapply(m2, as.factor)
         if (droplevels) {
             m2 <- lapply(m2, droplevels)
-        }
-        ncolumns <- prod(sapply(m2, nlevels))
-        if (ncolumns > 12) {
-            warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
         }
         colspan <- c(cumprod(sapply(m2, nlevels)[-1]), 1)
         collabel <- lapply(m2, levels)
