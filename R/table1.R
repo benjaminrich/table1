@@ -203,9 +203,9 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
             sr <- sr[sr %in% names(x)]
             r[sr] <- lapply(x[sr], mindig, digits=digits)
         }
-        if (!is.null(x$PCT)) {
-            r$PCT <- formatC(x$PCT, digits=digits.pct, format="f")
-        }
+        pr <- c("PCT", "CV", "GCV")   # Percentages
+        pr <- pr[pr %in% names(x)]
+        r[pr] <- lapply(x[pr], formatC, digits=digits.pct, format="f")
         r
     }
 }
