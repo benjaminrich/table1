@@ -533,7 +533,8 @@ table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
     rl <- row.labels  # Make sure it gets evaluated early for default arg
     if (is.data.frame(x)) {
         x <- sapply(x, as.character)
-    } else if (is.null(dim(x)) || length(dim(x)) < 2) {
+    }
+    if (is.null(dim(x)) || length(dim(x)) < 2) {
         x <- matrix(as.character(x), nrow=1)
     } else if (length(dim(x)) > 2) {
         stop("x cannot have more than 2 dimensions.")
