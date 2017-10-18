@@ -159,7 +159,7 @@ post got it wrong); I added units to the continuous variables; I include the
 number of individuals in each column under the column heading; the percentages
 are different, because I think they should add to 100% within a column, and in
 the original blog post they add to 100% along a row (except for the Total
-column, which adds to 100% within the column). This last point in the most
+column, which adds to 100% within the column). This last point is the most
 contentious. In my version, it is easier to compare the different types of
 outcomes with respect to variables like sex, while in the original version it
 is easier to compare sexes with respect to outcomes. However, this is not
