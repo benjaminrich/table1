@@ -197,6 +197,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
                 round.integers=round.integers, round5up=round5up)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
+        nr <- nr[!is.na(x[nr])]
         r[nr] <- cx[nr]
         if (!round.median.min.max) {
             sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
@@ -205,7 +206,8 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         }
         pr <- c("PCT", "CV", "GCV")   # Percentages
         pr <- pr[pr %in% names(x)]
-        r[pr] <- lapply(x[pr], formatC, digits=digits.pct, format="f")
+        pr <- pr[!is.na(x[pr])]
+        r[pr] <- lapply(as.numeric(x[pr]), formatC, digits=digits.pct, format="f")
         r
     }
 }
