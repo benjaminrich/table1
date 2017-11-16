@@ -872,7 +872,12 @@ html.standalone.foot <- '
         thead <- t(unlist(labels$variables))
         tbody <- lapply(names(x), function(s) {
             do.call(cbind, lapply(names(labels$variables), function(v) {
-                y <- render(x=x[[s]][[v]], name=v, missing=any.missing[v], transpose=T, ...)
+                lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
+                z <- x[[s]][[v]]
+                if (!is.null(lvls)) {
+                    z <- factor(z, levels=lvls)
+                }
+                y <- render(x=z, name=v, missing=any.missing[v], transpose=T, ...)
                 y <- paste0(y, collapse="<br/>")
                 names(y) <- labels$variables[[v]]
                 y <- t(y)
@@ -885,7 +890,13 @@ html.standalone.foot <- '
         }
         thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
         tbody <- lapply(names(labels$variables), function(v) {
-            y <- do.call(cbind, lapply(x, function(s) render(x=s[[v]], name=v, missing=any.missing[v], ...)))
+            lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
+            y <- do.call(cbind, lapply(x, function(s) {
+                z <- s[[v]]
+                if (!is.null(lvls)) {
+                    z <- factor(z, levels=lvls)
+                }
+                render(x=z, name=v, missing=any.missing[v], ...)}))
             rownames(y) <- paste(rownames(y), sep="")
             rownames(y)[1] <- labels$variables[[v]]
             y })
