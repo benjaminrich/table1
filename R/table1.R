@@ -41,12 +41,12 @@
 #' @keywords utilities
 #' @export
 signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
-    eps <- ifelse(round5up, x*(10^(-(digits + 3))), 0)
+    eps <- if (round5up) x*(10^(-(digits + 3))) else 0
     if (round.integers) {
         cx <- as.character(signif(x+eps, digits))  # Character representation of x
     } else {
         cx <- ifelse(x >= 10^digits, as.character(round(x)), as.character(signif(x+eps, digits)))  # Character representation of x
-    }
+   }
 
     cx[is.na(x)] <- "0"                    # Put in a dummy value for missing x
 
