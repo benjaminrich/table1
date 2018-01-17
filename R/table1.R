@@ -119,6 +119,21 @@ stats.default <- function(x, useNA=NULL) {
         nn[is.na(nn)] <- "Missing"
         names(y) <- nn
         lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x)))
+    } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
+        list(
+            N=sum(!is.na(x)),
+            NMISS=sum(is.na(x)),
+            MEAN=NA,
+            SD=NA,
+            MIN=NA,
+            MEDIAN=NA,
+            MAX=NA,
+            Q25=NA,
+            Q75=NA,
+            IQR=NA,
+            CV=NA,
+            GMEAN=NA,
+            GCV=NA)
     } else if (is.numeric(x)) {
         list(
             N=sum(!is.na(x)),
