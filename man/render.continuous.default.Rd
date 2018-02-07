@@ -28,4 +28,3 @@ render.continuous.default(x)
 
 }
 \keyword{utilities}
-

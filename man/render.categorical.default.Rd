@@ -28,4 +28,3 @@ y[1:10] <- NA
 render.categorical.default(y)
 }
 \keyword{utilities}
-

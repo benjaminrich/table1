@@ -54,4 +54,3 @@ stats.apply.rounding(stats.default(round(x, 1)), digits=3)
 \code{\link{stats.default}}
 }
 \keyword{utilities}
-

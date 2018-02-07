@@ -31,4 +31,3 @@ label(y) <- "Sex"
 render.varlabel(y)
 }
 \keyword{utilities}
-

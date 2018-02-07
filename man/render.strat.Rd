@@ -19,4 +19,3 @@ Called from \code{\link{table1.formula}} to render strata labels
 for displaying in the table.
 }
 \keyword{internal}
-

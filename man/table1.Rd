@@ -73,6 +73,7 @@ strata labels.
 
 \item \code{formula}: The \code{formula} interface.
 }}
+
 \examples{
 
 dat <- expand.grid(id=1:10, sex=c("Male", "Female"), treat=c("Treated", "Placebo"))
@@ -128,4 +129,3 @@ table1(~ age + wt | treat, data=dat, transpose=TRUE)
 
 }
 \keyword{utilities}
-

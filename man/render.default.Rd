@@ -60,4 +60,3 @@ render.default(y)
 
 }
 \keyword{utilities}
-

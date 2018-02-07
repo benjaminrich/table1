@@ -12,4 +12,4 @@ Depends: Formula
 Imports: stats
 Suggests: knitr,boot
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

@@ -1031,3 +1031,24 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
     }
 }
 
+#' Subset function that preserves column attributes.
+#'
+#' @param x An object to be subsetted (usually a \code{\link{data.frame}}).
+#' @param ... Further arguments passed to \code{\link{subset}}.
+#' @return An object similar to \code{x} containing just the selected elements.
+#' In the case of a \code{\link{data.frame}}, attributes of columns (such as
+#' \code{\link{label}} and \code{\link{units}}) are preserved.
+#' @seealso
+#' \code{\link{subset}}
+#' @keywords utilities
+#' @export
+subsetp <- function(x, ...) {
+    y <- subset(x, ...)
+    if (is.data.frame(x)) {
+        for (i in seq_along(x)) {
+            attributes(y[[i]]) <- attributes(x[[i]])
+        }
+    }
+    y
+}
+

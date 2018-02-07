@@ -27,4 +27,3 @@ y[1:10] <- NA
 render.missing.default(y)
 }
 \keyword{utilities}
-

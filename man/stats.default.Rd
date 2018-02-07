@@ -53,4 +53,3 @@ stats.default(is.na(y))
 
 }
 \keyword{utilities}
-

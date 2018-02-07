@@ -52,4 +52,3 @@ sub("[.]$", "", formatC(x, format="fg", flag="#", digits=3))
 \code{\link{format}}
 }
 \keyword{utilities}
-
