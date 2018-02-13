@@ -4,12 +4,14 @@
 \alias{subsetp}
 \title{Subset function that preserves column attributes.}
 \usage{
-subsetp(x, ...)
+subsetp(x, ..., droplevels = TRUE)
 }
 \arguments{
 \item{x}{An object to be subsetted (usually a \code{\link{data.frame}}).}
 
 \item{...}{Further arguments passed to \code{\link{subset}}.}
+
+\item{droplevels}{If \code{TRUE} (the default), then unused factor levels are dropped (see \code{\link{droplevels}}).}
 }
 \value{
 An object similar to \code{x} containing just the selected elements.
@@ -21,5 +23,6 @@ Subset function that preserves column attributes.
 }
 \seealso{
 \code{\link{subset}}
+\code{\link{droplevels}}
 }
 \keyword{utilities}

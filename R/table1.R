@@ -1035,18 +1035,27 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
 #'
 #' @param x An object to be subsetted (usually a \code{\link{data.frame}}).
 #' @param ... Further arguments passed to \code{\link{subset}}.
+#' @param droplevels If \code{TRUE} (the default), then unused factor levels are dropped (see \code{\link{droplevels}}).
 #' @return An object similar to \code{x} containing just the selected elements.
 #' In the case of a \code{\link{data.frame}}, attributes of columns (such as
 #' \code{\link{label}} and \code{\link{units}}) are preserved.
 #' @seealso
 #' \code{\link{subset}}
+#' \code{\link{droplevels}}
 #' @keywords utilities
 #' @export
-subsetp <- function(x, ...) {
+subsetp <- function(x, ..., droplevels=TRUE) {
     y <- subset(x, ...)
+    if (droplevels) {
+        y <- droplevels(y)
+    }
     if (is.data.frame(x)) {
         for (i in seq_along(x)) {
-            attributes(y[[i]]) <- attributes(x[[i]])
+            a <- attributes(x[[i]])
+            if (droplevels && is.factor(y[[i]])) {
+                a$levels <- attributes(y[[i]])$levels
+            }
+            attributes(y[[i]]) <- a
         }
     }
     y
