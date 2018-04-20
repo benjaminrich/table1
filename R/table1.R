@@ -81,9 +81,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'   \item \code{SD}: the standard deviation of the non-missing values
 #'   \item \code{MIN}: the minimum of the non-missing values
 #'   \item \code{MEDIAN}: the median of the non-missing values
-#'   \item \code{MAX}: the maximum of the non-missing values
-#'   \item \code{Q25}: the lower quartile of the non-missing values
-#'   \item \code{Q75}: the upper quartile of the non-missing values
+#'   \item \code{Qxx}: various quantiles (percentiles) of the non-missing values (Q01: 1%, Q02.5: 2.5%, Q05: 5%, Q10: 10%, Q25: 25%, Q50: 50%, Q75: 75%, Q90: 90%, Q95: 95%, Q97.5: 97.5%, Q99: 99%)
 #'   \item \code{IQR}: the inter-quartile range of the non-missing values
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
@@ -128,13 +126,23 @@ stats.default <- function(x, useNA=NULL) {
             MIN=NA,
             MEDIAN=NA,
             MAX=NA,
+            Q01=NA,
+            Q025=NA,
+            Q05=NA,
+            Q10=NA,
             Q25=NA,
+            Q50=NA,
             Q75=NA,
+            Q90=NA,
+            Q95=NA,
+            Q975=NA,
+            Q99=NA,
             IQR=NA,
             CV=NA,
             GMEAN=NA,
             GCV=NA)
     } else if (is.numeric(x)) {
+        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE)
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
@@ -143,8 +151,17 @@ stats.default <- function(x, useNA=NULL) {
             MIN=min(x, na.rm=TRUE),
             MEDIAN=median(x, na.rm=TRUE),
             MAX=max(x, na.rm=TRUE),
-            Q25=quantile(x, probs=0.25, na.rm=TRUE),
-            Q75=quantile(x, probs=0.75, na.rm=TRUE),
+            Q01=q["1%"],
+            Q02.5=q["2.5%"],
+            Q05=q["5%"],
+            Q10=q["10%"],
+            Q25=q["25%"],
+            Q50=q["50%"],
+            Q75=q["75%"],
+            Q90=q["90%"],
+            Q95=q["95%"],
+            Q97.5=q["97.5%"],
+            Q99=q["99%"],
             IQR=IQR(x, na.rm=TRUE),
             CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),
             GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
@@ -504,7 +521,8 @@ render.varlabel <- function(x, transpose=F) {
 #'
 #' @return A \code{character}, which may contain HTML markup.
 #' @keywords internal
-render.strat <- function(label, n, transpose=F) {
+#' @export
+render.strat.default <- function(label, n, transpose=F) {
     sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(n=%d)</span></span>", label, n)
 }
 
@@ -859,7 +877,7 @@ html.standalone.foot <- '
 </html>
 '
 
-.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, ...) {
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, render.strat=render.strat.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }

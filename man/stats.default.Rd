@@ -20,9 +20,7 @@ A list. For numeric \code{x}, the list contains the numeric elements:
   \item \code{SD}: the standard deviation of the non-missing values
   \item \code{MIN}: the minimum of the non-missing values
   \item \code{MEDIAN}: the median of the non-missing values
-  \item \code{MAX}: the maximum of the non-missing values
-  \item \code{Q25}: the lower quartile of the non-missing values
-  \item \code{Q75}: the upper quartile of the non-missing values
+  \item \code{Qxx}: various quantiles (percentiles) of the non-missing values (Q01: 1%, Q02.5: 2.5%, Q05: 5%, Q10: 10%, Q25: 25%, Q50: 50%, Q75: 75%, Q90: 90%, Q95: 95%, Q97.5: 97.5%, Q99: 99%)
   \item \code{IQR}: the inter-quartile range of the non-missing values
   \item \code{CV}: the percent coefficient of variation of the non-missing values
   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
