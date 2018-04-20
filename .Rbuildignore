@@ -1,3 +1,6 @@
 ^\..*\.swp$
 ^.*\.R\.tmp\.R$
 ^_config.yml$
+^cran-comments\.md$
+^NEWS\.md$
+^\.travis\.yml$
