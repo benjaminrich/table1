@@ -1,6 +1,6 @@
 ## Test environments
 
-* Local Windows 8.1, R 3.4.3 (x86_64-w64-mingw32)
+* Local Windows 8.1, R 3.4.4 (x86_64-w64-mingw32)
 * Linux on travis-ci (release and devel)
 * win-builder (release and devel)
 
