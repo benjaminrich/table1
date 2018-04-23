@@ -1,3 +1,3 @@
 # table1 1.0
 
-* Initial CRAN release.
+* This is the initial release of table1 on CRAN.
