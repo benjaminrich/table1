@@ -4,7 +4,7 @@
 #' significant digits.  Zeros are kept if they are significant.
 #'
 #' @param x A numeric vector.
-#' @param digits An interger specifying the number of significant digits to keep.
+#' @param digits An integer specifying the number of significant digits to keep.
 #' @param round.integers Should rounding be limited to digits to the right of
 #' the decimal point?
 #' @param round5up Should numbers with 5 as the last digit always be rounded
@@ -182,8 +182,8 @@ stats.default <- function(x, useNA=NULL) {
 #' (default 1) rather than a specific number of significant digits.
 #'
 #' @param x A list, such as that returned by \code{\link{stats.default}}.
-#' @param digits An interger specifying the number of significant digits to keep.
-#' @param digits.pct An interger specifying the number of digits after the
+#' @param digits An integer specifying the number of significant digits to keep.
+#' @param digits.pct An integer specifying the number of digits after the
 #' decimal place for percentages.
 #' @param round.median.min.max Should rounding applied to median, min and max?
 #' @param round.integers Should rounding be limited to digits to the right of
@@ -249,7 +249,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' Called from \code{\link{table1}} by default to render values for
 #' displaying in the table. This function forwards the call to separate
 #' functions for rendering continuous, categorical and missing values.
-#' The idea is that each of these functions can be overriden to customize
+#' The idea is that each of these functions can be overridden to customize
 #' the table output.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
@@ -511,7 +511,7 @@ render.varlabel <- function(x, transpose=F) {
     }
 }
 
-#' Render stata labels for table output.
+#' Render strata labels for table output.
 #'
 #' Called from \code{\link{table1.formula}} to render strata labels
 #' for displaying in the table.
@@ -667,7 +667,7 @@ has.units <- function(x) {
 #' \code{data.frame}s for \code{x}, and the formula interface. The formula
 #' interface is less flexible, but simpler to use and designed to handle the
 #' most common use cases. It is important to use factors appropriately for
-#' categorical variables (i.e. have the levels labelled properly and in the
+#' categorical variables (i.e. have the levels labeled properly and in the
 #' desired order). The contents of the table can be customized by providing
 #' user-defined `renderer' functions. Customization of the table appearance is
 #' deliberately not attempted, as this is best accomplished with CSS. To

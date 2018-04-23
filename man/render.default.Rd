@@ -46,7 +46,7 @@ result in empty table cells.
 Called from \code{\link{table1}} by default to render values for
 displaying in the table. This function forwards the call to separate
 functions for rendering continuous, categorical and missing values.
-The idea is that each of these functions can be overriden to customize
+The idea is that each of these functions can be overridden to customize
 the table output.
 }
 \examples{

@@ -11,9 +11,9 @@ stats.apply.rounding(x, digits = 3, digits.pct = 1,
 \arguments{
 \item{x}{A list, such as that returned by \code{\link{stats.default}}.}
 
-\item{digits}{An interger specifying the number of significant digits to keep.}
+\item{digits}{An integer specifying the number of significant digits to keep.}
 
-\item{digits.pct}{An interger specifying the number of digits after the
+\item{digits.pct}{An integer specifying the number of digits after the
 decimal place for percentages.}
 
 \item{round.median.min.max}{Should rounding applied to median, min and max?}
