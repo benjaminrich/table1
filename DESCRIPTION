@@ -1,7 +1,7 @@
 Package: table1
 Type: Package
 Version: 1.0
-Date: 2018-04-20
+Date: 2018-04-25
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre"), email="mail@benjaminrich.net")
 Description: Create HTML tables of descriptive statistics, as one would expect

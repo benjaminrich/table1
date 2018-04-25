@@ -366,6 +366,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' }
 #'
 #' @keywords utilities
+#' @export
 parse.abbrev.render.code <-
 function(code, ...) {
     codestr <- code
