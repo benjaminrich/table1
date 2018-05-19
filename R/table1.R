@@ -72,7 +72,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param useNA For categorical \code{x}, should missing values be treated as a category?
-#' @param quantile.type An integer from 1 to 9, passed as the \code{type} argument to function \code{\link{stats::quantile}}.
+#' @param quantile.type An integer from 1 to 9, passed as the \code{type} argument to function \code{\link[stats]{quantile}}.
 #'
 #' @return A list. For numeric \code{x}, the list contains the numeric elements:
 #' \itemize{
@@ -82,7 +82,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'   \item \code{SD}: the standard deviation of the non-missing values
 #'   \item \code{MIN}: the minimum of the non-missing values
 #'   \item \code{MEDIAN}: the median of the non-missing values
-#'   \item \code{Qxx}: various quantiles (percentiles) of the non-missing values (Q01: 1%, Q02.5: 2.5%, Q05: 5%, Q10: 10%, Q25: 25%, Q50: 50%, Q75: 75%, Q90: 90%, Q95: 95%, Q97.5: 97.5%, Q99: 99%)
+#'   \item \code{Qxx}: various quantiles (percentiles) of the non-missing values (Q01: 1\%, Q02.5: 2.5\%, Q05: 5\%, Q10: 10\%, Q25: 25\%, Q50: 50\%, Q75: 75\%, Q90: 90\%, Q95: 95\%, Q97.5: 97.5\%, Q99: 99\%)
 #'   \item \code{IQR}: the inter-quartile range of the non-missing values
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
