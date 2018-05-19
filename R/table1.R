@@ -217,6 +217,11 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         ifelse(ndig > digits, cx, signif_pad(x, digits=digits,
                 round.integers=round.integers, round5up=round5up))
     }
+    format.percent <- function(x, digits) {
+        if (x == 0) "0"
+        else if (x == 100) "100"
+        else formatC(x, digits=digits.pct, format="f")
+    }
     if (!is.list(x)) {
         stop("Expecting a list")
     }
@@ -240,7 +245,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         pr <- c("PCT", "CV", "GCV")   # Percentages
         pr <- pr[pr %in% names(x)]
         pr <- pr[!is.na(x[pr])]
-        r[pr] <- lapply(as.numeric(x[pr]), formatC, digits=digits.pct, format="f")
+        r[pr] <- lapply(as.numeric(x[pr]), format.percent, digits=digits.pct)
         r
     }
 }
