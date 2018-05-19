@@ -72,6 +72,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'
 #' @param x A vector or numeric, factor, character or logical values.
 #' @param useNA For categorical \code{x}, should missing values be treated as a category?
+#' @param quantile.type An integer from 1 to 9, passed as the \code{type} argument to function \code{\link{stats::quantile}}.
 #'
 #' @return A list. For numeric \code{x}, the list contains the numeric elements:
 #' \itemize{
@@ -107,7 +108,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' @keywords utilities
 #' @export
 #' @importFrom stats sd median quantile IQR na.omit
-stats.default <- function(x, useNA=NULL) {
+stats.default <- function(x, useNA=NULL, quantile.type=7) {
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
     }
@@ -142,7 +143,7 @@ stats.default <- function(x, useNA=NULL) {
             GMEAN=NA,
             GCV=NA)
     } else if (is.numeric(x)) {
-        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE)
+        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE, type=quantile.type)
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
