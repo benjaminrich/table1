@@ -993,32 +993,44 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (droplevels) {
             m2 <- lapply(m2, droplevels)
         }
-        colspan <- c(cumprod(sapply(m2, nlevels)[-1]), 1)
-        collabel <- lapply(m2, levels)
 
-        if (length(colspan) > 1) {
-            if (length(colspan) > 2) {
+        if (length(m2) > 1) {
+            if (length(m2) > 2) {
                 stop("Only 1 level of nesting is supported")
             }
-            grouplabel <- collabel[[1]]
+            collabels <- tapply(m2[[2]], m2[[1]], levels, simplify=F)
+            if (droplevels) {
+                coln <- tapply(m2[[2]], m2[[1]], table, simplify=F)
+                collabels <- mapply(function(x, y) x[y > 0], collabels, coln, SIMPLIFY=F)
+            }
+            grouplabel <- names(collabels)
+            groupspan <- sapply(collabels, length)
+            stratlabel <- unlist(collabels)
             if (!is.null(overall) && overall != FALSE) {
                 grouplabel <- c(grouplabel, overall)
+                groupspan <- c(groupspan, nlevels(m2[[2]]))
+                stratlabel <- c(stratlabel, levels(m2[[2]]))
             }
-            groupspan <- rep(colspan[1], length(grouplabel))
-            stratlabel <- rep(collabel[[2]], length.out=groupspan[1]*length(grouplabel))
         } else {
-            stratlabel <- collabel[[1]]
+            stratlabel <- levels(m2[[1]])
             if (!is.null(overall) && overall != FALSE) {
                 stratlabel <- c(stratlabel, overall)
             }
         }
     } else {
         m2 <- NULL
+        if (is.null(overall) || (is.logical(overall) && overall == FALSE)) {
+            stop("Table has no columns?!")
+        }
         stratlabel <- overall 
     }
 
     if (!is.null(m2)) {
         strata <- split(m1, rev(m2))
+        if (droplevels) {
+            stratn <- sapply(strata, nrow)
+            strata[stratn == 0] <- NULL
+        }
         if (!is.null(overall) && overall != FALSE) {
             if (length(m2) > 1) {
                 strata <- c(strata, split(m1, data.frame(m2[[2]], overall="overall")))

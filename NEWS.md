@@ -4,6 +4,8 @@
 
 * Special handling for "0%" and "100%" in `stats.apply.rounding` so that no decimals are shown.
 
+* `droplevels` now works properly with nested grouping.
+
 * Improvements to the documentation.
 
 # table1 1.0
