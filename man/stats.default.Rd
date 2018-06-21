@@ -22,8 +22,10 @@ A list. For numeric \code{x}, the list contains the numeric elements:
   \item \code{SD}: the standard deviation of the non-missing values
   \item \code{MIN}: the minimum of the non-missing values
   \item \code{MEDIAN}: the median of the non-missing values
-  \item \code{Qxx}: various quantiles (percentiles) of the non-missing values (Q01: 1\%, Q02.5: 2.5\%, Q05: 5\%, Q10: 10\%, Q25: 25\%, Q50: 50\%, Q75: 75\%, Q90: 90\%, Q95: 95\%, Q97.5: 97.5\%, Q99: 99\%)
-  \item \code{IQR}: the inter-quartile range of the non-missing values
+  \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\%, q50: 50\%, q75: 75\%, q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
+  \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
+  \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
+  \item \code{IQR}: the inter-quartile range of the non-missing values (i.e., \code{Q3 - Q1})
   \item \code{CV}: the percent coefficient of variation of the non-missing values
   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
   \item \code{GCV}: the percent geometric coefficient of variation of the non-missing values if non-negative, or \code{NA}

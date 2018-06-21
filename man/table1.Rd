@@ -9,13 +9,11 @@
 table1(x, ...)
 
 \method{table1}{default}(x, labels, groupspan = NULL, rowlabelhead = "",
-  transpose = FALSE, topclass = "Rtable1", render = render.default,
-  standalone = !isTRUE(getOption("knitr.in.progress")), ...)
+  transpose = FALSE, topclass = "Rtable1", render = render.default, ...)
 
 \method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
   transpose = FALSE, droplevels = TRUE, topclass = "Rtable1",
-  render = render.default,
-  standalone = !isTRUE(getOption("knitr.in.progress")), ...)
+  render = render.default, ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or list of \code{data.frame}s.}
@@ -33,9 +31,7 @@ rows and variables as columns)?}
 
 \item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
 
-\item{render}{A function to render the table cells (see Details).}
-
-\item{standalone}{Should a standalone HTML document be generated and
+\item{render}{A function to render the table cells (see Details).
 immediately displayed? Otherwise an HTML fragment is printed to
 \code{\link{stdout}}.}
 
@@ -48,7 +44,7 @@ variables in \code{x} should be taken.}
 \item{droplevels}{Should empty factor levels be dropped?}
 }
 \value{
-None (invisible \code{NULL}). Called for its side effects.
+An object of class "table1".
 }
 \description{
 There are two interfaces, the default, which typically takes a list of
@@ -63,7 +59,7 @@ facilitate this, some tags (such as row labels) are given specific classes
 for easy CSS selection.
 }
 \details{
-For the default version, is is expected that \code{x} is a named,
+For the default version, is is expected that \code{x} is a named
 list of \code{data.frame}s, one for each stratum, with names corresponding to
 strata labels.
 }
