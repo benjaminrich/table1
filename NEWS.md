@@ -22,6 +22,10 @@
 
 * `Q1` and `Q3` are now aliases for `q25` and `q75` respectively in `stats.default`.
 
+* Tertiles added to `stats.default`.
+
+* New function `eqcut` for creating equal-sized categories from continuous variables.
+
 * The vignette has been expanded with new examples and the documentation improved.
 
 # table1 1.0
