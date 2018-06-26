@@ -22,13 +22,16 @@ A list. For numeric \code{x}, the list contains the numeric elements:
   \item \code{SD}: the standard deviation of the non-missing values
   \item \code{MIN}: the minimum of the non-missing values
   \item \code{MEDIAN}: the median of the non-missing values
-  \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\%, q50: 50\%, q75: 75\%, q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
-  \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
-  \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
-  \item \code{IQR}: the inter-quartile range of the non-missing values (i.e., \code{Q3 - Q1})
   \item \code{CV}: the percent coefficient of variation of the non-missing values
   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
   \item \code{GCV}: the percent geometric coefficient of variation of the non-missing values if non-negative, or \code{NA}
+  \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\% (first quartile), q33.3: 33.33333\% (first tertile), q50: 50\% (median, or second quartile), q66.7: 66.66667\% (second tertile), q75: 75\% (third quartile), q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
+  \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
+  \item \code{Q2}: the second quartile of the non-missing values (alias \code{q50} or \code{Median})
+  \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
+  \item \code{IQR}: the inter-quartile range of the non-missing values (i.e., \code{Q3 - Q1})
+  \item \code{T1}: the first tertile of the non-missing values (alias \code{q33.3})
+  \item \code{T2}: the second tertile of the non-missing values (alias \code{q66.7})
 }
 If \code{x} is categorical (i.e. factor, character or logical), the list
 contains a sublist for each category, where each sublist contains the

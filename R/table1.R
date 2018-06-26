@@ -82,13 +82,16 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'   \item \code{SD}: the standard deviation of the non-missing values
 #'   \item \code{MIN}: the minimum of the non-missing values
 #'   \item \code{MEDIAN}: the median of the non-missing values
-#'   \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\%, q50: 50\%, q75: 75\%, q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
-#'   \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
-#'   \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
-#'   \item \code{IQR}: the inter-quartile range of the non-missing values (i.e., \code{Q3 - Q1})
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
 #'   \item \code{GCV}: the percent geometric coefficient of variation of the non-missing values if non-negative, or \code{NA}
+#'   \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\% (first quartile), q33.3: 33.33333\% (first tertile), q50: 50\% (median, or second quartile), q66.7: 66.66667\% (second tertile), q75: 75\% (third quartile), q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
+#'   \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
+#'   \item \code{Q2}: the second quartile of the non-missing values (alias \code{q50} or \code{Median})
+#'   \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
+#'   \item \code{IQR}: the inter-quartile range of the non-missing values (i.e., \code{Q3 - Q1})
+#'   \item \code{T1}: the first tertile of the non-missing values (alias \code{q33.3})
+#'   \item \code{T2}: the second tertile of the non-missing values (alias \code{q66.7})
 #' }
 #' If \code{x} is categorical (i.e. factor, character or logical), the list
 #' contains a sublist for each category, where each sublist contains the
@@ -126,8 +129,11 @@ stats.default <- function(x, useNA=NULL, quantile.type=7) {
             NMISS=sum(is.na(x)),
             MEAN=NA,
             SD=NA,
-            MIN=NA,
+            CV=NA,
+            GMEAN=NA,
+            GCV=NA,
             MEDIAN=NA,
+            MIN=NA,
             MAX=NA,
             q01=NA,
             q025=NA,
@@ -141,20 +147,23 @@ stats.default <- function(x, useNA=NULL, quantile.type=7) {
             q975=NA,
             q99=NA,
             Q1=NA,
+            Q2=NA,
             Q3=NA,
             IQR=NA,
-            CV=NA,
-            GMEAN=NA,
-            GCV=NA)
+            T1=NA,
+            T2=NA)
     } else if (is.numeric(x)) {
-        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE, type=quantile.type)
+        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 1/3, 0.5, 2/3, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE, type=quantile.type)
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
             MEAN=mean(x, na.rm=TRUE),
             SD=sd(x, na.rm=TRUE),
-            MIN=min(x, na.rm=TRUE),
+            CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),
+            GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
+            GCV=if (any(na.omit(x) <= 0)) NA else 100*sqrt(exp(sd(log(x), na.rm=TRUE)^2) -1),
             MEDIAN=median(x, na.rm=TRUE),
+            MIN=min(x, na.rm=TRUE),
             MAX=max(x, na.rm=TRUE),
             q01=q["1%"],
             q02.5=q["2.5%"],
@@ -168,11 +177,11 @@ stats.default <- function(x, useNA=NULL, quantile.type=7) {
             q97.5=q["97.5%"],
             q99=q["99%"],
             Q1=q["25%"],
+            Q2=q["50%"],
             Q3=q["75%"],
             IQR=q["75%"] - q["25%"],
-            CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),
-            GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
-            GCV=if (any(na.omit(x) <= 0)) NA else 100*sqrt(exp(sd(log(x), na.rm=TRUE)^2) -1))
+            T1=q["33.33333%"],
+            T2=q["66.66667%"])
     } else {
         stop(paste("Unrecognized variable type:", class(x)))
     }
