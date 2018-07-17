@@ -713,6 +713,8 @@ has.units <- function(x) {
 #' @param transpose Logical. Should the table be transposed (i.e. strata as
 #' rows and variables as columns)?
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
+#' @param footnote A character string to be added as a footnote to the table.
+#' The default \code{NULL} causes the footnote to be omitted.
 #' @param render A function to render the table cells (see Details).
 #' immediately displayed? Otherwise an HTML fragment is printed to
 #' \code{\link{stdout}}.
@@ -781,13 +783,14 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, render=render.default, ...) {
     .table1.internal(x = x,
         labels       = labels,
         groupspan    = groupspan,
         rowlabelhead = rowlabelhead,
         transpose    = transpose,
         topclass     = topclass,
+        footnote     = footnote,
         render       = render, ...)
 }
 
@@ -878,7 +881,7 @@ html.standalone.foot <- '
 </html>
 '
 
-.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", render=render.default, render.strat=render.strat.default, ...) {
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, render=render.default, render.strat=render.strat.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -966,6 +969,11 @@ html.standalone.foot <- '
         paste(sapply(tbody, table.rows), collapse=""),
         '</tbody>\n</table>\n')
 
+    if (!is.null(footnote)) {
+        footnote <- sprintf('<p class="Rtable1-footnote">%s</p>\n', footnote)
+        x <- paste0(x, footnote)
+    }
+
     structure(x, class=c("table1", "html", "character"), html=TRUE)
 }
 
@@ -1039,7 +1047,7 @@ knit_print.table1 <- function(x, ...) {
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", render=render.default, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", footnote=NULL, render=render.default, ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -1118,6 +1126,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             rowlabelhead=rowlabelhead,
             transpose=transpose,
             topclass=topclass,
+            footnote=footnote,
             render=render, ...)
     } else {
         table1.default(x=strata,
@@ -1125,6 +1134,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             rowlabelhead=rowlabelhead,
             transpose=transpose,
             topclass=topclass,
+            footnote=footnote,
             render=render, ...)
     }
 }

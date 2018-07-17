@@ -1,10 +1,14 @@
+/* Default */
 table.Rtable1 {
     font-family: "Arial", Arial, sans-serif;
     font-size: 10pt;
     border-collapse: collapse;
     padding: 0px;
     margin: 0px;
-    margin-bottom: 10pt;
+    /* margin-bottom: 10pt; */
+}
+.Rtable1 td {
+    white-space:nowrap;
 }
 .Rtable1 th, .Rtable1 td {
     border: 0;
@@ -43,44 +47,51 @@ table.Rtable1 {
 }
 
 /* Zebra stripes */
-.style2 tbody tr:nth-child(odd) {
+.Rtable1-zebra tbody tr:nth-child(odd) {
     background-color: #eee;
 }
 
-table.style3 {
+/* Times font */
+table.Rtable1-times {
     font-family: "Times New Roman", Times, serif;
-    font-size: 11pt;
 }
-.style3 th {
+
+/* Shade style */
+.Rtable1-shade th {
     background-color: #ccc;
 }
-.style3 th,  .style3 td {
+
+/* Grid style */
+.Rtable1-grid th, .Rtable1-grid td {
     border-left: 1pt solid black;
     border-right: 1pt solid black;
 }
-.style3 thead>tr:first-child>th {
+.Rtable1-grid thead>tr:first-child>th {
     border-top: 1pt solid black;
 }
-.style3 thead>tr:last-child>th {
+.Rtable1-grid thead>tr:last-child>th {
     border-bottom: 1pt solid black;
 }
-.style3 tbody>tr:last-child>td {
+.Rtable1-grid tbody>tr:last-child>td {
     border-bottom: 1pt solid black;
 }
-.style3 .firstrow, .style3 .firstrow ~ td {
+.Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {
     border-top: 1pt solid black;
 }
 
-.style4 td {
-    white-space:nowrap;
-}
-.style4 td.firstrow {
+/* Transpose style */
+.Rtable1-trans td.firstrow {
     font-weight: normal;
 }
-.style4 td.rowlabel {
+.Rtable1-trans td.rowlabel {
     font-weight: bold;
     text-align: center;
     padding-left: 2.5ex;
     padding-right: 2.5ex;
+}
+.Rtable1-footnote {
+    font-size: smaller;
+    padding: 0px;
+    margin: 0px;
 }
 

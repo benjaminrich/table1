@@ -9,11 +9,12 @@
 table1(x, ...)
 
 \method{table1}{default}(x, labels, groupspan = NULL, rowlabelhead = "",
-  transpose = FALSE, topclass = "Rtable1", render = render.default, ...)
+  transpose = FALSE, topclass = "Rtable1", footnote = NULL,
+  render = render.default, ...)
 
 \method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
   transpose = FALSE, droplevels = TRUE, topclass = "Rtable1",
-  render = render.default, ...)
+  footnote = NULL, render = render.default, ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or list of \code{data.frame}s.}
@@ -30,6 +31,9 @@ table1(x, ...)
 rows and variables as columns)?}
 
 \item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
+
+\item{footnote}{A character string to be added as a footnote to the table.
+The default \code{NULL} causes the footnote to be omitted.}
 
 \item{render}{A function to render the table cells (see Details).
 immediately displayed? Otherwise an HTML fragment is printed to

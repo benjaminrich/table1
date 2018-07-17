@@ -26,6 +26,8 @@
 
 * New function `eqcut` for creating equal-sized categories from continuous variables.
 
+* New `footnote` argument for adding a footnote to the table.
+
 * The vignette has been expanded with new examples and the documentation improved.
 
 # table1 1.0
