@@ -1,5 +1,5 @@
 /* Default */
-table.Rtable1 {
+.Rtable1 table, table.Rtable1 {
     font-family: "Arial", Arial, sans-serif;
     font-size: 10pt;
     border-collapse: collapse;
@@ -41,7 +41,7 @@ table.Rtable1 {
     text-align: left;
     padding-left: 2.5ex;
 }
-.Rtable1 .firstrow {
+.Rtable1 .firstrow.rowlabel {
     padding-left: 0.5ex;
     font-weight: bold;
 }
@@ -78,17 +78,20 @@ table.Rtable1-times {
 .Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {
     border-top: 1pt solid black;
 }
-
-/* Transpose style */
-.Rtable1-trans td.firstrow {
-    font-weight: normal;
+.Rtable1-grid th.grouplabel>div {
+    margin-left: 0;
+    margin-right: 0;
+    border-bottom: 0;
 }
-.Rtable1-trans td.rowlabel {
+
+/* Center style */
+.Rtable1-center td.rowlabel, .Rtable1-center td.firstrow.rowlabel {
     font-weight: bold;
     text-align: center;
-    padding-left: 2.5ex;
-    padding-right: 2.5ex;
+    padding: 0.5ex 1.5ex;
 }
+
+/* Footnote */
 .Rtable1-footnote {
     font-size: smaller;
     padding: 0px;
