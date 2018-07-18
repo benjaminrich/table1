@@ -4,11 +4,12 @@ author: "Benjamin Rich"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
-    css: [vignette.css, style.css]
+    css: [style.css, vignette.css]
+    toc: true
 vignette: >
   %\VignetteIndexEntry{Using the table1 Package to Create HMTL Tables of Descriptive Statistics}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteDepends{boot}
+  %\VignetteDepends{boot,MatchIt}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -23,14 +24,16 @@ of any journal article, referred to as "Table 1", is a table that presents
 descriptive statistics of baseline characteristics of the study population
 stratified by exposure. This package makes it fairly straightforward to produce
 such a table using R. The output format is HTML (which has the advantage of
-being easy to copy into a Word document; Chrome browser works well). The
-preferred way of using this package is in combination with knitr (for HTML
-generation; use R markdown or the spin format, for instance), making use of the
-`results="asis"` chunk option to pass the HTML output through untouched (this
-vignette is a good example). The package does allow quite a bit of flexibility
+being easy to copy into a Word document; Chrome browser works well).
+It is convenient to use this package in conjunction with
+[knitr](https://yihui.name/knitr/) and [R
+Markdown](https://rmarkdown.rstudio.com/), as the HTML output is passed through
+untouched (note: as of version 1.1 it is no longer necessary to specify the
+`results='asis'` chunk option to have the HTML output appear correctly in the
+final document); in fact, this vignette serves as an example.
+The package does allow quite a bit of flexibility
 to customize the table's contents and appearance, but this does come at the
 cost of ease-of-use (more programming, some knowledge of CSS).
-
 
 ## Example 1
 
@@ -57,7 +60,7 @@ melanoma2$status <-
 
 As I first attempt, we can do the following:
 
-```{r results='asis'}
+```{r}
 table1(~ factor(sex) + age + factor(ulcer) + thickness | status, data=melanoma2)
 ```
 
@@ -74,7 +77,7 @@ the way we want, and specify units for the continuous variables (`age` and
 `thickness`), like this:
 
 
-```{r results='asis'}
+```{r}
 melanoma2$sex <- 
   factor(melanoma2$sex, levels=c(1,0),
          labels=c("Male", 
@@ -148,7 +151,7 @@ my.render.cat <- function(x) {
 
 And here is the result:
 
-```{r results='asis'}
+```{r}
 table1(strata, labels, groupspan=c(1, 1, 2),
        render.continuous=my.render.cont, render.categorical=my.render.cat)
 ```
@@ -202,7 +205,7 @@ units(dat$wt)    <- "kg"
 
 Using the default settings, we obtain this table:
 
-```{r results='asis'}
+```{r}
 table1(~ age + sex + wt | treat, data=dat)
 ```
 
@@ -212,26 +215,26 @@ percent).
 
 The "Overall" column can be easily removed (or relabeled):
 
-```{r results='asis'}
+```{r}
 table1(~ age + sex + wt | treat, data=dat, overall=F)
 ```
 
 We can also have stratification by two variables, in which case they are
 nested.  For example, to see each treatment group split by sex:
 
-```{r results='asis'}
+```{r}
 table1(~ age + wt | treat*sex, data=dat)
 ```
 
 Or, switch the order:
 
-```{r results='asis'}
+```{r}
 table1(~ age + wt | sex*treat, data=dat)
 ```
 
 Or, no stratification:
 
-```{r results='asis'}
+```{r}
 table1(~ treat + age + sex + wt, data=dat)
 ```
 
@@ -241,7 +244,7 @@ assigned to placebo or active treatment, there were actually two doses of
 treatment randomized, 5 mg and 10 mg, and we want columns for each dose level
 separately, as well as for all treated subjects. 
 
-```{r results='asis'}
+```{r}
 dat$dose <- (dat$treat != "Placebo")*sample(1:2, n, replace=T)
 dat$dose <- factor(dat$dose, labels=c("Placebo", "5 mg", "10 mg"))
 
@@ -266,37 +269,91 @@ this, but a simpler alternative is to use abbreviated code. This is a character
 string that contains certain keywords which are substituted for computed values
 in the table output. The list of recognized keywords comes from the output of
 the `stats.default` function and includes: N, NMISS, MEAN, SD, CV, GMEAN, GCV,
-MEDIAN, MIN, MAX, IQR, FREQ, PCT. Keyword matching is case insensitive, and any
-text other than the keywords is left untouched. We can specify a vector of
-character strings, in which case each result will be displayed in its own row
-in the table. We can use a named vector to specify labels for each row; a dot
-('.') can be used to indicate that the abbreviated code string itself be used
-as the row label. Significant digits can be controlled using the `digits`
-argument (default: 3). Here is a continuation of the example from the previous
-section that produces the desired result:
+MEDIAN, MIN, MAX, IQR, Q1, Q2, Q3, T1, T2, FREQ, PCT. Keyword matching is case
+insensitive, and any text other than the keywords is left untouched. We can
+specify a vector of character strings, in which case each result will be
+displayed in its own row in the table. We can use a named vector to specify
+labels for each row; a dot ('.') can be used to indicate that the abbreviated
+code string itself be used as the row label. Significant digits can be
+controlled using the `digits` argument (default: 3). Here is a continuation of
+the example from the previous section that produces the desired result:
 
-```{r results='asis'}
+```{r}
 table1(strata, labels, groupspan=c(1, 3, 1),
        render.continuous=c(.="Mean (CV%)", .="Median [Min, Max]",
                            "Geo. mean (Geo. CV%)"="GMEAN (GCV%)"))
 ```
 
-## Using CSS to control the table's appearance
+## Displaying different statistics for different variables
 
-One thing I did not mention is that the output of `table1()` is just a bunch of
-HTML tags. To get the table to render, you have to open it in a web browser. If
-you were to just run the code above, paste the output in a file with the .html
-extension, and open it in your browser, it wouldn't look the same as the output
-I presented. That is deliberate, because it is intended that table's appearance
-be customized through CSS, which is ideally suited to this purpose (the
-trade-off is that you have to know some CSS to achieve the desired results).
+Suppose it is desired to show the median and range for age, but the mean and
+standard deviation for weight. This can be achieved using a custom render
+function as follows:
 
-The expected way that this package is to used is in conjunction with [R
-Markdown](rmarkdown.rstudio.com/), making use of the `results='asis'` chunk
-option to have the HTML output appear as is in the final document. (at least,
-that's how I use it). You can embed your own CSS in the document by including
-this in the YAML header of your file (where style.css is the name of the file
-that contains the CSS):
+```{r}
+rndr <- function(x, name, ...) {
+    if (!is.numeric(x)) return(render.categorical.default(x))
+    what <- switch(name,
+        age = "Median [Min, Max]",
+        wt  = "Mean (SD)")
+    parse.abbrev.render.code(c("", what))(x)
+}
+
+table1(~ age + sex + wt | treat, data=dat,
+       render=rndr)
+```
+
+Note that instead of overriding `render.continuous` and `render.categorical`
+separately, you can override `render` which handles both. The `render` function
+gets the name of the variable as its second argument, and should also accept
+`...` to capture any other arguments passed to it. Note also that the function
+`parse.abbrev.render.code` can be used to turn abbreviated code into a
+corresponding render function.
+
+## Changing the table's appearance
+
+The default style of `table1` uses an Arial font, and resembles the
+[booktabs](https://ctan.org/pkg/booktabs) style commonly used in LaTeX. While
+this default style is not ugly, inevitably there will be a desire to customize
+the visual appearance of the table (fonts, colors, gridlines, etc).  The
+package provides a limited number of built-in options for changing the style,
+while further customization can be achieved in [R
+Markdown](rmarkdown.rstudio.com/) documents using CSS (see below).
+
+### Using built-in styles
+
+The package includes a limited number of built-in styles including:
+
+* zebra: alternating shaded and unshaded rows (zebra stripes)
+* grid: show all grid lines 
+* shade: shade the header row(s) in gray
+* times: use a serif font
+* center: center all columns, including the first which contains the row labels
+
+These styles can be selected using the `topclass` argument of `table1`. Some
+examples follow:
+
+```{r}
+table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1-zebra")
+```
+
+```{r}
+table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1-grid")
+```
+
+```{r}
+table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1-grid Rtable1-shade Rtable1-times")
+```
+
+Note that the style name needs to be preceded by the prefix `Rtable1-`.
+Multiple styles can be applied in combination by separating them with a space.
+
+### Using custom CSS to control the table's appearance
+
+Further customization of the table appearance is only possible in [R
+Markdown](rmarkdown.rstudio.com/) documents, by using custom CSS which is
+specified in the document's YAML header. For examples, to include `style.css`
+in the output, the YAML header should contain the following:
 
 ```
 output: 
@@ -304,66 +361,108 @@ output:
     css: style.css
 ```
 
-If `style.css` contains these definitions, then you will get the same output as above:
+CSS allows fine control of the appearance of different elements in the table.
+For examples, if `style.css` contains the following definitions:
 
 ```css
 table.Rtable1 {
-    font-family: "Arial", Arial, sans-serif;
-    font-size: 10pt;
+    font-family: "Lucida Console", Monaco, monospace;
     border-collapse: collapse;
-    padding: 0px;
-    margin: 0px;
-    margin-bottom: 10pt;
+    font-size: 9pt;
 }
-.Rtable1 th, .Rtable1 td {
-    border: 0;
-    text-align: center;
-    padding: 0.5ex 1.5ex;
-    margin: 0px;
+.Rtable1 th {
+    background-color: rgb(0, 100, 164);
+    color: white;
 }
-.Rtable1 thead>tr:first-child>th {
-    border-top: 2pt solid black;
+.Rtable1 .firstrow, .Rtable1 .firstrow ~ td {
+    border-top: 1pt solid black;
 }
-.Rtable1 thead>tr:last-child>th {
-    border-bottom: 1pt solid black;
+.Rtable1 td.rowlabel {
+    color: DarkCyan;
+    font-style: italic;
 }
-.Rtable1 tbody>tr:last-child>td {
-    border-bottom: 2pt solid black;
-}
-.Rtable1 th.grouplabel {
-    padding-left: 0;
-    padding-right: 0;
-}
-.Rtable1 th.grouplabel>div {
-    margin-left: 1.5ex;
-    margin-right: 1.5ex;
-    border-bottom: 1pt solid black;
-}
-.Rtable1 th.grouplabel:last-child>div {
-    margin-right: 0;
-}
-.Rtable1 .rowlabel {
-    text-align: left;
-    padding-left: 2.5ex;
-}
-.Rtable1 .firstrow {
-    padding-left: 0.5ex;
-    font-weight: bold;
+.Rtable1 td.firstrow.rowlabel {
+    background-color: yellow;
+    color: red;
+    font-size: 12pt;
 }
 ```
 
-By changing the CSS, you can change the appearance of the table to your liking.
-Two examples are given below for illustration purposes (the `topclass` argument
-allows the class attribute of the toplevel tag to be changed, which in turn
-allows different CSS styles to be applied).
+then the output will be as follows:
 
-```{r results='asis'}
-table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style2")
+```{r, echo=F}
+table1(~ age + sex + wt | treat, data=dat, topclass="custom")
 ```
 
-```{r results='asis'}
-table1(~ age + sex + wt | treat, data=dat, topclass="Rtable1 style3")
+(Note: as an alternative to redefining the default CSS class `Rtable1`, a
+different custom CSS class name could be used, and the `topclass` argument used
+to select it.)
+
+## A column of p-values
+
+A user asked if it was possible to add a column to the table showing the
+p-value associated with a univariate test for differences in each variable
+across strata.  There is currently no facility built into the package to
+accomplish this, but with the use of a custom render function and an empty
+stratum, it can be "tricked" into producing the desired result.
+
+The following example uses the `lalonde` data from the `MatchIt` package. In
+this case, a chi-square test of independence is used for categorical variables,
+and a t-test for continuous variables (other tests could be used if desired,
+this is just for illustration purposes).
+
+```{r}
+library(MatchIt) 
+data(lalonde)
+
+lalonde$treat    <- factor(lalonde$treat, levels=c(0, 1, 2), labels=c("Control", "Treatment", "P-value"))
+lalonde$black    <- factor(lalonde$black)
+lalonde$hispan   <- factor(lalonde$hispan)
+lalonde$married  <- factor(lalonde$married)
+lalonde$nodegree <- factor(lalonde$nodegree)
+lalonde$black    <- as.logical(lalonde$black == 1)
+lalonde$hispan   <- as.logical(lalonde$hispan == 1)
+lalonde$married  <- as.logical(lalonde$married == 1)
+lalonde$nodegree <- as.logical(lalonde$nodegree == 1)
+
+label(lalonde$black)    <- "Black"
+label(lalonde$hispan)   <- "Hispanic"
+label(lalonde$married)  <- "Married"
+label(lalonde$nodegree) <- "No high school diploma"
+label(lalonde$age)      <- "Age"
+label(lalonde$re74)     <- "1974 Income"
+label(lalonde$re75)     <- "1975 Income"
+label(lalonde$re78)     <- "1978 Income"
+units(lalonde$age)      <- "years"
+
+rndr <- function(x, name, ...) {
+    if (length(x) == 0) {
+        y <- lalonde[[name]]
+        s <- rep("", length(render.default(x=y, name=name, ...)))
+        if (is.numeric(y)) {
+            p <- t.test(y ~ lalonde$treat)$p.value
+        } else {
+            p <- chisq.test(table(y, droplevels(lalonde$treat)))$p.value
+        }
+        s[2] <- sub("<", "&lt;", format.pval(p, digits=3, eps=0.001))
+        s
+    } else {
+        render.default(x=x, name=name, ...)
+    }
+}
+
+rndr.strat <- function(label, n, ...) {
+    ifelse(n==0, label, render.strat.default(label, n, ...))
+}
+
+table1(~ age + black + hispan + married + nodegree + re74 + re75 + re78 | treat,
+    data=lalonde, droplevels=F, render=rndr, render.strat=rndr.strat, overall=F)
 ```
+
+Admittedly, this is not very elegant, and is definitely a hack. But it is still
+a neat illustration of the flexibility of the package in terms of being able to
+accomplish something that we never really planned for.
+
 
 ## Transposed table
 
@@ -384,17 +483,17 @@ names(dat)[3:8] <- paste0("V", 1:6)
 
 Default:
 
-```{r results='asis'}
+```{r}
 table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
-       topclass="Rtable1 style3 style4",
+       topclass="Rtable1-grid Rtable1-center",
        render="Mean (CV%)<br/>Median [Min, Max]<br/>GMean (GCV%)")
 ```
 
 Transposed:
 
-```{r results='asis'}
+```{r}
 table1(~ V1 + V2 + V3 + V4 + V5 + V6 | group, data=dat,
-       topclass="Rtable1 style3 style4",
+       topclass="Rtable1-grid Rtable1-center",
        render="Mean (CV%)<br/>Median [Min, Max]<br/>GMean (GCV%)",
        transpose=TRUE)
 ```
