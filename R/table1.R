@@ -928,6 +928,12 @@ html.standalone.foot <- '
         thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
         tbody <- lapply(names(labels$variables), function(v) {
             lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
+            sort_args  <- if ("sort" %in% names(list(...))) list(...)$sort else NULL
+            if (!is.null(lvls) & !is.null(sort_args$by)) {
+              first_lvls <- names(do.call(sort, c(list(x=table(x[[sort_args$by]][,v])), sort_args[names(sort_args)!="by"])))
+              last_lvls <- lvls[!lvls %in% first_lvls]
+              lvls <- c(first_lvls, last_lvls)
+            }
             y <- do.call(cbind, lapply(x, function(s) {
                 z <- s[[v]]
                 if (!is.null(lvls)) {
