@@ -1,7 +1,7 @@
 Package: table1
 Type: Package
-Version: 1.1
-Date: 2018-07-18
+Version: 1.2
+Date: 2019-01-31
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre"), email="mail@benjaminrich.net")
 Description: Create HTML tables of descriptive statistics, as one would expect
@@ -11,4 +11,4 @@ License: GPL-3
 Imports: stats,Formula,knitr,htmltools
 Suggests: boot,MatchIt
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

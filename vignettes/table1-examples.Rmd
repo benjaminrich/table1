@@ -58,7 +58,7 @@ melanoma2$status <-
                   "Non-melanoma death"))
 ```
 
-As I first attempt, we can do the following:
+As a first attempt, we can do the following:
 
 ```{r}
 table1(~ factor(sex) + age + factor(ulcer) + thickness | status, data=melanoma2)

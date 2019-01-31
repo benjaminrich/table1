@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2018-07-18" />
+<meta name="date" content="2019-01-31" />
 
 <title>Using the table1 Package to Create HMTL Tables of Descriptive Statistics</title>
 
@@ -23,7 +23,7 @@
 <style type="text/css">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; position: absolute; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -36,13 +36,11 @@ code.sourceCode { white-space: pre-wrap; }
 a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
 pre.numberSource a.sourceLine
-  { position: relative; }
-pre.numberSource a.sourceLine:empty
-  { position: absolute; }
+  { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
   { content: attr(data-line-number);
-    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all;
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -258,7 +256,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HMTL Tables of Descriptive Statistics</h1>
 <h4 class="author"><em>Benjamin Rich</em></h4>
-<h4 class="date"><em>2018-07-18</em></h4>
+<h4 class="date"><em>2019-01-31</em></h4>
 
 
 <div id="TOC">
@@ -296,16 +294,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <a class="sourceLine" id="cb1-10" data-line-number="10">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="co"># Reference</span></a>
 <a class="sourceLine" id="cb1-11" data-line-number="11">                  <span class="st">&quot;Melanoma death&quot;</span>, </a>
 <a class="sourceLine" id="cb1-12" data-line-number="12">                  <span class="st">&quot;Non-melanoma death&quot;</span>))</a></code></pre></div>
-<p>As I first attempt, we can do the following:</p>
+<p>As a first attempt, we can do the following:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(sex) <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(ulcer) <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(n=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(n=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(n=14)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=205)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(N=57)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(N=14)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=205)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -421,10 +419,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(n=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(n=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(n=14)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(n=205)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(N=57)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(N=14)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(N=205)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -550,10 +548,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(n=205)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(n=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma<br><span class='stratn'>(n=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma<br><span class='stratn'>(n=14)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(N=205)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Melanoma<br><span class='stratn'>(N=57)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma<br><span class='stratn'>(N=14)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -661,9 +659,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -737,8 +735,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -807,12 +805,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(n=35)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(n=17)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(n=58)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(n=36)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(n=93)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(n=53)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=35)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=17)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=58)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=36)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=93)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=53)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -894,12 +892,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=35)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=58)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=17)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=36)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=35)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=58)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=17)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=36)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -975,7 +973,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1057,11 +1055,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(n=49)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(n=45)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=49)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=45)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1165,11 +1163,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(n=49)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(n=45)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=49)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=45)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1290,9 +1288,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1374,9 +1372,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1448,9 +1446,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1522,9 +1520,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1626,9 +1624,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(n=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(n=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=146)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1702,57 +1700,58 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>A column of p-values</h2>
 <p>A user asked if it was possible to add a column to the table showing the p-value associated with a univariate test for differences in each variable across strata. There is currently no facility built into the package to accomplish this, but with the use of a custom render function and an empty stratum, it can be “tricked” into producing the desired result.</p>
 <p>The following example uses the <code>lalonde</code> data from the <code>MatchIt</code> package. In this case, a chi-square test of independence is used for categorical variables, and a t-test for continuous variables (other tests could be used if desired, this is just for illustration purposes).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(MatchIt) </a>
-<a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw">data</span>(lalonde)</a>
-<a class="sourceLine" id="cb22-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb22-4" data-line-number="4">lalonde<span class="op">$</span>treat    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>treat, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;P-value&quot;</span>))</a>
-<a class="sourceLine" id="cb22-5" data-line-number="5">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>black)</a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>hispan)</a>
-<a class="sourceLine" id="cb22-7" data-line-number="7">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>married)</a>
-<a class="sourceLine" id="cb22-8" data-line-number="8">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>nodegree)</a>
-<a class="sourceLine" id="cb22-9" data-line-number="9">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>black <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb22-10" data-line-number="10">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>hispan <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb22-11" data-line-number="11">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb22-12" data-line-number="12">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>nodegree <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb22-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb22-14" data-line-number="14"><span class="kw">label</span>(lalonde<span class="op">$</span>black)    &lt;-<span class="st"> &quot;Black&quot;</span></a>
-<a class="sourceLine" id="cb22-15" data-line-number="15"><span class="kw">label</span>(lalonde<span class="op">$</span>hispan)   &lt;-<span class="st"> &quot;Hispanic&quot;</span></a>
-<a class="sourceLine" id="cb22-16" data-line-number="16"><span class="kw">label</span>(lalonde<span class="op">$</span>married)  &lt;-<span class="st"> &quot;Married&quot;</span></a>
-<a class="sourceLine" id="cb22-17" data-line-number="17"><span class="kw">label</span>(lalonde<span class="op">$</span>nodegree) &lt;-<span class="st"> &quot;No high school diploma&quot;</span></a>
-<a class="sourceLine" id="cb22-18" data-line-number="18"><span class="kw">label</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb22-19" data-line-number="19"><span class="kw">label</span>(lalonde<span class="op">$</span>re74)     &lt;-<span class="st"> &quot;1974 Income&quot;</span></a>
-<a class="sourceLine" id="cb22-20" data-line-number="20"><span class="kw">label</span>(lalonde<span class="op">$</span>re75)     &lt;-<span class="st"> &quot;1975 Income&quot;</span></a>
-<a class="sourceLine" id="cb22-21" data-line-number="21"><span class="kw">label</span>(lalonde<span class="op">$</span>re78)     &lt;-<span class="st"> &quot;1978 Income&quot;</span></a>
-<a class="sourceLine" id="cb22-22" data-line-number="22"><span class="kw">units</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb22-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb22-24" data-line-number="24">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
-<a class="sourceLine" id="cb22-25" data-line-number="25">    <span class="cf">if</span> (<span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb22-26" data-line-number="26">        y &lt;-<span class="st"> </span>lalonde[[name]]</a>
-<a class="sourceLine" id="cb22-27" data-line-number="27">        s &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">length</span>(<span class="kw">render.default</span>(<span class="dt">x=</span>y, <span class="dt">name=</span>name, ...)))</a>
-<a class="sourceLine" id="cb22-28" data-line-number="28">        <span class="cf">if</span> (<span class="kw">is.numeric</span>(y)) {</a>
-<a class="sourceLine" id="cb22-29" data-line-number="29">            p &lt;-<span class="st"> </span><span class="kw">t.test</span>(y <span class="op">~</span><span class="st"> </span>lalonde<span class="op">$</span>treat)<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb22-30" data-line-number="30">        } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb22-31" data-line-number="31">            p &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="kw">table</span>(y, <span class="kw">droplevels</span>(lalonde<span class="op">$</span>treat)))<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb22-32" data-line-number="32">        }</a>
-<a class="sourceLine" id="cb22-33" data-line-number="33">        s[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="kw">format.pval</span>(p, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">eps=</span><span class="fl">0.001</span>))</a>
-<a class="sourceLine" id="cb22-34" data-line-number="34">        s</a>
-<a class="sourceLine" id="cb22-35" data-line-number="35">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb22-36" data-line-number="36">        <span class="kw">render.default</span>(<span class="dt">x=</span>x, <span class="dt">name=</span>name, ...)</a>
-<a class="sourceLine" id="cb22-37" data-line-number="37">    }</a>
-<a class="sourceLine" id="cb22-38" data-line-number="38">}</a>
-<a class="sourceLine" id="cb22-39" data-line-number="39"></a>
-<a class="sourceLine" id="cb22-40" data-line-number="40">rndr.strat &lt;-<span class="st"> </span><span class="cf">function</span>(label, n, ...) {</a>
-<a class="sourceLine" id="cb22-41" data-line-number="41">    <span class="kw">ifelse</span>(n<span class="op">==</span><span class="dv">0</span>, label, <span class="kw">render.strat.default</span>(label, n, ...))</a>
-<a class="sourceLine" id="cb22-42" data-line-number="42">}</a>
-<a class="sourceLine" id="cb22-43" data-line-number="43"></a>
-<a class="sourceLine" id="cb22-44" data-line-number="44"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>married <span class="op">+</span><span class="st"> </span>nodegree <span class="op">+</span><span class="st"> </span>re74 <span class="op">+</span><span class="st"> </span>re75 <span class="op">+</span><span class="st"> </span>re78 <span class="op">|</span><span class="st"> </span>treat,</a>
-<a class="sourceLine" id="cb22-45" data-line-number="45">    <span class="dt">data=</span>lalonde, <span class="dt">droplevels=</span>F, <span class="dt">render=</span>rndr, <span class="dt">render.strat=</span>rndr.strat, <span class="dt">overall=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(MatchIt) </a></code></pre></div>
+<pre><code>## Warning: package 'MatchIt' was built under R version 3.5.2</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">data</span>(lalonde)</a>
+<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb24-3" data-line-number="3">lalonde<span class="op">$</span>treat    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>treat, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;P-value&quot;</span>))</a>
+<a class="sourceLine" id="cb24-4" data-line-number="4">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>black)</a>
+<a class="sourceLine" id="cb24-5" data-line-number="5">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>hispan)</a>
+<a class="sourceLine" id="cb24-6" data-line-number="6">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>married)</a>
+<a class="sourceLine" id="cb24-7" data-line-number="7">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>nodegree)</a>
+<a class="sourceLine" id="cb24-8" data-line-number="8">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>black <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb24-9" data-line-number="9">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>hispan <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb24-10" data-line-number="10">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb24-11" data-line-number="11">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>nodegree <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb24-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="kw">label</span>(lalonde<span class="op">$</span>black)    &lt;-<span class="st"> &quot;Black&quot;</span></a>
+<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="kw">label</span>(lalonde<span class="op">$</span>hispan)   &lt;-<span class="st"> &quot;Hispanic&quot;</span></a>
+<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="kw">label</span>(lalonde<span class="op">$</span>married)  &lt;-<span class="st"> &quot;Married&quot;</span></a>
+<a class="sourceLine" id="cb24-16" data-line-number="16"><span class="kw">label</span>(lalonde<span class="op">$</span>nodegree) &lt;-<span class="st"> &quot;No high school diploma&quot;</span></a>
+<a class="sourceLine" id="cb24-17" data-line-number="17"><span class="kw">label</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;Age&quot;</span></a>
+<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="kw">label</span>(lalonde<span class="op">$</span>re74)     &lt;-<span class="st"> &quot;1974 Income&quot;</span></a>
+<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="kw">label</span>(lalonde<span class="op">$</span>re75)     &lt;-<span class="st"> &quot;1975 Income&quot;</span></a>
+<a class="sourceLine" id="cb24-20" data-line-number="20"><span class="kw">label</span>(lalonde<span class="op">$</span>re78)     &lt;-<span class="st"> &quot;1978 Income&quot;</span></a>
+<a class="sourceLine" id="cb24-21" data-line-number="21"><span class="kw">units</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;years&quot;</span></a>
+<a class="sourceLine" id="cb24-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb24-23" data-line-number="23">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
+<a class="sourceLine" id="cb24-24" data-line-number="24">    <span class="cf">if</span> (<span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb24-25" data-line-number="25">        y &lt;-<span class="st"> </span>lalonde[[name]]</a>
+<a class="sourceLine" id="cb24-26" data-line-number="26">        s &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">length</span>(<span class="kw">render.default</span>(<span class="dt">x=</span>y, <span class="dt">name=</span>name, ...)))</a>
+<a class="sourceLine" id="cb24-27" data-line-number="27">        <span class="cf">if</span> (<span class="kw">is.numeric</span>(y)) {</a>
+<a class="sourceLine" id="cb24-28" data-line-number="28">            p &lt;-<span class="st"> </span><span class="kw">t.test</span>(y <span class="op">~</span><span class="st"> </span>lalonde<span class="op">$</span>treat)<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb24-29" data-line-number="29">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb24-30" data-line-number="30">            p &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="kw">table</span>(y, <span class="kw">droplevels</span>(lalonde<span class="op">$</span>treat)))<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb24-31" data-line-number="31">        }</a>
+<a class="sourceLine" id="cb24-32" data-line-number="32">        s[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="kw">format.pval</span>(p, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">eps=</span><span class="fl">0.001</span>))</a>
+<a class="sourceLine" id="cb24-33" data-line-number="33">        s</a>
+<a class="sourceLine" id="cb24-34" data-line-number="34">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb24-35" data-line-number="35">        <span class="kw">render.default</span>(<span class="dt">x=</span>x, <span class="dt">name=</span>name, ...)</a>
+<a class="sourceLine" id="cb24-36" data-line-number="36">    }</a>
+<a class="sourceLine" id="cb24-37" data-line-number="37">}</a>
+<a class="sourceLine" id="cb24-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb24-39" data-line-number="39">rndr.strat &lt;-<span class="st"> </span><span class="cf">function</span>(label, n, ...) {</a>
+<a class="sourceLine" id="cb24-40" data-line-number="40">    <span class="kw">ifelse</span>(n<span class="op">==</span><span class="dv">0</span>, label, <span class="kw">render.strat.default</span>(label, n, ...))</a>
+<a class="sourceLine" id="cb24-41" data-line-number="41">}</a>
+<a class="sourceLine" id="cb24-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb24-43" data-line-number="43"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>married <span class="op">+</span><span class="st"> </span>nodegree <span class="op">+</span><span class="st"> </span>re74 <span class="op">+</span><span class="st"> </span>re75 <span class="op">+</span><span class="st"> </span>re78 <span class="op">|</span><span class="st"> </span>treat,</a>
+<a class="sourceLine" id="cb24-44" data-line-number="44">    <span class="dt">data=</span>lalonde, <span class="dt">droplevels=</span>F, <span class="dt">render=</span>rndr, <span class="dt">render.strat=</span>rndr.strat, <span class="dt">overall=</span>F)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Control<br><span class='stratn'>(n=429)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treatment<br><span class='stratn'>(n=185)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Control<br><span class='stratn'>(N=429)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treatment<br><span class='stratn'>(N=185)</span></span></th>
 <th class='firstrow lastrow'>P-value</th>
 </tr>
 </thead>
@@ -1910,21 +1909,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Transposed table</h2>
 <p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. In some cases, it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired. It can be achieved by using the <code>transpose = TRUE</code> option.</p>
 <p>An example:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb23-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span><span class="op">*</span><span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))</a>
-<a class="sourceLine" id="cb23-3" data-line-number="3"><span class="kw">names</span>(dat)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span><span class="op">*</span><span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw">names</span>(dat)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a></code></pre></div>
 <p>Default:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
+<a class="sourceLine" id="cb26-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
+<a class="sourceLine" id="cb26-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(n=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(n=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(n=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=150)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(N=50)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(N=50)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(N=50)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=150)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -1974,10 +1973,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Transposed:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
@@ -1992,7 +1991,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(n=50)</span></span></td>
+<td class='rowlabel firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(N=50)</span></span></td>
 <td class='firstrow lastrow'>1.55 (95.7%)<br/>1.25 [0.100, 7.80]<br/>1.08 (110.8%)</td>
 <td class='firstrow lastrow'>1.17 (99.5%)<br/>0.900 [0.200, 6.30]<br/>0.781 (115.2%)</td>
 <td class='firstrow lastrow'>1.71 (129.4%)<br/>0.900 [0.100, 10.2]<br/>1.00 (134.2%)</td>
@@ -2001,7 +2000,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td class='firstrow lastrow'>1.60 (93.6%)<br/>1.20 [0.100, 7.10]<br/>1.07 (122.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(n=50)</span></span></td>
+<td class='rowlabel firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(N=50)</span></span></td>
 <td class='firstrow lastrow'>1.64 (142.2%)<br/>1.05 [0.100, 12.7]<br/>0.789 (206.3%)</td>
 <td class='firstrow lastrow'>1.60 (128.2%)<br/>0.900 [0.100, 11.4]<br/>0.913 (145.0%)</td>
 <td class='firstrow lastrow'>2.48 (341.2%)<br/>0.950 [0.100, 60.5]<br/>0.961 (145.8%)</td>
@@ -2010,7 +2009,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td class='firstrow lastrow'>1.92 (201.4%)<br/>0.800 [0.100, 26.4]<br/>0.894 (168.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(n=50)</span></span></td>
+<td class='rowlabel firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(N=50)</span></span></td>
 <td class='firstrow lastrow'>1.75 (154.4%)<br/>1.05 [0.200, 13.6]<br/>1.02 (122.3%)</td>
 <td class='firstrow lastrow'>1.45 (141.8%)<br/>0.850 [0.100, 13.4]<br/>0.829 (145.8%)</td>
 <td class='firstrow lastrow'>1.43 (107.5%)<br/>1.10 [0.200, 9.70]<br/>0.992 (102.5%)</td>
@@ -2019,7 +2018,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <td class='firstrow lastrow'>2.32 (144.0%)<br/>1.05 [0.100, 19.9]<br/>1.21 (170.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(n=150)</span></span></td>
+<td class='rowlabel firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=150)</span></span></td>
 <td class='firstrow lastrow'>1.64 (134.7%)<br/>1.10 [0.100, 13.6]<br/>0.952 (144.6%)</td>
 <td class='firstrow lastrow'>1.41 (128.3%)<br/>0.900 [0.100, 13.4]<br/>0.839 (134.1%)</td>
 <td class='firstrow lastrow'>1.87 (273.2%)<br/>1.00 [0.100, 60.5]<br/>0.985 (125.9%)</td>

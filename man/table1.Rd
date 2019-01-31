@@ -8,13 +8,14 @@
 \usage{
 table1(x, ...)
 
-\method{table1}{default}(x, labels, groupspan = NULL, rowlabelhead = "",
-  transpose = FALSE, topclass = "Rtable1", footnote = NULL,
-  render = render.default, ...)
-
-\method{table1}{formula}(x, data, overall = "Overall", rowlabelhead = "",
-  transpose = FALSE, droplevels = TRUE, topclass = "Rtable1",
+\method{table1}{default}(x, labels, groupspan = NULL,
+  rowlabelhead = "", transpose = FALSE, topclass = "Rtable1",
   footnote = NULL, render = render.default, ...)
+
+\method{table1}{formula}(x, data, overall = "Overall",
+  rowlabelhead = "", transpose = FALSE, droplevels = TRUE,
+  topclass = "Rtable1", footnote = NULL, render = render.default,
+  ...)
 }
 \arguments{
 \item{x}{An object, typically a \code{formula} or list of \code{data.frame}s.}

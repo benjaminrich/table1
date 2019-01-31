@@ -71,8 +71,11 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' zero counts are retained.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
-#' @param useNA For categorical \code{x}, should missing values be treated as a category?
-#' @param quantile.type An integer from 1 to 9, passed as the \code{type} argument to function \code{\link[stats]{quantile}}.
+#' @param na.is.category For categorical \code{x}, should missing values be
+#' treated as a category? This affects how percentages are computed.
+#' @param quantile.type An integer from 1 to 9, passed as the \code{type}
+#' argument to function \code{\link[stats]{quantile}}.
+#' @param ... Further arguments (ignored).
 #'
 #' @return A list. For numeric \code{x}, the list contains the numeric elements:
 #' \itemize{
@@ -84,8 +87,13 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #'   \item \code{MEDIAN}: the median of the non-missing values
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
-#'   \item \code{GCV}: the percent geometric coefficient of variation of the non-missing values if non-negative, or \code{NA}
-#'   \item \code{qXX}: various quantiles (percentiles) of the non-missing values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\% (first quartile), q33.3: 33.33333\% (first tertile), q50: 50\% (median, or second quartile), q66.7: 66.66667\% (second tertile), q75: 75\% (third quartile), q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
+#'   \item \code{GCV}: the percent geometric coefficient of variation of the
+#'   non-missing values if non-negative, or \code{NA}
+#'   \item \code{qXX}: various quantiles (percentiles) of the non-missing
+#'   values (q01: 1\%, q02.5: 2.5\%, q05: 5\%, q10: 10\%, q25: 25\% (first
+#'   quartile), q33.3: 33.33333\% (first tertile), q50: 50\% (median, or second
+#'   quartile), q66.7: 66.66667\% (second tertile), q75: 75\% (third quartile),
+#'   q90: 90\%, q95: 95\%, q97.5: 97.5\%, q99: 99\%)
 #'   \item \code{Q1}: the first quartile of the non-missing values (alias \code{q25})
 #'   \item \code{Q2}: the second quartile of the non-missing values (alias \code{q50} or \code{Median})
 #'   \item \code{Q3}: the third quartile of the non-missing values (alias \code{q75})
@@ -113,16 +121,17 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' @keywords utilities
 #' @export
 #' @importFrom stats sd median quantile IQR na.omit
-stats.default <- function(x, useNA=NULL, quantile.type=7) {
+stats.default <- function(x, na.is.category=T, quantile.type=7, ...) {
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
-        y <- table(x, useNA=useNA)
+        y <- table(x, useNA="no")
+        denom <- if (na.is.category) length(x) else sum(y)
         nn <- names(y)
         nn[is.na(nn)] <- "Missing"
         names(y) <- nn
-        lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x)))
+        lapply(y, function(z) list(FREQ=z, PCT=100*z/denom))
     } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
         list(
             N=sum(!is.na(x)),
@@ -396,7 +405,7 @@ function(code, ...) {
     }
     names(codestr)[names(codestr) == "."] <- codestr[names(codestr) == "."]
     function(x, ...) {
-        s <- stats.apply.rounding(stats.default(x), ...)
+        s <- stats.apply.rounding(stats.default(x, ...), ...)
         g <- function(ss) {
             res <- codestr
             for (nm in names(ss)) {
@@ -446,7 +455,7 @@ function(code, ...) {
 #' @keywords utilities
 #' @export
 render.continuous.default <- function(x, ...) {
-    with(stats.apply.rounding(stats.default(x), ...), c("",
+    with(stats.apply.rounding(stats.default(x, ...), ...), c("",
         "Mean (SD)"         = sprintf("%s (%s)", MEAN, SD),
         "Median [Min, Max]" = sprintf("%s [%s, %s]", MEDIAN, MIN, MAX)))
 }
@@ -472,7 +481,7 @@ render.continuous.default <- function(x, ...) {
 #' @keywords utilities
 #' @export
 render.categorical.default <- function(x, ...) {
-    c("", sapply(stats.apply.rounding(stats.default(x), ...), function(y) with(y,
+    c("", sapply(stats.apply.rounding(stats.default(x, ...), ...), function(y) with(y,
         sprintf("%s (%s%%)", FREQ, PCT))))
 }
 
@@ -496,7 +505,7 @@ render.categorical.default <- function(x, ...) {
 #' @keywords utilities
 #' @export
 render.missing.default <- function(x, ...) {
-    with(stats.apply.rounding(stats.default(is.na(x)), ...)$Yes,
+    with(stats.apply.rounding(stats.default(is.na(x), ...), ...)$Yes,
         c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
 }
 
@@ -545,7 +554,7 @@ render.varlabel <- function(x, transpose=F) {
 #' @keywords internal
 #' @export
 render.strat.default <- function(label, n, transpose=F) {
-    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(n=%d)</span></span>", label, n)
+    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%d)</span></span>", label, n)
 }
 
 #' Convert to HTML table rows.

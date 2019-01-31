@@ -5,8 +5,8 @@
 \title{Apply rounding to basic descriptive statistics.}
 \usage{
 stats.apply.rounding(x, digits = 3, digits.pct = 1,
-  round.median.min.max = TRUE, round.integers = TRUE, round5up = TRUE,
-  ...)
+  round.median.min.max = TRUE, round.integers = TRUE,
+  round5up = TRUE, ...)
 }
 \arguments{
 \item{x}{A list, such as that returned by \code{\link{stats.default}}.}
