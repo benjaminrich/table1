@@ -1,5 +1,5 @@
 ---
-title: "Using the table1 Package to Create HMTL Tables of Descriptive Statistics"
+title: "Using the table1 Package to Create HTML Tables of Descriptive Statistics"
 author: "Benjamin Rich"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     css: [style.css, vignette.css]
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Using the table1 Package to Create HMTL Tables of Descriptive Statistics}
+  %\VignetteIndexEntry{Using the table1 Package to Create HTML Tables of Descriptive Statistics}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteDepends{boot,MatchIt}
   %\VignetteEncoding{UTF-8}
