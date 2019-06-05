@@ -1,3 +1,11 @@
+# table1 1.2
+
+* Set `render.missing=NULL` to not show missing values.
+
+* Added `na.is.category` option to `render.categorical`.
+
+* Changed (n=XX) to (N=XX) in default table header.
+
 # table1 1.1
 
 * Added `quantile.type` argument to `stats.default` to allow selecting which quantile type is computed.

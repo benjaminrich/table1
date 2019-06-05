@@ -4,13 +4,10 @@
 \alias{stats.default}
 \title{Compute some basic descriptive statistics.}
 \usage{
-stats.default(x, na.is.category = T, quantile.type = 7, ...)
+stats.default(x, quantile.type = 7, ...)
 }
 \arguments{
 \item{x}{A vector or numeric, factor, character or logical values.}
-
-\item{na.is.category}{For categorical \code{x}, should missing values be
-treated as a category? This affects how percentages are computed.}
 
 \item{quantile.type}{An integer from 1 to 9, passed as the \code{type}
 argument to function \code{\link[stats]{quantile}}.}
@@ -47,7 +44,8 @@ contains a sublist for each category, where each sublist contains the
 numeric elements:
 \itemize{
   \item \code{FREQ}: the frequency count
-  \item \code{PCT}: the percent relative frequency
+  \item \code{PCT}: the percent relative frequency, including NA in the denominator
+  \item \code{PCTnoNA}: the percent relative frequency, excluding NA from the denominator
 }
 }
 \description{

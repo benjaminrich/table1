@@ -4,12 +4,15 @@
 \alias{render.categorical.default}
 \title{Render categorical values for table output.}
 \usage{
-render.categorical.default(x, ...)
+render.categorical.default(x, ..., na.is.category = TRUE)
 }
 \arguments{
 \item{x}{A vector of type \code{factor}, \code{character} or \code{logical}.}
 
 \item{...}{Further arguments, passed to \code{\link{stats.apply.rounding}}.}
+
+\item{na.is.category}{Include missing values in the denominator for
+calculating percentages (the default) or omit them.}
 }
 \value{
 A \code{character} vector. Each element is to be displayed in a

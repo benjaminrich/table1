@@ -71,8 +71,6 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' zero counts are retained.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
-#' @param na.is.category For categorical \code{x}, should missing values be
-#' treated as a category? This affects how percentages are computed.
 #' @param quantile.type An integer from 1 to 9, passed as the \code{type}
 #' argument to function \code{\link[stats]{quantile}}.
 #' @param ... Further arguments (ignored).
@@ -106,7 +104,8 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' numeric elements:
 #' \itemize{
 #'   \item \code{FREQ}: the frequency count
-#'   \item \code{PCT}: the percent relative frequency
+#'   \item \code{PCT}: the percent relative frequency, including NA in the denominator
+#'   \item \code{PCTnoNA}: the percent relative frequency, excluding NA from the denominator
 #' }
 #'
 #' @examples
@@ -121,17 +120,16 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' @keywords utilities
 #' @export
 #' @importFrom stats sd median quantile IQR na.omit
-stats.default <- function(x, na.is.category=T, quantile.type=7, ...) {
+stats.default <- function(x, quantile.type=7, ...) {
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
         y <- table(x, useNA="no")
-        denom <- if (na.is.category) length(x) else sum(y)
         nn <- names(y)
         nn[is.na(nn)] <- "Missing"
         names(y) <- nn
-        lapply(y, function(z) list(FREQ=z, PCT=100*z/denom))
+        lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x), PCTnoNA=100*z/sum(y)))
     } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
         list(
             N=sum(!is.na(x)),
@@ -467,6 +465,8 @@ render.continuous.default <- function(x, ...) {
 #'
 #' @param x A vector of type \code{factor}, \code{character} or \code{logical}.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
+#' @param na.is.category Include missing values in the denominator for
+#' calculating percentages (the default) or omit them.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -480,9 +480,9 @@ render.continuous.default <- function(x, ...) {
 #' render.categorical.default(y)
 #' @keywords utilities
 #' @export
-render.categorical.default <- function(x, ...) {
+render.categorical.default <- function(x, ..., na.is.category=TRUE) {
     c("", sapply(stats.apply.rounding(stats.default(x, ...), ...), function(y) with(y,
-        sprintf("%s (%s%%)", FREQ, PCT))))
+        sprintf("%s (%s%%)", FREQ, if (na.is.category) PCT else PCTnoNA))))
 }
 
 #' Render missing values for table output.
