@@ -4,6 +4,8 @@ Version: 1.2
 Date: 2019-01-31
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre"), email="mail@benjaminrich.net")
+URL: https://github.com/benjaminrich/table1
+BugReports: https://github.com/benjaminrich/table1/issues
 Description: Create HTML tables of descriptive statistics, as one would expect
     to see as the first table (i.e. "Table 1") in a medical/epidemiological journal
     article.

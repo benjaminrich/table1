@@ -327,7 +327,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
     if (is.character(render.categorical)) {
         render.categorical <- parse.abbrev.render.code(code=render.categorical, ...)
     }
-    if (is.character(render.missing)) {
+    if (!is.null(render.missing) && is.character(render.missing)) {
         render.missing <- parse.abbrev.render.code(code=render.missing, ...)
     }
     if (length(x) == 0) {
@@ -343,7 +343,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
     } else {
         stop(paste("Unrecognized variable type:", class(x)))
     }
-    if (missing) {
+    if (missing && !is.null(render.missing)) {
         r <- c(r, do.call(render.missing, c(list(x=x), list(...))))
     }
     if (transpose) {
