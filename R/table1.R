@@ -803,93 +803,6 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         render       = render, ...)
 }
 
-html.standalone.head <- '
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="generator" content="table1" />
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Table1 Output</title>
-<style type="text/css">
-table.Rtable1 {
-    font-family: "Arial", Arial, sans-serif;
-    font-size: 10pt;
-    border-collapse: collapse;
-    padding: 0px;
-    margin: 0px;
-    margin-bottom: 10pt;
-}
-.Rtable1 th, .Rtable1 td {
-    border: 0;
-    text-align: center;
-    padding: 0.5ex 1.5ex;
-    margin: 0px;
-}
-.Rtable1 thead>tr:first-child>th {
-    border-top: 2pt solid black;
-}
-.Rtable1 thead>tr:last-child>th {
-    border-bottom: 1pt solid black;
-}
-.Rtable1 tbody>tr:last-child>td {
-    border-bottom: 2pt solid black;
-}
-.Rtable1 th.grouplabel {
-    padding-left: 0;
-    padding-right: 0;
-}
-.Rtable1 th.grouplabel>div {
-    margin-left: 1.5ex;
-    margin-right: 1.5ex;
-    border-bottom: 1pt solid black;
-}
-.Rtable1 th.grouplabel:last-child>div {
-    margin-right: 0;
-}
-.Rtable1 .rowlabel {
-    text-align: left;
-    padding-left: 2.5ex;
-}
-.Rtable1 .firstrow.rowlabel {
-    padding-left: 0.5ex;
-    font-weight: bold;
-}
-.Rtable1.zebra tbody tr:nth-child(odd) {
-    background-color: #eee;
-}
-.Rtable1.grid th, .Rtable1.grid td {
-    border: 1pt solid black;
-}
-table.grayheader th {
-    background-color: #ccc;
-}
-.Rtable1.listing .stratn {
-    display: none;
-}
-.Rtable1.times {
-    font-family: "Times New Roman", Times, serif;
-}
-</style>
-</head>
-<body>
-'
-
-html.standalone.foot <- '
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
-</body>
-</html>
-'
-
 .table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, render=render.default, render.strat=render.strat.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
@@ -995,29 +908,13 @@ html.standalone.foot <- '
 #' @export
 print.table1 <- function(x, ...) {
     if (interactive()) {
-        has_htmltools <- requireNamespace("htmltools", quietly=TRUE)
-        if (has_htmltools) {
-            x <- htmltools::HTML(x)
-            default.style <- htmltools::htmlDependency("table1", "1.0",
-                src=system.file(package="table1", "table1_defaults_1.0"),
-                stylesheet="table1_defaults.css")
-            x <- htmltools::div(class="Rtable1", default.style, x)
-            x <- htmltools::browsable(x)
-            print(x, ...) # Calls htmltools:::print.html(x, ...)
-        } else {
-            # Fallback to old method without htmltools...
-            viewer <- getOption("viewer")
-            if (is.null(viewer)) {
-                viewer <- utils::browseURL
-            }
-            dir <- tempfile()
-            dir.create(dir)
-            html.file <- file.path(dir, "table1.html")
-            cat(file=html.file, append=TRUE, html.standalone.head)
-            cat(file=html.file, append=TRUE, as.character(x))
-            cat(file=html.file, append=TRUE, html.standalone.foot)
-            viewer(html.file)
-        }
+        x <- htmltools::HTML(x)
+        default.style <- htmltools::htmlDependency("table1", "1.0",
+            src=system.file(package="table1", "table1_defaults_1.0"),
+            stylesheet="table1_defaults.css")
+        x <- htmltools::div(class="Rtable1", default.style, x)
+        x <- htmltools::browsable(x)
+        print(x, ...) # Calls htmltools:::print.html(x, ...)
     } else {
         cat(x)
     }
@@ -1035,18 +932,12 @@ knit_print.table1 <- function(x, ...) {
         grepl("^html", knitr::opts_knit$get("rmarkdown.pandoc.to"))
 
     if (knit_to_html) {
-        has_htmltools <- requireNamespace("htmltools", quietly=TRUE)
-        if (has_htmltools) {
-            x <- htmltools::HTML(x)
-            default.style <- htmltools::htmlDependency("table1", "1.0",
-                src=system.file(package="table1", "table1_defaults_1.0"),
-                stylesheet="table1_defaults.css")
-            x <- htmltools::div(class="Rtable1", default.style, x)
-            knitr::knit_print(x, ...)
-        } else {
-            # Fallback to old method without htmltools...
-            knitr::knit_print(knitr::asis_output(x), ...)
-        }
+        x <- htmltools::HTML(x)
+        default.style <- htmltools::htmlDependency("table1", "1.0",
+            src=system.file(package="table1", "table1_defaults_1.0"),
+            stylesheet="table1_defaults.css")
+        x <- htmltools::div(class="Rtable1", default.style, x)
+        knitr::knit_print(x, ...)
     } else {
         knitr::knit_print(as.character(x), ...)
     }
