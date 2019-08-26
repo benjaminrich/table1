@@ -724,6 +724,8 @@ has.units <- function(x) {
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param footnote A character string to be added as a footnote to the table.
 #' The default \code{NULL} causes the footnote to be omitted.
+#' @param caption A character string to be added as a caption to the table.
+#' The default \code{NULL} causes the caption to be omitted.
 #' @param render A function to render the table cells (see Details).
 #' immediately displayed? Otherwise an HTML fragment is printed to
 #' \code{\link{stdout}}.
@@ -792,7 +794,7 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, render=render.default, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, ...) {
     .table1.internal(x = x,
         labels       = labels,
         groupspan    = groupspan,
@@ -800,10 +802,11 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         transpose    = transpose,
         topclass     = topclass,
         footnote     = footnote,
+        caption      = caption,
         render       = render, ...)
 }
 
-.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, render=render.default, render.strat=render.strat.default, ...) {
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -883,8 +886,13 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 
     if (is.null(rowlabelhead)) rowlabelhead <- ""
 
+    if (!is.null(caption)) {
+        caption <- sprintf('<caption>%s</caption>\n', caption)
+    } else {
+        caption <- ""
+    }
     x <- paste0(
-        sprintf('<table%s>\n<thead>\n', topclass),
+        sprintf('<table%s>%s\n<thead>\n', topclass, caption),
         thead0,
         table.rows(thead, row.labels=rowlabelhead, th=T),
         '</thead>\n<tbody>\n',
