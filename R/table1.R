@@ -727,8 +727,6 @@ has.units <- function(x) {
 #' @param caption A character string to be added as a caption to the table.
 #' The default \code{NULL} causes the caption to be omitted.
 #' @param render A function to render the table cells (see Details).
-#' immediately displayed? Otherwise an HTML fragment is printed to
-#' \code{\link{stdout}}.
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return An object of class "table1".
