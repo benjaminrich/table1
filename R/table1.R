@@ -79,6 +79,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
 #' \itemize{
 #'   \item \code{N}: the number of non-missing values
 #'   \item \code{NMISS}: the number of missing values
+#'   \item \code{SUM}: the sum of the non-missing values
 #'   \item \code{MEAN}: the mean of the non-missing values
 #'   \item \code{SD}: the standard deviation of the non-missing values
 #'   \item \code{MIN}: the minimum of the non-missing values
@@ -134,6 +135,7 @@ stats.default <- function(x, quantile.type=7, ...) {
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
+            SUM=NA,
             MEAN=NA,
             SD=NA,
             CV=NA,
@@ -164,6 +166,7 @@ stats.default <- function(x, quantile.type=7, ...) {
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
+            SUM=sum(x, na.rm=TRUE),
             MEAN=mean(x, na.rm=TRUE),
             SD=sd(x, na.rm=TRUE),
             CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),

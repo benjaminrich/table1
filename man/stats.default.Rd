@@ -19,6 +19,7 @@ A list. For numeric \code{x}, the list contains the numeric elements:
 \itemize{
   \item \code{N}: the number of non-missing values
   \item \code{NMISS}: the number of missing values
+  \item \code{SUM}: the sum of the non-missing values
   \item \code{MEAN}: the mean of the non-missing values
   \item \code{SD}: the standard deviation of the non-missing values
   \item \code{MIN}: the minimum of the non-missing values

@@ -39,9 +39,7 @@ The default \code{NULL} causes the footnote to be omitted.}
 \item{caption}{A character string to be added as a caption to the table.
 The default \code{NULL} causes the caption to be omitted.}
 
-\item{render}{A function to render the table cells (see Details).
-immediately displayed? Otherwise an HTML fragment is printed to
-\code{\link{stdout}}.}
+\item{render}{A function to render the table cells (see Details).}
 
 \item{data}{For the formula interface, a \code{data.frame} from which the
 variables in \code{x} should be taken.}
