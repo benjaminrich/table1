@@ -297,7 +297,8 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' \code{\link{parse.abbrev.render.code}}.
 #' @param render.missing A function to render missing (i.e. \code{NA}) values.
 #' Can also be a \code{character} string, in which case it is passed to
-#' \code{\link{parse.abbrev.render.code}}.
+#' \code{\link{parse.abbrev.render.code}}. Set to \code{NULL} to ignore missing
+#' values.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a

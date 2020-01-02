@@ -1,8 +1,12 @@
 # table1 1.2
 
-* Set `render.missing=NULL` to not show missing values.
+* Added `caption` argument to generate a caption for the table.
 
-* Added `na.is.category` option to `render.categorical`.
+* Set `render.missing=NULL` to ignore missing values.
+
+* Added `SUM` to `stats.default` for continuous variables.
+
+* Added `PCTnoNA` to `stats.default` and `na.is.category` option to `render.categorical.default`.
 
 * Changed (n=XX) to (N=XX) in default table header.
 
