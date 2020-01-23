@@ -1,10 +1,13 @@
-#' Round numbers to specified significant digits with 0-padding.
+#' Round numbers with 0-padding.
 #'
-#' A utility function to round numbers to a specified number of
-#' significant digits.  Zeros are kept if they are significant.
+#' Utility functions to round numbers, similar the the base functions \code{signif}
+#' and \code{round}, but resulting in character representations that keep zeros at
+#' the right edge if they are significant.
 #'
 #' @param x A numeric vector.
-#' @param digits An integer specifying the number of significant digits to keep.
+#' @param digits An integer specifying the number of significant digits to keep
+#' (for \code{signif_pad}) or the number of digits after the decimal point (for
+#' \code{round_pad}).
 #' @param round.integers Should rounding be limited to digits to the right of
 #' the decimal point?
 #' @param round5up Should numbers with 5 as the last digit always be rounded
@@ -16,6 +19,7 @@
 #'
 #' @seealso
 #' \code{\link{signif}}
+#' \code{\link{round}}
 #' \code{\link{formatC}}
 #' \code{\link{prettyNum}}
 #' \code{\link{format}}
@@ -61,6 +65,13 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
     add.dec <- ifelse(!has.dec & npad > 0, ".", "")  #  If not, and if padding is required, we need to add a decimal point first
 
     ifelse(is.na(x), NA, paste(cx, add.dec, pad, sep=""))
+}
+
+#' @rdname signif_pad
+#' @export
+round_pad <- function (x, digits=2, round5up=TRUE) {
+    eps <- if (round5up) x * (10^(-(digits + 3))) else 0
+    formatC(round(x + eps, digits), digits=digits, format="f", flag="0")
 }
 
 #' Compute some basic descriptive statistics.
