@@ -3,7 +3,7 @@
 #' @param data Either a file name (\code{character}) or a \code{data.frame}. If
 #' a file name it will be read using the function \code{read.fun}.
 #' @param metadata Either a file name (\code{character}) or a \code{list}. If a
-#' file name it will be read using the function \code{\link[yaml]{yaml::read_yaml}}
+#' file name it will be read using the function \code{\link[yaml]{read_yaml}}
 #' (so it should be a file the contains valide YAML text), and a \code{list} results.
 #' See Details regarding the \code{list} contents.
 #' @param read.fun A function to read files. It should accept a file name as
@@ -24,7 +24,7 @@
 #'   associated labels. The names can also be omitted if the goal is just to
 #'   specify the order of the factor levels.
 #' }
-#' @return A \code{data.frame}.
+#' @return A \code{data.frame} (as returned by \code{read.fun}).
 #' @examples
 #'
 #' # Simulate some data

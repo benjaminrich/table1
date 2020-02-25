@@ -11,7 +11,7 @@ t1read(data, metadata = NULL, read.fun = read.csv, ..., escape.html = TRUE)
 a file name it will be read using the function \code{read.fun}.}
 
 \item{metadata}{Either a file name (\code{character}) or a \code{list}. If a
-file name it will be read using the function \code{\link[yaml]{yaml::read_yaml}}
+file name it will be read using the function \code{\link[yaml]{read_yaml}}
 (so it should be a file the contains valide YAML text), and a \code{list} results.
 See Details regarding the \code{list} contents.}
 
@@ -24,7 +24,7 @@ its first argument and return a \code{data.frame}.}
 valid HTML by escaping special symbols?}
 }
 \value{
-A \code{data.frame}.
+A \code{data.frame} (as returned by \code{read.fun}).
 }
 \description{
 Read and augment data with extended metadata attributes
