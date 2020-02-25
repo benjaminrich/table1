@@ -81,8 +81,8 @@ t1read <- function(data, metadata=NULL, read.fun=read.csv, ..., escape.html=TRUE
         }
         i <- names(data) %in% names(metadata$categoricals)
         for (v in names(data)[i]) {
-            lev <- names(metadata$categoricals[[v]])
             lab <- unlist(metadata$categoricals[[v]])
+            lev <- names(lab)
             if (is.null(lev)) {
                 lev <- lab
             }
