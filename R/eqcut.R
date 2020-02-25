@@ -82,14 +82,26 @@ eqcut <- function(x, ngroups, labeling=eqcut.default.labeling, withhold=NULL, va
     is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
         abs(x - round(x)) < tol
     }
-    if (!is.numeric(x)) stop("x must be numeric")
     if (!is.numeric(ngroups)) stop("ngroups must be a single integer value")
     if (length(ngroups) != 1) stop("ngroups must be a single integer value")
     if (!is.wholenumber(ngroups)) stop("ngroups must be a single integer value")
     if (ngroups < 2) stop("ngroups must be at least 2")
+    if (!is.numeric(x)) stop("x must be numeric")
+    if (length(x) == 0) stop("x is empty")
+    if (sum(!is.na(x)) == 0) stop("x has no non-missing values")
+    if (sum(!is.na(x)) < ngroups) stop(paste0("Can't form ", ngroups, " groups because there are only ", sum(!is.na(x)), " non-missing values"))
+    if (length(unique(x[!is.na(x)])) < ngroups) stop(paste0("Can't form ", ngroups, " groups because there are only ", length(unique(x[!is.na(x)])), " unique non-missing values"))
 
     q <- quantile(x, probs=seq.int(ngroups-1)/ngroups, na.rm=TRUE, type=quantile.type)
-    xcat <- cut(x, breaks=c(min(x, na.rm=T), q, max(x, na.rm=T)), right=right, include.lowest=T)
+    breaks <- c(min(x, na.rm=T), q, max(x, na.rm=T)) 
+    if (max(table(breaks)) > 1) {
+        tb <- table(x)
+        stop(paste0("Because of duplicate values, it's not possible to form ", ngroups, " equal-sized groups. One value occurs ", max(tb), " times; consider using `withhold` to create a separate group for it."))
+    }
+    xcat <- cut(x, breaks=breaks, right=right, include.lowest=T)
+    if (diff(range(tb <- table(xcat))) > 1) {
+        warning(paste0("Because of duplicate values, it's not possible to form ", ngroups, " equal-sized groups. Largest group size: ", max(tb), "; smallest group size: ", min(tb)))
+    }
 
     from <- c(min(x, na.rm=T), q)
     to <- c(q, max(x, na.rm=T))
