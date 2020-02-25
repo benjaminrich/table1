@@ -10,6 +10,12 @@
 
 * Changed (n=XX) to (N=XX) in default table header.
 
+* Improved error handling in function `eqcut`.
+
+* Added function `round_pad`.
+
+* Added function `t1read`.
+
 # table1 1.1
 
 * Added `quantile.type` argument to `stats.default` to allow selecting which quantile type is computed.

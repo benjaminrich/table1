@@ -4,10 +4,17 @@
 \alias{render.default}
 \title{Render values for table output.}
 \usage{
-render.default(x, name, missing = any(is.na(x)), transpose = F,
-  render.empty = "NA", render.continuous = render.continuous.default,
+render.default(
+  x,
+  name,
+  missing = any(is.na(x)),
+  transpose = F,
+  render.empty = "NA",
+  render.continuous = render.continuous.default,
   render.categorical = render.categorical.default,
-  render.missing = render.missing.default, ...)
+  render.missing = render.missing.default,
+  ...
+)
 }
 \arguments{
 \item{x}{A vector or numeric, factor, character or logical values.}

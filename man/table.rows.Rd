@@ -5,13 +5,27 @@
 \alias{table.data}
 \title{Convert to HTML table rows.}
 \usage{
-table.rows(x, row.labels = rownames(x), th = FALSE, class = NULL,
-  rowlabelclass = "rowlabel", firstrowclass = "firstrow",
-  lastrowclass = "lastrow", ...)
+table.rows(
+  x,
+  row.labels = rownames(x),
+  th = FALSE,
+  class = NULL,
+  rowlabelclass = "rowlabel",
+  firstrowclass = "firstrow",
+  lastrowclass = "lastrow",
+  ...
+)
 
-table.data(x, row.labels = rownames(x), th = FALSE, class = NULL,
-  rowlabelclass = "rowlabel", firstrowclass = "firstrow",
-  lastrowclass = "lastrow", ...)
+table.data(
+  x,
+  row.labels = rownames(x),
+  th = FALSE,
+  class = NULL,
+  rowlabelclass = "rowlabel",
+  firstrowclass = "firstrow",
+  lastrowclass = "lastrow",
+  ...
+)
 }
 \arguments{
 \item{x}{A vector or table-like structure (e.g. a \code{\link{data.frame}} or \code{\link{matrix}}).}

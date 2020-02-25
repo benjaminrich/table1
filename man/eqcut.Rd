@@ -5,9 +5,16 @@
 \alias{eqcut.default.labeling}
 \title{Cut a continuous variable into equal-sized groups.}
 \usage{
-eqcut(x, ngroups, labeling = eqcut.default.labeling, withhold = NULL,
+eqcut(
+  x,
+  ngroups,
+  labeling = eqcut.default.labeling,
+  withhold = NULL,
   varlabel = if (has.label(x)) label(x) else deparse(substitute(x)),
-  quantile.type = 7, right = FALSE, ...)
+  quantile.type = 7,
+  right = FALSE,
+  ...
+)
 
 eqcut.default.labeling(x, xcat, which, what, from, to, ...)
 }
