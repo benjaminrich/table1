@@ -12,7 +12,9 @@
 
 * Improved error handling in function `eqcut`.
 
-* Added function `round_pad`.
+* Function `signif_pad` can now use different decimal marks to support different locales.
+
+* Added function `round_pad` (similar to `signif_pad` but for fixed rounding).
 
 * Added function `t1read`.
 

@@ -13,4 +13,4 @@ License: GPL-3
 Imports: stats,Formula,knitr,htmltools,yaml
 Suggests: boot,MatchIt
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.0.2.9000

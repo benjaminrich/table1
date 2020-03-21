@@ -14,6 +14,11 @@
 #' up? The standard R approach is "go to the even digit" (IEC 60559 standard,
 #' see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
 #' always round up.
+#' @param dec The character symbol to use as decimal mark (locale
+#' specific).
+#' @param ... Further options, passed to \code{formatC} (which is used
+#' internally). Not all options will work, but some might be useful (e.g.
+#' \code{big.mark}).
 #'
 #' @return A character vector containing the rounded numbers.
 #'
@@ -25,7 +30,7 @@
 #' \code{\link{format}}
 #'
 #' @examples
-#' x <- c(0.9001, 12345, 1.2, 1., 0.1)
+#' x <- c(0.9001, 12345, 1.2, 1., 0.1, 0.00001 , 1e5)
 #' signif_pad(x, digits=3)
 #' signif_pad(x, digits=3, round.integers=TRUE)
 #' 
@@ -44,34 +49,24 @@
 #' 
 #' @keywords utilities
 #' @export
-signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE) {
+signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec=getOption("OutDec"), ...) {
     eps <- if (round5up) x*(10^(-(digits + 3))) else 0
-    if (round.integers) {
-        cx <- as.character(signif(x+eps, digits))  # Character representation of x
-    } else {
-        cx <- ifelse(x >= 10^digits, as.character(round(x)), as.character(signif(x+eps, digits)))  # Character representation of x
-   }
+
+    # Character representation of x
+    cx <- ifelse(x >= 10^digits & isFALSE(round.integers),
+        formatC(round(x), digits=digits, format="fg", flag="#", decimal.mark=dec, ...),
+        formatC(signif(x+eps, digits), digits=digits, format="fg", flag="#", decimal.mark=dec, ...))
 
     cx[is.na(x)] <- "0"                    # Put in a dummy value for missing x
-
-    d <- gsub("[^0-9]", "", cx)            # The 'digits' of x
-    d <- sub("^0*", "", d)                 # Remove any leading zeros
-    nd <- nchar(d)                         # How many actual digits
-    nd[cx=="0"] <- 1                       # Special case "0"
-    npad <- pmax(0, digits - nd)           # How many digits are missing
-    pad <- sapply(npad, function(n) paste(rep("0", times=n), collapse=""))
-
-    has.dec <- grepl("\\.", cx)                      #  Does cx already contain a decimal point?
-    add.dec <- ifelse(!has.dec & npad > 0, ".", "")  #  If not, and if padding is required, we need to add a decimal point first
-
-    ifelse(is.na(x), NA, paste(cx, add.dec, pad, sep=""))
+    cx <- gsub("[^0-9]*$", "", cx)         # Remove any trailing non-digit characters
+    ifelse(is.na(x), NA, cx)
 }
 
 #' @rdname signif_pad
 #' @export
-round_pad <- function (x, digits=2, round5up=TRUE) {
-    eps <- if (round5up) x * (10^(-(digits + 3))) else 0
-    formatC(round(x + eps, digits), digits=digits, format="f", flag="0")
+round_pad <- function (x, digits=2, round5up=TRUE, dec=getOption("OutDec"), ...) {
+    eps <- if (round5up) 10^(-(digits + 3)) else 0
+    formatC(round(x + eps, digits), digits=digits, format="f", flag="0", decimal.mark=dec, ...)
 }
 
 #' Compute some basic descriptive statistics.
