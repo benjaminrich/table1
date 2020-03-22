@@ -318,7 +318,7 @@ this default style is not ugly, inevitably there will be a desire to customize
 the visual appearance of the table (fonts, colors, gridlines, etc).  The
 package provides a limited number of built-in options for changing the style,
 while further customization can be achieved in [R
-Markdown](rmarkdown.rstudio.com/) documents using CSS (see below).
+Markdown](https://rmarkdown.rstudio.com/) documents using CSS (see below).
 
 ### Using built-in styles
 
@@ -351,7 +351,7 @@ Multiple styles can be applied in combination by separating them with a space.
 ### Using custom CSS to control the table's appearance
 
 Further customization of the table appearance is only possible in [R
-Markdown](rmarkdown.rstudio.com/) documents, by using custom CSS which is
+Markdown](https://rmarkdown.rstudio.com/) documents, by using custom CSS which is
 specified in the document's YAML header. For examples, to include `style.css`
 in the output, the YAML header should contain the following:
 

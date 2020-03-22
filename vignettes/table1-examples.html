@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2019-01-31" />
+<meta name="date" content="2020-03-22" />
 
-<title>Using the table1 Package to Create HMTL Tables of Descriptive Statistics</title>
+<title>Using the table1 Package to Create HTML Tables of Descriptive Statistics</title>
 
 <style type="text/css">.Rtable1 table, table.Rtable1 {font-family: "Arial", Arial, sans-serif;font-size: 10pt;border-collapse: collapse;padding: 0px;margin: 0px;}.Rtable1 td {white-space:nowrap;}.Rtable1 th, .Rtable1 td {border: 0;text-align: center;padding: 0.5ex 1.5ex;margin: 0px;}.Rtable1 thead>tr:first-child>th {border-top: 2pt solid black;}.Rtable1 thead>tr:last-child>th {border-bottom: 1pt solid black;}.Rtable1 tbody>tr:last-child>td {border-bottom: 2pt solid black;}.Rtable1 th.grouplabel {padding-left: 0;padding-right: 0;}.Rtable1 th.grouplabel>div {margin-left: 1.5ex;margin-right: 1.5ex;border-bottom: 1pt solid black;}.Rtable1 th.grouplabel:last-child>div {margin-right: 0;}.Rtable1 .rowlabel {text-align: left;padding-left: 2.5ex;}.Rtable1 .firstrow.rowlabel {padding-left: 0.5ex;font-weight: bold;}.Rtable1-zebra tbody tr:nth-child(odd) {background-color: #eee;}table.Rtable1-times {font-family: "Times New Roman", Times, serif;}.Rtable1-shade th {background-color: #ccc;}.Rtable1-grid th, .Rtable1-grid td {border-left: 1pt solid black;border-right: 1pt solid black;}.Rtable1-grid thead>tr:first-child>th {border-top: 1pt solid black;}.Rtable1-grid thead>tr:last-child>th {border-bottom: 1pt solid black;}.Rtable1-grid tbody>tr:last-child>td {border-bottom: 1pt solid black;}.Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {border-top: 1pt solid black;}.Rtable1-grid th.grouplabel>div {margin-left: 0;margin-right: 0;border-bottom: 0;}.Rtable1-center td.rowlabel, .Rtable1-center td.firstrow.rowlabel {font-weight: bold;text-align: center;padding: 0.5ex 1.5ex;}.Rtable1-footnote {font-size: smaller;padding: 0px;margin: 0px;}</style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
+<style type="text/css" data-origin="pandoc">
 a.sourceLine { display: inline-block; line-height: 1.25; }
 a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
@@ -38,7 +38,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+  { content: attr(title);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -82,7 +82,29 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
 </style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -247,6 +269,9 @@ code > span.al { color: #ff0000; font-weight: bold; }
 code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
+
+
+
 </head>
 
 <body>
@@ -254,9 +279,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 
-<h1 class="title toc-ignore">Using the table1 Package to Create HMTL Tables of Descriptive Statistics</h1>
-<h4 class="author"><em>Benjamin Rich</em></h4>
-<h4 class="date"><em>2019-01-31</em></h4>
+<h1 class="title toc-ignore">Using the table1 Package to Create HTML Tables of Descriptive Statistics</h1>
+<h4 class="author">Benjamin Rich</h4>
+<h4 class="date">2020-03-22</h4>
 
 
 <div id="TOC">
@@ -277,25 +302,25 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
-<p>It is standard practice in epidemiology and related fields that the first table of any journal article, referred to as “Table 1”, is a table that presents descriptive statistics of baseline characteristics of the study population stratified by exposure. This package makes it fairly straightforward to produce such a table using R. The output format is HTML (which has the advantage of being easy to copy into a Word document; Chrome browser works well). It is convenient to use this package in conjunction with <a href="https://yihui.name/knitr/">knitr</a> and <a href="https://rmarkdown.rstudio.com/">R Markdown</a>, as the HTML output is passed through untouched (note: as of version 1.1 it is no longer necessary to specify the <code>results='asis'</code> chunk option to have the HTML output appear correctly in the final document); in fact, this vignette serves as an example. The package does allow quite a bit of flexibility to customize the table’s contents and appearance, but this does come at the cost of ease-of-use (more programming, some knowledge of CSS).</p>
+<p>It is standard practice in epidemiology and related fields that the first table of any journal article, referred to as “Table 1”, is a table that presents descriptive statistics of baseline characteristics of the study population stratified by exposure. This package makes it fairly straightforward to produce such a table using R. The output format is HTML (which has the advantage of being easy to copy into a Word document; Chrome browser works well). It is convenient to use this package in conjunction with <a href="https://yihui.name/knitr/">knitr</a> and <a href="https://rmarkdown.rstudio.com/">R Markdown</a>, as the HTML output is passed through untouched (note: as of version 1.1 it is no longer necessary to specify the <code>results=&#39;asis&#39;</code> chunk option to have the HTML output appear correctly in the final document); in fact, this vignette serves as an example. The package does allow quite a bit of flexibility to customize the table’s contents and appearance, but this does come at the cost of ease-of-use (more programming, some knowledge of CSS).</p>
 </div>
 <div id="example-1" class="section level2">
 <h2>Example 1</h2>
 <p>The first example is inspired by <a href="http://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/">this blog post</a>, which is about how to accomplish a similar task using the <code>htmlTable</code> package. It uses the <code>melanoma</code> data set from the <code>boot</code> package for illustration, and I have copied here the code used to prepare the data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(boot) </a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3">melanoma2 &lt;-<span class="st"> </span>melanoma</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"> </a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co"># Factor the basic variables that</span></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># we're interested in</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">melanoma2<span class="op">$</span>status &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>status, </a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">         <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="co"># Reference</span></a>
-<a class="sourceLine" id="cb1-11" data-line-number="11">                  <span class="st">&quot;Melanoma death&quot;</span>, </a>
-<a class="sourceLine" id="cb1-12" data-line-number="12">                  <span class="st">&quot;Non-melanoma death&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(boot) </a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3">melanoma2 &lt;-<span class="st"> </span>melanoma</a>
+<a class="sourceLine" id="cb1-4" title="4"> </a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="co"># Factor the basic variables that</span></a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="co"># we&#39;re interested in</span></a>
+<a class="sourceLine" id="cb1-7" title="7">melanoma2<span class="op">$</span>status &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb1-8" title="8"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>status, </a>
+<a class="sourceLine" id="cb1-9" title="9">         <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),</a>
+<a class="sourceLine" id="cb1-10" title="10">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="co"># Reference</span></a>
+<a class="sourceLine" id="cb1-11" title="11">                  <span class="st">&quot;Melanoma death&quot;</span>, </a>
+<a class="sourceLine" id="cb1-12" title="12">                  <span class="st">&quot;Non-melanoma death&quot;</span>))</a></code></pre></div>
 <p>As a first attempt, we can do the following:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(sex) <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(ulcer) <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(sex) <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(ulcer) <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -396,25 +421,25 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>Note that the <code>table1</code> package uses a familiar formula interface, where the variables to include in the table are separated by ‘+’ symbols, the “stratification” variable (which creates the columns) appears to the right of a “conditioning” symbol ‘|’, and the <code>data</code> argument specifies a <code>data.frame</code> that contains the variables in the formula.</p>
 <p>But because we don’t have nice labels for the variables and categories, it doesn’t look great. To improve things, we can create factors with descriptive labels for the categorical variables (<code>sex</code> and <code>ulcer</code>), label each variable the way we want, and specify units for the continuous variables (<code>age</code> and <code>thickness</code>), like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">melanoma2<span class="op">$</span>sex &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>sex, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Male&quot;</span>, </a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">                  <span class="st">&quot;Female&quot;</span>))</a>
-<a class="sourceLine" id="cb3-5" data-line-number="5"> </a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">melanoma2<span class="op">$</span>ulcer &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>ulcer, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Absent&quot;</span>, </a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">                  <span class="st">&quot;Present&quot;</span>))</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb3-11" data-line-number="11"><span class="kw">label</span>(melanoma2<span class="op">$</span>sex)       &lt;-<span class="st"> &quot;Sex&quot;</span></a>
-<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="kw">label</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="kw">label</span>(melanoma2<span class="op">$</span>ulcer)     &lt;-<span class="st"> &quot;Ulceration&quot;</span></a>
-<a class="sourceLine" id="cb3-14" data-line-number="14"><span class="kw">label</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;Thickness&quot;</span></a>
-<a class="sourceLine" id="cb3-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb3-16" data-line-number="16"><span class="kw">units</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb3-17" data-line-number="17"><span class="kw">units</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;mm&quot;</span></a>
-<a class="sourceLine" id="cb3-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb3-19" data-line-number="19"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ulcer <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2, <span class="dt">overall=</span><span class="st">&quot;Total&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">melanoma2<span class="op">$</span>sex &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>sex, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb3-3" title="3">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Male&quot;</span>, </a>
+<a class="sourceLine" id="cb3-4" title="4">                  <span class="st">&quot;Female&quot;</span>))</a>
+<a class="sourceLine" id="cb3-5" title="5"> </a>
+<a class="sourceLine" id="cb3-6" title="6">melanoma2<span class="op">$</span>ulcer &lt;-<span class="st"> </span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>ulcer, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb3-8" title="8">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Absent&quot;</span>, </a>
+<a class="sourceLine" id="cb3-9" title="9">                  <span class="st">&quot;Present&quot;</span>))</a>
+<a class="sourceLine" id="cb3-10" title="10"></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="kw">label</span>(melanoma2<span class="op">$</span>sex)       &lt;-<span class="st"> &quot;Sex&quot;</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="kw">label</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;Age&quot;</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="kw">label</span>(melanoma2<span class="op">$</span>ulcer)     &lt;-<span class="st"> &quot;Ulceration&quot;</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="kw">label</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;Thickness&quot;</span></a>
+<a class="sourceLine" id="cb3-15" title="15"></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="kw">units</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;years&quot;</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="kw">units</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;mm&quot;</span></a>
+<a class="sourceLine" id="cb3-18" title="18"></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ulcer <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2, <span class="dt">overall=</span><span class="st">&quot;Total&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -515,29 +540,29 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>This looks better, but still not quite the same as the original blog post: in the blog post the “Total” column is on the left, while we have it on the right; the two “Death” strata (Melanoma and Non-melanoma) should be grouped together under a common heading; the continuous variables Age and Thickness show only Means (SD) (with a ±), and not Median [Min, Max] like the <code>table1</code> default output; most values are displayed with two significant digits rather than three (I will not concern myself with the footnote here, but it could be added as well). To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
 <p>First, we set up our labels differently, using a list:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">sex=</span><span class="st">&quot;Sex&quot;</span>,</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">                   <span class="dt">age=</span><span class="st">&quot;Age (years)&quot;</span>,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">                   <span class="dt">ulcer=</span><span class="st">&quot;Ulceration&quot;</span>,</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">                   <span class="dt">thickness=</span><span class="st">&quot;Thickness (mm)&quot;</span>),</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Death&quot;</span>))</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co"># Remove the word &quot;death&quot; from the labels, since it now appears above</span></a>
-<a class="sourceLine" id="cb4-9" data-line-number="9"><span class="kw">levels</span>(melanoma2<span class="op">$</span>status) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Non-melanoma&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">sex=</span><span class="st">&quot;Sex&quot;</span>,</a>
+<a class="sourceLine" id="cb4-3" title="3">                   <span class="dt">age=</span><span class="st">&quot;Age (years)&quot;</span>,</a>
+<a class="sourceLine" id="cb4-4" title="4">                   <span class="dt">ulcer=</span><span class="st">&quot;Ulceration&quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" title="5">                   <span class="dt">thickness=</span><span class="st">&quot;Thickness (mm)&quot;</span>),</a>
+<a class="sourceLine" id="cb4-6" title="6">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Death&quot;</span>))</a>
+<a class="sourceLine" id="cb4-7" title="7"></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="co"># Remove the word &quot;death&quot; from the labels, since it now appears above</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="kw">levels</span>(melanoma2<span class="op">$</span>status) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Non-melanoma&quot;</span>)</a></code></pre></div>
 <p>Next, we set up our “strata”, or column, as a list of <code>data.frame</code>s, in the order we want them displayed:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">Total=</span>melanoma2), <span class="kw">split</span>(melanoma2, melanoma2<span class="op">$</span>status))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">Total=</span>melanoma2), <span class="kw">split</span>(melanoma2, melanoma2<span class="op">$</span>status))</a></code></pre></div>
 <p>Finally, we can customize the contents using custom renderers. A custom render can be a function that take a vector as the first argument and return a (named) character vector. There is also a simpler way to customize the table contents using an abbreviated code syntax instead of a render function, but it allows less control over rounding (see below). Here, for example, we specify render functions for the continuous and categorical variables as follows:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">my.render.cont &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">        <span class="st">&quot;Mean (SD)&quot;</span>=<span class="kw">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">my.render.cat &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">    <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="kw">sapply</span>(<span class="kw">stats.default</span>(x), <span class="cf">function</span>(y) <span class="kw">with</span>(y,</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">        <span class="kw">sprintf</span>(<span class="st">&quot;%d (%0.0f %%)&quot;</span>, FREQ, PCT))))</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">my.render.cont &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb6-2" title="2">    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,</a>
+<a class="sourceLine" id="cb6-3" title="3">        <span class="st">&quot;Mean (SD)&quot;</span>=<span class="kw">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))</a>
+<a class="sourceLine" id="cb6-4" title="4">}</a>
+<a class="sourceLine" id="cb6-5" title="5">my.render.cat &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb6-6" title="6">    <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="kw">sapply</span>(<span class="kw">stats.default</span>(x), <span class="cf">function</span>(y) <span class="kw">with</span>(y,</a>
+<a class="sourceLine" id="cb6-7" title="7">        <span class="kw">sprintf</span>(<span class="st">&quot;%d (%0.0f %%)&quot;</span>, FREQ, PCT))))</a>
+<a class="sourceLine" id="cb6-8" title="8">}</a></code></pre></div>
 <p>And here is the result:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb7-2" data-line-number="2">       <span class="dt">render.continuous=</span>my.render.cont, <span class="dt">render.categorical=</span>my.render.cat)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb7-2" title="2">       <span class="dt">render.continuous=</span>my.render.cont, <span class="dt">render.categorical=</span>my.render.cat)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -633,28 +658,28 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="example-2" class="section level2">
 <h2>Example 2</h2>
 <p>For this second example, we will use simulated data. We imagine a clinical trial where subjects have been randomized in a 2:1 ratio to receive an active treatment or placebo. For simplicity, we will only consider three baseline characteristics: age, sex and weight.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, n, ...) <span class="kw">factor</span>(<span class="kw">sample</span>(x, n, <span class="dt">replace=</span>T, ...), <span class="dt">levels=</span>x)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">set.seed</span>(<span class="dv">427</span>)</a>
-<a class="sourceLine" id="cb8-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">n &lt;-<span class="st"> </span><span class="dv">146</span></a>
-<a class="sourceLine" id="cb8-5" data-line-number="5">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="dv">1</span><span class="op">:</span>n)</a>
-<a class="sourceLine" id="cb8-6" data-line-number="6">dat<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span></a>
-<a class="sourceLine" id="cb8-7" data-line-number="7">dat<span class="op">$</span>age   &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">18</span><span class="op">:</span><span class="dv">65</span>, n, <span class="dt">replace=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb8-8" data-line-number="8">dat<span class="op">$</span>sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, <span class="fl">.4</span>))  <span class="co"># 60% female</span></a>
-<a class="sourceLine" id="cb8-9" data-line-number="9">dat<span class="op">$</span>wt    &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>)), <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co"># Add some missing data</span></a>
-<a class="sourceLine" id="cb8-12" data-line-number="12">dat<span class="op">$</span>wt[<span class="kw">sample.int</span>(n, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb8-13" data-line-number="13"></a>
-<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="kw">label</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="kw">label</span>(dat<span class="op">$</span>sex)   &lt;-<span class="st"> &quot;Sex&quot;</span></a>
-<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="kw">label</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;Weight&quot;</span></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw">label</span>(dat<span class="op">$</span>treat) &lt;-<span class="st"> &quot;Treatment Group&quot;</span></a>
-<a class="sourceLine" id="cb8-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb8-19" data-line-number="19"><span class="kw">units</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb8-20" data-line-number="20"><span class="kw">units</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;kg&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, n, ...) <span class="kw">factor</span>(<span class="kw">sample</span>(x, n, <span class="dt">replace=</span>T, ...), <span class="dt">levels=</span>x)</a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">set.seed</span>(<span class="dv">427</span>)</a>
+<a class="sourceLine" id="cb8-3" title="3"></a>
+<a class="sourceLine" id="cb8-4" title="4">n &lt;-<span class="st"> </span><span class="dv">146</span></a>
+<a class="sourceLine" id="cb8-5" title="5">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="dv">1</span><span class="op">:</span>n)</a>
+<a class="sourceLine" id="cb8-6" title="6">dat<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span></a>
+<a class="sourceLine" id="cb8-7" title="7">dat<span class="op">$</span>age   &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">18</span><span class="op">:</span><span class="dv">65</span>, n, <span class="dt">replace=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb8-8" title="8">dat<span class="op">$</span>sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, <span class="fl">.4</span>))  <span class="co"># 60% female</span></a>
+<a class="sourceLine" id="cb8-9" title="9">dat<span class="op">$</span>wt    &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>)), <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb8-10" title="10"></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co"># Add some missing data</span></a>
+<a class="sourceLine" id="cb8-12" title="12">dat<span class="op">$</span>wt[<span class="kw">sample.int</span>(n, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb8-13" title="13"></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="kw">label</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;Age&quot;</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="kw">label</span>(dat<span class="op">$</span>sex)   &lt;-<span class="st"> &quot;Sex&quot;</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="kw">label</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;Weight&quot;</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="kw">label</span>(dat<span class="op">$</span>treat) &lt;-<span class="st"> &quot;Treatment Group&quot;</span></a>
+<a class="sourceLine" id="cb8-18" title="18"></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="kw">units</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;years&quot;</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="kw">units</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;kg&quot;</span></a></code></pre></div>
 <p>Using the default settings, we obtain this table:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -673,15 +698,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -691,15 +716,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -709,20 +734,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
@@ -730,7 +755,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>Note that when contains missing values (here weight), be it continuous or categorical, these are reported as a distinct category (with count and percent).</p>
 <p>The “Overall” column can be easily removed (or relabeled):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">overall=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">overall=</span>F)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -747,13 +772,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -762,13 +787,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -777,24 +802,24 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>We can also have stratification by two variables, in which case they are nested. For example, to see each treatment group split by sex:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat<span class="op">*</span>sex, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat<span class="op">*</span>sex, <span class="dt">data=</span>dat)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -805,12 +830,12 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=35)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=17)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=58)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=36)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=93)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=53)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=34)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=18)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=53)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=41)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=87)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=59)</span></span></th>
 </tr>
 </thead>
 <tbody>
@@ -825,21 +850,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>42.8 (14.0)</td>
-<td>47.2 (12.4)</td>
-<td>40.7 (13.8)</td>
-<td>42.3 (13.8)</td>
-<td>41.5 (13.9)</td>
-<td>43.8 (13.4)</td>
+<td>40.6 (14.5)</td>
+<td>36.6 (13.6)</td>
+<td>40.1 (13.4)</td>
+<td>40.1 (13.3)</td>
+<td>40.3 (13.8)</td>
+<td>39.0 (13.4)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>43.0 [19.0, 65.0]</td>
-<td class='lastrow'>52.0 [29.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>33.5 [18.0, 64.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 <td class='lastrow'>41.0 [18.0, 65.0]</td>
-<td class='lastrow'>46.5 [21.0, 61.0]</td>
-<td class='lastrow'>42.0 [18.0, 65.0]</td>
-<td class='lastrow'>48.0 [21.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -852,36 +877,36 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>70.4 (15.9)</td>
-<td>66.4 (13.4)</td>
-<td>70.1 (15.3)</td>
-<td>68.3 (21.6)</td>
-<td>70.2 (15.4)</td>
-<td>67.7 (19.2)</td>
+<td>68.8 (14.8)</td>
+<td>66.8 (19.3)</td>
+<td>65.6 (15.1)</td>
+<td>71.5 (18.0)</td>
+<td>66.9 (15.0)</td>
+<td>70.1 (18.4)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.4 [47.1, 102]</td>
-<td>66.3 [45.8, 92.2]</td>
-<td>67.9 [37.5, 111]</td>
-<td>63.2 [40.0, 119]</td>
-<td>67.4 [37.5, 111]</td>
-<td>64.2 [40.0, 119]</td>
+<td>67.2 [45.8, 116]</td>
+<td>66.6 [37.5, 105]</td>
+<td>61.4 [41.9, 103]</td>
+<td>68.3 [40.0, 119]</td>
+<td>63.8 [41.9, 116]</td>
+<td>67.3 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (8.6%)</td>
+<td class='lastrow'>1 (2.9%)</td>
+<td class='lastrow'>1 (5.6%)</td>
+<td class='lastrow'>3 (5.7%)</td>
 <td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>2 (3.4%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>5 (5.4%)</td>
-<td class='lastrow'>0 (0%)</td>
+<td class='lastrow'>4 (4.6%)</td>
+<td class='lastrow'>1 (1.7%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>Or, switch the order:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>sex<span class="op">*</span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>sex<span class="op">*</span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -892,10 +917,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=35)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=58)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=17)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=36)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=34)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=53)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=18)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=41)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
 </tr>
@@ -912,21 +937,21 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>42.8 (14.0)</td>
-<td>40.7 (13.8)</td>
-<td>47.2 (12.4)</td>
-<td>42.3 (13.8)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
+<td>40.6 (14.5)</td>
+<td>40.1 (13.4)</td>
+<td>36.6 (13.6)</td>
+<td>40.1 (13.3)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>43.0 [19.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class='lastrow'>33.5 [18.0, 64.0]</td>
 <td class='lastrow'>41.0 [18.0, 65.0]</td>
-<td class='lastrow'>52.0 [29.0, 65.0]</td>
-<td class='lastrow'>46.5 [21.0, 61.0]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -939,36 +964,36 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>70.4 (15.9)</td>
-<td>70.1 (15.3)</td>
-<td>66.4 (13.4)</td>
-<td>68.3 (21.6)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
+<td>68.8 (14.8)</td>
+<td>65.6 (15.1)</td>
+<td>66.8 (19.3)</td>
+<td>71.5 (18.0)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.4 [47.1, 102]</td>
-<td>67.9 [37.5, 111]</td>
-<td>66.3 [45.8, 92.2]</td>
-<td>63.2 [40.0, 119]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
+<td>67.2 [45.8, 116]</td>
+<td>61.4 [41.9, 103]</td>
+<td>66.6 [37.5, 105]</td>
+<td>68.3 [40.0, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (8.6%)</td>
-<td class='lastrow'>2 (3.4%)</td>
+<td class='lastrow'>1 (2.9%)</td>
+<td class='lastrow'>3 (5.7%)</td>
+<td class='lastrow'>1 (5.6%)</td>
 <td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>Or, no stratification:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>treat <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>treat <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data=</span>dat)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -995,11 +1020,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>42.3 (13.7)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1007,11 +1032,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>93 (63.7%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1019,11 +1044,11 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.2 (16.9)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
@@ -1033,18 +1058,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Finally, we may again consider something a bit more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg, and we want columns for each dose level separately, as well as for all treated subjects.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">dat<span class="op">$</span>dose &lt;-<span class="st"> </span>(dat<span class="op">$</span>treat <span class="op">!=</span><span class="st"> &quot;Placebo&quot;</span>)<span class="op">*</span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace=</span>T)</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">dat<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>dose, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">split</span>(dat, dat<span class="op">$</span>dose), <span class="kw">list</span>(<span class="st">&quot;All treated&quot;</span>=<span class="kw">subset</span>(dat, treat<span class="op">==</span><span class="st">&quot;Treated&quot;</span>)), <span class="kw">list</span>(<span class="dt">Overall=</span>dat))</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">age=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>age),</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">                   <span class="dt">sex=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>sex),</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">                   <span class="dt">wt=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>wt)),</a>
-<a class="sourceLine" id="cb14-10" data-line-number="10">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;&quot;</span>))</a>
-<a class="sourceLine" id="cb14-11" data-line-number="11"></a>
-<a class="sourceLine" id="cb14-12" data-line-number="12"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">dat<span class="op">$</span>dose &lt;-<span class="st"> </span>(dat<span class="op">$</span>treat <span class="op">!=</span><span class="st"> &quot;Placebo&quot;</span>)<span class="op">*</span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace=</span>T)</a>
+<a class="sourceLine" id="cb14-2" title="2">dat<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>dose, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))</a>
+<a class="sourceLine" id="cb14-3" title="3"></a>
+<a class="sourceLine" id="cb14-4" title="4">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">split</span>(dat, dat<span class="op">$</span>dose), <span class="kw">list</span>(<span class="st">&quot;All treated&quot;</span>=<span class="kw">subset</span>(dat, treat<span class="op">==</span><span class="st">&quot;Treated&quot;</span>)), <span class="kw">list</span>(<span class="dt">Overall=</span>dat))</a>
+<a class="sourceLine" id="cb14-5" title="5"></a>
+<a class="sourceLine" id="cb14-6" title="6">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
+<a class="sourceLine" id="cb14-7" title="7">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">age=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>age),</a>
+<a class="sourceLine" id="cb14-8" title="8">                   <span class="dt">sex=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>sex),</a>
+<a class="sourceLine" id="cb14-9" title="9">                   <span class="dt">wt=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>wt)),</a>
+<a class="sourceLine" id="cb14-10" title="10">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;&quot;</span>))</a>
+<a class="sourceLine" id="cb14-11" title="11"></a>
+<a class="sourceLine" id="cb14-12" title="12"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1056,8 +1081,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=49)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=45)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=43)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=51)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
@@ -1073,19 +1098,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>42.6 (13.8)</td>
-<td>39.9 (13.7)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>35.5 (12.4)</td>
+<td>43.9 (12.9)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>45.0 [18.0, 63.0]</td>
-<td class='lastrow'>39.0 [21.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.0 [18.0, 64.0]</td>
+<td class='lastrow'>45.0 [21.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1097,19 +1122,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>28 (57.1%)</td>
-<td>30 (66.7%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>24 (55.8%)</td>
+<td>29 (56.9%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>21 (42.9%)</td>
-<td class='lastrow'>15 (33.3%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>19 (44.2%)</td>
+<td class='lastrow'>22 (43.1%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1121,26 +1146,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>66.6 (18.3)</td>
-<td>72.5 (17.1)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.7 (16.3)</td>
+<td>68.0 (17.1)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>63.3 [37.5, 119]</td>
-<td>70.3 [48.1, 114]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>67.2 [40.4, 111]</td>
+<td>63.4 [40.0, 119]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>2 (4.4%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>2 (4.7%)</td>
+<td class='lastrow'>1 (2.0%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
@@ -1150,9 +1175,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="using-abbreviated-code-to-specify-a-custom-renderer" class="section level2">
 <h2>Using abbreviated code to specify a custom renderer</h2>
 <p>Suppose that for continuous variables, we want to display the percent coefficient of variation (CV%) instead of the standard deviation (SD). We also want to display the geometric mean and geometric coefficient of variation. We already discussed custom render functions that could be used to accomplish this, but a simpler alternative is to use abbreviated code. This is a character string that contains certain keywords which are substituted for computed values in the table output. The list of recognized keywords comes from the output of the <code>stats.default</code> function and includes: N, NMISS, MEAN, SD, CV, GMEAN, GCV, MEDIAN, MIN, MAX, IQR, Q1, Q2, Q3, T1, T2, FREQ, PCT. Keyword matching is case insensitive, and any text other than the keywords is left untouched. We can specify a vector of character strings, in which case each result will be displayed in its own row in the table. We can use a named vector to specify labels for each row; a dot (‘.’) can be used to indicate that the abbreviated code string itself be used as the row label. Significant digits can be controlled using the <code>digits</code> argument (default: 3). Here is a continuation of the example from the previous section that produces the desired result:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2">       <span class="dt">render.continuous=</span><span class="kw">c</span>(<span class="dt">.=</span><span class="st">&quot;Mean (CV%)&quot;</span>, <span class="dt">.=</span><span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
-<a class="sourceLine" id="cb15-3" data-line-number="3">                           <span class="st">&quot;Geo. mean (Geo. CV%)&quot;</span>=<span class="st">&quot;GMEAN (GCV%)&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),</a>
+<a class="sourceLine" id="cb15-2" title="2">       <span class="dt">render.continuous=</span><span class="kw">c</span>(<span class="dt">.=</span><span class="st">&quot;Mean (CV%)&quot;</span>, <span class="dt">.=</span><span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
+<a class="sourceLine" id="cb15-3" title="3">                           <span class="st">&quot;Geo. mean (Geo. CV%)&quot;</span>=<span class="st">&quot;GMEAN (GCV%)&quot;</span>))</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1164,8 +1189,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tr>
 <th class='rowlabel firstrow lastrow'></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=49)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=45)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=43)</span></span></th>
+<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=51)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
 <th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
 </tr>
@@ -1181,27 +1206,27 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (CV%)</td>
-<td>44.2 (30.6%)</td>
-<td>42.6 (32.5%)</td>
-<td>39.9 (34.3%)</td>
-<td>41.3 (33.3%)</td>
-<td>42.3 (32.4%)</td>
+<td>39.2 (36.2%)</td>
+<td>35.5 (34.9%)</td>
+<td>43.9 (29.4%)</td>
+<td>40.1 (33.2%)</td>
+<td>39.8 (34.2%)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>44.0 [19.0, 65.0]</td>
-<td>45.0 [18.0, 63.0]</td>
-<td>39.0 [21.0, 65.0]</td>
-<td>43.0 [18.0, 65.0]</td>
-<td>43.5 [18.0, 65.0]</td>
+<td>37.5 [18.0, 65.0]</td>
+<td>37.0 [18.0, 64.0]</td>
+<td>45.0 [21.0, 65.0]</td>
+<td>39.5 [18.0, 65.0]</td>
+<td>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Geo. mean (Geo. CV%)</td>
-<td class='lastrow'>42.0 (34.4%)</td>
-<td class='lastrow'>40.1 (38.3%)</td>
-<td class='lastrow'>37.5 (37.2%)</td>
-<td class='lastrow'>38.8 (37.7%)</td>
-<td class='lastrow'>39.9 (36.6%)</td>
+<td class='lastrow'>36.7 (39.0%)</td>
+<td class='lastrow'>33.3 (38.1%)</td>
+<td class='lastrow'>41.9 (32.6%)</td>
+<td class='lastrow'>37.8 (37.1%)</td>
+<td class='lastrow'>37.4 (37.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1213,19 +1238,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>28 (57.1%)</td>
-<td>30 (66.7%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>24 (55.8%)</td>
+<td>29 (56.9%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>21 (42.9%)</td>
-<td class='lastrow'>15 (33.3%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>19 (44.2%)</td>
+<td class='lastrow'>22 (43.1%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1237,34 +1262,34 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (CV%)</td>
-<td>69.0 (21.8%)</td>
-<td>66.6 (27.5%)</td>
-<td>72.5 (23.6%)</td>
-<td>69.4 (25.8%)</td>
-<td>69.2 (24.4%)</td>
+<td>68.1 (24.0%)</td>
+<td>68.7 (23.7%)</td>
+<td>68.0 (25.2%)</td>
+<td>68.3 (24.4%)</td>
+<td>68.2 (24.2%)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>63.3 [37.5, 119]</td>
-<td>70.3 [48.1, 114]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>67.2 [40.4, 111]</td>
+<td>63.4 [40.0, 119]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel'>Geo. mean (Geo. CV%)</td>
-<td>67.5 (21.5%)</td>
-<td>64.3 (27.3%)</td>
-<td>70.7 (23.1%)</td>
-<td>67.2 (25.7%)</td>
-<td>67.3 (24.3%)</td>
+<td>66.2 (24.1%)</td>
+<td>66.9 (23.5%)</td>
+<td>66.0 (24.3%)</td>
+<td>66.4 (23.8%)</td>
+<td>66.4 (23.8%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>2 (4.4%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>2 (4.7%)</td>
+<td class='lastrow'>1 (2.0%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
@@ -1274,16 +1299,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="displaying-different-statistics-for-different-variables" class="section level2">
 <h2>Displaying different statistics for different variables</h2>
 <p>Suppose it is desired to show the median and range for age, but the mean and standard deviation for weight. This can be achieved using a custom render function as follows:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">    <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.numeric</span>(x)) <span class="kw">return</span>(<span class="kw">render.categorical.default</span>(x))</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">    what &lt;-<span class="st"> </span><span class="cf">switch</span>(name,</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">        <span class="dt">age =</span> <span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
-<a class="sourceLine" id="cb16-5" data-line-number="5">        <span class="dt">wt  =</span> <span class="st">&quot;Mean (SD)&quot;</span>)</a>
-<a class="sourceLine" id="cb16-6" data-line-number="6">    <span class="kw">parse.abbrev.render.code</span>(<span class="kw">c</span>(<span class="st">&quot;&quot;</span>, what))(x)</a>
-<a class="sourceLine" id="cb16-7" data-line-number="7">}</a>
-<a class="sourceLine" id="cb16-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb16-10" data-line-number="10">       <span class="dt">render=</span>rndr)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
+<a class="sourceLine" id="cb16-2" title="2">    <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.numeric</span>(x)) <span class="kw">return</span>(<span class="kw">render.categorical.default</span>(x))</a>
+<a class="sourceLine" id="cb16-3" title="3">    what &lt;-<span class="st"> </span><span class="cf">switch</span>(name,</a>
+<a class="sourceLine" id="cb16-4" title="4">        <span class="dt">age =</span> <span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
+<a class="sourceLine" id="cb16-5" title="5">        <span class="dt">wt  =</span> <span class="st">&quot;Mean (SD)&quot;</span>)</a>
+<a class="sourceLine" id="cb16-6" title="6">    <span class="kw">parse.abbrev.render.code</span>(<span class="kw">c</span>(<span class="st">&quot;&quot;</span>, what))(x)</a>
+<a class="sourceLine" id="cb16-7" title="7">}</a>
+<a class="sourceLine" id="cb16-8" title="8"></a>
+<a class="sourceLine" id="cb16-9" title="9"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat,</a>
+<a class="sourceLine" id="cb16-10" title="10">       <span class="dt">render=</span>rndr)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1308,9 +1333,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1320,15 +1345,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1344,9 +1369,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Mean (SD)</td>
-<td class='lastrow'>69.0 (15.0)</td>
-<td class='lastrow'>69.4 (17.9)</td>
-<td class='lastrow'>69.2 (16.9)</td>
+<td class='lastrow'>68.1 (16.3)</td>
+<td class='lastrow'>68.3 (16.7)</td>
+<td class='lastrow'>68.2 (16.5)</td>
 </tr>
 </tbody>
 </table>
@@ -1355,7 +1380,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="changing-the-tables-appearance" class="section level2">
 <h2>Changing the table’s appearance</h2>
-<p>The default style of <code>table1</code> uses an Arial font, and resembles the <a href="https://ctan.org/pkg/booktabs">booktabs</a> style commonly used in LaTeX. While this default style is not ugly, inevitably there will be a desire to customize the visual appearance of the table (fonts, colors, gridlines, etc). The package provides a limited number of built-in options for changing the style, while further customization can be achieved in <a href="rmarkdown.rstudio.com/">R Markdown</a> documents using CSS (see below).</p>
+<p>The default style of <code>table1</code> uses an Arial font, and resembles the <a href="https://ctan.org/pkg/booktabs">booktabs</a> style commonly used in LaTeX. While this default style is not ugly, inevitably there will be a desire to customize the visual appearance of the table (fonts, colors, gridlines, etc). The package provides a limited number of built-in options for changing the style, while further customization can be achieved in <a href="https://rmarkdown.rstudio.com/">R Markdown</a> documents using CSS (see below).</p>
 <div id="using-built-in-styles" class="section level3">
 <h3>Using built-in styles</h3>
 <p>The package includes a limited number of built-in styles including:</p>
@@ -1367,7 +1392,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li>center: center all columns, including the first which contains the row labels</li>
 </ul>
 <p>These styles can be selected using the <code>topclass</code> argument of <code>table1</code>. Some examples follow:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-zebra&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-zebra&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-zebra">
 <thead>
 <tr>
@@ -1386,15 +1411,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1404,15 +1429,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1422,26 +1447,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid">
 <thead>
 <tr>
@@ -1460,15 +1485,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1478,15 +1503,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1496,26 +1521,26 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-shade Rtable1-times&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-shade Rtable1-times&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-shade Rtable1-times">
 <thead>
 <tr>
@@ -1534,15 +1559,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1552,15 +1577,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1570,20 +1595,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
@@ -1593,32 +1618,32 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <div id="using-custom-css-to-control-the-tables-appearance" class="section level3">
 <h3>Using custom CSS to control the table’s appearance</h3>
-<p>Further customization of the table appearance is only possible in <a href="rmarkdown.rstudio.com/">R Markdown</a> documents, by using custom CSS which is specified in the document’s YAML header. For examples, to include <code>style.css</code> in the output, the YAML header should contain the following:</p>
+<p>Further customization of the table appearance is only possible in <a href="https://rmarkdown.rstudio.com/">R Markdown</a> documents, by using custom CSS which is specified in the document’s YAML header. For examples, to include <code>style.css</code> in the output, the YAML header should contain the following:</p>
 <pre><code>output: 
   html_document:
     css: style.css</code></pre>
 <p>CSS allows fine control of the appearance of different elements in the table. For examples, if <code>style.css</code> contains the following definitions:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb21-1" data-line-number="1">table<span class="fu">.Rtable1</span> {</a>
-<a class="sourceLine" id="cb21-2" data-line-number="2">    <span class="kw">font-family</span>: <span class="st">&quot;Lucida Console&quot;</span>, Monaco, <span class="dv">monospace</span>;</a>
-<a class="sourceLine" id="cb21-3" data-line-number="3">    <span class="kw">border-collapse</span>: <span class="dv">collapse</span>;</a>
-<a class="sourceLine" id="cb21-4" data-line-number="4">    <span class="kw">font-size</span>: <span class="dv">9pt</span>;</a>
-<a class="sourceLine" id="cb21-5" data-line-number="5">}</a>
-<a class="sourceLine" id="cb21-6" data-line-number="6"><span class="fu">.Rtable1</span> th {</a>
-<a class="sourceLine" id="cb21-7" data-line-number="7">    <span class="kw">background-color</span>: <span class="fu">rgb</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">164</span>);</a>
-<a class="sourceLine" id="cb21-8" data-line-number="8">    <span class="kw">color</span>: <span class="dv">white</span>;</a>
-<a class="sourceLine" id="cb21-9" data-line-number="9">}</a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="fu">.Rtable1</span> <span class="fu">.firstrow</span>, <span class="fu">.Rtable1</span> <span class="fu">.firstrow</span> ~ td {</a>
-<a class="sourceLine" id="cb21-11" data-line-number="11">    <span class="kw">border-top</span>: <span class="dv">1pt</span> <span class="dv">solid</span> <span class="dv">black</span>;</a>
-<a class="sourceLine" id="cb21-12" data-line-number="12">}</a>
-<a class="sourceLine" id="cb21-13" data-line-number="13"><span class="fu">.Rtable1</span> td<span class="fu">.rowlabel</span> {</a>
-<a class="sourceLine" id="cb21-14" data-line-number="14">    <span class="kw">color</span>: DarkCyan;</a>
-<a class="sourceLine" id="cb21-15" data-line-number="15">    <span class="kw">font-style</span>: <span class="dv">italic</span>;</a>
-<a class="sourceLine" id="cb21-16" data-line-number="16">}</a>
-<a class="sourceLine" id="cb21-17" data-line-number="17"><span class="fu">.Rtable1</span> td<span class="fu">.firstrow.rowlabel</span> {</a>
-<a class="sourceLine" id="cb21-18" data-line-number="18">    <span class="kw">background-color</span>: <span class="dv">yellow</span>;</a>
-<a class="sourceLine" id="cb21-19" data-line-number="19">    <span class="kw">color</span>: <span class="dv">red</span>;</a>
-<a class="sourceLine" id="cb21-20" data-line-number="20">    <span class="kw">font-size</span>: <span class="dv">12pt</span>;</a>
-<a class="sourceLine" id="cb21-21" data-line-number="21">}</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb21-1" title="1">table<span class="fu">.Rtable1</span> {</a>
+<a class="sourceLine" id="cb21-2" title="2">    <span class="kw">font-family</span>: <span class="st">&quot;Lucida Console&quot;</span><span class="op">,</span> Monaco<span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-3" title="3">    <span class="kw">border-collapse</span>: <span class="dv">collapse</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-4" title="4">    <span class="kw">font-size</span>: <span class="dv">9</span><span class="dt">pt</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-5" title="5">}</a>
+<a class="sourceLine" id="cb21-6" title="6"><span class="fu">.Rtable1</span> th {</a>
+<a class="sourceLine" id="cb21-7" title="7">    <span class="kw">background-color</span>: <span class="fu">rgb(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">164</span><span class="fu">)</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-8" title="8">    <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-9" title="9">}</a>
+<a class="sourceLine" id="cb21-10" title="10"><span class="fu">.Rtable1</span> <span class="fu">.firstrow</span><span class="op">,</span> <span class="fu">.Rtable1</span> <span class="fu">.firstrow</span> <span class="op">~</span> td {</a>
+<a class="sourceLine" id="cb21-11" title="11">    <span class="kw">border-top</span>: <span class="dv">1</span><span class="dt">pt</span> <span class="dv">solid</span> <span class="cn">black</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-12" title="12">}</a>
+<a class="sourceLine" id="cb21-13" title="13"><span class="fu">.Rtable1</span> td<span class="fu">.rowlabel</span> {</a>
+<a class="sourceLine" id="cb21-14" title="14">    <span class="kw">color</span>: <span class="cn">DarkCyan</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-15" title="15">    <span class="kw">font-style</span>: <span class="dv">italic</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-16" title="16">}</a>
+<a class="sourceLine" id="cb21-17" title="17"><span class="fu">.Rtable1</span> td<span class="fu">.firstrow.rowlabel</span> {</a>
+<a class="sourceLine" id="cb21-18" title="18">    <span class="kw">background-color</span>: <span class="cn">yellow</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-19" title="19">    <span class="kw">color</span>: <span class="cn">red</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-20" title="20">    <span class="kw">font-size</span>: <span class="dv">12</span><span class="dt">pt</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb21-21" title="21">}</a></code></pre></div>
 <p>then the output will be as follows:</p>
 <div class="Rtable1"><table class="custom">
 <thead>
@@ -1638,15 +1663,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>44.2 (13.5)</td>
-<td>41.3 (13.8)</td>
-<td>42.3 (13.7)</td>
+<td>39.2 (14.2)</td>
+<td>40.1 (13.3)</td>
+<td>39.8 (13.6)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>44.0 [19.0, 65.0]</td>
-<td class='lastrow'>43.0 [18.0, 65.0]</td>
-<td class='lastrow'>43.5 [18.0, 65.0]</td>
+<td class='lastrow'>37.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class='lastrow'>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Sex</span></td>
@@ -1656,15 +1681,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Female</td>
-<td>35 (67.3%)</td>
-<td>58 (61.7%)</td>
-<td>93 (63.7%)</td>
+<td>34 (65.4%)</td>
+<td>53 (56.4%)</td>
+<td>87 (59.6%)</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>17 (32.7%)</td>
-<td class='lastrow'>36 (38.3%)</td>
-<td class='lastrow'>53 (36.3%)</td>
+<td class='lastrow'>18 (34.6%)</td>
+<td class='lastrow'>41 (43.6%)</td>
+<td class='lastrow'>59 (40.4%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow'><span class='varlabel'>Weight<span class='varunits'> (kg)</span></span></td>
@@ -1674,20 +1699,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel'>Mean (SD)</td>
-<td>69.0 (15.0)</td>
-<td>69.4 (17.9)</td>
-<td>69.2 (16.9)</td>
+<td>68.1 (16.3)</td>
+<td>68.3 (16.7)</td>
+<td>68.2 (16.5)</td>
 </tr>
 <tr>
 <td class='rowlabel'>Median [Min, Max]</td>
-<td>66.3 [45.8, 102]</td>
-<td>67.2 [37.5, 119]</td>
-<td>66.6 [37.5, 119]</td>
+<td>66.7 [37.5, 116]</td>
+<td>64.9 [40.0, 119]</td>
+<td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>3 (5.8%)</td>
-<td class='lastrow'>2 (2.1%)</td>
+<td class='lastrow'>2 (3.8%)</td>
+<td class='lastrow'>3 (3.2%)</td>
 <td class='lastrow'>5 (3.4%)</td>
 </tr>
 </tbody>
@@ -1700,52 +1725,51 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>A column of p-values</h2>
 <p>A user asked if it was possible to add a column to the table showing the p-value associated with a univariate test for differences in each variable across strata. There is currently no facility built into the package to accomplish this, but with the use of a custom render function and an empty stratum, it can be “tricked” into producing the desired result.</p>
 <p>The following example uses the <code>lalonde</code> data from the <code>MatchIt</code> package. In this case, a chi-square test of independence is used for categorical variables, and a t-test for continuous variables (other tests could be used if desired, this is just for illustration purposes).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="kw">library</span>(MatchIt) </a></code></pre></div>
-<pre><code>## Warning: package 'MatchIt' was built under R version 3.5.2</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1"><span class="kw">data</span>(lalonde)</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb24-3" data-line-number="3">lalonde<span class="op">$</span>treat    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>treat, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;P-value&quot;</span>))</a>
-<a class="sourceLine" id="cb24-4" data-line-number="4">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>black)</a>
-<a class="sourceLine" id="cb24-5" data-line-number="5">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>hispan)</a>
-<a class="sourceLine" id="cb24-6" data-line-number="6">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>married)</a>
-<a class="sourceLine" id="cb24-7" data-line-number="7">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>nodegree)</a>
-<a class="sourceLine" id="cb24-8" data-line-number="8">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>black <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-9" data-line-number="9">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>hispan <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-10" data-line-number="10">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-11" data-line-number="11">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>nodegree <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb24-13" data-line-number="13"><span class="kw">label</span>(lalonde<span class="op">$</span>black)    &lt;-<span class="st"> &quot;Black&quot;</span></a>
-<a class="sourceLine" id="cb24-14" data-line-number="14"><span class="kw">label</span>(lalonde<span class="op">$</span>hispan)   &lt;-<span class="st"> &quot;Hispanic&quot;</span></a>
-<a class="sourceLine" id="cb24-15" data-line-number="15"><span class="kw">label</span>(lalonde<span class="op">$</span>married)  &lt;-<span class="st"> &quot;Married&quot;</span></a>
-<a class="sourceLine" id="cb24-16" data-line-number="16"><span class="kw">label</span>(lalonde<span class="op">$</span>nodegree) &lt;-<span class="st"> &quot;No high school diploma&quot;</span></a>
-<a class="sourceLine" id="cb24-17" data-line-number="17"><span class="kw">label</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb24-18" data-line-number="18"><span class="kw">label</span>(lalonde<span class="op">$</span>re74)     &lt;-<span class="st"> &quot;1974 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="kw">label</span>(lalonde<span class="op">$</span>re75)     &lt;-<span class="st"> &quot;1975 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-20" data-line-number="20"><span class="kw">label</span>(lalonde<span class="op">$</span>re78)     &lt;-<span class="st"> &quot;1978 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-21" data-line-number="21"><span class="kw">units</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb24-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb24-23" data-line-number="23">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
-<a class="sourceLine" id="cb24-24" data-line-number="24">    <span class="cf">if</span> (<span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb24-25" data-line-number="25">        y &lt;-<span class="st"> </span>lalonde[[name]]</a>
-<a class="sourceLine" id="cb24-26" data-line-number="26">        s &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">length</span>(<span class="kw">render.default</span>(<span class="dt">x=</span>y, <span class="dt">name=</span>name, ...)))</a>
-<a class="sourceLine" id="cb24-27" data-line-number="27">        <span class="cf">if</span> (<span class="kw">is.numeric</span>(y)) {</a>
-<a class="sourceLine" id="cb24-28" data-line-number="28">            p &lt;-<span class="st"> </span><span class="kw">t.test</span>(y <span class="op">~</span><span class="st"> </span>lalonde<span class="op">$</span>treat)<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb24-29" data-line-number="29">        } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb24-30" data-line-number="30">            p &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="kw">table</span>(y, <span class="kw">droplevels</span>(lalonde<span class="op">$</span>treat)))<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb24-31" data-line-number="31">        }</a>
-<a class="sourceLine" id="cb24-32" data-line-number="32">        s[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="kw">format.pval</span>(p, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">eps=</span><span class="fl">0.001</span>))</a>
-<a class="sourceLine" id="cb24-33" data-line-number="33">        s</a>
-<a class="sourceLine" id="cb24-34" data-line-number="34">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb24-35" data-line-number="35">        <span class="kw">render.default</span>(<span class="dt">x=</span>x, <span class="dt">name=</span>name, ...)</a>
-<a class="sourceLine" id="cb24-36" data-line-number="36">    }</a>
-<a class="sourceLine" id="cb24-37" data-line-number="37">}</a>
-<a class="sourceLine" id="cb24-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb24-39" data-line-number="39">rndr.strat &lt;-<span class="st"> </span><span class="cf">function</span>(label, n, ...) {</a>
-<a class="sourceLine" id="cb24-40" data-line-number="40">    <span class="kw">ifelse</span>(n<span class="op">==</span><span class="dv">0</span>, label, <span class="kw">render.strat.default</span>(label, n, ...))</a>
-<a class="sourceLine" id="cb24-41" data-line-number="41">}</a>
-<a class="sourceLine" id="cb24-42" data-line-number="42"></a>
-<a class="sourceLine" id="cb24-43" data-line-number="43"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>married <span class="op">+</span><span class="st"> </span>nodegree <span class="op">+</span><span class="st"> </span>re74 <span class="op">+</span><span class="st"> </span>re75 <span class="op">+</span><span class="st"> </span>re78 <span class="op">|</span><span class="st"> </span>treat,</a>
-<a class="sourceLine" id="cb24-44" data-line-number="44">    <span class="dt">data=</span>lalonde, <span class="dt">droplevels=</span>F, <span class="dt">render=</span>rndr, <span class="dt">render.strat=</span>rndr.strat, <span class="dt">overall=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">library</span>(MatchIt) </a>
+<a class="sourceLine" id="cb22-2" title="2"><span class="kw">data</span>(lalonde)</a>
+<a class="sourceLine" id="cb22-3" title="3"></a>
+<a class="sourceLine" id="cb22-4" title="4">lalonde<span class="op">$</span>treat    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>treat, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;P-value&quot;</span>))</a>
+<a class="sourceLine" id="cb22-5" title="5">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>black)</a>
+<a class="sourceLine" id="cb22-6" title="6">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>hispan)</a>
+<a class="sourceLine" id="cb22-7" title="7">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>married)</a>
+<a class="sourceLine" id="cb22-8" title="8">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>nodegree)</a>
+<a class="sourceLine" id="cb22-9" title="9">lalonde<span class="op">$</span>black    &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>black <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-10" title="10">lalonde<span class="op">$</span>hispan   &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>hispan <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-11" title="11">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-12" title="12">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>nodegree <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb22-13" title="13"></a>
+<a class="sourceLine" id="cb22-14" title="14"><span class="kw">label</span>(lalonde<span class="op">$</span>black)    &lt;-<span class="st"> &quot;Black&quot;</span></a>
+<a class="sourceLine" id="cb22-15" title="15"><span class="kw">label</span>(lalonde<span class="op">$</span>hispan)   &lt;-<span class="st"> &quot;Hispanic&quot;</span></a>
+<a class="sourceLine" id="cb22-16" title="16"><span class="kw">label</span>(lalonde<span class="op">$</span>married)  &lt;-<span class="st"> &quot;Married&quot;</span></a>
+<a class="sourceLine" id="cb22-17" title="17"><span class="kw">label</span>(lalonde<span class="op">$</span>nodegree) &lt;-<span class="st"> &quot;No high school diploma&quot;</span></a>
+<a class="sourceLine" id="cb22-18" title="18"><span class="kw">label</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;Age&quot;</span></a>
+<a class="sourceLine" id="cb22-19" title="19"><span class="kw">label</span>(lalonde<span class="op">$</span>re74)     &lt;-<span class="st"> &quot;1974 Income&quot;</span></a>
+<a class="sourceLine" id="cb22-20" title="20"><span class="kw">label</span>(lalonde<span class="op">$</span>re75)     &lt;-<span class="st"> &quot;1975 Income&quot;</span></a>
+<a class="sourceLine" id="cb22-21" title="21"><span class="kw">label</span>(lalonde<span class="op">$</span>re78)     &lt;-<span class="st"> &quot;1978 Income&quot;</span></a>
+<a class="sourceLine" id="cb22-22" title="22"><span class="kw">units</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;years&quot;</span></a>
+<a class="sourceLine" id="cb22-23" title="23"></a>
+<a class="sourceLine" id="cb22-24" title="24">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
+<a class="sourceLine" id="cb22-25" title="25">    <span class="cf">if</span> (<span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
+<a class="sourceLine" id="cb22-26" title="26">        y &lt;-<span class="st"> </span>lalonde[[name]]</a>
+<a class="sourceLine" id="cb22-27" title="27">        s &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">length</span>(<span class="kw">render.default</span>(<span class="dt">x=</span>y, <span class="dt">name=</span>name, ...)))</a>
+<a class="sourceLine" id="cb22-28" title="28">        <span class="cf">if</span> (<span class="kw">is.numeric</span>(y)) {</a>
+<a class="sourceLine" id="cb22-29" title="29">            p &lt;-<span class="st"> </span><span class="kw">t.test</span>(y <span class="op">~</span><span class="st"> </span>lalonde<span class="op">$</span>treat)<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb22-30" title="30">        } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb22-31" title="31">            p &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="kw">table</span>(y, <span class="kw">droplevels</span>(lalonde<span class="op">$</span>treat)))<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb22-32" title="32">        }</a>
+<a class="sourceLine" id="cb22-33" title="33">        s[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="kw">format.pval</span>(p, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">eps=</span><span class="fl">0.001</span>))</a>
+<a class="sourceLine" id="cb22-34" title="34">        s</a>
+<a class="sourceLine" id="cb22-35" title="35">    } <span class="cf">else</span> {</a>
+<a class="sourceLine" id="cb22-36" title="36">        <span class="kw">render.default</span>(<span class="dt">x=</span>x, <span class="dt">name=</span>name, ...)</a>
+<a class="sourceLine" id="cb22-37" title="37">    }</a>
+<a class="sourceLine" id="cb22-38" title="38">}</a>
+<a class="sourceLine" id="cb22-39" title="39"></a>
+<a class="sourceLine" id="cb22-40" title="40">rndr.strat &lt;-<span class="st"> </span><span class="cf">function</span>(label, n, ...) {</a>
+<a class="sourceLine" id="cb22-41" title="41">    <span class="kw">ifelse</span>(n<span class="op">==</span><span class="dv">0</span>, label, <span class="kw">render.strat.default</span>(label, n, ...))</a>
+<a class="sourceLine" id="cb22-42" title="42">}</a>
+<a class="sourceLine" id="cb22-43" title="43"></a>
+<a class="sourceLine" id="cb22-44" title="44"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>black <span class="op">+</span><span class="st"> </span>hispan <span class="op">+</span><span class="st"> </span>married <span class="op">+</span><span class="st"> </span>nodegree <span class="op">+</span><span class="st"> </span>re74 <span class="op">+</span><span class="st"> </span>re75 <span class="op">+</span><span class="st"> </span>re78 <span class="op">|</span><span class="st"> </span>treat,</a>
+<a class="sourceLine" id="cb22-45" title="45">    <span class="dt">data=</span>lalonde, <span class="dt">droplevels=</span>F, <span class="dt">render=</span>rndr, <span class="dt">render.strat=</span>rndr.strat, <span class="dt">overall=</span>F)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1860,8 +1884,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>2550 [0.00, 25900]</td>
-<td class='lastrow'>0.00 [0.00, 35000]</td>
+<td class='lastrow'>2550 [0, 25900]</td>
+<td class='lastrow'>0 [0, 35000]</td>
 <td class='lastrow'></td>
 </tr>
 <tr>
@@ -1878,8 +1902,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>1090 [0.00, 18300]</td>
-<td class='lastrow'>0.00 [0.00, 25100]</td>
+<td class='lastrow'>1090 [0, 18300]</td>
+<td class='lastrow'>0 [0, 25100]</td>
 <td class='lastrow'></td>
 </tr>
 <tr>
@@ -1896,8 +1920,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tr>
 <tr>
 <td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>4980 [0.00, 25600]</td>
-<td class='lastrow'>4230 [0.00, 60300]</td>
+<td class='lastrow'>4980 [0, 25600]</td>
+<td class='lastrow'>4230 [0, 60300]</td>
 <td class='lastrow'></td>
 </tr>
 </tbody>
@@ -1909,13 +1933,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <h2>Transposed table</h2>
 <p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. In some cases, it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired. It can be achieved by using the <code>transpose = TRUE</code> option.</p>
 <p>An example:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span><span class="op">*</span><span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw">names</span>(dat)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb23-2" title="2">dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span><span class="op">*</span><span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))</a>
+<a class="sourceLine" id="cb23-3" title="3"><span class="kw">names</span>(dat)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a></code></pre></div>
 <p>Default:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb26-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
+<a class="sourceLine" id="cb24-2" title="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
+<a class="sourceLine" id="cb24-3" title="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
@@ -1929,54 +1953,54 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V1</span></td>
-<td class='firstrow lastrow'>1.55 (95.7%)<br/>1.25 [0.100, 7.80]<br/>1.08 (110.8%)</td>
-<td class='firstrow lastrow'>1.64 (142.2%)<br/>1.05 [0.100, 12.7]<br/>0.789 (206.3%)</td>
-<td class='firstrow lastrow'>1.75 (154.4%)<br/>1.05 [0.200, 13.6]<br/>1.02 (122.3%)</td>
-<td class='firstrow lastrow'>1.64 (134.7%)<br/>1.10 [0.100, 13.6]<br/>0.952 (144.6%)</td>
+<td class='firstrow lastrow'>1.60 (122.5%)<br/>1.15 [0.100, 12.7]<br/>0.968 (148.9%)</td>
+<td class='firstrow lastrow'>1.62 (152.1%)<br/>1.00 [0.100, 13.6]<br/>0.829 (169.3%)</td>
+<td class='firstrow lastrow'>1.39 (141.5%)<br/>1.00 [0.200, 13.4]<br/>0.884 (113.7%)</td>
+<td class='firstrow lastrow'>1.54 (138.7%)<br/>1.00 [0.100, 13.6]<br/>0.892 (142.2%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V2</span></td>
-<td class='firstrow lastrow'>1.17 (99.5%)<br/>0.900 [0.200, 6.30]<br/>0.781 (115.2%)</td>
-<td class='firstrow lastrow'>1.60 (128.2%)<br/>0.900 [0.100, 11.4]<br/>0.913 (145.0%)</td>
-<td class='firstrow lastrow'>1.45 (141.8%)<br/>0.850 [0.100, 13.4]<br/>0.829 (145.8%)</td>
-<td class='firstrow lastrow'>1.41 (128.3%)<br/>0.900 [0.100, 13.4]<br/>0.839 (134.1%)</td>
+<td class='firstrow lastrow'>1.31 (139.0%)<br/>0.850 [0.100, 11.4]<br/>0.778 (130.4%)</td>
+<td class='firstrow lastrow'>1.51 (102.3%)<br/>0.900 [0.100, 7.00]<br/>0.913 (146.1%)</td>
+<td class='firstrow lastrow'>1.48 (158.2%)<br/>0.800 [0.100, 13.4]<br/>0.834 (135.1%)</td>
+<td class='firstrow lastrow'>1.43 (134.0%)<br/>0.900 [0.100, 13.4]<br/>0.840 (136.1%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V3</span></td>
-<td class='firstrow lastrow'>1.71 (129.4%)<br/>0.900 [0.100, 10.2]<br/>1.00 (134.2%)</td>
-<td class='firstrow lastrow'>2.48 (341.2%)<br/>0.950 [0.100, 60.5]<br/>0.961 (145.8%)</td>
-<td class='firstrow lastrow'>1.43 (107.5%)<br/>1.10 [0.200, 9.70]<br/>0.992 (102.5%)</td>
-<td class='firstrow lastrow'>1.87 (273.2%)<br/>1.00 [0.100, 60.5]<br/>0.985 (125.9%)</td>
+<td class='firstrow lastrow'>1.80 (115.5%)<br/>1.10 [0.200, 8.90]<br/>1.10 (125.2%)</td>
+<td class='firstrow lastrow'>2.55 (333.0%)<br/>1.00 [0.100, 60.5]<br/>1.00 (145.7%)</td>
+<td class='firstrow lastrow'>1.29 (93.6%)<br/>1.05 [0.200, 7.40]<br/>0.917 (101.6%)</td>
+<td class='firstrow lastrow'>1.88 (270.7%)<br/>1.05 [0.100, 60.5]<br/>1.01 (123.2%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V4</span></td>
-<td class='firstrow lastrow'>1.34 (110.5%)<br/>0.900 [0.200, 7.40]<br/>0.890 (109.0%)</td>
-<td class='firstrow lastrow'>1.72 (158.5%)<br/>0.850 [0.100, 18.0]<br/>0.992 (125.9%)</td>
-<td class='firstrow lastrow'>1.69 (122.0%)<br/>1.05 [0.100, 12.2]<br/>1.02 (137.5%)</td>
-<td class='firstrow lastrow'>1.58 (135.3%)<br/>0.900 [0.100, 18.0]<br/>0.966 (123.1%)</td>
+<td class='firstrow lastrow'>1.44 (107.6%)<br/>0.900 [0.200, 6.70]<br/>0.956 (106.6%)</td>
+<td class='firstrow lastrow'>1.70 (150.8%)<br/>1.20 [0.100, 18.0]<br/>1.06 (121.8%)</td>
+<td class='firstrow lastrow'>1.97 (129.1%)<br/>0.850 [0.100, 12.2]<br/>1.04 (157.2%)</td>
+<td class='firstrow lastrow'>1.70 (132.9%)<br/>0.900 [0.100, 18.0]<br/>1.02 (127.0%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V5</span></td>
-<td class='firstrow lastrow'>1.56 (127.8%)<br/>0.800 [0.200, 9.60]<br/>0.912 (129.7%)</td>
-<td class='firstrow lastrow'>1.79 (138.8%)<br/>1.05 [0.100, 15.1]<br/>1.00 (150.0%)</td>
-<td class='firstrow lastrow'>1.64 (65.8%)<br/>1.30 [0.100, 4.50]<br/>1.28 (90.9%)</td>
-<td class='firstrow lastrow'>1.66 (116.1%)<br/>1.10 [0.100, 15.1]<br/>1.05 (123.9%)</td>
+<td class='firstrow lastrow'>1.25 (105.2%)<br/>0.800 [0.100, 7.70]<br/>0.840 (112.3%)</td>
+<td class='firstrow lastrow'>1.94 (128.5%)<br/>1.15 [0.100, 15.1]<br/>1.15 (138.2%)</td>
+<td class='firstrow lastrow'>1.73 (80.3%)<br/>1.40 [0.100, 7.10]<br/>1.24 (113.0%)</td>
+<td class='firstrow lastrow'>1.64 (111.2%)<br/>1.15 [0.100, 15.1]<br/>1.06 (122.7%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='varlabel'>V6</span></td>
-<td class='firstrow lastrow'>1.60 (93.6%)<br/>1.20 [0.100, 7.10]<br/>1.07 (122.4%)</td>
-<td class='firstrow lastrow'>1.92 (201.4%)<br/>0.800 [0.100, 26.4]<br/>0.894 (168.6%)</td>
-<td class='firstrow lastrow'>2.32 (144.0%)<br/>1.05 [0.100, 19.9]<br/>1.21 (170.4%)</td>
-<td class='firstrow lastrow'>1.94 (157.5%)<br/>1.00 [0.100, 26.4]<br/>1.05 (153.1%)</td>
+<td class='firstrow lastrow'>1.87 (204.2%)<br/>0.900 [0.100, 26.4]<br/>0.925 (157.1%)</td>
+<td class='firstrow lastrow'>1.96 (152.9%)<br/>1.00 [0.100, 19.9]<br/>1.00 (174.5%)</td>
+<td class='firstrow lastrow'>2.06 (125.6%)<br/>1.00 [0.100, 12.0]<br/>1.13 (150.1%)</td>
+<td class='firstrow lastrow'>1.96 (160.8%)<br/>1.00 [0.100, 26.4]<br/>1.02 (159.3%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>Transposed:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb27-2" data-line-number="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb27-3" data-line-number="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</a>
-<a class="sourceLine" id="cb27-4" data-line-number="4">       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
+<a class="sourceLine" id="cb25-2" title="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
+<a class="sourceLine" id="cb25-3" title="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</a>
+<a class="sourceLine" id="cb25-4" title="4">       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
@@ -1992,45 +2016,48 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.55 (95.7%)<br/>1.25 [0.100, 7.80]<br/>1.08 (110.8%)</td>
-<td class='firstrow lastrow'>1.17 (99.5%)<br/>0.900 [0.200, 6.30]<br/>0.781 (115.2%)</td>
-<td class='firstrow lastrow'>1.71 (129.4%)<br/>0.900 [0.100, 10.2]<br/>1.00 (134.2%)</td>
-<td class='firstrow lastrow'>1.34 (110.5%)<br/>0.900 [0.200, 7.40]<br/>0.890 (109.0%)</td>
-<td class='firstrow lastrow'>1.56 (127.8%)<br/>0.800 [0.200, 9.60]<br/>0.912 (129.7%)</td>
-<td class='firstrow lastrow'>1.60 (93.6%)<br/>1.20 [0.100, 7.10]<br/>1.07 (122.4%)</td>
+<td class='firstrow lastrow'>1.60 (122.5%)<br/>1.15 [0.100, 12.7]<br/>0.968 (148.9%)</td>
+<td class='firstrow lastrow'>1.31 (139.0%)<br/>0.850 [0.100, 11.4]<br/>0.778 (130.4%)</td>
+<td class='firstrow lastrow'>1.80 (115.5%)<br/>1.10 [0.200, 8.90]<br/>1.10 (125.2%)</td>
+<td class='firstrow lastrow'>1.44 (107.6%)<br/>0.900 [0.200, 6.70]<br/>0.956 (106.6%)</td>
+<td class='firstrow lastrow'>1.25 (105.2%)<br/>0.800 [0.100, 7.70]<br/>0.840 (112.3%)</td>
+<td class='firstrow lastrow'>1.87 (204.2%)<br/>0.900 [0.100, 26.4]<br/>0.925 (157.1%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.64 (142.2%)<br/>1.05 [0.100, 12.7]<br/>0.789 (206.3%)</td>
-<td class='firstrow lastrow'>1.60 (128.2%)<br/>0.900 [0.100, 11.4]<br/>0.913 (145.0%)</td>
-<td class='firstrow lastrow'>2.48 (341.2%)<br/>0.950 [0.100, 60.5]<br/>0.961 (145.8%)</td>
-<td class='firstrow lastrow'>1.72 (158.5%)<br/>0.850 [0.100, 18.0]<br/>0.992 (125.9%)</td>
-<td class='firstrow lastrow'>1.79 (138.8%)<br/>1.05 [0.100, 15.1]<br/>1.00 (150.0%)</td>
-<td class='firstrow lastrow'>1.92 (201.4%)<br/>0.800 [0.100, 26.4]<br/>0.894 (168.6%)</td>
+<td class='firstrow lastrow'>1.62 (152.1%)<br/>1.00 [0.100, 13.6]<br/>0.829 (169.3%)</td>
+<td class='firstrow lastrow'>1.51 (102.3%)<br/>0.900 [0.100, 7.00]<br/>0.913 (146.1%)</td>
+<td class='firstrow lastrow'>2.55 (333.0%)<br/>1.00 [0.100, 60.5]<br/>1.00 (145.7%)</td>
+<td class='firstrow lastrow'>1.70 (150.8%)<br/>1.20 [0.100, 18.0]<br/>1.06 (121.8%)</td>
+<td class='firstrow lastrow'>1.94 (128.5%)<br/>1.15 [0.100, 15.1]<br/>1.15 (138.2%)</td>
+<td class='firstrow lastrow'>1.96 (152.9%)<br/>1.00 [0.100, 19.9]<br/>1.00 (174.5%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.75 (154.4%)<br/>1.05 [0.200, 13.6]<br/>1.02 (122.3%)</td>
-<td class='firstrow lastrow'>1.45 (141.8%)<br/>0.850 [0.100, 13.4]<br/>0.829 (145.8%)</td>
-<td class='firstrow lastrow'>1.43 (107.5%)<br/>1.10 [0.200, 9.70]<br/>0.992 (102.5%)</td>
-<td class='firstrow lastrow'>1.69 (122.0%)<br/>1.05 [0.100, 12.2]<br/>1.02 (137.5%)</td>
-<td class='firstrow lastrow'>1.64 (65.8%)<br/>1.30 [0.100, 4.50]<br/>1.28 (90.9%)</td>
-<td class='firstrow lastrow'>2.32 (144.0%)<br/>1.05 [0.100, 19.9]<br/>1.21 (170.4%)</td>
+<td class='firstrow lastrow'>1.39 (141.5%)<br/>1.00 [0.200, 13.4]<br/>0.884 (113.7%)</td>
+<td class='firstrow lastrow'>1.48 (158.2%)<br/>0.800 [0.100, 13.4]<br/>0.834 (135.1%)</td>
+<td class='firstrow lastrow'>1.29 (93.6%)<br/>1.05 [0.200, 7.40]<br/>0.917 (101.6%)</td>
+<td class='firstrow lastrow'>1.97 (129.1%)<br/>0.850 [0.100, 12.2]<br/>1.04 (157.2%)</td>
+<td class='firstrow lastrow'>1.73 (80.3%)<br/>1.40 [0.100, 7.10]<br/>1.24 (113.0%)</td>
+<td class='firstrow lastrow'>2.06 (125.6%)<br/>1.00 [0.100, 12.0]<br/>1.13 (150.1%)</td>
 </tr>
 <tr>
 <td class='rowlabel firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=150)</span></span></td>
-<td class='firstrow lastrow'>1.64 (134.7%)<br/>1.10 [0.100, 13.6]<br/>0.952 (144.6%)</td>
-<td class='firstrow lastrow'>1.41 (128.3%)<br/>0.900 [0.100, 13.4]<br/>0.839 (134.1%)</td>
-<td class='firstrow lastrow'>1.87 (273.2%)<br/>1.00 [0.100, 60.5]<br/>0.985 (125.9%)</td>
-<td class='firstrow lastrow'>1.58 (135.3%)<br/>0.900 [0.100, 18.0]<br/>0.966 (123.1%)</td>
-<td class='firstrow lastrow'>1.66 (116.1%)<br/>1.10 [0.100, 15.1]<br/>1.05 (123.9%)</td>
-<td class='firstrow lastrow'>1.94 (157.5%)<br/>1.00 [0.100, 26.4]<br/>1.05 (153.1%)</td>
+<td class='firstrow lastrow'>1.54 (138.7%)<br/>1.00 [0.100, 13.6]<br/>0.892 (142.2%)</td>
+<td class='firstrow lastrow'>1.43 (134.0%)<br/>0.900 [0.100, 13.4]<br/>0.840 (136.1%)</td>
+<td class='firstrow lastrow'>1.88 (270.7%)<br/>1.05 [0.100, 60.5]<br/>1.01 (123.2%)</td>
+<td class='firstrow lastrow'>1.70 (132.9%)<br/>0.900 [0.100, 18.0]<br/>1.02 (127.0%)</td>
+<td class='firstrow lastrow'>1.64 (111.2%)<br/>1.15 [0.100, 15.1]<br/>1.06 (122.7%)</td>
+<td class='firstrow lastrow'>1.96 (160.8%)<br/>1.00 [0.100, 26.4]<br/>1.02 (159.3%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 
+
+
+<!-- code folding -->
 
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

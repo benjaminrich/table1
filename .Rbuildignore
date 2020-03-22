@@ -3,3 +3,4 @@
 ^_config.yml$
 ^cran-comments\.md$
 ^\.travis\.yml$
+^CRAN-RELEASE$
