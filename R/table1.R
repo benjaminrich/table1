@@ -53,7 +53,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec=getO
     eps <- if (round5up) x*(10^(-(digits + 3))) else 0
 
     # Character representation of x
-    cx <- ifelse(x >= 10^digits & isFALSE(round.integers),
+    cx <- ifelse(x >= 10^digits & .isFALSE(round.integers),
         formatC(round(x), digits=digits, format="fg", flag="#", decimal.mark=dec, ...),
         formatC(signif(x+eps, digits), digits=digits, format="fg", flag="#", decimal.mark=dec, ...))
 
@@ -1085,3 +1085,6 @@ subsetp <- function(x, ..., droplevels=TRUE) {
     y
 }
 
+.isFALSE <- function (x) {
+    is.logical(x) && length(x) == 1L && !is.na(x) && !x
+}
