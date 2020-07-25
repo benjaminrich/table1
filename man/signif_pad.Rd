@@ -5,16 +5,9 @@
 \alias{round_pad}
 \title{Round numbers with 0-padding.}
 \usage{
-signif_pad(
-  x,
-  digits = 3,
-  round.integers = TRUE,
-  round5up = TRUE,
-  dec = getOption("OutDec"),
-  ...
-)
+signif_pad(x, digits = 3, round.integers = TRUE, round5up = TRUE, dec, ...)
 
-round_pad(x, digits = 2, round5up = TRUE, dec = getOption("OutDec"), ...)
+round_pad(x, digits = 2, round5up = TRUE, dec, ...)
 }
 \arguments{
 \item{x}{A numeric vector.}
@@ -32,11 +25,11 @@ see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
 always round up.}
 
 \item{dec}{The character symbol to use as decimal mark (locale
-specific).}
+specific). [Deprecated; use \code{decimal.mark} instead]}
 
 \item{...}{Further options, passed to \code{formatC} (which is used
 internally). Not all options will work, but some might be useful (e.g.
-\code{big.mark}).}
+\code{big.mark}, \code{decimal.mark}).}
 }
 \value{
 A character vector containing the rounded numbers.

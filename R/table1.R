@@ -15,10 +15,10 @@
 #' see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
 #' always round up.
 #' @param dec The character symbol to use as decimal mark (locale
-#' specific).
+#' specific). [Deprecated; use \code{decimal.mark} instead]
 #' @param ... Further options, passed to \code{formatC} (which is used
 #' internally). Not all options will work, but some might be useful (e.g.
-#' \code{big.mark}).
+#' \code{big.mark}, \code{decimal.mark}).
 #'
 #' @return A character vector containing the rounded numbers.
 #'
@@ -49,13 +49,21 @@
 #' 
 #' @keywords utilities
 #' @export
-signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec=getOption("OutDec"), ...) {
+signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec, ...) {
+    args <- list(...)
+    if (!missing(dec)) {
+        warning("argument dec is deprecated; please use decimal.mark instead.", call.=FALSE)
+        args$decimal.mark <- dec
+    }
     eps <- if (round5up) x*(10^(-(digits + 3))) else 0
 
-    # Character representation of x
-    cx <- ifelse(x >= 10^digits & .isFALSE(round.integers),
-        formatC(round(x), digits=digits, format="fg", flag="#", decimal.mark=dec, ...),
-        formatC(signif(x+eps, digits), digits=digits, format="fg", flag="#", decimal.mark=dec, ...))
+    rx <- ifelse(x >= 10^digits & .isFALSE(round.integers),
+        round(x),
+        signif(x+eps, digits))
+
+    cx <- do.call(formatC,
+        c(list(x=rx, digits=digits, format="fg", flag="#"),
+          args[names(args) %in% names(formals(formatC))]))
 
     cx[is.na(x)] <- "0"                    # Put in a dummy value for missing x
     cx <- gsub("[^0-9]*$", "", cx)         # Remove any trailing non-digit characters
@@ -64,9 +72,20 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec=getO
 
 #' @rdname signif_pad
 #' @export
-round_pad <- function (x, digits=2, round5up=TRUE, dec=getOption("OutDec"), ...) {
+round_pad <- function (x, digits=2, round5up=TRUE, dec, ...) {
+    args <- list(...)
+    if (!missing(dec)) {
+        warning("argument dec is deprecated; please use decimal.mark instead.", call.=FALSE)
+        args$decimal.mark <- dec
+    }
     eps <- if (round5up) 10^(-(digits + 3)) else 0
-    formatC(round(x + eps, digits), digits=digits, format="f", flag="0", decimal.mark=dec, ...)
+
+    rx <- round(x + eps, digits)
+
+    cx <- do.call(formatC,
+        c(list(x=rx, digits=digits, format="f", flag="0"),
+          args[names(args) %in% names(formals(formatC))]))
+    ifelse(is.na(x), NA, cx)
 }
 
 #' Compute some basic descriptive statistics.
@@ -246,7 +265,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         cx <- format(x)
         ndig <- nchar(gsub("\\D", "", cx))
         ifelse(ndig > digits, cx, signif_pad(x, digits=digits,
-                round.integers=round.integers, round5up=round5up))
+                round.integers=round.integers, round5up=round5up, ...))
     }
     format.percent <- function(x, digits) {
         if (x == 0) "0"
@@ -263,7 +282,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
     } else {
         cx <- lapply(x, format)
         r <- lapply(x, signif_pad, digits=digits,
-                round.integers=round.integers, round5up=round5up)
+                round.integers=round.integers, round5up=round5up, ...)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
         nr <- nr[!is.na(x[nr])]
