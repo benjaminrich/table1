@@ -752,6 +752,7 @@ has.units <- function(x) {
 #' rows and variables as columns)?
 #' @param topclass A class attribute for the outermost (i.e. \code{<table>}) tag.
 #' @param footnote A character string to be added as a footnote to the table.
+#' Can also be a vector which results in multiple lines of footnotes.
 #' The default \code{NULL} causes the footnote to be omitted.
 #' @param caption A character string to be added as a caption to the table.
 #' The default \code{NULL} causes the caption to be omitted.
@@ -928,7 +929,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 
     if (!is.null(footnote)) {
         footnote <- sprintf('<p class="Rtable1-footnote">%s</p>\n', footnote)
-        x <- paste0(x, footnote)
+        x <- paste0(x, paste0(footnote, collapse=""))
     }
 
     structure(x, class=c("table1", "html", "character"), html=TRUE)

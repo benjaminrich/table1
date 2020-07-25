@@ -51,6 +51,7 @@ rows and variables as columns)?}
 \item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
 
 \item{footnote}{A character string to be added as a footnote to the table.
+Can also be a vector which results in multiple lines of footnotes.
 The default \code{NULL} causes the footnote to be omitted.}
 
 \item{caption}{A character string to be added as a caption to the table.
