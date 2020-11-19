@@ -1,3 +1,9 @@
+# table1 1.2.1
+
+* Fixed issue in vignette due to changes in lalonde data from MatchIt.
+
+* Allow multiple footnotes.
+
 # table1 1.2
 
 * Added `caption` argument to generate a caption for the table.
