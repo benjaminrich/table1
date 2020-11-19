@@ -416,17 +416,12 @@ library(MatchIt)
 data(lalonde)
 
 lalonde$treat    <- factor(lalonde$treat, levels=c(0, 1, 2), labels=c("Control", "Treatment", "P-value"))
-lalonde$black    <- factor(lalonde$black)
-lalonde$hispan   <- factor(lalonde$hispan)
-lalonde$married  <- factor(lalonde$married)
-lalonde$nodegree <- factor(lalonde$nodegree)
-lalonde$black    <- as.logical(lalonde$black == 1)
-lalonde$hispan   <- as.logical(lalonde$hispan == 1)
 lalonde$married  <- as.logical(lalonde$married == 1)
 lalonde$nodegree <- as.logical(lalonde$nodegree == 1)
+lalonde$race     <- factor(lalonde$race, levels=c("white", "black", "hispan"),
+			   labels=c("White", "Black", "Hispanic"))
 
-label(lalonde$black)    <- "Black"
-label(lalonde$hispan)   <- "Hispanic"
+label(lalonde$race)     <- "Race"
 label(lalonde$married)  <- "Married"
 label(lalonde$nodegree) <- "No high school diploma"
 label(lalonde$age)      <- "Age"
@@ -455,7 +450,7 @@ rndr.strat <- function(label, n, ...) {
     ifelse(n==0, label, render.strat.default(label, n, ...))
 }
 
-table1(~ age + black + hispan + married + nodegree + re74 + re75 + re78 | treat,
+table1(~ age + race + married + nodegree + re74 + re75 + re78 | treat,
     data=lalonde, droplevels=F, render=rndr, render.strat=rndr.strat, overall=F)
 ```
 
