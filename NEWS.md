@@ -1,6 +1,6 @@
 # table1 1.2.1
 
-* Fixed issue in vignette due to changes in lalonde data from MatchIt.
+* Fixed issue that was causing vignette build to fail (due to changes made to the MatchIt package's lalonde data set).
 
 * Allow multiple footnotes.
 
