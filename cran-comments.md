@@ -16,6 +16,16 @@
 
 0 errors | 0 warnings | 0 notes
 
+## Reviewer comments
+
+2020-11-25 Uwe Ligges:
+
+```
+URL: https://yihui.name/knitr (moved to https://yihui.org/knitr)
+```
+
+Fixed.
+
 # Version 1.2
 
 ## Test environments
