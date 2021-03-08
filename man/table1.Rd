@@ -18,6 +18,9 @@ table1(x, ...)
   footnote = NULL,
   caption = NULL,
   render = render.default,
+  render.strat = render.strat.default,
+  extra.col = NULL,
+  extra.col.pos = NULL,
   ...
 )
 
@@ -30,7 +33,11 @@ table1(x, ...)
   droplevels = TRUE,
   topclass = "Rtable1",
   footnote = NULL,
+  caption = NULL,
   render = render.default,
+  render.strat = render.strat.default,
+  extra.col = NULL,
+  extra.col.pos = NULL,
   ...
 )
 }
@@ -59,6 +66,15 @@ The default \code{NULL} causes the caption to be omitted.}
 
 \item{render}{A function to render the table cells (see Details).}
 
+\item{render.strat}{A function to render the stratum labels. Accepts 3
+arguments: the stratum label, the stratum size (number of observations), and
+a flag indicating whether we are in transpose mode or not. See
+\code{\link{render.strat.default}} for an example.}
+
+\item{extra.col}{An optional names list of functions that produce extra columns in the table (see Details).}
+
+\item{extra.col.pos}{An optional integer vector given the positions of extra columns (see Details).}
+
 \item{data}{For the formula interface, a \code{data.frame} from which the
 variables in \code{x} should be taken.}
 
@@ -71,6 +87,10 @@ variables in \code{x} should be taken.}
 An object of class "table1".
 }
 \description{
+Produces a nicely formatted table of descriptive statistics for any number
+of numeric or categorical variables, optionally stratified by a factor.
+}
+\details{
 There are two interfaces, the default, which typically takes a list of
 \code{data.frame}s for \code{x}, and the formula interface. The formula
 interface is less flexible, but simpler to use and designed to handle the
@@ -81,11 +101,29 @@ user-defined `renderer' functions. Customization of the table appearance is
 deliberately not attempted, as this is best accomplished with CSS. To
 facilitate this, some tags (such as row labels) are given specific classes
 for easy CSS selection.
-}
-\details{
+
 For the default version, is is expected that \code{x} is a named
 list of \code{data.frame}s, one for each stratum, with names corresponding to
 strata labels.
+
+Extra columns can be added to the table using the \code{extra.col} argument.
+This is an optional named list of functions, with the names corresponding to
+the column headings. Each function will be called once for each variable
+included in the table. Each function should expect 2 arguments, the first
+first being a list, the second the name of the variable. The contents of the
+list passed in as the first argument will the data associated with each
+stratum in the table; i.e., one element for each normal column (not extra
+column). It is then up the the function to compute the value to appear in
+the extra column and return it as a string. By default, extra columns will
+be placed to the far right, after the normal columns, in the order they are
+specified in. This can be overridden, however, using the
+\code{extra.col.pos} vector of integer positions. For example, to place the
+first extra column in position 1 (far left), and the second extra column in
+position 3, use \code{extra.col.pos = c(1, 3)}; any extra columns that are
+not assigned positions will be placed to the far right. A typical use case
+for extra columns would be a column of p-values for differences between
+strata. Note that this feature is not available when the option
+\code{transpose = TRUE} is specified.
 }
 \section{Methods (by class)}{
 \itemize{

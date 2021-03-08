@@ -1,3 +1,7 @@
+# table1 1.3
+
+* New feature: add extra columns with `extra.col`.
+
 # table1 1.2.1
 
 * Fixed issue that was causing vignette build to fail (due to changes made to the MatchIt package's lalonde data set).

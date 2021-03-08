@@ -398,28 +398,39 @@ table1(~ age + sex + wt | treat, data=dat, topclass="custom")
 different custom CSS class name could be used, and the `topclass` argument used
 to select it.)
 
-## A column of p-values
+## Extra columns
+
+Sometimes, it may be desired to add extra columns to the table, other than
+descriptive statistics. This can be accomplished using the `extra.col` option.
+The contents of the extra columns can be anything that can be computed from the
+data, making this an extremely flexible approach. As usual, this flexibility
+comes at a cost, namely in the form of more effort/code to achieve the desired
+result.
+
+### Example: a column of p-values
 
 A user asked if it was possible to add a column to the table showing the
 p-value associated with a univariate test for differences in each variable
-across strata.  There is currently no facility built into the package to
-accomplish this, but with the use of a custom render function and an empty
-stratum, it can be "tricked" into producing the desired result.
+across strata.  This can be accomplished using the `extra.col` feature.
 
-The following example uses the `lalonde` data from the `MatchIt` package. In
-this case, a chi-square test of independence is used for categorical variables,
-and a t-test for continuous variables (other tests could be used if desired,
-this is just for illustration purposes).
+The following example uses the `lalonde` data from the `MatchIt` package.  The
+dataset has a column `treat` that contains the value 0 for "Treatment" and 1
+for "Control"; this will be used for stratification.  In this example, a
+chi-square test of independence is used for categorical variables, and a t-test
+for continuous variables (other tests could be used if desired, this is just
+for illustration purposes).
+
+First, we will assign factor levels, labels and units to the variables of interest.
 
 ```{r}
 library(MatchIt) 
 data(lalonde)
 
-lalonde$treat    <- factor(lalonde$treat, levels=c(0, 1, 2), labels=c("Control", "Treatment", "P-value"))
+lalonde$treat    <- factor(lalonde$treat, levels=c(0, 1), labels=c("Control", "Treatment"))
 lalonde$married  <- as.logical(lalonde$married == 1)
 lalonde$nodegree <- as.logical(lalonde$nodegree == 1)
 lalonde$race     <- factor(lalonde$race, levels=c("white", "black", "hispan"),
-			   labels=c("White", "Black", "Hispanic"))
+                                         labels=c("White", "Black", "Hispanic"))
 
 label(lalonde$race)     <- "Race"
 label(lalonde$married)  <- "Married"
@@ -429,34 +440,48 @@ label(lalonde$re74)     <- "1974 Income"
 label(lalonde$re75)     <- "1975 Income"
 label(lalonde$re78)     <- "1978 Income"
 units(lalonde$age)      <- "years"
-
-rndr <- function(x, name, ...) {
-    if (length(x) == 0) {
-        y <- lalonde[[name]]
-        s <- rep("", length(render.default(x=y, name=name, ...)))
-        if (is.numeric(y)) {
-            p <- t.test(y ~ lalonde$treat)$p.value
-        } else {
-            p <- chisq.test(table(y, droplevels(lalonde$treat)))$p.value
-        }
-        s[2] <- sub("<", "&lt;", format.pval(p, digits=3, eps=0.001))
-        s
-    } else {
-        render.default(x=x, name=name, ...)
-    }
-}
-
-rndr.strat <- function(label, n, ...) {
-    ifelse(n==0, label, render.strat.default(label, n, ...))
-}
-
-table1(~ age + race + married + nodegree + re74 + re75 + re78 | treat,
-    data=lalonde, droplevels=F, render=rndr, render.strat=rndr.strat, overall=F)
 ```
 
-Admittedly, this is not very elegant, and is definitely a hack. But it is still
-a neat illustration of the flexibility of the package in terms of being able to
-accomplish something that we never really planned for.
+Next, we create a function to compute the p-value for continuous or
+categorical variables.
+
+```{r}
+pvalue <- function(x, ...) {
+    # Construct vectors of data y, and groups (strata) g
+    y <- unlist(x)
+    g <- factor(rep(1:length(x), times=sapply(x, length)))
+    if (is.numeric(y)) {
+        # For numeric variables, perform a standard 2-sample t-test
+        p <- t.test(y ~ g)$p.value
+    } else {
+        # For categorical variables, perform a chi-squared test of independence
+        p <- chisq.test(table(y, g))$p.value
+    }
+    # Format the p-value, using an HTML entity for the less-than sign.
+    # The initial empty string places the output on the line below the variable label.
+    c("", sub("<", "&lt;", format.pval(p, digits=3, eps=0.001)))
+}
+
+```
+
+Note that this function expects a specific input, namely a list with 2
+components corresponding to the 2 strata "Treatment" and "Control" in the
+`lalonde` data. These are the only 2 elements the list will have, because we
+will use `overall=F` in `table1` (otherwise, there would be a third element
+in the list corresponding to the overall column). Thus, this function is in some
+sense specifically tailored to this examples, and would need to be adapted to
+other situations (such as more than 2 strata, where a t-test would not work).
+
+Now, we supply our function in the `extra.col` list argument to `table1` with
+the name `P-value`, which will appear as the column label (heading).
+
+```{r}
+table1(~ age + race + married + nodegree + re74 + re75 + re78 | treat,
+    data=lalonde, overall=F, extra.col=list(`P-value`=pvalue))
+```
+
+Admittedly, this is not as simple as setting a flag, but has the advantage of
+being totally flexible.
 
 
 ## Transposed table

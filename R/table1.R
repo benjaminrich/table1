@@ -724,6 +724,10 @@ has.units <- function(x) {
 
 #' Generate an HTML table of descriptive statistics.
 #'
+#' Produces a nicely formatted table of descriptive statistics for any number
+#' of numeric or categorical variables, optionally stratified by a factor.
+#'
+#' @details
 #' There are two interfaces, the default, which typically takes a list of
 #' \code{data.frame}s for \code{x}, and the formula interface. The formula
 #' interface is less flexible, but simpler to use and designed to handle the
@@ -735,9 +739,28 @@ has.units <- function(x) {
 #' facilitate this, some tags (such as row labels) are given specific classes
 #' for easy CSS selection.
 #' 
-#' @details For the default version, is is expected that \code{x} is a named
+#' For the default version, is is expected that \code{x} is a named
 #' list of \code{data.frame}s, one for each stratum, with names corresponding to
 #' strata labels.
+#'
+#' Extra columns can be added to the table using the \code{extra.col} argument.
+#' This is an optional named list of functions, with the names corresponding to
+#' the column headings. Each function will be called once for each variable
+#' included in the table. Each function should expect 2 arguments, the first
+#' first being a list, the second the name of the variable. The contents of the
+#' list passed in as the first argument will the data associated with each
+#' stratum in the table; i.e., one element for each normal column (not extra
+#' column). It is then up the the function to compute the value to appear in
+#' the extra column and return it as a string. By default, extra columns will
+#' be placed to the far right, after the normal columns, in the order they are
+#' specified in. This can be overridden, however, using the
+#' \code{extra.col.pos} vector of integer positions. For example, to place the
+#' first extra column in position 1 (far left), and the second extra column in
+#' position 3, use \code{extra.col.pos = c(1, 3)}; any extra columns that are
+#' not assigned positions will be placed to the far right. A typical use case
+#' for extra columns would be a column of p-values for differences between
+#' strata. Note that this feature is not available when the option
+#' \code{transpose = TRUE} is specified.
 #'
 #' @param x An object, typically a \code{formula} or list of \code{data.frame}s.
 #' @param data For the formula interface, a \code{data.frame} from which the
@@ -757,6 +780,12 @@ has.units <- function(x) {
 #' @param caption A character string to be added as a caption to the table.
 #' The default \code{NULL} causes the caption to be omitted.
 #' @param render A function to render the table cells (see Details).
+#' @param render.strat A function to render the stratum labels. Accepts 3
+#' arguments: the stratum label, the stratum size (number of observations), and
+#' a flag indicating whether we are in transpose mode or not. See
+#' \code{\link{render.strat.default}} for an example.
+#' @param extra.col An optional names list of functions that produce extra columns in the table (see Details).
+#' @param extra.col.pos An optional integer vector given the positions of extra columns (see Details).
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return An object of class "table1".
@@ -822,19 +851,23 @@ table1 <- function(x, ...) {
 
 #' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, ...) {
-    .table1.internal(x = x,
-        labels       = labels,
-        groupspan    = groupspan,
-        rowlabelhead = rowlabelhead,
-        transpose    = transpose,
-        topclass     = topclass,
-        footnote     = footnote,
-        caption      = caption,
-        render       = render, ...)
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
+    .table1.internal(
+        x             = x,
+        labels        = labels,
+        groupspan     = groupspan,
+        rowlabelhead  = rowlabelhead,
+        transpose     = transpose,
+        topclass      = topclass,
+        footnote      = footnote,
+        caption       = caption,
+        render        = render,
+        render.strat  = render.strat,
+        extra.col     = extra.col,
+        extra.col.pos = extra.col.pos, ...)
 }
 
-.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, ...) {
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -874,11 +907,29 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]))
                 y }))})
     } else {
-        ncolumns <- length(x)
+        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
+        if (!is.null(extra.col)) {
+            thead <- cbind(thead, t(names(extra.col)))
+            if (!is.null(extra.col.pos)) {
+                if (!is.numeric(extra.col.pos) || any(extra.col.pos > ncol(thead))) {
+                    stop("extra.col.pos should be a vector of column positions")
+                }
+                if (length(extra.col.pos) > length(extra.col)) {
+                    stop("length of extra.col.pos should not exceed that of extra.col")
+                }
+                # Permute columns
+                s1 <- seq(length(x) + 1, length.out=length(extra.col.pos))
+                s2 <- setdiff(1:ncol(thead), s1)
+                colpermute <- rep(0, ncol(thead))
+                colpermute[extra.col.pos] <- s1
+                colpermute[-extra.col.pos] <- s2
+                thead <- thead[, colpermute]
+            }
+        }
+        ncolumns <- ncol(thead)
         if (ncolumns > 12) {
             warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
         }
-        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
         tbody <- lapply(names(labels$variables), function(v) {
             lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
             y <- do.call(cbind, lapply(x, function(s) {
@@ -887,6 +938,20 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                     z <- factor(z, levels=lvls)
                 }
                 render(x=z, name=v, missing=any.missing[v], ...)}))
+
+            if (!is.null(extra.col)) {
+                pad_with_empty <- function(w, n) {
+                    rep(c(as.character(w), rep("", n)), length.out=n)
+                }
+                y2 <- do.call(cbind, lapply(extra.col, function(f) {
+                    pad_with_empty(f(lapply(x, getElement, name=v), v, ...), nrow(y))
+                }))
+                y <- cbind(y, y2)
+                if (!is.null(extra.col.pos)) {
+                    y <- y[, colpermute]
+                }
+            }
+
             rownames(y) <- paste(rownames(y), sep="")
             rownames(y)[1] <- labels$variables[[v]]
             y })
@@ -983,7 +1048,7 @@ knit_print.table1 <- function(x, ...) {
 #' @export
 #' @importFrom stats formula model.frame na.pass
 #' @importFrom Formula Formula
-table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", footnote=NULL, render=render.default, ...) {
+table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
     f <- Formula(x)
     m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
     for (i in 1:ncol(m1)) {
@@ -1056,22 +1121,32 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
 
     if (!is.null(m2) && length(m2) > 1) {
         labels$groups <- grouplabel
-        table1.default(x=strata,
-            labels=labels,
-            groupspan=groupspan,
-            rowlabelhead=rowlabelhead,
-            transpose=transpose,
-            topclass=topclass,
-            footnote=footnote,
-            render=render, ...)
+        table1.default(
+            x             = strata,
+            labels        = labels,
+            groupspan     = groupspan,
+            rowlabelhead  = rowlabelhead,
+            transpose     = transpose,
+            topclass      = topclass,
+            footnote      = footnote,
+            caption       = caption,
+            render        = render,
+            render.strat  = render.strat,
+            extra.col     = extra.col,
+            extra.col.pos = extra.col.pos, ...)
     } else {
-        table1.default(x=strata,
-            labels=labels,
-            rowlabelhead=rowlabelhead,
-            transpose=transpose,
-            topclass=topclass,
-            footnote=footnote,
-            render=render, ...)
+        table1.default(
+            x             = strata,
+            labels        = labels,
+            rowlabelhead  = rowlabelhead,
+            transpose     = transpose,
+            topclass      = topclass,
+            footnote      = footnote,
+            caption       = caption,
+            render        = render,
+            render.strat  = render.strat,
+            extra.col     = extra.col,
+            extra.col.pos = extra.col.pos, ...)
     }
 }
 

@@ -12,128 +12,38 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2020-11-25" />
+<meta name="date" content="2021-03-08" />
 
 <title>Using the table1 Package to Create HTML Tables of Descriptive Statistics</title>
 
-<style type="text/css">
-.Rtable1 table, table.Rtable1 {
-font-family: "Arial", Arial, sans-serif;
-font-size: 10pt;
-border-collapse: collapse;
-padding: 0px;
-margin: 0px;
-
-}
-.Rtable1 td {
-white-space:nowrap;
-}
-.Rtable1 th, .Rtable1 td {
-border: 0;
-text-align: center;
-padding: 0.5ex 1.5ex;
-margin: 0px;
-}
-.Rtable1 thead>tr:first-child>th {
-border-top: 2pt solid black;
-}
-.Rtable1 thead>tr:last-child>th {
-border-bottom: 1pt solid black;
-}
-.Rtable1 tbody>tr:last-child>td {
-border-bottom: 2pt solid black;
-}
-.Rtable1 th.grouplabel {
-padding-left: 0;
-padding-right: 0;
-}
-.Rtable1 th.grouplabel>div {
-margin-left: 1.5ex;
-margin-right: 1.5ex;
-border-bottom: 1pt solid black;
-}
-.Rtable1 th.grouplabel:last-child>div {
-margin-right: 0;
-}
-.Rtable1 .rowlabel {
-text-align: left;
-padding-left: 2.5ex;
-}
-.Rtable1 .firstrow.rowlabel {
-padding-left: 0.5ex;
-font-weight: bold;
-}
-
-.Rtable1-zebra tbody tr:nth-child(odd) {
-background-color: #eee;
-}
-
-table.Rtable1-times {
-font-family: "Times New Roman", Times, serif;
-}
-
-.Rtable1-shade th {
-background-color: #ccc;
-}
-
-.Rtable1-grid th, .Rtable1-grid td {
-border-left: 1pt solid black;
-border-right: 1pt solid black;
-}
-.Rtable1-grid thead>tr:first-child>th {
-border-top: 1pt solid black;
-}
-.Rtable1-grid thead>tr:last-child>th {
-border-bottom: 1pt solid black;
-}
-.Rtable1-grid tbody>tr:last-child>td {
-border-bottom: 1pt solid black;
-}
-.Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {
-border-top: 1pt solid black;
-}
-.Rtable1-grid th.grouplabel>div {
-margin-left: 0;
-margin-right: 0;
-border-bottom: 0;
-}
-
-.Rtable1-center td.rowlabel, .Rtable1-center td.firstrow.rowlabel {
-font-weight: bold;
-text-align: center;
-padding: 0.5ex 1.5ex;
-}
-
-.Rtable1-footnote {
-font-size: smaller;
-padding: 0px;
-margin: 0px;
-}
-</style>
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
+<link href="data:text/css,%0A%2ERtable1%20table%2C%20table%2ERtable1%20%7B%0Afont%2Dfamily%3A%20%22Arial%22%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2010pt%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0A%0A%7D%0A%2ERtable1%20td%20%7B%0Awhite%2Dspace%3Anowrap%3B%0A%7D%0A%2ERtable1%20th%2C%20%2ERtable1%20td%20%7B%0Aborder%3A%200%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0Amargin%3A%200px%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%20%7B%0Apadding%2Dleft%3A%200%3B%0Apadding%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%201%2E5ex%3B%0Amargin%2Dright%3A%201%2E5ex%3B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Alast%2Dchild%3Ediv%20%7B%0Amargin%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20%2Erowlabel%20%7B%0Atext%2Dalign%3A%20left%3B%0Apadding%2Dleft%3A%202%2E5ex%3B%0A%7D%0A%2ERtable1%20%2Efirstrow%2Erowlabel%20%7B%0Apadding%2Dleft%3A%200%2E5ex%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0A%2ERtable1%2Dzebra%20tbody%20tr%3Anth%2Dchild%28odd%29%20%7B%0Abackground%2Dcolor%3A%20%23eee%3B%0A%7D%0A%0Atable%2ERtable1%2Dtimes%20%7B%0Afont%2Dfamily%3A%20%22Times%20New%20Roman%22%2C%20Times%2C%20serif%3B%0A%7D%0A%0A%2ERtable1%2Dshade%20th%20%7B%0Abackground%2Dcolor%3A%20%23ccc%3B%0A%7D%0A%0A%2ERtable1%2Dgrid%20th%2C%20%2ERtable1%2Dgrid%20td%20%7B%0Aborder%2Dleft%3A%201pt%20solid%20black%3B%0Aborder%2Dright%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20%2Efirstrow%2C%20%2ERtable1%2Dgrid%20%2Efirstrow%20%7E%20td%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%200%3B%0Amargin%2Dright%3A%200%3B%0Aborder%2Dbottom%3A%200%3B%0A%7D%0A%0A%2ERtable1%2Dcenter%20td%2Erowlabel%2C%20%2ERtable1%2Dcenter%20td%2Efirstrow%2Erowlabel%20%7B%0Afont%2Dweight%3A%20bold%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0A%7D%0A%0A%2ERtable1%2Dfootnote%20%7B%0Afont%2Dsize%3A%20smaller%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0A%7D%0A" rel="stylesheet" />
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -142,9 +52,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -201,166 +111,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">table.custom {font-family: "Lucida Console", Monaco, monospace;border-collapse: collapse;font-size: 9pt;}.custom th {background-color: rgb(0, 100, 164);color: white;}.custom .firstrow, .custom .firstrow ~ td {border-top: 1pt solid black;}.custom td.rowlabel {color: DarkCyan;font-style: italic;}.custom td.firstrow.rowlabel {background-color: yellow;color: red;font-size: 12pt;}</style>
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 900px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#header {
-text-align: center;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,table%2Ecustom%20%7B%0Afont%2Dfamily%3A%20%22Lucida%20Console%22%2C%20Monaco%2C%20monospace%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Afont%2Dsize%3A%209pt%3B%0A%7D%0A%2Ecustom%20th%20%7B%0Abackground%2Dcolor%3A%20rgb%280%2C%20100%2C%20164%29%3B%0Acolor%3A%20white%3B%0A%7D%0A%2Ecustom%20%2Efirstrow%2C%20%2Ecustom%20%2Efirstrow%20%7E%20td%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2Ecustom%20td%2Erowlabel%20%7B%0Acolor%3A%20DarkCyan%3B%0Afont%2Dstyle%3A%20italic%3B%0A%7D%0A%2Ecustom%20td%2Efirstrow%2Erowlabel%20%7B%0Abackground%2Dcolor%3A%20yellow%3B%0Acolor%3A%20red%3B%0Afont%2Dsize%3A%2012pt%3B%0A%7D%0A" type="text/css" />
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20900px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0A%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -374,7 +126,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HTML Tables of Descriptive Statistics</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2020-11-25</h4>
+<h4 class="date">2021-03-08</h4>
 
 
 <div id="TOC">
@@ -384,11 +136,15 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li><a href="#example-2">Example 2</a></li>
 <li><a href="#using-abbreviated-code-to-specify-a-custom-renderer">Using abbreviated code to specify a custom renderer</a></li>
 <li><a href="#displaying-different-statistics-for-different-variables">Displaying different statistics for different variables</a></li>
-<li><a href="#changing-the-tables-appearance">Changing the table’s appearance</a><ul>
+<li><a href="#changing-the-tables-appearance">Changing the table’s appearance</a>
+<ul>
 <li><a href="#using-built-in-styles">Using built-in styles</a></li>
 <li><a href="#using-custom-css-to-control-the-tables-appearance">Using custom CSS to control the table’s appearance</a></li>
 </ul></li>
-<li><a href="#a-column-of-p-values">A column of p-values</a></li>
+<li><a href="#extra-columns">Extra columns</a>
+<ul>
+<li><a href="#example-a-column-of-p-values">Example: a column of p-values</a></li>
+</ul></li>
 <li><a href="#transposed-table">Transposed table</a></li>
 </ul>
 </div>
@@ -400,20 +156,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="example-1" class="section level2">
 <h2>Example 1</h2>
 <p>The first example is inspired by <a href="http://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/">this blog post</a>, which is about how to accomplish a similar task using the <code>htmlTable</code> package. It uses the <code>melanoma</code> data set from the <code>boot</code> package for illustration, and I have copied here the code used to prepare the data:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(boot) </a>
-<a class="sourceLine" id="cb1-2" title="2"></a>
-<a class="sourceLine" id="cb1-3" title="3">melanoma2 &lt;-<span class="st"> </span>melanoma</a>
-<a class="sourceLine" id="cb1-4" title="4"> </a>
-<a class="sourceLine" id="cb1-5" title="5"><span class="co"># Factor the basic variables that</span></a>
-<a class="sourceLine" id="cb1-6" title="6"><span class="co"># we&#39;re interested in</span></a>
-<a class="sourceLine" id="cb1-7" title="7">melanoma2<span class="op">$</span>status &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb1-8" title="8"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>status, </a>
-<a class="sourceLine" id="cb1-9" title="9">         <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),</a>
-<a class="sourceLine" id="cb1-10" title="10">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="co"># Reference</span></a>
-<a class="sourceLine" id="cb1-11" title="11">                  <span class="st">&quot;Melanoma death&quot;</span>, </a>
-<a class="sourceLine" id="cb1-12" title="12">                  <span class="st">&quot;Non-melanoma death&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(boot) </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>melanoma2 <span class="ot">&lt;-</span> melanoma</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Factor the basic variables that</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># we&#39;re interested in</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>melanoma2<span class="sc">$</span>status <span class="ot">&lt;-</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(melanoma2<span class="sc">$</span>status, </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="co"># Reference</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Melanoma death&quot;</span>, </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Non-melanoma death&quot;</span>))</span></code></pre></div>
 <p>As a first attempt, we can do the following:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span><span class="kw">factor</span>(sex) <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(ulcer) <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> <span class="fu">factor</span>(sex) <span class="sc">+</span> age <span class="sc">+</span> <span class="fu">factor</span>(ulcer) <span class="sc">+</span> thickness <span class="sc">|</span> status, <span class="at">data=</span>melanoma2)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -514,25 +270,25 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>Note that the <code>table1</code> package uses a familiar formula interface, where the variables to include in the table are separated by ‘+’ symbols, the “stratification” variable (which creates the columns) appears to the right of a “conditioning” symbol ‘|’, and the <code>data</code> argument specifies a <code>data.frame</code> that contains the variables in the formula.</p>
 <p>But because we don’t have nice labels for the variables and categories, it doesn’t look great. To improve things, we can create factors with descriptive labels for the categorical variables (<code>sex</code> and <code>ulcer</code>), label each variable the way we want, and specify units for the continuous variables (<code>age</code> and <code>thickness</code>), like this:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">melanoma2<span class="op">$</span>sex &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>sex, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb3-3" title="3">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Male&quot;</span>, </a>
-<a class="sourceLine" id="cb3-4" title="4">                  <span class="st">&quot;Female&quot;</span>))</a>
-<a class="sourceLine" id="cb3-5" title="5"> </a>
-<a class="sourceLine" id="cb3-6" title="6">melanoma2<span class="op">$</span>ulcer &lt;-<span class="st"> </span></a>
-<a class="sourceLine" id="cb3-7" title="7"><span class="st">  </span><span class="kw">factor</span>(melanoma2<span class="op">$</span>ulcer, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb3-8" title="8">         <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Absent&quot;</span>, </a>
-<a class="sourceLine" id="cb3-9" title="9">                  <span class="st">&quot;Present&quot;</span>))</a>
-<a class="sourceLine" id="cb3-10" title="10"></a>
-<a class="sourceLine" id="cb3-11" title="11"><span class="kw">label</span>(melanoma2<span class="op">$</span>sex)       &lt;-<span class="st"> &quot;Sex&quot;</span></a>
-<a class="sourceLine" id="cb3-12" title="12"><span class="kw">label</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb3-13" title="13"><span class="kw">label</span>(melanoma2<span class="op">$</span>ulcer)     &lt;-<span class="st"> &quot;Ulceration&quot;</span></a>
-<a class="sourceLine" id="cb3-14" title="14"><span class="kw">label</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;Thickness&quot;</span></a>
-<a class="sourceLine" id="cb3-15" title="15"></a>
-<a class="sourceLine" id="cb3-16" title="16"><span class="kw">units</span>(melanoma2<span class="op">$</span>age)       &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb3-17" title="17"><span class="kw">units</span>(melanoma2<span class="op">$</span>thickness) &lt;-<span class="st"> &quot;mm&quot;</span></a>
-<a class="sourceLine" id="cb3-18" title="18"></a>
-<a class="sourceLine" id="cb3-19" title="19"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>ulcer <span class="op">+</span><span class="st"> </span>thickness <span class="op">|</span><span class="st"> </span>status, <span class="dt">data=</span>melanoma2, <span class="dt">overall=</span><span class="st">&quot;Total&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>melanoma2<span class="sc">$</span>sex <span class="ot">&lt;-</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(melanoma2<span class="sc">$</span>sex, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Female&quot;</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>melanoma2<span class="sc">$</span>ulcer <span class="ot">&lt;-</span> </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(melanoma2<span class="sc">$</span>ulcer, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Absent&quot;</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Present&quot;</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>sex)       <span class="ot">&lt;-</span> <span class="st">&quot;Sex&quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>age)       <span class="ot">&lt;-</span> <span class="st">&quot;Age&quot;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>ulcer)     <span class="ot">&lt;-</span> <span class="st">&quot;Ulceration&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>thickness) <span class="ot">&lt;-</span> <span class="st">&quot;Thickness&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(melanoma2<span class="sc">$</span>age)       <span class="ot">&lt;-</span> <span class="st">&quot;years&quot;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(melanoma2<span class="sc">$</span>thickness) <span class="ot">&lt;-</span> <span class="st">&quot;mm&quot;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> sex <span class="sc">+</span> age <span class="sc">+</span> ulcer <span class="sc">+</span> thickness <span class="sc">|</span> status, <span class="at">data=</span>melanoma2, <span class="at">overall=</span><span class="st">&quot;Total&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -633,29 +389,29 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>This looks better, but still not quite the same as the original blog post: in the blog post the “Total” column is on the left, while we have it on the right; the two “Death” strata (Melanoma and Non-melanoma) should be grouped together under a common heading; the continuous variables Age and Thickness show only Means (SD) (with a ±), and not Median [Min, Max] like the <code>table1</code> default output; most values are displayed with two significant digits rather than three (I will not concern myself with the footnote here, but it could be added as well). To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
 <p>First, we set up our labels differently, using a list:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb4-2" title="2">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">sex=</span><span class="st">&quot;Sex&quot;</span>,</a>
-<a class="sourceLine" id="cb4-3" title="3">                   <span class="dt">age=</span><span class="st">&quot;Age (years)&quot;</span>,</a>
-<a class="sourceLine" id="cb4-4" title="4">                   <span class="dt">ulcer=</span><span class="st">&quot;Ulceration&quot;</span>,</a>
-<a class="sourceLine" id="cb4-5" title="5">                   <span class="dt">thickness=</span><span class="st">&quot;Thickness (mm)&quot;</span>),</a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Death&quot;</span>))</a>
-<a class="sourceLine" id="cb4-7" title="7"></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co"># Remove the word &quot;death&quot; from the labels, since it now appears above</span></a>
-<a class="sourceLine" id="cb4-9" title="9"><span class="kw">levels</span>(melanoma2<span class="op">$</span>status) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Non-melanoma&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables=</span><span class="fu">list</span>(<span class="at">sex=</span><span class="st">&quot;Sex&quot;</span>,</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">age=</span><span class="st">&quot;Age (years)&quot;</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ulcer=</span><span class="st">&quot;Ulceration&quot;</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">thickness=</span><span class="st">&quot;Thickness (mm)&quot;</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">groups=</span><span class="fu">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Death&quot;</span>))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the word &quot;death&quot; from the labels, since it now appears above</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(melanoma2<span class="sc">$</span>status) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Alive&quot;</span>, <span class="st">&quot;Melanoma&quot;</span>, <span class="st">&quot;Non-melanoma&quot;</span>)</span></code></pre></div>
 <p>Next, we set up our “strata”, or column, as a list of <code>data.frame</code>s, in the order we want them displayed:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">list</span>(<span class="dt">Total=</span>melanoma2), <span class="kw">split</span>(melanoma2, melanoma2<span class="op">$</span>status))</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>strata <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">list</span>(<span class="at">Total=</span>melanoma2), <span class="fu">split</span>(melanoma2, melanoma2<span class="sc">$</span>status))</span></code></pre></div>
 <p>Finally, we can customize the contents using custom renderers. A custom render can be a function that take a vector as the first argument and return a (named) character vector. There is also a simpler way to customize the table contents using an abbreviated code syntax instead of a render function, but it allows less control over rounding (see below). Here, for example, we specify render functions for the continuous and categorical variables as follows:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1">my.render.cont &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb6-2" title="2">    <span class="kw">with</span>(<span class="kw">stats.apply.rounding</span>(<span class="kw">stats.default</span>(x), <span class="dt">digits=</span><span class="dv">2</span>), <span class="kw">c</span>(<span class="st">&quot;&quot;</span>,</a>
-<a class="sourceLine" id="cb6-3" title="3">        <span class="st">&quot;Mean (SD)&quot;</span>=<span class="kw">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))</a>
-<a class="sourceLine" id="cb6-4" title="4">}</a>
-<a class="sourceLine" id="cb6-5" title="5">my.render.cat &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb6-6" title="6">    <span class="kw">c</span>(<span class="st">&quot;&quot;</span>, <span class="kw">sapply</span>(<span class="kw">stats.default</span>(x), <span class="cf">function</span>(y) <span class="kw">with</span>(y,</a>
-<a class="sourceLine" id="cb6-7" title="7">        <span class="kw">sprintf</span>(<span class="st">&quot;%d (%0.0f %%)&quot;</span>, FREQ, PCT))))</a>
-<a class="sourceLine" id="cb6-8" title="8">}</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>my.render.cont <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">with</span>(<span class="fu">stats.apply.rounding</span>(<span class="fu">stats.default</span>(x), <span class="at">digits=</span><span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;&quot;</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Mean (SD)&quot;</span><span class="ot">=</span><span class="fu">sprintf</span>(<span class="st">&quot;%s (&amp;plusmn; %s)&quot;</span>, MEAN, SD)))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>my.render.cat <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="fu">sapply</span>(<span class="fu">stats.default</span>(x), <span class="cf">function</span>(y) <span class="fu">with</span>(y,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%d (%0.0f %%)&quot;</span>, FREQ, PCT))))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>And here is the result:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb7-2" title="2">       <span class="dt">render.continuous=</span>my.render.cont, <span class="dt">render.categorical=</span>my.render.cat)</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(strata, labels, <span class="at">groupspan=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">render.continuous=</span>my.render.cont, <span class="at">render.categorical=</span>my.render.cat)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -751,28 +507,28 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="example-2" class="section level2">
 <h2>Example 2</h2>
 <p>For this second example, we will use simulated data. We imagine a clinical trial where subjects have been randomized in a 2:1 ratio to receive an active treatment or placebo. For simplicity, we will only consider three baseline characteristics: age, sex and weight.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, n, ...) <span class="kw">factor</span>(<span class="kw">sample</span>(x, n, <span class="dt">replace=</span>T, ...), <span class="dt">levels=</span>x)</a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="kw">set.seed</span>(<span class="dv">427</span>)</a>
-<a class="sourceLine" id="cb8-3" title="3"></a>
-<a class="sourceLine" id="cb8-4" title="4">n &lt;-<span class="st"> </span><span class="dv">146</span></a>
-<a class="sourceLine" id="cb8-5" title="5">dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">id=</span><span class="dv">1</span><span class="op">:</span>n)</a>
-<a class="sourceLine" id="cb8-6" title="6">dat<span class="op">$</span>treat &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span></a>
-<a class="sourceLine" id="cb8-7" title="7">dat<span class="op">$</span>age   &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">18</span><span class="op">:</span><span class="dv">65</span>, n, <span class="dt">replace=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb8-8" title="8">dat<span class="op">$</span>sex   &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="dt">prob=</span><span class="kw">c</span>(.<span class="dv">6</span>, <span class="fl">.4</span>))  <span class="co"># 60% female</span></a>
-<a class="sourceLine" id="cb8-9" title="9">dat<span class="op">$</span>wt    &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(n, <span class="kw">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>)), <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb8-10" title="10"></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="co"># Add some missing data</span></a>
-<a class="sourceLine" id="cb8-12" title="12">dat<span class="op">$</span>wt[<span class="kw">sample.int</span>(n, <span class="dv">5</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb8-13" title="13"></a>
-<a class="sourceLine" id="cb8-14" title="14"><span class="kw">label</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb8-15" title="15"><span class="kw">label</span>(dat<span class="op">$</span>sex)   &lt;-<span class="st"> &quot;Sex&quot;</span></a>
-<a class="sourceLine" id="cb8-16" title="16"><span class="kw">label</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;Weight&quot;</span></a>
-<a class="sourceLine" id="cb8-17" title="17"><span class="kw">label</span>(dat<span class="op">$</span>treat) &lt;-<span class="st"> &quot;Treatment Group&quot;</span></a>
-<a class="sourceLine" id="cb8-18" title="18"></a>
-<a class="sourceLine" id="cb8-19" title="19"><span class="kw">units</span>(dat<span class="op">$</span>age)   &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb8-20" title="20"><span class="kw">units</span>(dat<span class="op">$</span>wt)    &lt;-<span class="st"> &quot;kg&quot;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x, n, ...) <span class="fu">factor</span>(<span class="fu">sample</span>(x, n, <span class="at">replace=</span>T, ...), <span class="at">levels=</span>x)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">427</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">146</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">id=</span><span class="dv">1</span><span class="sc">:</span>n)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>treat <span class="ot">&lt;-</span> <span class="fu">f</span>(<span class="fu">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;Treated&quot;</span>), n, <span class="at">prob=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)) <span class="co"># 2:1 randomization</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>age   <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">18</span><span class="sc">:</span><span class="dv">65</span>, n, <span class="at">replace=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>sex   <span class="ot">&lt;-</span> <span class="fu">f</span>(<span class="fu">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>), n, <span class="at">prob=</span><span class="fu">c</span>(.<span class="dv">6</span>, .<span class="dv">4</span>))  <span class="co"># 60% female</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>wt    <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">rnorm</span>(n, <span class="fu">log</span>(<span class="dv">70</span>), <span class="fl">0.23</span>)), <span class="dv">1</span>)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Add some missing data</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>wt[<span class="fu">sample.int</span>(n, <span class="dv">5</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(dat<span class="sc">$</span>age)   <span class="ot">&lt;-</span> <span class="st">&quot;Age&quot;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(dat<span class="sc">$</span>sex)   <span class="ot">&lt;-</span> <span class="st">&quot;Sex&quot;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(dat<span class="sc">$</span>wt)    <span class="ot">&lt;-</span> <span class="st">&quot;Weight&quot;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(dat<span class="sc">$</span>treat) <span class="ot">&lt;-</span> <span class="st">&quot;Treatment Group&quot;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(dat<span class="sc">$</span>age)   <span class="ot">&lt;-</span> <span class="st">&quot;years&quot;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(dat<span class="sc">$</span>wt)    <span class="ot">&lt;-</span> <span class="st">&quot;kg&quot;</span></span></code></pre></div>
 <p>Using the default settings, we obtain this table:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -848,7 +604,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </div>
 <p>Note that when contains missing values (here weight), be it continuous or categorical, these are reported as a distinct category (with count and percent).</p>
 <p>The “Overall” column can be easily removed (or relabeled):</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">overall=</span>F)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat, <span class="at">overall=</span>F)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -912,7 +668,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>We can also have stratification by two variables, in which case they are nested. For example, to see each treatment group split by sex:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat<span class="op">*</span>sex, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> wt <span class="sc">|</span> treat<span class="sc">*</span>sex, <span class="at">data=</span>dat)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -999,7 +755,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Or, switch the order:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>sex<span class="op">*</span>treat, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> wt <span class="sc">|</span> sex<span class="sc">*</span>treat, <span class="at">data=</span>dat)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1086,7 +842,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Or, no stratification:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>treat <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt, <span class="dt">data=</span>dat)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> treat <span class="sc">+</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt, <span class="at">data=</span>dat)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1151,18 +907,18 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Finally, we may again consider something a bit more complicated, using the default (i.e., non-formula) interface. Suppose that instead of simply being assigned to placebo or active treatment, there were actually two doses of treatment randomized, 5 mg and 10 mg, and we want columns for each dose level separately, as well as for all treated subjects.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1">dat<span class="op">$</span>dose &lt;-<span class="st"> </span>(dat<span class="op">$</span>treat <span class="op">!=</span><span class="st"> &quot;Placebo&quot;</span>)<span class="op">*</span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, n, <span class="dt">replace=</span>T)</a>
-<a class="sourceLine" id="cb14-2" title="2">dat<span class="op">$</span>dose &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>dose, <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))</a>
-<a class="sourceLine" id="cb14-3" title="3"></a>
-<a class="sourceLine" id="cb14-4" title="4">strata &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">split</span>(dat, dat<span class="op">$</span>dose), <span class="kw">list</span>(<span class="st">&quot;All treated&quot;</span>=<span class="kw">subset</span>(dat, treat<span class="op">==</span><span class="st">&quot;Treated&quot;</span>)), <span class="kw">list</span>(<span class="dt">Overall=</span>dat))</a>
-<a class="sourceLine" id="cb14-5" title="5"></a>
-<a class="sourceLine" id="cb14-6" title="6">labels &lt;-<span class="st"> </span><span class="kw">list</span>(</a>
-<a class="sourceLine" id="cb14-7" title="7">    <span class="dt">variables=</span><span class="kw">list</span>(<span class="dt">age=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>age),</a>
-<a class="sourceLine" id="cb14-8" title="8">                   <span class="dt">sex=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>sex),</a>
-<a class="sourceLine" id="cb14-9" title="9">                   <span class="dt">wt=</span><span class="kw">render.varlabel</span>(dat<span class="op">$</span>wt)),</a>
-<a class="sourceLine" id="cb14-10" title="10">    <span class="dt">groups=</span><span class="kw">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;&quot;</span>))</a>
-<a class="sourceLine" id="cb14-11" title="11"></a>
-<a class="sourceLine" id="cb14-12" title="12"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>dose <span class="ot">&lt;-</span> (dat<span class="sc">$</span>treat <span class="sc">!=</span> <span class="st">&quot;Placebo&quot;</span>)<span class="sc">*</span><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, n, <span class="at">replace=</span>T)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>dose <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>dose, <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Placebo&quot;</span>, <span class="st">&quot;5 mg&quot;</span>, <span class="st">&quot;10 mg&quot;</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>strata <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">split</span>(dat, dat<span class="sc">$</span>dose), <span class="fu">list</span>(<span class="st">&quot;All treated&quot;</span><span class="ot">=</span><span class="fu">subset</span>(dat, treat<span class="sc">==</span><span class="st">&quot;Treated&quot;</span>)), <span class="fu">list</span>(<span class="at">Overall=</span>dat))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables=</span><span class="fu">list</span>(<span class="at">age=</span><span class="fu">render.varlabel</span>(dat<span class="sc">$</span>age),</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">sex=</span><span class="fu">render.varlabel</span>(dat<span class="sc">$</span>sex),</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">wt=</span><span class="fu">render.varlabel</span>(dat<span class="sc">$</span>wt)),</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">groups=</span><span class="fu">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Treated&quot;</span>, <span class="st">&quot;&quot;</span>))</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(strata, labels, <span class="at">groupspan=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>))</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1268,9 +1024,9 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="using-abbreviated-code-to-specify-a-custom-renderer" class="section level2">
 <h2>Using abbreviated code to specify a custom renderer</h2>
 <p>Suppose that for continuous variables, we want to display the percent coefficient of variation (CV%) instead of the standard deviation (SD). We also want to display the geometric mean and geometric coefficient of variation. We already discussed custom render functions that could be used to accomplish this, but a simpler alternative is to use abbreviated code. This is a character string that contains certain keywords which are substituted for computed values in the table output. The list of recognized keywords comes from the output of the <code>stats.default</code> function and includes: N, NMISS, MEAN, SD, CV, GMEAN, GCV, MEDIAN, MIN, MAX, IQR, Q1, Q2, Q3, T1, T2, FREQ, PCT. Keyword matching is case insensitive, and any text other than the keywords is left untouched. We can specify a vector of character strings, in which case each result will be displayed in its own row in the table. We can use a named vector to specify labels for each row; a dot (‘.’) can be used to indicate that the abbreviated code string itself be used as the row label. Significant digits can be controlled using the <code>digits</code> argument (default: 3). Here is a continuation of the example from the previous section that produces the desired result:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="kw">table1</span>(strata, labels, <span class="dt">groupspan=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),</a>
-<a class="sourceLine" id="cb15-2" title="2">       <span class="dt">render.continuous=</span><span class="kw">c</span>(<span class="dt">.=</span><span class="st">&quot;Mean (CV%)&quot;</span>, <span class="dt">.=</span><span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
-<a class="sourceLine" id="cb15-3" title="3">                           <span class="st">&quot;Geo. mean (Geo. CV%)&quot;</span>=<span class="st">&quot;GMEAN (GCV%)&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(strata, labels, <span class="at">groupspan=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">render.continuous=</span><span class="fu">c</span>(<span class="at">.=</span><span class="st">&quot;Mean (CV%)&quot;</span>, <span class="at">.=</span><span class="st">&quot;Median [Min, Max]&quot;</span>,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Geo. mean (Geo. CV%)&quot;</span><span class="ot">=</span><span class="st">&quot;GMEAN (GCV%)&quot;</span>))</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1392,16 +1148,16 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="displaying-different-statistics-for-different-variables" class="section level2">
 <h2>Displaying different statistics for different variables</h2>
 <p>Suppose it is desired to show the median and range for age, but the mean and standard deviation for weight. This can be achieved using a custom render function as follows:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
-<a class="sourceLine" id="cb16-2" title="2">    <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.numeric</span>(x)) <span class="kw">return</span>(<span class="kw">render.categorical.default</span>(x))</a>
-<a class="sourceLine" id="cb16-3" title="3">    what &lt;-<span class="st"> </span><span class="cf">switch</span>(name,</a>
-<a class="sourceLine" id="cb16-4" title="4">        <span class="dt">age =</span> <span class="st">&quot;Median [Min, Max]&quot;</span>,</a>
-<a class="sourceLine" id="cb16-5" title="5">        <span class="dt">wt  =</span> <span class="st">&quot;Mean (SD)&quot;</span>)</a>
-<a class="sourceLine" id="cb16-6" title="6">    <span class="kw">parse.abbrev.render.code</span>(<span class="kw">c</span>(<span class="st">&quot;&quot;</span>, what))(x)</a>
-<a class="sourceLine" id="cb16-7" title="7">}</a>
-<a class="sourceLine" id="cb16-8" title="8"></a>
-<a class="sourceLine" id="cb16-9" title="9"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb16-10" title="10">       <span class="dt">render=</span>rndr)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rndr <span class="ot">&lt;-</span> <span class="cf">function</span>(x, name, ...) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="sc">!</span><span class="fu">is.numeric</span>(x)) <span class="fu">return</span>(<span class="fu">render.categorical.default</span>(x))</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    what <span class="ot">&lt;-</span> <span class="cf">switch</span>(name,</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">age =</span> <span class="st">&quot;Median [Min, Max]&quot;</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">wt  =</span> <span class="st">&quot;Mean (SD)&quot;</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">parse.abbrev.render.code</span>(<span class="fu">c</span>(<span class="st">&quot;&quot;</span>, what))(x)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">render=</span>rndr)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -1485,7 +1241,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <li>center: center all columns, including the first which contains the row labels</li>
 </ul>
 <p>These styles can be selected using the <code>topclass</code> argument of <code>table1</code>. Some examples follow:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-zebra&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat, <span class="at">topclass=</span><span class="st">&quot;Rtable1-zebra&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-zebra">
 <thead>
 <tr>
@@ -1559,7 +1315,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat, <span class="at">topclass=</span><span class="st">&quot;Rtable1-grid&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid">
 <thead>
 <tr>
@@ -1633,7 +1389,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>sex <span class="op">+</span><span class="st"> </span>wt <span class="op">|</span><span class="st"> </span>treat, <span class="dt">data=</span>dat, <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-shade Rtable1-times&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> wt <span class="sc">|</span> treat, <span class="at">data=</span>dat, <span class="at">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-shade Rtable1-times&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-shade Rtable1-times">
 <thead>
 <tr>
@@ -1716,27 +1472,27 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
   html_document:
     css: style.css</code></pre>
 <p>CSS allows fine control of the appearance of different elements in the table. For examples, if <code>style.css</code> contains the following definitions:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb21-1" title="1">table<span class="fu">.Rtable1</span> {</a>
-<a class="sourceLine" id="cb21-2" title="2">    <span class="kw">font-family</span>: <span class="st">&quot;Lucida Console&quot;</span><span class="op">,</span> Monaco<span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-3" title="3">    <span class="kw">border-collapse</span>: <span class="dv">collapse</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-4" title="4">    <span class="kw">font-size</span>: <span class="dv">9</span><span class="dt">pt</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-5" title="5">}</a>
-<a class="sourceLine" id="cb21-6" title="6"><span class="fu">.Rtable1</span> th {</a>
-<a class="sourceLine" id="cb21-7" title="7">    <span class="kw">background-color</span>: <span class="fu">rgb(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">164</span><span class="fu">)</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-8" title="8">    <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-9" title="9">}</a>
-<a class="sourceLine" id="cb21-10" title="10"><span class="fu">.Rtable1</span> <span class="fu">.firstrow</span><span class="op">,</span> <span class="fu">.Rtable1</span> <span class="fu">.firstrow</span> <span class="op">~</span> td {</a>
-<a class="sourceLine" id="cb21-11" title="11">    <span class="kw">border-top</span>: <span class="dv">1</span><span class="dt">pt</span> <span class="dv">solid</span> <span class="cn">black</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-12" title="12">}</a>
-<a class="sourceLine" id="cb21-13" title="13"><span class="fu">.Rtable1</span> td<span class="fu">.rowlabel</span> {</a>
-<a class="sourceLine" id="cb21-14" title="14">    <span class="kw">color</span>: <span class="cn">DarkCyan</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-15" title="15">    <span class="kw">font-style</span>: <span class="dv">italic</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-16" title="16">}</a>
-<a class="sourceLine" id="cb21-17" title="17"><span class="fu">.Rtable1</span> td<span class="fu">.firstrow.rowlabel</span> {</a>
-<a class="sourceLine" id="cb21-18" title="18">    <span class="kw">background-color</span>: <span class="cn">yellow</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-19" title="19">    <span class="kw">color</span>: <span class="cn">red</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-20" title="20">    <span class="kw">font-size</span>: <span class="dv">12</span><span class="dt">pt</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb21-21" title="21">}</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode css"><code class="sourceCode css"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>table<span class="fu">.Rtable1</span> {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">font-family</span>: <span class="st">&quot;Lucida Console&quot;</span><span class="op">,</span> Monaco<span class="op">,</span> <span class="dv">monospace</span><span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border-collapse</span>: <span class="dv">collapse</span><span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">font-size</span>: <span class="dv">9</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="fu">.Rtable1</span> th {</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="fu">rgb(</span><span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">164</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">white</span><span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a><span class="fu">.Rtable1</span> <span class="fu">.firstrow</span><span class="op">,</span> <span class="fu">.Rtable1</span> <span class="fu">.firstrow</span> <span class="op">~</span> td {</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">border-top</span>: <span class="dv">1</span><span class="dt">pt</span> <span class="dv">solid</span> <span class="cn">black</span><span class="op">;</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="fu">.Rtable1</span> td<span class="fu">.rowlabel</span> {</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">DarkCyan</span><span class="op">;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">font-style</span>: <span class="dv">italic</span><span class="op">;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="fu">.Rtable1</span> td<span class="fu">.firstrow.rowlabel</span> {</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">background-color</span>: <span class="cn">yellow</span><span class="op">;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">color</span>: <span class="cn">red</span><span class="op">;</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">font-size</span>: <span class="dv">12</span><span class="dt">pt</span><span class="op">;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>then the output will be as follows:</p>
 <div class="Rtable1"><table class="custom">
 <thead>
@@ -1814,51 +1570,51 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>(Note: as an alternative to redefining the default CSS class <code>Rtable1</code>, a different custom CSS class name could be used, and the <code>topclass</code> argument used to select it.)</p>
 </div>
 </div>
-<div id="a-column-of-p-values" class="section level2">
-<h2>A column of p-values</h2>
-<p>A user asked if it was possible to add a column to the table showing the p-value associated with a univariate test for differences in each variable across strata. There is currently no facility built into the package to accomplish this, but with the use of a custom render function and an empty stratum, it can be “tricked” into producing the desired result.</p>
-<p>The following example uses the <code>lalonde</code> data from the <code>MatchIt</code> package. In this case, a chi-square test of independence is used for categorical variables, and a t-test for continuous variables (other tests could be used if desired, this is just for illustration purposes).</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" title="1"><span class="kw">library</span>(MatchIt) </a></code></pre></div>
-<pre><code>## Warning: package &#39;MatchIt&#39; was built under R version 4.0.3</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">data</span>(lalonde)</a>
-<a class="sourceLine" id="cb24-2" title="2"></a>
-<a class="sourceLine" id="cb24-3" title="3">lalonde<span class="op">$</span>treat    &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>treat, <span class="dt">levels=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>, <span class="st">&quot;P-value&quot;</span>))</a>
-<a class="sourceLine" id="cb24-4" title="4">lalonde<span class="op">$</span>married  &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-5" title="5">lalonde<span class="op">$</span>nodegree &lt;-<span class="st"> </span><span class="kw">as.logical</span>(lalonde<span class="op">$</span>nodegree <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb24-6" title="6">lalonde<span class="op">$</span>race     &lt;-<span class="st"> </span><span class="kw">factor</span>(lalonde<span class="op">$</span>race, <span class="dt">levels=</span><span class="kw">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;hispan&quot;</span>),</a>
-<a class="sourceLine" id="cb24-7" title="7">               <span class="dt">labels=</span><span class="kw">c</span>(<span class="st">&quot;White&quot;</span>, <span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>))</a>
-<a class="sourceLine" id="cb24-8" title="8"></a>
-<a class="sourceLine" id="cb24-9" title="9"><span class="kw">label</span>(lalonde<span class="op">$</span>race)     &lt;-<span class="st"> &quot;Race&quot;</span></a>
-<a class="sourceLine" id="cb24-10" title="10"><span class="kw">label</span>(lalonde<span class="op">$</span>married)  &lt;-<span class="st"> &quot;Married&quot;</span></a>
-<a class="sourceLine" id="cb24-11" title="11"><span class="kw">label</span>(lalonde<span class="op">$</span>nodegree) &lt;-<span class="st"> &quot;No high school diploma&quot;</span></a>
-<a class="sourceLine" id="cb24-12" title="12"><span class="kw">label</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;Age&quot;</span></a>
-<a class="sourceLine" id="cb24-13" title="13"><span class="kw">label</span>(lalonde<span class="op">$</span>re74)     &lt;-<span class="st"> &quot;1974 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-14" title="14"><span class="kw">label</span>(lalonde<span class="op">$</span>re75)     &lt;-<span class="st"> &quot;1975 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-15" title="15"><span class="kw">label</span>(lalonde<span class="op">$</span>re78)     &lt;-<span class="st"> &quot;1978 Income&quot;</span></a>
-<a class="sourceLine" id="cb24-16" title="16"><span class="kw">units</span>(lalonde<span class="op">$</span>age)      &lt;-<span class="st"> &quot;years&quot;</span></a>
-<a class="sourceLine" id="cb24-17" title="17"></a>
-<a class="sourceLine" id="cb24-18" title="18">rndr &lt;-<span class="st"> </span><span class="cf">function</span>(x, name, ...) {</a>
-<a class="sourceLine" id="cb24-19" title="19">    <span class="cf">if</span> (<span class="kw">length</span>(x) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {</a>
-<a class="sourceLine" id="cb24-20" title="20">        y &lt;-<span class="st"> </span>lalonde[[name]]</a>
-<a class="sourceLine" id="cb24-21" title="21">        s &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="st">&quot;&quot;</span>, <span class="kw">length</span>(<span class="kw">render.default</span>(<span class="dt">x=</span>y, <span class="dt">name=</span>name, ...)))</a>
-<a class="sourceLine" id="cb24-22" title="22">        <span class="cf">if</span> (<span class="kw">is.numeric</span>(y)) {</a>
-<a class="sourceLine" id="cb24-23" title="23">            p &lt;-<span class="st"> </span><span class="kw">t.test</span>(y <span class="op">~</span><span class="st"> </span>lalonde<span class="op">$</span>treat)<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb24-24" title="24">        } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb24-25" title="25">            p &lt;-<span class="st"> </span><span class="kw">chisq.test</span>(<span class="kw">table</span>(y, <span class="kw">droplevels</span>(lalonde<span class="op">$</span>treat)))<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb24-26" title="26">        }</a>
-<a class="sourceLine" id="cb24-27" title="27">        s[<span class="dv">2</span>] &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="kw">format.pval</span>(p, <span class="dt">digits=</span><span class="dv">3</span>, <span class="dt">eps=</span><span class="fl">0.001</span>))</a>
-<a class="sourceLine" id="cb24-28" title="28">        s</a>
-<a class="sourceLine" id="cb24-29" title="29">    } <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb24-30" title="30">        <span class="kw">render.default</span>(<span class="dt">x=</span>x, <span class="dt">name=</span>name, ...)</a>
-<a class="sourceLine" id="cb24-31" title="31">    }</a>
-<a class="sourceLine" id="cb24-32" title="32">}</a>
-<a class="sourceLine" id="cb24-33" title="33"></a>
-<a class="sourceLine" id="cb24-34" title="34">rndr.strat &lt;-<span class="st"> </span><span class="cf">function</span>(label, n, ...) {</a>
-<a class="sourceLine" id="cb24-35" title="35">    <span class="kw">ifelse</span>(n<span class="op">==</span><span class="dv">0</span>, label, <span class="kw">render.strat.default</span>(label, n, ...))</a>
-<a class="sourceLine" id="cb24-36" title="36">}</a>
-<a class="sourceLine" id="cb24-37" title="37"></a>
-<a class="sourceLine" id="cb24-38" title="38"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>race <span class="op">+</span><span class="st"> </span>married <span class="op">+</span><span class="st"> </span>nodegree <span class="op">+</span><span class="st"> </span>re74 <span class="op">+</span><span class="st"> </span>re75 <span class="op">+</span><span class="st"> </span>re78 <span class="op">|</span><span class="st"> </span>treat,</a>
-<a class="sourceLine" id="cb24-39" title="39">    <span class="dt">data=</span>lalonde, <span class="dt">droplevels=</span>F, <span class="dt">render=</span>rndr, <span class="dt">render.strat=</span>rndr.strat, <span class="dt">overall=</span>F)</a></code></pre></div>
+<div id="extra-columns" class="section level2">
+<h2>Extra columns</h2>
+<p>Sometimes, it may be desired to add extra columns to the table, other than descriptive statistics. This can be accomplished using the <code>extra.col</code> option. The contents of the extra columns can be anything that can be computed from the data, making this an extremely flexible approach. As usual, this flexibility comes at a cost, namely in the form of more effort/code to achieve the desired result.</p>
+<div id="example-a-column-of-p-values" class="section level3">
+<h3>Example: a column of p-values</h3>
+<p>A user asked if it was possible to add a column to the table showing the p-value associated with a univariate test for differences in each variable across strata. This can be accomplished using the <code>extra.col</code> feature.</p>
+<p>The following example uses the <code>lalonde</code> data from the <code>MatchIt</code> package. The dataset has a column <code>treat</code> that contains the value 0 for “Treatment” and 1 for “Control”; this will be used for stratification. In this example, a chi-square test of independence is used for categorical variables, and a t-test for continuous variables (other tests could be used if desired, this is just for illustration purposes).</p>
+<p>First, we will assign factor levels, labels and units to the variables of interest.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MatchIt) </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(lalonde)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>lalonde<span class="sc">$</span>treat    <span class="ot">&lt;-</span> <span class="fu">factor</span>(lalonde<span class="sc">$</span>treat, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Control&quot;</span>, <span class="st">&quot;Treatment&quot;</span>))</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>lalonde<span class="sc">$</span>married  <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(lalonde<span class="sc">$</span>married <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>lalonde<span class="sc">$</span>nodegree <span class="ot">&lt;-</span> <span class="fu">as.logical</span>(lalonde<span class="sc">$</span>nodegree <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>lalonde<span class="sc">$</span>race     <span class="ot">&lt;-</span> <span class="fu">factor</span>(lalonde<span class="sc">$</span>race, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;white&quot;</span>, <span class="st">&quot;black&quot;</span>, <span class="st">&quot;hispan&quot;</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                                         <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;White&quot;</span>, <span class="st">&quot;Black&quot;</span>, <span class="st">&quot;Hispanic&quot;</span>))</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>race)     <span class="ot">&lt;-</span> <span class="st">&quot;Race&quot;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>married)  <span class="ot">&lt;-</span> <span class="st">&quot;Married&quot;</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>nodegree) <span class="ot">&lt;-</span> <span class="st">&quot;No high school diploma&quot;</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>age)      <span class="ot">&lt;-</span> <span class="st">&quot;Age&quot;</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>re74)     <span class="ot">&lt;-</span> <span class="st">&quot;1974 Income&quot;</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>re75)     <span class="ot">&lt;-</span> <span class="st">&quot;1975 Income&quot;</span></span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(lalonde<span class="sc">$</span>re78)     <span class="ot">&lt;-</span> <span class="st">&quot;1978 Income&quot;</span></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(lalonde<span class="sc">$</span>age)      <span class="ot">&lt;-</span> <span class="st">&quot;years&quot;</span></span></code></pre></div>
+<p>Next, we create a function to compute the p-value for continuous or categorical variables.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pvalue <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct vectors of data y, and groups (strata) g</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    y <span class="ot">&lt;-</span> <span class="fu">unlist</span>(x)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    g <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x), <span class="at">times=</span><span class="fu">sapply</span>(x, length)))</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.numeric</span>(y)) {</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For numeric variables, perform a standard 2-sample t-test</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>        p <span class="ot">&lt;-</span> <span class="fu">t.test</span>(y <span class="sc">~</span> g)<span class="sc">$</span>p.value</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># For categorical variables, perform a chi-squared test of independence</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>        p <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(<span class="fu">table</span>(y, g))<span class="sc">$</span>p.value</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format the p-value, using an HTML entity for the less-than sign.</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The initial empty string places the output on the line below the variable label.</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="fu">sub</span>(<span class="st">&quot;&lt;&quot;</span>, <span class="st">&quot;&amp;lt;&quot;</span>, <span class="fu">format.pval</span>(p, <span class="at">digits=</span><span class="dv">3</span>, <span class="at">eps=</span><span class="fl">0.001</span>)))</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Note that this function expects a specific input, namely a list with 2 components corresponding to the 2 strata “Treatment” and “Control” in the <code>lalonde</code> data. These are the only 2 elements the list will have, because we will use <code>overall=F</code> in <code>table1</code> (otherwise, there would be a third element in the list corresponding to the overall column). Thus, this function is in some sense specifically tailored to this examples, and would need to be adapted to other situations (such as more than 2 strata, where a t-test would not work).</p>
+<p>Now, we supply our function in the <code>extra.col</code> list argument to <code>table1</code> with the name <code>P-value</code>, which will appear as the column label (heading).</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> age <span class="sc">+</span> race <span class="sc">+</span> married <span class="sc">+</span> nodegree <span class="sc">+</span> re74 <span class="sc">+</span> re75 <span class="sc">+</span> re78 <span class="sc">|</span> treat,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>lalonde, <span class="at">overall=</span>F, <span class="at">extra.col=</span><span class="fu">list</span>(<span class="st">`</span><span class="at">P-value</span><span class="st">`</span><span class="ot">=</span>pvalue))</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
@@ -2004,19 +1760,20 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </tbody>
 </table>
 </div>
-<p>Admittedly, this is not very elegant, and is definitely a hack. But it is still a neat illustration of the flexibility of the package in terms of being able to accomplish something that we never really planned for.</p>
+<p>Admittedly, this is not as simple as setting a flag, but has the advantage of being totally flexible.</p>
+</div>
 </div>
 <div id="transposed-table" class="section level2">
 <h2>Transposed table</h2>
 <p>By default, the table produced by <code>table1</code> will have strata or subgroups as columns, and variables as rows. In some cases, it may be desirable to transpose the table such that each column is a variables and the rows are strata. This makes most sense when all the variables are continuous and when a compact representation is desired. It can be achieved by using the <code>transpose = TRUE</code> option.</p>
 <p>An example:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" title="1">dat &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">i=</span><span class="dv">1</span><span class="op">:</span><span class="dv">50</span>, <span class="dt">group=</span>LETTERS[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb25-2" title="2">dat &lt;-<span class="st"> </span><span class="kw">cbind</span>(dat, <span class="kw">matrix</span>(<span class="kw">round</span>(<span class="kw">exp</span>(<span class="kw">rnorm</span>(<span class="dv">6</span><span class="op">*</span><span class="kw">nrow</span>(dat))), <span class="dv">1</span>), <span class="dt">nrow=</span><span class="kw">nrow</span>(dat)))</a>
-<a class="sourceLine" id="cb25-3" title="3"><span class="kw">names</span>(dat)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">i=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>, <span class="at">group=</span>LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">cbind</span>(dat, <span class="fu">matrix</span>(<span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">rnorm</span>(<span class="dv">6</span><span class="sc">*</span><span class="fu">nrow</span>(dat))), <span class="dv">1</span>), <span class="at">nrow=</span><span class="fu">nrow</span>(dat)))</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dat)[<span class="dv">3</span><span class="sc">:</span><span class="dv">8</span>] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;V&quot;</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>)</span></code></pre></div>
 <p>Default:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb26-2" title="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb26-3" title="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> V1 <span class="sc">+</span> V2 <span class="sc">+</span> V3 <span class="sc">+</span> V4 <span class="sc">+</span> V5 <span class="sc">+</span> V6 <span class="sc">|</span> group, <span class="at">data=</span>dat,</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
@@ -2074,10 +1831,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </table>
 </div>
 <p>Transposed:</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" title="1"><span class="kw">table1</span>(<span class="op">~</span><span class="st"> </span>V1 <span class="op">+</span><span class="st"> </span>V2 <span class="op">+</span><span class="st"> </span>V3 <span class="op">+</span><span class="st"> </span>V4 <span class="op">+</span><span class="st"> </span>V5 <span class="op">+</span><span class="st"> </span>V6 <span class="op">|</span><span class="st"> </span>group, <span class="dt">data=</span>dat,</a>
-<a class="sourceLine" id="cb27-2" title="2">       <span class="dt">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</a>
-<a class="sourceLine" id="cb27-3" title="3">       <span class="dt">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</a>
-<a class="sourceLine" id="cb27-4" title="4">       <span class="dt">transpose=</span><span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> V1 <span class="sc">+</span> V2 <span class="sc">+</span> V3 <span class="sc">+</span> V4 <span class="sc">+</span> V5 <span class="sc">+</span> V6 <span class="sc">|</span> group, <span class="at">data=</span>dat,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">topclass=</span><span class="st">&quot;Rtable1-grid Rtable1-center&quot;</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>       <span class="at">render=</span><span class="st">&quot;Mean (CV%)&lt;br/&gt;Median [Min, Max]&lt;br/&gt;GMean (GCV%)&quot;</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">transpose=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
