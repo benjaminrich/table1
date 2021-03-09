@@ -923,7 +923,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 colpermute <- rep(0, ncol(thead))
                 colpermute[extra.col.pos] <- s1
                 colpermute[-extra.col.pos] <- s2
-                thead <- thead[, colpermute]
+                thead <- thead[, colpermute, drop=F]
             }
         }
         ncolumns <- ncol(thead)
@@ -948,7 +948,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 }))
                 y <- cbind(y, y2)
                 if (!is.null(extra.col.pos)) {
-                    y <- y[, colpermute]
+                    y <- y[, colpermute, drop=F]
                 }
             }
 
