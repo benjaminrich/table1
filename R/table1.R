@@ -984,18 +984,23 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     } else {
         caption <- ""
     }
+
+    if (!is.null(footnote)) {
+        footnote <- sprintf('<p>%s</p>\n', footnote)
+        footnote <- paste0(footnote, collapse="\n")
+        tfoot <- sprintf('<tfoot><tr><td colspan="%d" class="Rtable1-footnote">%s</td></tr></tfoot>\n', ncolumns + 1, footnote)
+    } else {
+        tfoot <- ""
+    }
+
     x <- paste0(
         sprintf('<table%s>%s\n<thead>\n', topclass, caption),
         thead0,
         table.rows(thead, row.labels=rowlabelhead, th=T),
+        tfoot,
         '</thead>\n<tbody>\n',
         paste(sapply(tbody, table.rows), collapse=""),
         '</tbody>\n</table>\n')
-
-    if (!is.null(footnote)) {
-        footnote <- sprintf('<p class="Rtable1-footnote">%s</p>\n', footnote)
-        x <- paste0(x, paste0(footnote, collapse=""))
-    }
 
     structure(x, class=c("table1", "html", "character"), html=TRUE)
 }

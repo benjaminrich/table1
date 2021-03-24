@@ -92,9 +92,10 @@ table.Rtable1-times {
 }
 
 /* Footnote */
-.Rtable1-footnote {
+.Rtable1 .Rtable1-footnote {
     font-size: smaller;
     padding: 0px;
     margin: 0px;
+    text-align: left;
 }
 

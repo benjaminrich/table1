@@ -2,6 +2,8 @@
 
 * New feature: add extra columns with `extra.col`.
 
+* Footnotes now appear in a <tfoot> tag for better placement.
+
 * General improvements to the documentation.
 
 # table1 1.2.1
