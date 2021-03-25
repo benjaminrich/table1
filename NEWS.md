@@ -1,6 +1,8 @@
 # table1 1.3
 
-* New feature: add extra columns with `extra.col`.
+* The headline feature is the `extra.col` option, which gives a flexible way to
+  add extra columns (e.g. P-values, SMD, ...) to the table (thanks to Matt
+  Leipzig for helping out with suggestions and testing on this).
 
 * Footnotes now appear in a <tfoot> tag for better placement.
 
