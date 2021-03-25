@@ -110,10 +110,10 @@ Extra columns can be added to the table using the \code{extra.col} argument.
 This is an optional named list of functions, with the names corresponding to
 the column headings. Each function will be called once for each variable
 included in the table. Each function should expect 2 arguments, the first
-first being a list, the second the name of the variable. The contents of the
-list passed in as the first argument will the data associated with each
+being a list, the second the name of the variable. The contents of the
+list passed in as the first argument will be the data associated with each
 stratum in the table; i.e., one element for each normal column (not extra
-column). It is then up the the function to compute the value to appear in
+column). It is then up the function to compute the value to appear in
 the extra column and return it as a string. By default, extra columns will
 be placed to the far right, after the normal columns, in the order they are
 specified in. This can be overridden, however, using the
