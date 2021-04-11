@@ -1055,21 +1055,13 @@ knit_print.table1 <- function(x, ...) {
 #' @importFrom Formula Formula
 table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
     f <- Formula(x)
-    if (length(length(f)) != 2 || length(f)[2] < 1 || length(f)[2] > 2) {
-        stop(paste0("Invalid formula: ", paste0(x, collapse="")))
+    m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
+    for (i in 1:ncol(m1)) {
+        if (!has.label(m1[[i]])) {
+            label(m1[[i]]) <- names(m1)[i]
+        }
     }
-    if (length(f)[1] > 0) {
-        warning("Unexpected LHS in formula ignored (table1 expects a 1-sided formula)")
-    }
-    if (length(f)[2] == 2) {
-        f2 <- . ~ . # temp formula for constructing 2-sided version
-        f2[[2]] <- formula(f, rhs=2)[[2]] # Using this as LHS means '.' will be interpreted correctly
-        f2[[3]] <- formula(f, rhs=1)[[2]]
-        
-        # This line may generate a warning, which we can safely ignore
-        suppressWarnings(m1 <- model.frame(f2, data=data, na.action=na.pass))
-
-        m1 <- m1[, 2:ncol(m1)]  # Remove first column which corresponds to (fake) LHS
+    if (length(f)[2] > 1) {
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
         if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
@@ -1103,17 +1095,11 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             }
         }
     } else {
-        m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
         m2 <- NULL
         if (is.null(overall) || (is.logical(overall) && overall == FALSE)) {
             stop("Table has no columns?!")
         }
         stratlabel <- overall 
-    }
-    for (i in 1:ncol(m1)) {
-        if (!has.label(m1[[i]])) {
-            label(m1[[i]]) <- names(m1)[i]
-        }
     }
 
     if (!is.null(m2)) {

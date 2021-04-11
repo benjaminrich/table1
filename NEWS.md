@@ -1,8 +1,3 @@
-# table1 1.3.1
-
-* Fomulas containing '.' are now handled correctly (the '.' means all other
-  variables not specified elsewhere in the formula)
-
 # table1 1.3
 
 * The headline feature is the `extra.col` option, which gives a flexible way to
@@ -15,8 +10,7 @@
 
 # table1 1.2.1
 
-* Fixed issue that was causing vignette build to fail (due to changes made to
-  the MatchIt package's lalonde data set).
+* Fixed issue that was causing vignette build to fail (due to changes made to the MatchIt package's lalonde data set).
 
 * Allow multiple footnotes.
 
@@ -28,8 +22,7 @@
 
 * Added `SUM` to `stats.default` for continuous variables.
 
-* Added `PCTnoNA` to `stats.default` and `na.is.category` option to
-  `render.categorical.default`.
+* Added `PCTnoNA` to `stats.default` and `na.is.category` option to `render.categorical.default`.
 
 * Changed (n=XX) to (N=XX) in default table header.
 
@@ -43,17 +36,13 @@
 
 # table1 1.1
 
-* Added `quantile.type` argument to `stats.default` to allow selecting which
-  quantile type is computed.
+* Added `quantile.type` argument to `stats.default` to allow selecting which quantile type is computed.
 
-* Special handling for "0%" and "100%" in `stats.apply.rounding` so that no
-  decimals are shown.
+* Special handling for "0%" and "100%" in `stats.apply.rounding` so that no decimals are shown.
 
 * `droplevels` now works properly with nested grouping.
 
-* `table1` now returns a character string (containing HTML). A print method
-  handles the printing. There is no longer a need to use `capture.output` to
-  embed `table1` in a shiny app.
+* `table1` now returns a character string (containing HTML). A print method handles the printing. There is no longer a need to use `capture.output` to embed `table1` in a shiny app.
 
 * Removed `standalone` option as it is no longer needed.
 
@@ -63,8 +52,7 @@
 
 * Added `knit_print` method. No need to specify `results="asis"` chunk option anymore when knitting.
 
-* Default CSS is included automatically. It can still be overridden by
-  specifying a custom stylesheet in R Markdown.
+* Default CSS is included automatically. It can still be overridden by specifying a custom stylesheet in R Markdown.
 
 * Changed notation from upper case "Q" to small case "q" for percentiles in `stats.default`.
 
