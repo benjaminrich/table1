@@ -739,6 +739,16 @@ has.units <- function(x) {
 #' facilitate this, some tags (such as row labels) are given specific classes
 #' for easy CSS selection.
 #' 
+#' For the formula version, the formula is expected to be a one-sided formula,
+#' optionally  with a vertical bar separating the variables that are to appear
+#' as data in the table (as rows) from those used for stratification (i.e.
+#' columns). There can be at most 2 variables for stratification (and only one
+#' if \code{transpose = TRUE} is specified), and if 2 are specified, the second
+#' is nested within the first. The formula may contain a dot (".") to refer to
+#' "all variables in \code{data} other than those that appear elsewhere in the
+#' formula". It is legitimate to use functions inside the formula to create new
+#' variables.
+#'
 #' For the default version, is is expected that \code{x} is a named
 #' list of \code{data.frame}s, one for each stratum, with names corresponding to
 #' strata labels.
@@ -762,7 +772,7 @@ has.units <- function(x) {
 #' strata. Note that this feature is not available when the option
 #' \code{transpose = TRUE} is specified.
 #'
-#' @param x An object, typically a \code{formula} or list of \code{data.frame}s.
+#' @param x An object, typically a \code{formula} or list of \code{data.frame}s (see Details).
 #' @param data For the formula interface, a \code{data.frame} from which the
 #' variables in \code{x} should be taken.
 #' @param overall A label for the "Overall" column. Specify \code{NULL} or
@@ -1051,17 +1061,34 @@ knit_print.table1 <- function(x, ...) {
 
 #' @describeIn table1 The \code{formula} interface.
 #' @export
-#' @importFrom stats formula model.frame na.pass
+#' @importFrom stats formula model.frame na.pass terms
 #' @importFrom Formula Formula
 table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpose=FALSE, droplevels=TRUE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
     f <- Formula(x)
-    m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
-    for (i in 1:ncol(m1)) {
-        if (!has.label(m1[[i]])) {
-            label(m1[[i]]) <- names(m1)[i]
-        }
+    if (length(length(f)) != 2 || length(f)[2] < 1 || length(f)[2] > 2) {
+        stop(paste0("Invalid formula: ", paste0(x, collapse="")))
     }
-    if (length(f)[2] > 1) {
+    if (length(f)[1] > 0) {
+        warning("Unexpected LHS in formula ignored (table1 expects a 1-sided formula)")
+    }
+    if (length(f)[2] == 2) {
+        f2 <- formula(f)
+        f2[[2]][[3]] <- f[[2]][[2]]
+        f2[[2]][[2]] <- f[[2]][[3]]
+        f2 <- Formula(f2)
+
+        dot <- !is.null(attr(terms(Formula(formula(f, rhs=2)), data=data), "Formula_without_dot"))
+        dot2 <- !is.null(attr(terms(Formula(formula(f2, rhs=2)), data=data), "Formula_without_dot"))
+        if (dot && dot2) {
+            stop("Cannot have . in both parts of the formula")
+        }
+
+        if (dot || dot2) {
+            f <- attr(terms(f, data=data, dot="sequential"), "Formula_without_dot")
+            f2 <- attr(terms(f2, data=data, dot="sequential"), "Formula_without_dot")
+        }
+
+        m1 <- model.frame(formula(f2, rhs=2), data=data, na.action=na.pass)
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
         if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
@@ -1095,11 +1122,17 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             }
         }
     } else {
+        m1 <- model.frame(formula(f, rhs=1), data=data, na.action=na.pass)
         m2 <- NULL
         if (is.null(overall) || (is.logical(overall) && overall == FALSE)) {
             stop("Table has no columns?!")
         }
         stratlabel <- overall 
+    }
+    for (i in 1:ncol(m1)) {
+        if (!has.label(m1[[i]])) {
+            label(m1[[i]]) <- names(m1)[i]
+        }
     }
 
     if (!is.null(m2)) {

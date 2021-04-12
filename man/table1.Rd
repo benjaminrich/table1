@@ -42,7 +42,7 @@ table1(x, ...)
 )
 }
 \arguments{
-\item{x}{An object, typically a \code{formula} or list of \code{data.frame}s.}
+\item{x}{An object, typically a \code{formula} or list of \code{data.frame}s (see Details).}
 
 \item{...}{Further arguments, passed to \code{render}.}
 
@@ -101,6 +101,16 @@ user-defined `renderer' functions. Customization of the table appearance is
 deliberately not attempted, as this is best accomplished with CSS. To
 facilitate this, some tags (such as row labels) are given specific classes
 for easy CSS selection.
+
+For the formula version, the formula is expected to be a one-sided formula,
+optionally  with a vertical bar separating the variables that are to appear
+as data in the table (as rows) from those used for stratification (i.e.
+columns). There can be at most 2 variables for stratification (and only one
+if \code{transpose = TRUE} is specified), and if 2 are specified, the second
+is nested within the first. The formula may contain a dot (".") to refer to
+"all variables in \code{data} other than those that appear elsewhere in the
+formula". It is legitimate to use functions inside the formula to create new
+variables.
 
 For the default version, is is expected that \code{x} is a named
 list of \code{data.frame}s, one for each stratum, with names corresponding to

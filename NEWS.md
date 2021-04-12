@@ -1,3 +1,8 @@
+# table1 1.3.1
+
+* Fomulas containing dot ('.') are now handled correctly (the '.' means "all
+  variables other than those that appear elsewhere in the formula")
+
 # table1 1.3
 
 * The headline feature is the `extra.col` option, which gives a flexible way to
