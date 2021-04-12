@@ -1,7 +1,7 @@
 # table1 1.3.1
 
-* Fomulas containing '.' are now handled correctly (the '.' means all other
-  variables not specified elsewhere in the formula)
+* Fomulas containing dot ('.') are now handled correctly (the '.' means "all
+  variables other than those that appear elsewhere in the formula")
 
 # table1 1.3
 
