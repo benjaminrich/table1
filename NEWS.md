@@ -1,7 +1,12 @@
-# table1 1.3.1
+# table1 1.4
+
+* Headline feature: ability to convert table1 output to a data.frame (#17).
 
 * Fomulas containing dot ('.') are now handled correctly (the '.' means "all
-  variables other than those that appear elsewhere in the formula")
+  variables other than those that appear elsewhere in the formula").
+
+* Arguments to formatC (e.g. big.mark) will apply to all numbers by default
+  (previously, only continuous variables had this).
 
 # table1 1.3
 

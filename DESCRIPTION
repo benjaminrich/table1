@@ -1,9 +1,11 @@
 Package: table1
 Type: Package
-Version: 1.3
-Date: 2021-03-08
+Version: 1.4
+Date: 2021-04-16
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
+Author: Benjamin Rich [aut, cre, cph]
+Maintainer: Benjamin Rich <mail@benjaminrich.net>
 URL: https://github.com/benjaminrich/table1
 BugReports: https://github.com/benjaminrich/table1/issues
 Description: Create HTML tables of descriptive statistics, as one would expect

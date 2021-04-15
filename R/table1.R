@@ -270,7 +270,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
     format.percent <- function(x, digits) {
         if (x == 0) "0"
         else if (x == 100) "100"
-        else formatC(x, digits=digits.pct, format="f")
+        else round_pad(x, digits=digits.pct, ...)
     }
     if (!is.list(x)) {
         stop("Expecting a list")
@@ -280,13 +280,12 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct,
             round.integers=round.integers, round5up=round5up, ...)
     } else {
-        cx <- lapply(x, format)
         r <- lapply(x, signif_pad, digits=digits,
                 round.integers=round.integers, round5up=round5up, ...)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
         nr <- nr[!is.na(x[nr])]
-        r[nr] <- cx[nr]
+        r[nr] <- lapply(x[nr], signif_pad, round.integers=F, ...)
         if (!round.median.min.max) {
             sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
             sr <- sr[sr %in% names(x)]
@@ -562,13 +561,19 @@ render.missing.default <- function(x, ...) {
 #' @keywords utilities
 #' @export
 render.varlabel <- function(x, transpose=F) {
-    if (has.units(x) && transpose) {
+    l <- if (has.units(x)) {
+        sprintf("%s (%s)", label(x), units(x))
+    } else {
+        sprintf("%s", label(x))
+    }
+    attr(l, "html") <- if (has.units(x) && transpose) {
         sprintf("<span class='varlabel'>%s<br/><span class='varunits'>(%s)</span></span>", label(x), units(x))
     } else if (has.units(x)) {
         sprintf("<span class='varlabel'>%s<span class='varunits'> (%s)</span></span>", label(x), units(x))
     } else {
         sprintf("<span class='varlabel'>%s</span>", label(x))
     }
+    l
 }
 
 #' Render strata labels for table output.
@@ -578,12 +583,15 @@ render.varlabel <- function(x, transpose=F) {
 #'
 #' @param label A \code{character} vector containing the labels.
 #' @param n A \code{numeric} vector containing the sizes.
+#' @param ... Further arguments. Can include arguments to \code{formatC}, e.g.
+#' \code{big.mark}.
 #'
 #' @return A \code{character}, which may contain HTML markup.
 #' @keywords internal
 #' @export
-render.strat.default <- function(label, n, transpose=F) {
-    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%d)</span></span>", label, n)
+render.strat.default <- function(label, n, transpose=F, ...) {
+    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%s)</span></span>",
+        label, signif_pad(n, round.integers=F, ...))
 }
 
 #' Convert to HTML table rows.
@@ -895,6 +903,9 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     }
     x <- lapply(x, char2factor)
 
+    # Number of rows per stratum
+    strat_n <- sapply(x, nrow)
+
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
     if (transpose) {
@@ -914,10 +925,10 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 y <- paste0(y, collapse="<br/>")
                 names(y) <- labels$variables[[v]]
                 y <- t(y)
-                rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]))
+                rownames(y) <- render.strat(labels$strata[s], strat_n[s], ...)
                 y }))})
     } else {
-        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
+        thead <- t(render.strat(labels$strata[names(x)], strat_n, ...))
         if (!is.null(extra.col)) {
             thead <- cbind(thead, t(names(extra.col)))
             if (!is.null(extra.col.pos)) {
@@ -967,55 +978,109 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
             y })
     }
 
-    if (is.null(topclass) || topclass=="") {
-        topclass <- ""
-    } else if (is.character(topclass) && length(topclass)==1) {
-        topclass <- sprintf(' class="%s"', topclass)
-    } else {
-        stop("topclass should be character and of length 1.")
-    }
+    obj <- list(
+        tbody        = tbody,
+        thead        = thead,
+        labels       = labels,
+        strat_n      = strat_n,
+        topclass     = topclass,
+        groupspan    = groupspan,
+        transpose    = transpose,
+        rowlabelhead = rowlabelhead,
+        caption      = caption,
+        footnote     = footnote)
 
-    if (!is.null(groupspan)) {
-        if (transpose) {
-            stop("Nesting/grouping not supported with transpose = TRUE.")
-        }
-        thead0 <- ifelse(is.na(labels$groups) | labels$groups=="", "", sprintf('<div>%s</div>', labels$groups))
-        thead0 <- sprintf('<th colspan="%d" class="grouplabel">%s</th>', groupspan, thead0)
-        thead0 <- c('<th class="grouplabel"></th>', thead0)
-        thead0 <- paste("<tr>\n", paste(thead0, sep="", collapse="\n"), "\n</tr>\n", sep="", collapse="")
-    } else {
-        thead0 <- ""
-    }
-
-    if (is.null(rowlabelhead)) rowlabelhead <- ""
-
-    if (!is.null(caption)) {
-        caption <- sprintf('<caption>%s</caption>\n', caption)
-    } else {
-        caption <- ""
-    }
-
-    if (!is.null(footnote)) {
-        footnote <- sprintf('<p>%s</p>\n', footnote)
-        footnote <- paste0(footnote, collapse="\n")
-        tfoot <- sprintf('<tfoot><tr><td colspan="%d" class="Rtable1-footnote">%s</td></tr></tfoot>\n', ncolumns + 1, footnote)
-    } else {
-        tfoot <- ""
-    }
-
-    x <- paste0(
-        sprintf('<table%s>%s\n<thead>\n', topclass, caption),
-        thead0,
-        table.rows(thead, row.labels=rowlabelhead, th=T),
-        tfoot,
-        '</thead>\n<tbody>\n',
-        paste(sapply(tbody, table.rows), collapse=""),
-        '</tbody>\n</table>\n')
-
-    structure(x, class=c("table1", "html", "character"), html=TRUE)
+    update_html(structure("", obj=obj))
 }
 
+#' Update HTML.
+#'
+#' Used to (re-)generate the HTML code for a \code{link{table1}} object. In
+#' most cases, this should not be used direction, unless you know what you are
+#' doing.
+#'
+#' @param x An object returned by \code{\link{table1}}.
+#' @return An object of class "table1" which contains the updated HTML.
+#' @export
+update_html <- function(x) {
+    obj <- attr(x, "obj")
+    with(obj, {
+        if (is.null(topclass) || topclass=="") {
+            topclass <- ""
+        } else if (is.character(topclass) && length(topclass)==1) {
+            topclass <- sprintf(' class="%s"', topclass)
+        } else {
+            stop("topclass should be character and of length 1.")
+        }
+
+        if (!is.null(groupspan)) {
+            if (transpose) {
+                stop("Nesting/grouping not supported with transpose = TRUE.")
+            }
+            thead0 <- ifelse(is.na(labels$groups) | labels$groups=="", "", sprintf('<div>%s</div>', labels$groups))
+            thead0 <- sprintf('<th colspan="%d" class="grouplabel">%s</th>', groupspan, thead0)
+            thead0 <- c('<th class="grouplabel"></th>', thead0)
+            thead0 <- paste("<tr>\n", paste(thead0, sep="", collapse="\n"), "\n</tr>\n", sep="", collapse="")
+        } else {
+            thead0 <- ""
+        }
+
+        if (is.null(rowlabelhead)) rowlabelhead <- ""
+
+        if (!is.null(caption)) {
+            caption <- sprintf('<caption>%s</caption>\n', caption)
+        } else {
+            caption <- ""
+        }
+
+        if (!is.null(footnote)) {
+            footnote <- sprintf('<p>%s</p>\n', footnote)
+            footnote <- paste0(footnote, collapse="\n")
+            tfoot <- sprintf('<tfoot><tr><td colspan="%d" class="Rtable1-footnote">%s</td></tr></tfoot>\n', ncolumns + 1, footnote)
+        } else {
+            tfoot <- ""
+        }
+
+        x <- paste0(
+            sprintf('<table%s>%s\n<thead>\n', topclass, caption),
+            thead0,
+            table.rows(thead, row.labels=rowlabelhead, th=T),
+            tfoot,
+            '</thead>\n<tbody>\n',
+            paste(sapply(tbody, table.rows), collapse=""),
+            '</tbody>\n</table>\n')
+
+        structure(x, class=c("table1", "html", "character"), html=TRUE, obj=obj)
+    })
+}
+
+#' Convert a \code{table1} object to a \code{data.frame}.
+#'
+#' @param x An object returned by \code{\link{table1}}.
+#' @param ... Ignnored.
+#' @return A \code{data.frame}.
+#' @export
+as.data.frame.table1 <- function(x, ...) {
+    obj <- attr(x, "obj")
+    with(obj, {
+        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
+        z <- lapply(tbody, function(y) {
+            y <- as.data.frame(y, stringsAsFactors=F)
+            y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
+            y <- cbind(setNames(y2, rlh), y)
+            y
+        })
+        df <- do.call(rbind, z)
+        df <- rbind(c("", sprintf("(N=%s)", strat_n)), df)
+        colnames(df) <- c(rlh, labels$strata)
+        rownames(df) <- NULL
+        noquote(df)
+    })
+}
+
+
 #' Print \code{table1} object.
+#'
 #' @param x An object returned by \code{\link{table1}}.
 #' @param ... Further arguments passed on to other \code{print} methods.
 #' @return Returns \code{x} invisibly.
@@ -1038,6 +1103,7 @@ print.table1 <- function(x, ...) {
 }
 
 #' Method for printing in a \code{knitr} context.
+#'
 #' @param x An object returned by \code{\link{table1}}.
 #' @param ... Further arguments passed on to \code{knitr::knit_print}.
 #' @importFrom knitr knit_print
