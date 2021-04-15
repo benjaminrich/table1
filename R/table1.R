@@ -270,7 +270,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
     format.percent <- function(x, digits) {
         if (x == 0) "0"
         else if (x == 100) "100"
-        else formatC(x, digits=digits.pct, format="f")
+        else round_pad(x, digits=digits.pct, ...)
     }
     if (!is.list(x)) {
         stop("Expecting a list")
@@ -280,13 +280,12 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct,
             round.integers=round.integers, round5up=round5up, ...)
     } else {
-        cx <- lapply(x, format)
         r <- lapply(x, signif_pad, digits=digits,
                 round.integers=round.integers, round5up=round5up, ...)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
         nr <- nr[!is.na(x[nr])]
-        r[nr] <- cx[nr]
+        r[nr] <- lapply(x[nr], signif_pad, round.integers=F, ...)
         if (!round.median.min.max) {
             sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
             sr <- sr[sr %in% names(x)]
@@ -578,12 +577,16 @@ render.varlabel <- function(x, transpose=F) {
 #'
 #' @param label A \code{character} vector containing the labels.
 #' @param n A \code{numeric} vector containing the sizes.
+#' @param ... Further arguments. Can include arguments to \code{formatC}, e.g.
+#' \code{big.mark}.
 #'
 #' @return A \code{character}, which may contain HTML markup.
 #' @keywords internal
 #' @export
-render.strat.default <- function(label, n, transpose=F) {
-    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%d)</span></span>", label, n)
+render.strat.default <- function(label, n, transpose=F, ...) {
+    args <- list(...)
+    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%s)</span></span>",
+        label, signif_pad(n, round.integers=F, ...))
 }
 
 #' Convert to HTML table rows.
@@ -914,10 +917,10 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 y <- paste0(y, collapse="<br/>")
                 names(y) <- labels$variables[[v]]
                 y <- t(y)
-                rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]))
+                rownames(y) <- render.strat(labels$strata[s], nrow(x[[s]]), ...)
                 y }))})
     } else {
-        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow)))
+        thead <- t(render.strat(labels$strata[names(x)], sapply(x, nrow), ...))
         if (!is.null(extra.col)) {
             thead <- cbind(thead, t(names(extra.col)))
             if (!is.null(extra.col.pos)) {
