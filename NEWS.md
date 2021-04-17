@@ -1,6 +1,10 @@
 # table1 1.4
 
-* Headline feature: ability to convert table1 output to a data.frame (#17).
+* Headline feature: ability to convert `table1` output to a `data.frame`,
+  `flextable` or `kableExtra` object (though with some limitations). As a
+  direct consequence, `table1` can now be used within LaTeX documents, and
+  there is a new vignette to document this feature. Output to .docx is also
+  possible with this feature (through pandoc or `flextable`).
 
 * Fomulas containing dot ('.') are now handled correctly (the '.' means "all
   variables other than those that appear elsewhere in the formula").

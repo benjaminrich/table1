@@ -14,3 +14,7 @@
 \description{
 Method for printing in a \code{knitr} context.
 }
+\details{
+If the target is HTML, the usual internal formatting will be
+applied; otherwise, fall back to a `data.frame`.
+}

@@ -929,7 +929,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 rownames(y) <- render.strat(labels$strata[s], strat_n[s], ...)
                 y }))})
     } else {
-        headings <- rbind(labels$strata[names(x)], signif_pad(strat_n, round.integers=F, ...))
+        headings <- rbind(labels$strata[names(x)], round_pad(strat_n, digits=0, ...))
         if (!is.null(extra.col)) {
             headings <- cbind(headings, rbind(names(extra.col), rep(NA, length(extra.col))))
             if (!is.null(extra.col.pos)) {
@@ -1078,13 +1078,103 @@ as.data.frame.table1 <- function(x, ...) {
             y
         })
         df <- do.call(rbind, z)
-        df <- rbind(c("", iflese(is.na(headings[2,], "", sprintf("(N=%s)", headings[2,])))), df)
+        df <- rbind(c("", ifelse(is.na(headings[2,]), "", sprintf("(N=%s)", headings[2,]))), df)
         colnames(df) <- c(rlh, headings[1,])
         rownames(df) <- NULL
         noquote(df)
     })
 }
 
+#' Convert a \code{table1} object to \code{flextable}.
+#'
+#' @param x An object returned by \code{\link{table1}}.
+#' @param ... Further options passed to \code{qflextable}.
+#' @return A \code{flextable} object.
+#' @note The \code{flextable} package needs to be installed for this to work.
+#' @export
+t1flex <- function(x, ...) {
+    if (!requireNamespace("flextable", quietly = TRUE)) {
+        stop("This function requires package 'flextable'. Please install it and try again.", call.=F)
+    }
+    obj <- attr(x, "obj")
+    with(obj, {
+        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
+        i <- lapply(contents, function(y) {
+            nrow(y)
+        })
+        i <- cumsum(c(1, i[-length(i)]))
+        z <- lapply(contents, function(y) {
+            y <- as.data.frame(y, stringsAsFactors=F)
+            y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
+            y <- cbind(setNames(y2, rlh), y)
+            y
+        })
+        df <- do.call(rbind, z)
+        colnames(df) <- c(rlh, sprintf(
+            ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
+        rownames(df) <- NULL
+        out <- flextable::qflextable(df, ...)
+        out <- flextable::bold(out, i=i, j=1)
+        out
+    })
+}
+
+#' Convert a \code{table1} object to \code{kabelExtra}.
+#'
+#' @param x An object returned by \code{\link{table1}}.
+#' @param booktabs Passed to \code{kbl} (default \code{TRUE}).
+#' @param ... Other options passed to \code{kbl}.
+#' @param format Passed to \code{kbl} (optional).
+#' @return A \code{kabelExtra} object.
+#' @note The \code{kableExtra} package needs to be installed for this to work.
+#' @export
+t1kable <- function(x, booktabs=TRUE, ..., format) {
+    if (!requireNamespace("kableExtra", quietly = TRUE)) {
+        stop("This function requires package 'kableExtra'. Please install it and try again.", call.=F)
+    }
+    if (missing(format) || is.null(format)) {
+        format <- if (knitr::is_latex_output()) "latex" else "html"
+    }
+    obj <- attr(x, "obj")
+    with(obj, {
+        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
+        i <- lapply(contents, function(y) {
+            nrow(y) - 1
+        })
+        z <- lapply(contents, function(y) {
+            y <- as.data.frame(y[-1,], stringsAsFactors=F)
+            y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
+            y <- cbind(setNames(y2, rlh), y)
+            y
+        })
+        names(i) <- labels$variables
+        df <- do.call(rbind, z)
+
+        # Try to create a multiline header but does not work
+        #if (format == "html") {
+        #    cn <- c(rlh, sprintf(ifelse(is.na(headings[2,]), "%s", "%s<br/>(N=%s)"), headings[1,], headings[2,]))
+        #} else {
+        #    cn <- c(rlh, sprintf(ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
+        #}
+        #colnames(df) <- cn
+        #if (format == "latex") {
+        #    cn <- linebreak(cn, align="c")
+        #}
+
+        # Put the (N=xx) as first row of the table
+        df <- rbind(c("", ifelse(is.na(headings[2,]), "", sprintf("(N=%s)", headings[2,]))), df)
+        cn <- colnames(df) <- c(rlh, headings[1,])
+        rownames(df) <- NULL
+        out <- kableExtra::kbl(df, format=format, col.names=cn, row.names=F, escape=T, booktabs=booktabs, ...)
+        out <- kableExtra::pack_rows(out, index=c(" "=1, i))
+        #out <- kableExtra::pack_rows(out, index=i)
+        if (!is.null(groupspan)) {
+            groupspan <- setNames(groupspan, labels$groups)
+            out <- kableExtra::add_header_above(out, c(" "=1, groupspan))
+        }
+        out
+    })
+}
 
 #' Print \code{table1} object.
 #'
@@ -1113,6 +1203,8 @@ print.table1 <- function(x, ...) {
 #'
 #' @param x An object returned by \code{\link{table1}}.
 #' @param ... Further arguments passed on to \code{knitr::knit_print}.
+#' @details If the target is HTML, the usual internal formatting will be
+#' applied; otherwise, fall back to a `data.frame`.
 #' @importFrom knitr knit_print
 #' @export
 knit_print.table1 <- function(x, ...) {
@@ -1128,7 +1220,9 @@ knit_print.table1 <- function(x, ...) {
         x <- htmltools::div(class="Rtable1", default.style, x)
         knitr::knit_print(x, ...)
     } else {
-        knitr::knit_print(as.character(x), ...)
+        # If not HTML, fall back to printing as data.frame
+        #knitr::knit_print(as.character(x), ...)
+        knitr::knit_print(as.data.frame(x), ...)
     }
 }
 
