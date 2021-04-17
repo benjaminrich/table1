@@ -4,15 +4,12 @@
 \alias{render.strat.default}
 \title{Render strata labels for table output.}
 \usage{
-render.strat.default(label, n, transpose = F, ...)
+render.strat.default(label, n, transpose = F)
 }
 \arguments{
 \item{label}{A \code{character} vector containing the labels.}
 
 \item{n}{A \code{numeric} vector containing the sizes.}
-
-\item{...}{Further arguments. Can include arguments to \code{formatC}, e.g.
-\code{big.mark}.}
 }
 \value{
 A \code{character}, which may contain HTML markup.

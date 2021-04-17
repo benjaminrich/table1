@@ -583,15 +583,16 @@ render.varlabel <- function(x, transpose=F) {
 #'
 #' @param label A \code{character} vector containing the labels.
 #' @param n A \code{numeric} vector containing the sizes.
-#' @param ... Further arguments. Can include arguments to \code{formatC}, e.g.
-#' \code{big.mark}.
 #'
 #' @return A \code{character}, which may contain HTML markup.
 #' @keywords internal
 #' @export
-render.strat.default <- function(label, n, transpose=F, ...) {
-    sprintf("<span class='stratlabel'>%s<br><span class='stratn'>(N=%s)</span></span>",
-        label, signif_pad(n, round.integers=F, ...))
+render.strat.default <- function(label, n, transpose=F) {
+    sprintf(
+        ifelse(is.na(n), 
+            "<span class='stratlabel'>%s</span>",
+            "<span class='stratlabel'>%s<br><span class='stratn'>(N=%s)</span></span>"),
+        label, n)
 }
 
 #' Convert to HTML table rows.
@@ -913,8 +914,8 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         if (ncolumns > 12) {
             warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
         }
-        thead <- t(unlist(labels$variables))
-        tbody <- lapply(names(x), function(s) {
+        headings <- t(unlist(labels$variables))
+        contents <- lapply(names(x), function(s) {
             do.call(cbind, lapply(names(labels$variables), function(v) {
                 lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
                 z <- x[[s]][[v]]
@@ -928,11 +929,11 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 rownames(y) <- render.strat(labels$strata[s], strat_n[s], ...)
                 y }))})
     } else {
-        thead <- t(render.strat(labels$strata[names(x)], strat_n, ...))
+        headings <- rbind(labels$strata[names(x)], signif_pad(strat_n, round.integers=F, ...))
         if (!is.null(extra.col)) {
-            thead <- cbind(thead, t(names(extra.col)))
+            headings <- cbind(headings, rbind(names(extra.col), rep(NA, length(extra.col))))
             if (!is.null(extra.col.pos)) {
-                if (!is.numeric(extra.col.pos) || any(extra.col.pos > ncol(thead))) {
+                if (!is.numeric(extra.col.pos) || any(extra.col.pos > ncol(headings))) {
                     stop("extra.col.pos should be a vector of column positions")
                 }
                 if (length(extra.col.pos) > length(extra.col)) {
@@ -940,18 +941,18 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 }
                 # Permute columns
                 s1 <- seq(length(x) + 1, length.out=length(extra.col.pos))
-                s2 <- setdiff(1:ncol(thead), s1)
-                colpermute <- rep(0, ncol(thead))
+                s2 <- setdiff(1:ncol(headings), s1)
+                colpermute <- rep(0, ncol(headings))
                 colpermute[extra.col.pos] <- s1
                 colpermute[-extra.col.pos] <- s2
-                thead <- thead[, colpermute, drop=F]
+                headings <- headings[, colpermute, drop=F]
             }
         }
-        ncolumns <- ncol(thead)
+        ncolumns <- ncol(headings)
         if (ncolumns > 12) {
             warning(sprintf("Table has %d columns. Are you sure this is what you want?", ncolumns))
         }
-        tbody <- lapply(names(labels$variables), function(v) {
+        contents <- lapply(names(labels$variables), function(v) {
             lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
             y <- do.call(cbind, lapply(x, function(s) {
                 z <- s[[v]]
@@ -979,16 +980,16 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     }
 
     obj <- list(
-        tbody        = tbody,
-        thead        = thead,
+        contents     = contents,
+        headings     = headings,
         labels       = labels,
-        strat_n      = strat_n,
         topclass     = topclass,
         groupspan    = groupspan,
         transpose    = transpose,
         rowlabelhead = rowlabelhead,
         caption      = caption,
-        footnote     = footnote)
+        footnote     = footnote,
+        render.strat = render.strat)
 
     update_html(structure("", obj=obj))
 }
@@ -1005,6 +1006,12 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 update_html <- function(x) {
     obj <- attr(x, "obj")
     with(obj, {
+        if (transpose) {
+            thead <- headings
+        } else {
+            thead <- t(render.strat(headings[1,], headings[2,]))
+        }
+
         if (is.null(topclass) || topclass=="") {
             topclass <- ""
         } else if (is.character(topclass) && length(topclass)==1) {
@@ -1047,7 +1054,7 @@ update_html <- function(x) {
             table.rows(thead, row.labels=rowlabelhead, th=T),
             tfoot,
             '</thead>\n<tbody>\n',
-            paste(sapply(tbody, table.rows), collapse=""),
+            paste(sapply(contents, table.rows), collapse=""),
             '</tbody>\n</table>\n')
 
         structure(x, class=c("table1", "html", "character"), html=TRUE, obj=obj)
@@ -1064,15 +1071,15 @@ as.data.frame.table1 <- function(x, ...) {
     obj <- attr(x, "obj")
     with(obj, {
         rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
-        z <- lapply(tbody, function(y) {
+        z <- lapply(contents, function(y) {
             y <- as.data.frame(y, stringsAsFactors=F)
             y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
             y <- cbind(setNames(y2, rlh), y)
             y
         })
         df <- do.call(rbind, z)
-        df <- rbind(c("", sprintf("(N=%s)", strat_n)), df)
-        colnames(df) <- c(rlh, labels$strata)
+        df <- rbind(c("", iflese(is.na(headings[2,], "", sprintf("(N=%s)", headings[2,])))), df)
+        colnames(df) <- c(rlh, headings[1,])
         rownames(df) <- NULL
         noquote(df)
     })
