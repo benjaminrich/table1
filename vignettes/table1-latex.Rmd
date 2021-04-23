@@ -25,7 +25,7 @@ header-includes:
 vignette: >
   %\VignetteIndexEntry{Using table1 with LaTex}
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteDepends{MatchIt}
+  %\VignetteDepends{kableExtra,flextable,printr}
   %\VignetteEncoding{UTF-8}
 ---
 
@@ -95,7 +95,7 @@ kable(as.data.frame(x), booktabs=TRUE)
 ```
 
 The output here is a bit nicer because we have specified the `booktabs` option,
-but because we are talking about a simple `data.frame`, there is not option to
+but because we are talking about a simple `data.frame`, there is no option to
 specify formatting (like bold text for variable labels, for instance).
 
 Next, we can try the `t1kable()` function, to produce a `kableExtra` object:
@@ -120,7 +120,7 @@ less LaTeX-like (and less consistent with the rest of the document), doesn't
 have bold labels or line break in the column headers (also `flextable` places
 the table in a float, whereas `kableExtra` leaves it inline). Hence, I
 personally would not use `flextable` in a LaTeX document, I would use
-`kableExtra`, but a big advantage of `flextable` is that in can render to .docx
+`kableExtra`.  But a big advantage of `flextable` is that in can render to .docx
 format (i.e. Microsoft Word), which `kableExtra` cannot.
 
 
@@ -133,6 +133,22 @@ Nested groups are supported with `kableExtra` and `flextable`, but not simple
 x2 <- table1(~ age + wt | treat*sex, data=dat, overall=FALSE)
 t1kable(x2)
 ```
+
+### Captions and footnotes
+
+Captions and footnotes are supported with both `kableExtra` and `flextable`. An
+example withh `kableExtra`:
+
+```{r}
+x <- table1(~ age + sex + wt | treat, data=dat,
+    caption="Test caption", footnote="Test footnote")
+t1kable(x)
+```
+
+Alternatively, the `kableExtra::footnote()` function can be used to add
+footnotes to the resulting object (this function also does automatic numbering,
+which may be considered an advantage). Note that when a caption is used, the
+table is rendereda as a float.
 
 ## Closing remarks
 

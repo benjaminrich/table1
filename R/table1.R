@@ -984,6 +984,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         headings     = headings,
         labels       = labels,
         topclass     = topclass,
+        ncolumns     = ncolumns,
         groupspan    = groupspan,
         transpose    = transpose,
         rowlabelhead = rowlabelhead,
@@ -1114,7 +1115,19 @@ t1flex <- function(x, ...) {
             ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
         rownames(df) <- NULL
         out <- flextable::qflextable(df, ...)
+        out <- align(out, j=2:(ncolumns+1), align="center", part="body")
+        out <- align(out, j=2:(ncolumns+1), align="center", part="header")
         out <- flextable::bold(out, i=i, j=1)
+        if (!is.null(groupspan)) {
+            out <- flextable::add_header_row(out, values=c("", labels$groups), colwidths=c(1, groupspan))
+            out <- align(out, i=1, align="center", part="header")
+        }
+        if (!is.null(caption)) {
+            out <- flextable::set_caption(out, caption=caption)
+        }
+        if (!is.null(footnote)) {
+            out <- flextable::footnote(out, i=1, j=1, value=as_paragraph(footnote), ref_symbols="")
+        }
         out
     })
 }
@@ -1165,12 +1178,15 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
         df <- rbind(c("", ifelse(is.na(headings[2,]), "", sprintf("(N=%s)", headings[2,]))), df)
         cn <- colnames(df) <- c(rlh, headings[1,])
         rownames(df) <- NULL
-        out <- kableExtra::kbl(df, format=format, col.names=cn, row.names=F, escape=T, booktabs=booktabs, ...)
+        out <- kableExtra::kbl(df, format=format, col.names=cn, row.names=F, escape=T, booktabs=booktabs, caption=caption, ...)
         out <- kableExtra::pack_rows(out, index=c(" "=1, i))
         #out <- kableExtra::pack_rows(out, index=i)
         if (!is.null(groupspan)) {
             groupspan <- setNames(groupspan, labels$groups)
             out <- kableExtra::add_header_above(out, c(" "=1, groupspan))
+        }
+        if (!is.null(footnote)) {
+            out <- kableExtra::footnote(out, general=footnote, general_title="")
         }
         out
     })
