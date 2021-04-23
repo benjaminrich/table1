@@ -148,7 +148,7 @@ t1kable(x)
 Alternatively, the `kableExtra::footnote()` function can be used to add
 footnotes to the resulting object (this function also does automatic numbering,
 which may be considered an advantage). Note that when a caption is used, the
-table is rendereda as a float.
+table is rendered as a float.
 
 ## Closing remarks
 
