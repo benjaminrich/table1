@@ -681,6 +681,7 @@ table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
 #' @examples
 #' x <- 1:10
 #' label(x) <- "Foo"
+#' x <- setLabel(x, "Foo") # Alternative syntax
 #' has.label(x)
 #' label(x)
 #' @keywords utilities
@@ -692,6 +693,13 @@ table.data <- function(x, row.labels=rownames(x), th=FALSE, class=NULL, rowlabel
 #' @describeIn label Set label attribute.
 #' @export
 'label<-' <- function(x, value) {
+    attr(x, "label") <- value
+    x
+}
+
+#' @describeIn label Set label attribute.
+#' @export
+setLabel <- function(x, value) {
     attr(x, "label") <- value
     x
 }

@@ -12,6 +12,9 @@
 * Arguments to formatC (e.g. big.mark) will apply to all numbers by default
   (previously, only continuous variables had this).
 
+* New `setLabel()` function provides an alternative syntax for setting labels
+  (useful for setting a label inside a formula).
+
 # table1 1.3
 
 * The headline feature is the `extra.col` option, which gives a flexible way to

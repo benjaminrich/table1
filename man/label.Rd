@@ -3,12 +3,15 @@
 \name{label}
 \alias{label}
 \alias{label<-}
+\alias{setLabel}
 \alias{has.label}
 \title{Label attribute.}
 \usage{
 label(x)
 
 label(x) <- value
+
+setLabel(x, value)
 
 has.label(x)
 }
@@ -24,12 +27,15 @@ Label attribute.
 \itemize{
 \item \code{label<-}: Set label attribute.
 
+\item \code{setLabel}: Set label attribute.
+
 \item \code{has.label}: Check for label attribute.
 }}
 
 \examples{
 x <- 1:10
 label(x) <- "Foo"
+x <- setLabel(x, "Foo") # Alternative syntax
 has.label(x)
 label(x)
 }
