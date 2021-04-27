@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output:
   pdf_document:
     #latex_engine: xelatex
+    #latex_engine: lualatex
     #keep_tex: true
 tables: true
 header-includes:
@@ -90,7 +91,6 @@ as.data.frame(x)
 Alternatively, we can use the `knitr::kable()` function:
 
 ```{r}
-library(printr, quietly=TRUE)
 kable(as.data.frame(x), booktabs=TRUE)
 ```
 
@@ -115,14 +115,20 @@ Finally, we can try using the `t1flex()` function to produce a  `flextable` obje
 t1flex(x)
 ```
 
-Note that this issues a warning about using the `xelatex` engine instead of
-`pdflatex`, but we will ignore that here because vignettes don't build with
-`xelatex`.
+(Note that that `flextable` output, in particular the font, is different
+depending on whether the `xelatex`, `lualatex` or `pdflatex` engine is used,
+and `flextable` emits a warning when `pdflatex`, the default for `rmarkdown`
+documents,  is used because `xelatex` and `lualatex` gives more font options.)
 
-The output is less attractive in my opinion, but could still be considered
-acceptable. It is more spaced out, doesn't have bold labels or line break in
-the column headers.  Also, `flextable` places the table in a float, whereas
-`kableExtra` leaves it inline. I personally would use `kableExtra` over
+The output is less attractive in my opinion, and less consisten with the
+typical look of LaTeX tables and documents. It is more spaced out, doesn't have
+bold labels or line break in the column headers (actually, this is a problem
+common to both packages, but the `t1kable()` and `t1flex()` functions deal with
+it differently because `flextable` will actually include the line breaks in
+HTML and .docx output, and the overall best approach is unclear), and doesn't
+use the `booktabs` package (the thickness of the horizontal rules is
+different).  Also, `flextable` places the table in a float, whereas
+`kableExtra` leaves it inline.  I personally would use `kableExtra` over
 `flextable` in a LaTeX documents.  But a big advantage of `flextable` is that
 in can render to .docx format (i.e.  Microsoft Word), which `kableExtra`
 cannot.
