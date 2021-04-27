@@ -38,7 +38,7 @@ cost of ease-of-use (more programming, some knowledge of CSS).
 ## Example 1
 
 The first example is inspired by [this blog
-post](http://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/),
+post](https://gforge.se/2014/01/fast-track-publishing-using-knitr-part-iv/),
 which is about how to accomplish a similar task using the `htmlTable` package.
 It uses the `melanoma` data set from the `boot` package for illustration, and
 I have copied here the code used to prepare the data:
