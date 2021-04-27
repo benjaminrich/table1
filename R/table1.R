@@ -1232,9 +1232,12 @@ print.table1 <- function(x, ...) {
 #' @importFrom knitr knit_print
 #' @export
 knit_print.table1 <- function(x, ...) {
-    knit_to_html <-
-        !is.null(knitr::opts_knit$get("rmarkdown.pandoc.to")) &&
-        grepl("^html", knitr::opts_knit$get("rmarkdown.pandoc.to"))
+
+    knit_to <- knitr::opts_knit$get("rmarkdown.pandoc.to")
+
+    knit_to_html  <- .isTRUE(knitr::is_html_output())
+    knit_to_latex <- .isTRUE(knitr::is_latex_output())
+    knit_to_docx  <- .isTRUE(knit_to == "docx")
 
     if (knit_to_html) {
         x <- htmltools::HTML(x)
@@ -1243,9 +1246,24 @@ knit_print.table1 <- function(x, ...) {
             stylesheet="table1_defaults.css")
         x <- htmltools::div(class="Rtable1", default.style, x)
         knitr::knit_print(x, ...)
+    } else if (knit_to_latex) {
+        # For latex, use kableExtra by default, if installed
+        if (requireNamespace("kableExtra", quietly = TRUE)) {
+            knitr::knit_print(t1kable(x), ...)
+        } else {
+            message("Get nicer `table1` LaTeX output by simply installing the `kableExtra` package")
+            knitr::knit_print(knitr::kable(as.data.frame(x), booktabs=TRUE), ...)
+        }
+    } else if (knit_to_docx) {
+        # For docx, use flextable by default, if installed
+        if (requireNamespace("flextable", quietly = TRUE)) {
+            knitr::knit_print(t1flex(x), ...)
+        } else {
+            message("Get nicer `table1` .docx output by simply installing the `flextable` package")
+            knitr::knit_print(as.data.frame(x), ...)
+        }
     } else {
-        # If not HTML, fall back to printing as data.frame
-        #knitr::knit_print(as.character(x), ...)
+        # If not fall back to printing as data.frame
         knitr::knit_print(as.data.frame(x), ...)
     }
 }
@@ -1412,3 +1430,7 @@ subsetp <- function(x, ..., droplevels=TRUE) {
 .isFALSE <- function (x) {
     is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }
+.isTRUE <- function (x) {
+    is.logical(x) && length(x) == 1L && !is.na(x) && x
+}
+
