@@ -13,7 +13,7 @@ Description: Create HTML tables of descriptive statistics, as one would expect
     article.
 License: GPL-3
 Imports: stats,Formula,knitr,htmltools,yaml
-Suggests: boot,MatchIt,markdown,rmarkdown,printr,kableExtra,flextable
+Suggests: boot,MatchIt,rmarkdown,printr,kableExtra,flextable
 VignetteBuilder: knitr
 Encoding: UTF-8
 RoxygenNote: 7.1.1
