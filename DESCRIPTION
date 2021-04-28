@@ -1,7 +1,7 @@
 Package: table1
 Type: Package
 Version: 1.4
-Date: 2021-04-24
+Date: 2021-04-27
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 Author: Benjamin Rich [aut, cre, cph]
@@ -12,6 +12,7 @@ Description: Create HTML tables of descriptive statistics, as one would expect
     to see as the first table (i.e. "Table 1") in a medical/epidemiological journal
     article.
 License: GPL-3
+Depends: R (>= 3.5.0)
 Imports: stats,Formula,knitr,htmltools,yaml
 Suggests: boot,MatchIt,rmarkdown,printr,kableExtra,flextable
 VignetteBuilder: knitr
