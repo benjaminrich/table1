@@ -1073,7 +1073,7 @@ update_html <- function(x) {
 #' Convert a \code{table1} object to a \code{data.frame}.
 #'
 #' @param x An object returned by \code{\link{table1}}.
-#' @param ... Ignnored.
+#' @param ... Ignored.
 #' @return A \code{data.frame}.
 #' @export
 as.data.frame.table1 <- function(x, ...) {

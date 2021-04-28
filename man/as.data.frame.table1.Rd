@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{An object returned by \code{\link{table1}}.}
 
-\item{...}{Ignnored.}
+\item{...}{Ignored.}
 }
 \value{
 A \code{data.frame}.
