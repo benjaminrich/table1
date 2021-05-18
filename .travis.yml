@@ -7,3 +7,7 @@ cache: packages
 r:
   - release
   - devel
+
+before_install:
+  - sudo tlmgr install booktabs longtable array multirow wrapfig float colortbl pdflscape tabu threeparttable threeparttablex ulem makecell xcolor
+
