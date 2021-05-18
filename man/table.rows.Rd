@@ -62,10 +62,10 @@ of cells.
 }}
 
 \examples{
-x <- matrix(signif_pad(exp(rnorm(100, 1, 1))), 5, 5)
+x <- matrix(signif_pad(exp(rnorm(5*5, 1, 1))), 5, 5)
 table.data(x)
 cat(table.rows(x, NULL))
-cat(table.rows(x, LETTERS[1:10]))
+cat(table.rows(x, LETTERS[1:nrow(x)]))
 cat(table.rows(LETTERS[1:3], "Headings", th=TRUE))
 }
 \keyword{utilities}

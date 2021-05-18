@@ -1,8 +1,8 @@
-# Version 1.4
+# Version 1.4.1
 
 * Local:
   - NixOS (Linux), R 4.0.4 (x86_64-pc-linux-gnu)
-  - Windows 10, R 4.0.5 (x86_64-w64-mingw32/x64 (64-bit))
+  - Windows 10, R 4.0.5 and unstable (2021-05-11 r80283) (x86_64-w64-mingw32/x64 (64-bit))
 * travis-ci:
   - Ubuntu Linux 16.04.6 LTS (xenial) (release and devel)
     - This is failing, but I don't understand why. The process gets stuck and

@@ -1,3 +1,7 @@
+# table1 1.4.1
+
+* Fix a warning in one of the examples.
+
 # table1 1.4
 
 * Headline feature: ability to convert `table1` output to a `data.frame`,
