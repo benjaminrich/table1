@@ -1123,12 +1123,12 @@ t1flex <- function(x, ...) {
             ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
         rownames(df) <- NULL
         out <- flextable::qflextable(df, ...)
-        out <- align(out, j=2:(ncolumns+1), align="center", part="body")
-        out <- align(out, j=2:(ncolumns+1), align="center", part="header")
+        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="body")
+        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
         out <- flextable::bold(out, i=i, j=1)
         if (!is.null(groupspan)) {
             out <- flextable::add_header_row(out, values=c("", labels$groups), colwidths=c(1, groupspan))
-            out <- align(out, i=1, align="center", part="header")
+            out <- flextable::align(out, i=1, align="center", part="header")
         }
         if (!is.null(caption)) {
             out <- flextable::set_caption(out, caption=caption)
@@ -1179,7 +1179,7 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
         #}
         #colnames(df) <- cn
         #if (format == "latex") {
-        #    cn <- linebreak(cn, align="c")
+        #    cn <- kableExtra::linebreak(cn, align="c")
         #}
 
         # Put the (N=xx) as first row of the table
