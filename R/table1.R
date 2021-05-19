@@ -57,7 +57,7 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec, ...
     }
     eps <- if (round5up) x*(10^(-(digits + 3))) else 0
 
-    rx <- ifelse(x >= 10^digits & .isFALSE(round.integers),
+    rx <- ifelse(!is.na(x) & x >= 10^digits & .isFALSE(round.integers),
         round(x),
         signif(x+eps, digits))
 
