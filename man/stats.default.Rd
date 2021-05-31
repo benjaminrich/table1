@@ -26,6 +26,7 @@ A list. For numeric \code{x}, the list contains the numeric elements:
   \item \code{MEDIAN}: the median of the non-missing values
   \item \code{CV}: the percent coefficient of variation of the non-missing values
   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
+  \item \code{GSD}: the geometric standard devaition of the non-missing values if non-negative, or \code{NA}
   \item \code{GCV}: the percent geometric coefficient of variation of the
   non-missing values if non-negative, or \code{NA}
   \item \code{qXX}: various quantiles (percentiles) of the non-missing

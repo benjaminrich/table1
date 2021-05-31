@@ -21,7 +21,7 @@ Parse abbreviated code for rendering table output.
 }
 \details{
 In abbreviated code, the words N, NMISS, MEAN, SD, MIN, MEDIAN,
-MAX, IQR, CV, GMEAN, GCV, FREQ and PCT are substituted for their respective
+MAX, IQR, CV, GMEAN, GSD, GCV, FREQ and PCT are substituted for their respective
 values (see \code{\link{stats.default}}). The substitution is case
 insensitive, and the substituted values are rounded appropriately (see
 \code{\link{stats.apply.rounding}}). Other text is left unchanged. The

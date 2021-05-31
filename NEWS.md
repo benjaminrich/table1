@@ -1,5 +1,11 @@
 # table1 1.4.2
 
+* Add geometric standard deviation (GSD) to the output of `stats.default()`.
+
+* Fixed error when passing `digits` (thanks to Niels Hagenbuch for reporting this).
+
+* Fixed integer formatting (issue #55).
+
 * Fixed issue #53.
 
 # table1 1.4.1

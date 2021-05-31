@@ -122,6 +122,7 @@ format_n <- function (x, ...) {
 #'   \item \code{MEDIAN}: the median of the non-missing values
 #'   \item \code{CV}: the percent coefficient of variation of the non-missing values
 #'   \item \code{GMEAN}: the geometric mean of the non-missing values if non-negative, or \code{NA}
+#'   \item \code{GSD}: the geometric standard devaition of the non-missing values if non-negative, or \code{NA}
 #'   \item \code{GCV}: the percent geometric coefficient of variation of the
 #'   non-missing values if non-negative, or \code{NA}
 #'   \item \code{qXX}: various quantiles (percentiles) of the non-missing
@@ -176,6 +177,7 @@ stats.default <- function(x, quantile.type=7, ...) {
             SD=NA,
             CV=NA,
             GMEAN=NA,
+            GSD=NA,
             GCV=NA,
             MEDIAN=NA,
             MIN=NA,
@@ -207,6 +209,7 @@ stats.default <- function(x, quantile.type=7, ...) {
             SD=sd(x, na.rm=TRUE),
             CV=100*sd(x, na.rm=TRUE)/abs(mean(x, na.rm=TRUE)),
             GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
+            GSD=if (any(na.omit(x) <= 0)) NA else exp(sd(log(x), na.rm=TRUE)),
             GCV=if (any(na.omit(x) <= 0)) NA else 100*sqrt(exp(sd(log(x), na.rm=TRUE)^2) -1),
             MEDIAN=median(x, na.rm=TRUE),
             MIN=min(x, na.rm=TRUE),
@@ -403,7 +406,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' \code{character} vector.
 #'
 #' @details In abbreviated code, the words N, NMISS, MEAN, SD, MIN, MEDIAN,
-#' MAX, IQR, CV, GMEAN, GCV, FREQ and PCT are substituted for their respective
+#' MAX, IQR, CV, GMEAN, GSD, GCV, FREQ and PCT are substituted for their respective
 #' values (see \code{\link{stats.default}}). The substitution is case
 #' insensitive, and the substituted values are rounded appropriately (see
 #' \code{\link{stats.apply.rounding}}). Other text is left unchanged. The
