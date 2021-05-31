@@ -88,6 +88,17 @@ round_pad <- function (x, digits=2, round5up=TRUE, dec, ...) {
     ifelse(is.na(x), NA, cx)
 }
 
+# Internal function
+format_n <- function (x, ...) {
+    args <- list(...)
+    args <- args[!(names(args) %in% c("format"))]
+
+    cx <- do.call(formatC,
+        c(list(x=x, format="d"),
+          args[names(args) %in% names(formals(formatC))]))
+    ifelse(is.na(x), NA, cx)
+}
+
 #' Compute some basic descriptive statistics.
 #'
 #' Values of type \code{factor}, \code{character} and \code{logical} are
@@ -285,7 +296,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]
         nr <- nr[!is.na(x[nr])]
-        r[nr] <- lapply(x[nr], signif_pad, round.integers=F, ...)
+        r[nr] <- lapply(x[nr], format_n, ...)
         if (!round.median.min.max) {
             sr <- c("MEDIAN", "MIN", "MAX")  # Only add significant digits, don't remove any
             sr <- sr[sr %in% names(x)]
@@ -913,7 +924,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     x <- lapply(x, char2factor)
 
     # Number of rows per stratum
-    strat_n <- sapply(x, nrow)
+    strat_n <- format_n(sapply(x, nrow), ...)
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
@@ -937,7 +948,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 rownames(y) <- render.strat(labels$strata[s], strat_n[s], ...)
                 y }))})
     } else {
-        headings <- rbind(labels$strata[names(x)], round_pad(strat_n, digits=0, ...))
+        headings <- rbind(labels$strata[names(x)], strat_n)
         if (!is.null(extra.col)) {
             headings <- cbind(headings, rbind(names(extra.col), rep(NA, length(extra.col))))
             if (!is.null(extra.col.pos)) {
