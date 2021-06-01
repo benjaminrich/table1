@@ -11,6 +11,7 @@ stats.apply.rounding(
   round.median.min.max = TRUE,
   round.integers = TRUE,
   round5up = TRUE,
+  rounding.fn = signif_pad,
   ...
 )
 }
@@ -31,6 +32,9 @@ the decimal point?}
 up? The standard R approach is "go to the even digit" (IEC 60559 standard,
 see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
 always round up.}
+
+\item{rounding.fn}{The function to use to do the rounding. Defaults to
+\code{\link{signif_pad}}.}
 
 \item{...}{Further arguments.}
 }

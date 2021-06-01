@@ -61,9 +61,10 @@ signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec, ...
         round(x),
         signif(x+eps, digits))
 
-    cx <- do.call(formatC,
-        c(list(x=rx, digits=digits, format="fg", flag="#"),
-          args[names(args) %in% names(formals(formatC))]))
+    args1 <- c(list(x=rx, digits=digits, format="fg", flag="#"),
+        args[names(args) %in% names(formals(formatC))])
+    args1 <- args1[!duplicated(names(args1))]
+    cx <- do.call(formatC, args1)
 
     cx[is.na(x)] <- "0"                    # Put in a dummy value for missing x
     cx <- gsub("[^0-9]*$", "", cx)         # Remove any trailing non-digit characters
@@ -82,9 +83,10 @@ round_pad <- function (x, digits=2, round5up=TRUE, dec, ...) {
 
     rx <- round(x + eps, digits)
 
-    cx <- do.call(formatC,
-        c(list(x=rx, digits=digits, format="f", flag="0"),
-          args[names(args) %in% names(formals(formatC))]))
+    args1 <- c(list(x=rx, digits=digits, format="f", flag="0"),
+        args[names(args) %in% names(formals(formatC))])
+    args1 <- args1[!duplicated(names(args1))]
+    cx <- do.call(formatC, args1)
     ifelse(is.na(x), NA, cx)
 }
 
@@ -257,6 +259,8 @@ stats.default <- function(x, quantile.type=7, ...) {
 #' up? The standard R approach is "go to the even digit" (IEC 60559 standard,
 #' see \code{\link{round}}), while some other softwares (e.g. SAS, Excel)
 #' always round up.
+#' @param rounding.fn The function to use to do the rounding. Defaults to
+#' \code{\link{signif_pad}}.
 #' @param ... Further arguments.
 #'
 #' @return A list with the same number of elements as \code{x}. The rounded
@@ -274,11 +278,11 @@ stats.default <- function(x, quantile.type=7, ...) {
 #'
 #' @keywords utilities
 #' @export
-stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max=TRUE, round.integers=TRUE, round5up=TRUE, ...) {
+stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max=TRUE, round.integers=TRUE, round5up=TRUE, rounding.fn=signif_pad, ...) {
     mindig <- function(x, digits) {
         cx <- format(x)
         ndig <- nchar(gsub("\\D", "", cx))
-        ifelse(ndig > digits, cx, signif_pad(x, digits=digits,
+        ifelse(ndig > digits, cx, rounding.fn(x, digits=digits,
                 round.integers=round.integers, round5up=round5up, ...))
     }
     format.percent <- function(x, digits) {
@@ -294,7 +298,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
         lapply(x, stats.apply.rounding, digits=digits, digits.pct=digits.pct,
             round.integers=round.integers, round5up=round5up, ...)
     } else {
-        r <- lapply(x, signif_pad, digits=digits,
+        r <- lapply(x, rounding.fn, digits=digits,
                 round.integers=round.integers, round5up=round5up, ...)
         nr <- c("N", "FREQ")       # No rounding
         nr <- nr[nr %in% names(x)]

@@ -1,5 +1,8 @@
 # table1 1.4.2
 
+* Add option `rounding.fn` to `stats.apply.rounding()` to allow changing the
+  rounding behaviour (thanks to Niels Hagenbuch for the suggestion)
+
 * Add geometric standard deviation (GSD) to the output of `stats.default()`.
 
 * Fixed error when passing `digits` (thanks to Niels Hagenbuch for reporting this).
