@@ -9,5 +9,5 @@ r:
   - devel
 
 before_install:
-  - sudo tlmgr install booktabs longtable array multirow wrapfig float colortbl pdflscape tabu threeparttable threeparttablex ulem makecell xcolor
+  - tlmgr install booktabs longtable array multirow wrapfig float colortbl pdflscape tabu threeparttable threeparttablex ulem makecell xcolor
 

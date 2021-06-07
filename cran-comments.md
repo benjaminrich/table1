@@ -49,4 +49,5 @@
 * ggquickeda: OK
 * coveffectsplot: OK
 * yamlet: OK
+* ttt:: OK
 
