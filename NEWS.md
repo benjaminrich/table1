@@ -1,3 +1,7 @@
+# table1 1.4.3
+
+* Correct default rounding of `PCTnoNA` (ie, using `digits.pct`).
+
 # table1 1.4.2
 
 * Add option `rounding.fn` to `stats.apply.rounding()` to allow changing the

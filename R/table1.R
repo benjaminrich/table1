@@ -309,7 +309,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
             sr <- sr[sr %in% names(x)]
             r[sr] <- lapply(x[sr], mindig, digits=digits)
         }
-        pr <- c("PCT", "CV", "GCV")   # Percentages
+        pr <- c("PCT", "PCTnoNA", "CV", "GCV")   # Percentages
         pr <- pr[pr %in% names(x)]
         pr <- pr[!is.na(x[pr])]
         r[pr] <- lapply(as.numeric(x[pr]), format.percent, digits=digits.pct)
