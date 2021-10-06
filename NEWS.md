@@ -1,5 +1,7 @@
 # table1 1.4.3
 
+* Fix handling of abbreviated code with `render.missing`.
+
 * Correct default rounding of `PCTnoNA` (ie, using `digits.pct`).
 
 # table1 1.4.2

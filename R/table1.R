@@ -372,7 +372,12 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
         render.categorical <- parse.abbrev.render.code(code=render.categorical, ...)
     }
     if (!is.null(render.missing) && is.character(render.missing)) {
-        render.missing <- parse.abbrev.render.code(code=render.missing, ...)
+        nm <- names(render.missing)
+        if (is.null(nm)) nm <- "Missing"
+        render.missing.0 <- parse.abbrev.render.code(code=render.missing, ...)
+        render.missing <- function(x, ...) {
+            setNames(render.missing.0(is.na(x), ...)["Yes"], nm)
+        }
     }
     if (length(x) == 0) {
         return(render.empty)
