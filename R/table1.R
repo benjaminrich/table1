@@ -1103,10 +1103,10 @@ update_html <- function(x) {
 as.data.frame.table1 <- function(x, ...) {
     obj <- attr(x, "obj")
     with(obj, {
-        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
+        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") " " else rowlabelhead
         z <- lapply(contents, function(y) {
             y <- as.data.frame(y, stringsAsFactors=F)
-            y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
+            y2 <- data.frame(x=paste0(c("", rep("  ", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
             y <- cbind(setNames(y2, rlh), y)
             y
         })
