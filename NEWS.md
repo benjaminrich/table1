@@ -1,5 +1,7 @@
 # table1 1.4.3
 
+* Change space in `as.data.frame.table1()` (#60)
+
 * Add `NMISS` to output of `stats.default()` for categorical variables.
 
 * Handle `NMISS` properly in `stats.apply.rounding()` (no decimals).
