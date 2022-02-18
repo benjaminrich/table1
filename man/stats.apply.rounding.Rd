@@ -46,7 +46,7 @@ to ensure consistent number of significant digits.
 \description{
 Not all statistics should be rounded in the same way, or at all. This
 function will apply rounding selectively to a list of statistics as returned
-by \code{\link{stats.default}}. In particular we don't round counts (N and
+by \code{\link{stats.default}}. In particular we don't round counts (N, NMISS and
 FREQ), and for MIN, MAX and MEDIAN the \code{digits} is interpreted as the
 \emph{minimum} number of significant digits, so that we don't loose any
 precision. Percentages are rounded to a fixed number of decimal places

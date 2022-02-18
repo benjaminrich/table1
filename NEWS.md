@@ -1,5 +1,9 @@
 # table1 1.4.3
 
+* Add `NMISS` to output of `stats.default()` for categorical variables.
+
+* Handle `NMISS` properly in `stats.apply.rounding()` (no decimals).
+
 * Fix handling of abbreviated code with `render.missing`.
 
 * Correct default rounding of `PCTnoNA` (ie, using `digits.pct`).

@@ -48,6 +48,7 @@ numeric elements:
   \item \code{FREQ}: the frequency count
   \item \code{PCT}: the percent relative frequency, including NA in the denominator
   \item \code{PCTnoNA}: the percent relative frequency, excluding NA from the denominator
+  \item \code{NMISS}: the number of missing values
 }
 }
 \description{

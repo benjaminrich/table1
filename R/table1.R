@@ -146,6 +146,7 @@ format_n <- function (x, ...) {
 #'   \item \code{FREQ}: the frequency count
 #'   \item \code{PCT}: the percent relative frequency, including NA in the denominator
 #'   \item \code{PCTnoNA}: the percent relative frequency, excluding NA from the denominator
+#'   \item \code{NMISS}: the number of missing values
 #' }
 #'
 #' @examples
@@ -169,7 +170,7 @@ stats.default <- function(x, quantile.type=7, ...) {
         nn <- names(y)
         nn[is.na(nn)] <- "Missing"
         names(y) <- nn
-        lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x), PCTnoNA=100*z/sum(y)))
+        lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x), PCTnoNA=100*z/sum(y), NMISS=sum(is.na(x))))
     } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
         list(
             N=sum(!is.na(x)),
@@ -242,7 +243,7 @@ stats.default <- function(x, quantile.type=7, ...) {
 #'
 #' Not all statistics should be rounded in the same way, or at all. This
 #' function will apply rounding selectively to a list of statistics as returned
-#' by \code{\link{stats.default}}. In particular we don't round counts (N and
+#' by \code{\link{stats.default}}. In particular we don't round counts (N, NMISS and
 #' FREQ), and for MIN, MAX and MEDIAN the \code{digits} is interpreted as the
 #' \emph{minimum} number of significant digits, so that we don't loose any
 #' precision. Percentages are rounded to a fixed number of decimal places
@@ -300,7 +301,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
     } else {
         r <- lapply(x, rounding.fn, digits=digits,
                 round.integers=round.integers, round5up=round5up, ...)
-        nr <- c("N", "FREQ")       # No rounding
+        nr <- c("N", "FREQ", "NMISS")       # No rounding
         nr <- nr[nr %in% names(x)]
         nr <- nr[!is.na(x[nr])]
         r[nr] <- lapply(x[nr], format_n, ...)
