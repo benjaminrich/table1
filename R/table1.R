@@ -360,6 +360,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' render.default(y)
 #'
 #' @keywords utilities
+#' @importFrom stats setNames
 #' @export
 render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
                            render.empty="NA",

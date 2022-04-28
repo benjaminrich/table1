@@ -10,6 +10,8 @@
 
 * Correct default rounding of `PCTnoNA` (ie, using `digits.pct`).
 
+* Fix issue with `t1kable` (#82)
+
 # table1 1.4.2
 
 * Add option `rounding.fn` to `stats.apply.rounding()` to allow changing the
