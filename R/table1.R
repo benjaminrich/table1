@@ -1187,7 +1187,7 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
             nrow(y) - 1
         })
         z <- lapply(contents, function(y) {
-            y <- as.data.frame(y[-1,], stringsAsFactors=F)
+            y <- as.data.frame(y[-1,, drop=F], stringsAsFactors=F)
             y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
             y <- cbind(setNames(y2, rlh), y)
             y
@@ -1215,7 +1215,8 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
         #out <- kableExtra::pack_rows(out, index=i)
         if (!is.null(groupspan)) {
             groupspan <- setNames(groupspan, labels$groups)
-            out <- kableExtra::add_header_above(out, c(" "=1, groupspan))
+            out <- kableExtra::add_header_above(out,
+                data.frame(c(" ", names(groupspan)), c(1, groupspan)))
         }
         if (!is.null(footnote)) {
             out <- kableExtra::footnote(out, general=footnote, general_title="")
