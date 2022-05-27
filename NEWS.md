@@ -12,6 +12,8 @@
 
 * Fix issue with `t1kable` (#82)
 
+* Fix a problem with `t1kable` when the row with the label contains data.
+
 # table1 1.4.2
 
 * Add option `rounding.fn` to `stats.apply.rounding()` to allow changing the

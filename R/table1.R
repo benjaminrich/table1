@@ -1185,11 +1185,19 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
     with(obj, {
         rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
         i <- lapply(contents, function(y) {
-            nrow(y) - 1
+            if (all(y[1,, drop=T] == "")) {
+                nrow(y) - 1
+            } else {
+                nrow(y)
+            }
         })
         z <- lapply(contents, function(y) {
-            y <- as.data.frame(y[-1,, drop=F], stringsAsFactors=F)
-            y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
+            if (all(y[1,, drop=T] == "")) {
+                y <- as.data.frame(y[-1,, drop=F], stringsAsFactors=F)
+                y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
+            } else {
+                y2 <- data.frame(x="", stringsAsFactors=F)
+            }
             y <- cbind(setNames(y2, rlh), y)
             y
         })
