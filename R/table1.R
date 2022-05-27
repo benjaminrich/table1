@@ -1122,14 +1122,18 @@ as.data.frame.table1 <- function(x, ...) {
 #' Convert a \code{table1} object to \code{flextable}.
 #'
 #' @param x An object returned by \code{\link{table1}}.
-#' @param ... Further options passed to \code{qflextable}.
+#' @param tablefn Choose a function from the \code{flextable} package to use as
+#' the basis for the table.
+#' @param ... Further options passed to \code{tablefn}.
 #' @return A \code{flextable} object.
 #' @note The \code{flextable} package needs to be installed for this to work.
 #' @export
-t1flex <- function(x, ...) {
+t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...) {
     if (!requireNamespace("flextable", quietly = TRUE)) {
         stop("This function requires package 'flextable'. Please install it and try again.", call.=F)
     }
+    tablefn <- match.arg(tablefn)
+    tablefn <- getFromNamespace(tablefn, "flextable")
     obj <- attr(x, "obj")
     with(obj, {
         rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
@@ -1147,7 +1151,7 @@ t1flex <- function(x, ...) {
         colnames(df) <- c(rlh, sprintf(
             ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
         rownames(df) <- NULL
-        out <- flextable::qflextable(df, ...)
+        out <- tablefn(df, ...)
         out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="body")
         out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
         out <- flextable::bold(out, i=i, j=1)
