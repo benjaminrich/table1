@@ -33,20 +33,20 @@
 #' x <- c(0.9001, 12345, 1.2, 1., 0.1, 0.00001 , 1e5)
 #' signif_pad(x, digits=3)
 #' signif_pad(x, digits=3, round.integers=TRUE)
-#' 
+#'
 #' # Compare:
 #' as.character(signif(x, digits=3))
 #' format(x, digits=3, nsmall=3)
 #' prettyNum(x, digits=3, drop0trailing=TRUE)
 #' prettyNum(x, digits=3, drop0trailing=FALSE)
-#' 
+#'
 #' # This is very close.
-#' formatC(x, format="fg", flag="#", digits=3) 
+#' formatC(x, format="fg", flag="#", digits=3)
 #' formatC(signif(x, 3), format="fg", flag="#", digits=3)
-#' 
+#'
 #' # Could always remove the trailing "."
 #' sub("[.]$", "", formatC(x, format="fg", flag="#", digits=3))
-#' 
+#'
 #' @keywords utilities
 #' @export
 signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec, ...) {
@@ -112,6 +112,7 @@ format_n <- function (x, ...) {
 #' @param quantile.type An integer from 1 to 9, passed as the \code{type}
 #' argument to function \code{\link[stats]{quantile}}.
 #' @param ... Further arguments (ignored).
+#' @param NA.label label for NAs
 #'
 #' @return A list. For numeric \code{x}, the list contains the numeric elements:
 #' \itemize{
@@ -152,7 +153,7 @@ format_n <- function (x, ...) {
 #' @examples
 #' x <- exp(rnorm(100, 1, 1))
 #' stats.default(x)
-#' 
+#'
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
 #' stats.default(y)
@@ -161,14 +162,14 @@ format_n <- function (x, ...) {
 #' @keywords utilities
 #' @export
 #' @importFrom stats sd median quantile IQR na.omit
-stats.default <- function(x, quantile.type=7, ...) {
+stats.default <- function(x, quantile.type=7, NA.label = "Missing", ...) {
     if (is.logical(x)) {
         x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
         y <- table(x, useNA="no")
         nn <- names(y)
-        nn[is.na(nn)] <- "Missing"
+        nn[is.na(nn)] <- NA.label
         names(y) <- nn
         lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x), PCTnoNA=100*z/sum(y), NMISS=sum(is.na(x))))
     } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
@@ -266,7 +267,7 @@ stats.default <- function(x, quantile.type=7, ...) {
 #'
 #' @return A list with the same number of elements as \code{x}. The rounded
 #' values will be \code{character} (not \code{numeric}) and will have 0 padding
-#' to ensure consistent number of significant digits. 
+#' to ensure consistent number of significant digits.
 #'
 #' @seealso
 #' \code{\link{signif_pad}}
@@ -327,7 +328,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' the table output.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
-#' @param name Name of the variable to be rendered (ignored). 
+#' @param name Name of the variable to be rendered (ignored).
 #' @param missing Should missing values be included?
 #' @param transpose Logical indicating whether on not the table is transposed.
 #' @param render.empty A \code{character} to return when \code{x} is empty.
@@ -343,6 +344,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' \code{\link{parse.abbrev.render.code}}. Set to \code{NULL} to ignore missing
 #' values.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
+#' @param NA.label label for NA counts in table
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -354,7 +356,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' x <- exp(rnorm(100, 1, 1))
 #' render.default(x)
 #' render.default(x, TRUE)
-#' 
+#'
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
 #' render.default(y)
@@ -366,7 +368,9 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
                            render.empty="NA",
                            render.continuous=render.continuous.default,
                            render.categorical=render.categorical.default,
-                           render.missing=render.missing.default, ...) {
+                           render.missing=render.missing.default,
+                           NA.label = "Missing",
+                           ...) {
     if (is.character(render.continuous)) {
         render.continuous <- parse.abbrev.render.code(code=render.continuous, ...)
     }
@@ -375,7 +379,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
     }
     if (!is.null(render.missing) && is.character(render.missing)) {
         nm <- names(render.missing)
-        if (is.null(nm)) nm <- "Missing"
+        if (is.null(nm)) nm <- NA.label
         render.missing.0 <- parse.abbrev.render.code(code=render.missing, ...)
         render.missing <- function(x, ...) {
             setNames(render.missing.0(is.na(x), ...)["Yes"], nm)
@@ -410,7 +414,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' Parse abbreviated code for rendering table output.
 #'
 #' @param code A \code{character} vector specifying the statistics to display
-#' in abbreviated code. See Details. 
+#' in abbreviated code. See Details.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A function that takes a single argument and returns a
@@ -439,7 +443,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' f2(x)
 #' f3 <- parse.abbrev.render.code(c("Mean (SD)"), 3)
 #' f3(x)
-#' 
+#'
 #' x <- sample(c("Male", "Female"), 30, replace=T)
 #' stats.default(x)
 #' f <- parse.abbrev.render.code("Freq (Pct%)")
@@ -473,7 +477,7 @@ function(code, ...) {
             nm <- ifelse(sapply(res, seq_along)==1, "1", "")
             nm[nm=="1"] <- names(s)
             res <- unlist(res)
-            names(res) <- nm 
+            names(res) <- nm
             c("", res)
         } else {
             if (length(codestr) == 1 && is.null(names(codestr))) {
@@ -502,7 +506,7 @@ function(code, ...) {
 #' @examples
 #' x <- exp(rnorm(100, 1, 1))
 #' render.continuous.default(x)
-#' 
+#'
 #' @keywords utilities
 #' @export
 render.continuous.default <- function(x, ...) {
@@ -545,6 +549,7 @@ render.categorical.default <- function(x, ..., na.is.category=TRUE) {
 #'
 #' @param x A vector.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
+#' @param NA.label Label for missing values
 #'
 #' @return A \code{character} vector. Each element is to be displayed in a
 #' separate cell in the table. The \code{\link{names}} of the vector are the
@@ -557,9 +562,10 @@ render.categorical.default <- function(x, ..., na.is.category=TRUE) {
 #' render.missing.default(y)
 #' @keywords utilities
 #' @export
-render.missing.default <- function(x, ...) {
+render.missing.default <- function(x, NA.label = "Missing", ...) {
     with(stats.apply.rounding(stats.default(is.na(x), ...), ...)$Yes,
-        c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
+        sprintf("%s (%s%%)", FREQ, PCT) |> setNames(NA.label)
+        )
 }
 
 #' Render variable labels for table output.
@@ -614,7 +620,7 @@ render.varlabel <- function(x, transpose=F) {
 #' @export
 render.strat.default <- function(label, n, transpose=F) {
     sprintf(
-        ifelse(is.na(n), 
+        ifelse(is.na(n),
             "<span class='stratlabel'>%s</span>",
             "<span class='stratlabel'>%s<br><span class='stratn'>(N=%s)</span></span>"),
         label, n)
@@ -628,11 +634,11 @@ render.strat.default <- function(label, n, transpose=F) {
 #' label the rows of the table. Row labels, if specified, can have a special
 #' HTML \code{class} designated, which can be useful as a hook to customize
 #' their appearance using CSS. The same is true for the the first and last row
-#' of cells. 
+#' of cells.
 #'
 #' @param x A vector or table-like structure (e.g. a \code{\link{data.frame}} or \code{\link{matrix}}).
 #' @param row.labels Values for the first column, typically used to label the row, or \code{NULL} to omit.
-#' @param th A logical. Should \code{th} tags be used rather than \code{td}? 
+#' @param th A logical. Should \code{th} tags be used rather than \code{td}?
 #' @param class HTML class attribute. Can be a single \code{character}, a vector or a matrix.
 #' @param rowlabelclass HTML class attribute for the row labels (i.e. first column).
 #' @param firstrowclass HTML class attribute for the first row of cells.
@@ -754,7 +760,7 @@ has.label <- function(x) {
 #' @describeIn units Set units attribute.
 #' @export
 'units<-' <- function(x, value) {
-    attr(x, "units") <- value 
+    attr(x, "units") <- value
     x
 }
 
@@ -780,7 +786,7 @@ has.units <- function(x) {
 #' deliberately not attempted, as this is best accomplished with CSS. To
 #' facilitate this, some tags (such as row labels) are given specific classes
 #' for easy CSS selection.
-#' 
+#'
 #' For the formula version, the formula is expected to be a one-sided formula,
 #' optionally  with a vertical bar separating the variables that are to appear
 #' as data in the table (as rows) from those used for stratification (i.e.
@@ -848,53 +854,53 @@ has.units <- function(x) {
 #' dat$age <- runif(nrow(dat), 10, 50)
 #' dat$age[3] <- NA  # Add a missing value
 #' dat$wt <- exp(rnorm(nrow(dat), log(70), 0.2))
-#' 
+#'
 #' label(dat$sex) <- "Sex"
 #' label(dat$age) <- "Age"
 #' label(dat$treat) <- "Treatment Group"
 #' label(dat$wt) <- "Weight"
-#' 
+#'
 #' units(dat$age) <- "years"
 #' units(dat$wt) <- "kg"
-#' 
+#'
 #' # One level of stratification
 #' table1(~ sex + age + wt | treat, data=dat)
-#' 
+#'
 #' # Two levels of stratification (nesting)
 #' table1(~ age + wt | treat*sex, data=dat)
-#' 
+#'
 #' # Switch the order or nesting
 #' table1(~ age + wt | sex*treat, data=dat)
-#' 
+#'
 #' # No stratification
 #' table1(~ treat + sex + age + wt, data=dat)
-#' 
+#'
 #' # Something more complicated
-#' 
+#'
 #' dat$dose <- ifelse(dat$treat=="Placebo", "Placebo",
 #'                    sample(c("5 mg", "10 mg"), nrow(dat), replace=TRUE))
 #' dat$dose <- factor(dat$dose, levels=c("Placebo", "5 mg", "10 mg"))
-#' 
+#'
 #' strata <- c(split(dat, dat$dose),
 #'             list("All treated"=subset(dat, treat=="Treated")),
 #'             list(Overall=dat))
-#' 
+#'
 #' labels <- list(
 #'     variables=list(sex=render.varlabel(dat$sex),
 #'                    age=render.varlabel(dat$age),
 #'                    wt=render.varlabel(dat$wt)),
 #'     groups=list("", "Treated", ""))
-#' 
+#'
 #' my.render.cont <- function(x) {
-#'     with(stats.default(x), 
+#'     with(stats.default(x),
 #'         sprintf("%0.2f (%0.1f)", MEAN, SD))
 #' }
-#' 
+#'
 #' table1(strata, labels, groupspan=c(1, 3, 1), render.continuous=my.render.cont)
 #'
 #' # Transposed table
 #' table1(~ age + wt | treat, data=dat, transpose=TRUE)
-#' 
+#'
 #' @keywords utilities
 #' @export
 table1 <- function(x, ...) {
@@ -1374,7 +1380,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (is.null(overall) || (is.logical(overall) && overall == FALSE)) {
             stop("Table has no columns?!")
         }
-        stratlabel <- overall 
+        stratlabel <- overall
     }
     for (i in 1:ncol(m1)) {
         if (!has.label(m1[[i]])) {
