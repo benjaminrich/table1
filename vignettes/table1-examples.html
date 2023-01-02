@@ -12,12 +12,12 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2021-06-01" />
+<meta name="date" content="2023-01-02" />
 
 <title>Using the table1 Package to Create HTML Tables of Descriptive Statistics</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
-<link href="data:text/css,%0A%2ERtable1%20table%2C%20table%2ERtable1%20%7B%0Afont%2Dfamily%3A%20%22Arial%22%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2010pt%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0A%0A%7D%0A%2ERtable1%20td%20%7B%0Awhite%2Dspace%3Anowrap%3B%0A%7D%0A%2ERtable1%20th%2C%20%2ERtable1%20td%20%7B%0Aborder%3A%200%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0Amargin%3A%200px%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%20%7B%0Apadding%2Dleft%3A%200%3B%0Apadding%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%201%2E5ex%3B%0Amargin%2Dright%3A%201%2E5ex%3B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Alast%2Dchild%3Ediv%20%7B%0Amargin%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20%2Erowlabel%20%7B%0Atext%2Dalign%3A%20left%3B%0Apadding%2Dleft%3A%202%2E5ex%3B%0A%7D%0A%2ERtable1%20%2Efirstrow%2Erowlabel%20%7B%0Apadding%2Dleft%3A%200%2E5ex%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0A%2ERtable1%2Dzebra%20tbody%20tr%3Anth%2Dchild%28odd%29%20%7B%0Abackground%2Dcolor%3A%20%23eee%3B%0A%7D%0A%0Atable%2ERtable1%2Dtimes%20%7B%0Afont%2Dfamily%3A%20%22Times%20New%20Roman%22%2C%20Times%2C%20serif%3B%0A%7D%0A%0A%2ERtable1%2Dshade%20th%20%7B%0Abackground%2Dcolor%3A%20%23ccc%3B%0A%7D%0A%0A%2ERtable1%2Dgrid%20th%2C%20%2ERtable1%2Dgrid%20td%20%7B%0Aborder%2Dleft%3A%201pt%20solid%20black%3B%0Aborder%2Dright%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20%2Efirstrow%2C%20%2ERtable1%2Dgrid%20%2Efirstrow%20%7E%20td%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%200%3B%0Amargin%2Dright%3A%200%3B%0Aborder%2Dbottom%3A%200%3B%0A%7D%0A%0A%2ERtable1%2Dcenter%20td%2Erowlabel%2C%20%2ERtable1%2Dcenter%20td%2Efirstrow%2Erowlabel%20%7B%0Afont%2Dweight%3A%20bold%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0A%7D%0A%0A%2ERtable1%20%2ERtable1%2Dfootnote%20%7B%0Afont%2Dsize%3A%20smaller%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0Atext%2Dalign%3A%20left%3B%0A%7D%0A" rel="stylesheet" />
+<link href="data:text/css,%0A%2ERtable1%20table%2C%20table%2ERtable1%20%7B%0Afont%2Dfamily%3A%20%22Arial%22%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2010pt%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0A%0A%7D%0A%2ERtable1%20td%20%7B%0Awhite%2Dspace%3Anowrap%3B%0A%7D%0A%2ERtable1%20th%2C%20%2ERtable1%20td%20%7B%0Aborder%3A%200%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0Amargin%3A%200px%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%202pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%20%7B%0Apadding%2Dleft%3A%200%3B%0Apadding%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%201%2E5ex%3B%0Amargin%2Dright%3A%201%2E5ex%3B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%20th%2Egrouplabel%3Alast%2Dchild%3Ediv%20%7B%0Amargin%2Dright%3A%200%3B%0A%7D%0A%2ERtable1%20%2Erowlabel%20%7B%0Atext%2Dalign%3A%20left%3B%0Apadding%2Dleft%3A%202%2E5ex%3B%0A%7D%0A%2ERtable1%20%2Efirstrow%2Erowlabel%20%7B%0Apadding%2Dleft%3A%200%2E5ex%3B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0A%0A%2ERtable1%2Dzebra%20tbody%20tr%3Anth%2Dchild%28odd%29%20%7B%0Abackground%2Dcolor%3A%20%23eee%3B%0A%7D%0A%0Atable%2ERtable1%2Dtimes%20%7B%0Afont%2Dfamily%3A%20%22Times%20New%20Roman%22%2C%20Times%2C%20serif%3B%0A%7D%0A%0A%2ERtable1%2Dshade%20th%20%7B%0Abackground%2Dcolor%3A%20%23ccc%3B%0A%7D%0A%0A%2ERtable1%2Dgrid%20th%2C%20%2ERtable1%2Dgrid%20td%20%7B%0Aborder%2Dleft%3A%201pt%20solid%20black%3B%0Aborder%2Dright%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Afirst%2Dchild%3Eth%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20thead%3Etr%3Alast%2Dchild%3Eth%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20tbody%3Etr%3Alast%2Dchild%3Etd%20%7B%0Aborder%2Dbottom%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20%2Efirstrow%2C%20%2ERtable1%2Dgrid%20%2Efirstrow%20%7E%20td%20%7B%0Aborder%2Dtop%3A%201pt%20solid%20black%3B%0A%7D%0A%2ERtable1%2Dgrid%20th%2Egrouplabel%3Ediv%20%7B%0Amargin%2Dleft%3A%200%3B%0Amargin%2Dright%3A%200%3B%0Aborder%2Dbottom%3A%200%3B%0A%7D%0A%0A%2ERtable1%2Dcenter%20td%2Erowlabel%2C%20%2ERtable1%2Dcenter%20td%2Efirstrow%2Erowlabel%20%7B%0Afont%2Dweight%3A%20bold%3B%0Atext%2Dalign%3A%20center%3B%0Apadding%3A%200%2E5ex%201%2E5ex%3B%0A%7D%0A%0A%2ERtable1%20%2ERtable1%2Dfootnote%20%7B%0Afont%2Dsize%3A%20smaller%3B%0Apadding%3A%200px%3B%0Amargin%3A%200px%3B%0Atext%2Dalign%3A%20left%3B%0Awhite%2Dspace%3A%20normal%3B%0A%7D%0A" rel="stylesheet" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -29,7 +29,14 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
@@ -136,7 +143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HTML Tables of Descriptive Statistics</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2021-06-01</h4>
+<h4 class="date">2023-01-02</h4>
 
 
 <div id="TOC">
@@ -183,97 +190,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(N=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(N=14)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=205)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br><span class="stratn">(N=14)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=205)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>factor(sex)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">factor(sex)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>0</td>
+<td class="rowlabel">0</td>
 <td>91 (67.9%)</td>
 <td>28 (49.1%)</td>
 <td>7 (50.0%)</td>
 <td>126 (61.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>1</td>
-<td class='lastrow'>43 (32.1%)</td>
-<td class='lastrow'>29 (50.9%)</td>
-<td class='lastrow'>7 (50.0%)</td>
-<td class='lastrow'>79 (38.5%)</td>
+<td class="rowlabel lastrow">1</td>
+<td class="lastrow">43 (32.1%)</td>
+<td class="lastrow">29 (50.9%)</td>
+<td class="lastrow">7 (50.0%)</td>
+<td class="lastrow">79 (38.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>age</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">age</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>50.0 (15.9)</td>
 <td>55.1 (17.9)</td>
 <td>65.3 (10.9)</td>
 <td>52.5 (16.7)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>52.0 [4.00, 84.0]</td>
-<td class='lastrow'>56.0 [14.0, 95.0]</td>
-<td class='lastrow'>65.0 [49.0, 86.0]</td>
-<td class='lastrow'>54.0 [4.00, 95.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">52.0 [4.00, 84.0]</td>
+<td class="lastrow">56.0 [14.0, 95.0]</td>
+<td class="lastrow">65.0 [49.0, 86.0]</td>
+<td class="lastrow">54.0 [4.00, 95.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>factor(ulcer)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">factor(ulcer)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>0</td>
+<td class="rowlabel">0</td>
 <td>92 (68.7%)</td>
 <td>16 (28.1%)</td>
 <td>7 (50.0%)</td>
 <td>115 (56.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>1</td>
-<td class='lastrow'>42 (31.3%)</td>
-<td class='lastrow'>41 (71.9%)</td>
-<td class='lastrow'>7 (50.0%)</td>
-<td class='lastrow'>90 (43.9%)</td>
+<td class="rowlabel lastrow">1</td>
+<td class="lastrow">42 (31.3%)</td>
+<td class="lastrow">41 (71.9%)</td>
+<td class="lastrow">7 (50.0%)</td>
+<td class="lastrow">90 (43.9%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>thickness</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">thickness</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>2.24 (2.33)</td>
 <td>4.31 (3.57)</td>
 <td>3.72 (3.63)</td>
 <td>2.92 (2.96)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>1.36 [0.100, 12.9]</td>
-<td class='lastrow'>3.54 [0.320, 17.4]</td>
-<td class='lastrow'>2.26 [0.160, 12.6]</td>
-<td class='lastrow'>1.94 [0.100, 17.4]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">1.36 [0.100, 12.9]</td>
+<td class="lastrow">3.54 [0.320, 17.4]</td>
+<td class="lastrow">2.26 [0.160, 12.6]</td>
+<td class="lastrow">1.94 [0.100, 17.4]</td>
 </tr>
 </tbody>
 </table>
@@ -302,97 +309,97 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma death<br><span class='stratn'>(N=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma death<br><span class='stratn'>(N=14)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(N=205)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br><span class="stratn">(N=14)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Male</td>
+<td class="rowlabel">Male</td>
 <td>43 (32.1%)</td>
 <td>29 (50.9%)</td>
 <td>7 (50.0%)</td>
 <td>79 (38.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Female</td>
-<td class='lastrow'>91 (67.9%)</td>
-<td class='lastrow'>28 (49.1%)</td>
-<td class='lastrow'>7 (50.0%)</td>
-<td class='lastrow'>126 (61.5%)</td>
+<td class="rowlabel lastrow">Female</td>
+<td class="lastrow">91 (67.9%)</td>
+<td class="lastrow">28 (49.1%)</td>
+<td class="lastrow">7 (50.0%)</td>
+<td class="lastrow">126 (61.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>50.0 (15.9)</td>
 <td>55.1 (17.9)</td>
 <td>65.3 (10.9)</td>
 <td>52.5 (16.7)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>52.0 [4.00, 84.0]</td>
-<td class='lastrow'>56.0 [14.0, 95.0]</td>
-<td class='lastrow'>65.0 [49.0, 86.0]</td>
-<td class='lastrow'>54.0 [4.00, 95.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">52.0 [4.00, 84.0]</td>
+<td class="lastrow">56.0 [14.0, 95.0]</td>
+<td class="lastrow">65.0 [49.0, 86.0]</td>
+<td class="lastrow">54.0 [4.00, 95.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Ulceration</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Ulceration</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Absent</td>
+<td class="rowlabel">Absent</td>
 <td>92 (68.7%)</td>
 <td>16 (28.1%)</td>
 <td>7 (50.0%)</td>
 <td>115 (56.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Present</td>
-<td class='lastrow'>42 (31.3%)</td>
-<td class='lastrow'>41 (71.9%)</td>
-<td class='lastrow'>7 (50.0%)</td>
-<td class='lastrow'>90 (43.9%)</td>
+<td class="rowlabel lastrow">Present</td>
+<td class="lastrow">42 (31.3%)</td>
+<td class="lastrow">41 (71.9%)</td>
+<td class="lastrow">7 (50.0%)</td>
+<td class="lastrow">90 (43.9%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Thickness (mm)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Thickness (mm)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>2.24 (2.33)</td>
 <td>4.31 (3.57)</td>
 <td>3.72 (3.63)</td>
 <td>2.92 (2.96)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>1.36 [0.100, 12.9]</td>
-<td class='lastrow'>3.54 [0.320, 17.4]</td>
-<td class='lastrow'>2.26 [0.160, 12.6]</td>
-<td class='lastrow'>1.94 [0.100, 17.4]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">1.36 [0.100, 12.9]</td>
+<td class="lastrow">3.54 [0.320, 17.4]</td>
+<td class="lastrow">2.26 [0.160, 12.6]</td>
+<td class="lastrow">1.94 [0.100, 17.4]</td>
 </tr>
 </tbody>
 </table>
@@ -431,83 +438,83 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th colspan="2" class="grouplabel"><div>Death</div></th>
 </tr>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Total<br><span class='stratn'>(N=205)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Alive<br><span class='stratn'>(N=134)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Melanoma<br><span class='stratn'>(N=57)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Non-melanoma<br><span class='stratn'>(N=14)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma<br><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma<br><span class="stratn">(N=14)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Male</td>
+<td class="rowlabel">Male</td>
 <td>79 (39 %)</td>
 <td>43 (32 %)</td>
 <td>29 (51 %)</td>
 <td>7 (50 %)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Female</td>
-<td class='lastrow'>126 (61 %)</td>
-<td class='lastrow'>91 (68 %)</td>
-<td class='lastrow'>28 (49 %)</td>
-<td class='lastrow'>7 (50 %)</td>
+<td class="rowlabel lastrow">Female</td>
+<td class="lastrow">126 (61 %)</td>
+<td class="lastrow">91 (68 %)</td>
+<td class="lastrow">28 (49 %)</td>
+<td class="lastrow">7 (50 %)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Mean (SD)</td>
-<td class='lastrow'>52 (&plusmn; 17)</td>
-<td class='lastrow'>50 (&plusmn; 16)</td>
-<td class='lastrow'>55 (&plusmn; 18)</td>
-<td class='lastrow'>65 (&plusmn; 11)</td>
+<td class="rowlabel lastrow">Mean (SD)</td>
+<td class="lastrow">52 (± 17)</td>
+<td class="lastrow">50 (± 16)</td>
+<td class="lastrow">55 (± 18)</td>
+<td class="lastrow">65 (± 11)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Ulceration</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Ulceration</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Absent</td>
+<td class="rowlabel">Absent</td>
 <td>115 (56 %)</td>
 <td>92 (69 %)</td>
 <td>16 (28 %)</td>
 <td>7 (50 %)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Present</td>
-<td class='lastrow'>90 (44 %)</td>
-<td class='lastrow'>42 (31 %)</td>
-<td class='lastrow'>41 (72 %)</td>
-<td class='lastrow'>7 (50 %)</td>
+<td class="rowlabel lastrow">Present</td>
+<td class="lastrow">90 (44 %)</td>
+<td class="lastrow">42 (31 %)</td>
+<td class="lastrow">41 (72 %)</td>
+<td class="lastrow">7 (50 %)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Thickness (mm)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Thickness (mm)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Mean (SD)</td>
-<td class='lastrow'>2.9 (&plusmn; 3.0)</td>
-<td class='lastrow'>2.2 (&plusmn; 2.3)</td>
-<td class='lastrow'>4.3 (&plusmn; 3.6)</td>
-<td class='lastrow'>3.7 (&plusmn; 3.6)</td>
+<td class="rowlabel lastrow">Mean (SD)</td>
+<td class="lastrow">2.9 (± 3.0)</td>
+<td class="lastrow">2.2 (± 2.3)</td>
+<td class="lastrow">4.3 (± 3.6)</td>
+<td class="lastrow">3.7 (± 3.6)</td>
 </tr>
 </tbody>
 </table>
@@ -542,72 +549,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -618,61 +625,61 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
 </tr>
 </tbody>
 </table>
@@ -688,27 +695,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th colspan="2" class="grouplabel"><div>Overall</div></th>
 </tr>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=34)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=18)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=53)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=41)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Female<br><span class='stratn'>(N=87)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Male<br><span class='stratn'>(N=59)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=34)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=18)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=53)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=41)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=87)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=59)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>40.6 (14.5)</td>
 <td>36.6 (13.6)</td>
 <td>40.1 (13.4)</td>
@@ -717,25 +724,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>39.0 (13.4)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>33.5 [18.0, 64.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
-<td class='lastrow'>41.0 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">33.5 [18.0, 64.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
+<td class="lastrow">41.0 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.8 (14.8)</td>
 <td>66.8 (19.3)</td>
 <td>65.6 (15.1)</td>
@@ -744,7 +751,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>70.1 (18.4)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>67.2 [45.8, 116]</td>
 <td>66.6 [37.5, 105]</td>
 <td>61.4 [41.9, 103]</td>
@@ -753,13 +760,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>67.3 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>1 (2.9%)</td>
-<td class='lastrow'>1 (5.6%)</td>
-<td class='lastrow'>3 (5.7%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>4 (4.6%)</td>
-<td class='lastrow'>1 (1.7%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">1 (2.9%)</td>
+<td class="lastrow">1 (5.6%)</td>
+<td class="lastrow">3 (5.7%)</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">4 (4.6%)</td>
+<td class="lastrow">1 (1.7%)</td>
 </tr>
 </tbody>
 </table>
@@ -775,27 +782,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th colspan="2" class="grouplabel"><div>Overall</div></th>
 </tr>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=34)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=53)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=18)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=41)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=34)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=53)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=18)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=41)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>40.6 (14.5)</td>
 <td>40.1 (13.4)</td>
 <td>36.6 (13.6)</td>
@@ -804,25 +811,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>40.1 (13.3)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
-<td class='lastrow'>33.5 [18.0, 64.0]</td>
-<td class='lastrow'>41.0 [18.0, 65.0]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
+<td class="lastrow">33.5 [18.0, 64.0]</td>
+<td class="lastrow">41.0 [18.0, 65.0]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.8 (14.8)</td>
 <td>65.6 (15.1)</td>
 <td>66.8 (19.3)</td>
@@ -831,7 +838,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>68.3 (16.7)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>67.2 [45.8, 116]</td>
 <td>61.4 [41.9, 103]</td>
 <td>66.6 [37.5, 105]</td>
@@ -840,13 +847,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>64.9 [40.0, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>1 (2.9%)</td>
-<td class='lastrow'>3 (5.7%)</td>
-<td class='lastrow'>1 (5.6%)</td>
-<td class='lastrow'>0 (0%)</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">1 (2.9%)</td>
+<td class="lastrow">3 (5.7%)</td>
+<td class="lastrow">1 (5.6%)</td>
+<td class="lastrow">0 (0%)</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
 </tr>
 </tbody>
 </table>
@@ -856,62 +863,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Treatment Group</td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Treatment Group</td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Placebo</td>
+<td class="rowlabel">Placebo</td>
 <td>52 (35.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Treated</td>
-<td class='lastrow'>94 (64.4%)</td>
+<td class="rowlabel lastrow">Treated</td>
+<td class="lastrow">94 (64.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -938,25 +945,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th colspan="1" class="grouplabel"></th>
 </tr>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=43)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=51)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">5 mg<br><span class="stratn">(N=43)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">10 mg<br><span class="stratn">(N=51)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">All treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>35.5 (12.4)</td>
 <td>43.9 (12.9)</td>
@@ -964,23 +971,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>37.0 [18.0, 64.0]</td>
-<td class='lastrow'>45.0 [21.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">37.0 [18.0, 64.0]</td>
+<td class="lastrow">45.0 [21.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>24 (55.8%)</td>
 <td>29 (56.9%)</td>
@@ -988,23 +995,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>19 (44.2%)</td>
-<td class='lastrow'>22 (43.1%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">19 (44.2%)</td>
+<td class="lastrow">22 (43.1%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.7 (16.3)</td>
 <td>68.0 (17.1)</td>
@@ -1012,7 +1019,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>67.2 [40.4, 111]</td>
 <td>63.4 [40.0, 119]</td>
@@ -1020,12 +1027,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>2 (4.7%)</td>
-<td class='lastrow'>1 (2.0%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">2 (4.7%)</td>
+<td class="lastrow">1 (2.0%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1046,25 +1053,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th colspan="1" class="grouplabel"></th>
 </tr>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>5 mg<br><span class='stratn'>(N=43)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>10 mg<br><span class='stratn'>(N=51)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>All treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">5 mg<br><span class="stratn">(N=43)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">10 mg<br><span class="stratn">(N=51)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">All treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (CV%)</td>
+<td class="rowlabel">Mean (CV%)</td>
 <td>39.2 (36.2%)</td>
 <td>35.5 (34.9%)</td>
 <td>43.9 (29.4%)</td>
@@ -1072,7 +1079,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>39.8 (34.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>37.5 [18.0, 65.0]</td>
 <td>37.0 [18.0, 64.0]</td>
 <td>45.0 [21.0, 65.0]</td>
@@ -1080,23 +1087,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Geo. mean (Geo. CV%)</td>
-<td class='lastrow'>36.7 (39.0%)</td>
-<td class='lastrow'>33.3 (38.1%)</td>
-<td class='lastrow'>41.9 (32.6%)</td>
-<td class='lastrow'>37.8 (37.1%)</td>
-<td class='lastrow'>37.4 (37.6%)</td>
+<td class="rowlabel lastrow">Geo. mean (Geo. CV%)</td>
+<td class="lastrow">36.7 (39.0%)</td>
+<td class="lastrow">33.3 (38.1%)</td>
+<td class="lastrow">41.9 (32.6%)</td>
+<td class="lastrow">37.8 (37.1%)</td>
+<td class="lastrow">37.4 (37.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>24 (55.8%)</td>
 <td>29 (56.9%)</td>
@@ -1104,23 +1111,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>19 (44.2%)</td>
-<td class='lastrow'>22 (43.1%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">19 (44.2%)</td>
+<td class="lastrow">22 (43.1%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (CV%)</td>
+<td class="rowlabel">Mean (CV%)</td>
 <td>68.1 (24.0%)</td>
 <td>68.7 (23.7%)</td>
 <td>68.0 (25.2%)</td>
@@ -1128,7 +1135,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>68.2 (24.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>67.2 [40.4, 111]</td>
 <td>63.4 [40.0, 119]</td>
@@ -1136,7 +1143,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel'>Geo. mean (Geo. CV%)</td>
+<td class="rowlabel">Geo. mean (Geo. CV%)</td>
 <td>66.2 (24.1%)</td>
 <td>66.9 (23.5%)</td>
 <td>66.0 (24.3%)</td>
@@ -1144,12 +1151,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td>66.4 (23.8%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>2 (4.7%)</td>
-<td class='lastrow'>1 (2.0%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">2 (4.7%)</td>
+<td class="lastrow">1 (2.0%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1171,66 +1178,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'></td>
+<td class="rowlabel"></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'></td>
+<td class="rowlabel"></td>
 <td></td>
 <td></td>
 <td></td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Mean (SD)</td>
-<td class='lastrow'>68.1 (16.3)</td>
-<td class='lastrow'>68.3 (16.7)</td>
-<td class='lastrow'>68.2 (16.5)</td>
+<td class="rowlabel lastrow">Mean (SD)</td>
+<td class="lastrow">68.1 (16.3)</td>
+<td class="lastrow">68.3 (16.7)</td>
+<td class="lastrow">68.2 (16.5)</td>
 </tr>
 </tbody>
 </table>
@@ -1255,72 +1262,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1-zebra">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1329,72 +1336,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1-grid">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1403,72 +1410,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-shade Rtable1-times">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1507,72 +1514,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="custom">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Placebo<br><span class='stratn'>(N=52)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treated<br><span class='stratn'>(N=94)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=146)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>39.2 (14.2)</td>
 <td>40.1 (13.3)</td>
 <td>39.8 (13.6)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>37.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.5 [18.0, 65.0]</td>
-<td class='lastrow'>39.0 [18.0, 65.0]</td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">37.5 [18.0, 65.0]</td>
+<td class="lastrow">39.5 [18.0, 65.0]</td>
+<td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Sex</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Sex</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Female</td>
+<td class="rowlabel">Female</td>
 <td>34 (65.4%)</td>
 <td>53 (56.4%)</td>
 <td>87 (59.6%)</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Male</td>
-<td class='lastrow'>18 (34.6%)</td>
-<td class='lastrow'>41 (43.6%)</td>
-<td class='lastrow'>59 (40.4%)</td>
+<td class="rowlabel lastrow">Male</td>
+<td class="lastrow">18 (34.6%)</td>
+<td class="lastrow">41 (43.6%)</td>
+<td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Weight (kg)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>68.1 (16.3)</td>
 <td>68.3 (16.7)</td>
 <td>68.2 (16.5)</td>
 </tr>
 <tr>
-<td class='rowlabel'>Median [Min, Max]</td>
+<td class="rowlabel">Median [Min, Max]</td>
 <td>66.7 [37.5, 116]</td>
 <td>64.9 [40.0, 119]</td>
 <td>66.2 [37.5, 119]</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Missing</td>
-<td class='lastrow'>2 (3.8%)</td>
-<td class='lastrow'>3 (3.2%)</td>
-<td class='lastrow'>5 (3.4%)</td>
+<td class="rowlabel lastrow">Missing</td>
+<td class="lastrow">2 (3.8%)</td>
+<td class="lastrow">3 (3.2%)</td>
+<td class="lastrow">5 (3.4%)</td>
 </tr>
 </tbody>
 </table>
@@ -1628,144 +1635,144 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Control<br><span class='stratn'>(N=429)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Treatment<br><span class='stratn'>(N=185)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>P-value</span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Control<br><span class="stratn">(N=429)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treatment<br><span class="stratn">(N=185)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">P-value</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow'>Age (years)</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Age (years)</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>28.0 (10.8)</td>
 <td>25.8 (7.16)</td>
 <td>0.00291</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>25.0 [16.0, 55.0]</td>
-<td class='lastrow'>25.0 [17.0, 48.0]</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">25.0 [16.0, 55.0]</td>
+<td class="lastrow">25.0 [17.0, 48.0]</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Race</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Race</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>White</td>
+<td class="rowlabel">White</td>
 <td>281 (65.5%)</td>
 <td>18 (9.7%)</td>
 <td>&lt;0.001</td>
 </tr>
 <tr>
-<td class='rowlabel'>Black</td>
+<td class="rowlabel">Black</td>
 <td>87 (20.3%)</td>
 <td>156 (84.3%)</td>
 <td></td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Hispanic</td>
-<td class='lastrow'>61 (14.2%)</td>
-<td class='lastrow'>11 (5.9%)</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">Hispanic</td>
+<td class="lastrow">61 (14.2%)</td>
+<td class="lastrow">11 (5.9%)</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>Married</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">Married</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Yes</td>
+<td class="rowlabel">Yes</td>
 <td>220 (51.3%)</td>
 <td>35 (18.9%)</td>
 <td>&lt;0.001</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>No</td>
-<td class='lastrow'>209 (48.7%)</td>
-<td class='lastrow'>150 (81.1%)</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">No</td>
+<td class="lastrow">209 (48.7%)</td>
+<td class="lastrow">150 (81.1%)</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>No high school diploma</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">No high school diploma</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Yes</td>
+<td class="rowlabel">Yes</td>
 <td>256 (59.7%)</td>
 <td>131 (70.8%)</td>
 <td>0.0113</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>No</td>
-<td class='lastrow'>173 (40.3%)</td>
-<td class='lastrow'>54 (29.2%)</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">No</td>
+<td class="lastrow">173 (40.3%)</td>
+<td class="lastrow">54 (29.2%)</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>1974 Income</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">1974 Income</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>5620 (6790)</td>
 <td>2100 (4890)</td>
 <td>&lt;0.001</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>2550 [0, 25900]</td>
-<td class='lastrow'>0 [0, 35000]</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">2550 [0, 25900]</td>
+<td class="lastrow">0 [0, 35000]</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>1975 Income</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">1975 Income</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>2470 (3290)</td>
 <td>1530 (3220)</td>
 <td>0.00115</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>1090 [0, 18300]</td>
-<td class='lastrow'>0 [0, 25100]</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">1090 [0, 18300]</td>
+<td class="lastrow">0 [0, 25100]</td>
+<td class="lastrow"></td>
 </tr>
 <tr>
-<td class='rowlabel firstrow'>1978 Income</td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
-<td class='firstrow'></td>
+<td class="rowlabel firstrow">1978 Income</td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
+<td class="firstrow"></td>
 </tr>
 <tr>
-<td class='rowlabel'>Mean (SD)</td>
+<td class="rowlabel">Mean (SD)</td>
 <td>6980 (7290)</td>
 <td>6350 (7870)</td>
 <td>0.349</td>
 </tr>
 <tr>
-<td class='rowlabel lastrow'>Median [Min, Max]</td>
-<td class='lastrow'>4980 [0, 25600]</td>
-<td class='lastrow'>4230 [0, 60300]</td>
-<td class='lastrow'></td>
+<td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">4980 [0, 25600]</td>
+<td class="lastrow">4230 [0, 60300]</td>
+<td class="lastrow"></td>
 </tr>
 </tbody>
 </table>
@@ -1787,55 +1794,55 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(N=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(N=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(N=50)</span></span></th>
-<th class='firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=150)</span></span></th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">A<br><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">B<br><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">C<br><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=150)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow lastrow'>V1</td>
-<td class='firstrow lastrow'>1.60 (122.5%)<br/>1.15 [0.100, 12.7]<br/>0.968 (148.9%)</td>
-<td class='firstrow lastrow'>1.62 (152.1%)<br/>1.00 [0.100, 13.6]<br/>0.829 (169.3%)</td>
-<td class='firstrow lastrow'>1.39 (141.5%)<br/>1.00 [0.200, 13.4]<br/>0.884 (113.7%)</td>
-<td class='firstrow lastrow'>1.54 (138.7%)<br/>1.00 [0.100, 13.6]<br/>0.892 (142.2%)</td>
+<td class="rowlabel firstrow lastrow">V1</td>
+<td class="firstrow lastrow">1.60 (122.5%)<br />1.15 [0.100, 12.7]<br />0.968 (148.9%)</td>
+<td class="firstrow lastrow">1.62 (152.1%)<br />1.00 [0.100, 13.6]<br />0.829 (169.3%)</td>
+<td class="firstrow lastrow">1.39 (141.5%)<br />1.00 [0.200, 13.4]<br />0.884 (113.7%)</td>
+<td class="firstrow lastrow">1.54 (138.7%)<br />1.00 [0.100, 13.6]<br />0.892 (142.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'>V2</td>
-<td class='firstrow lastrow'>1.31 (139.0%)<br/>0.850 [0.100, 11.4]<br/>0.778 (130.4%)</td>
-<td class='firstrow lastrow'>1.51 (102.3%)<br/>0.900 [0.100, 7.00]<br/>0.913 (146.1%)</td>
-<td class='firstrow lastrow'>1.48 (158.2%)<br/>0.800 [0.100, 13.4]<br/>0.834 (135.1%)</td>
-<td class='firstrow lastrow'>1.43 (134.0%)<br/>0.900 [0.100, 13.4]<br/>0.840 (136.1%)</td>
+<td class="rowlabel firstrow lastrow">V2</td>
+<td class="firstrow lastrow">1.31 (139.0%)<br />0.850 [0.100, 11.4]<br />0.778 (130.4%)</td>
+<td class="firstrow lastrow">1.51 (102.3%)<br />0.900 [0.100, 7.00]<br />0.913 (146.1%)</td>
+<td class="firstrow lastrow">1.48 (158.2%)<br />0.800 [0.100, 13.4]<br />0.834 (135.1%)</td>
+<td class="firstrow lastrow">1.43 (134.0%)<br />0.900 [0.100, 13.4]<br />0.840 (136.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'>V3</td>
-<td class='firstrow lastrow'>1.80 (115.5%)<br/>1.10 [0.200, 8.90]<br/>1.10 (125.2%)</td>
-<td class='firstrow lastrow'>2.55 (333.0%)<br/>1.00 [0.100, 60.5]<br/>1.00 (145.7%)</td>
-<td class='firstrow lastrow'>1.29 (93.6%)<br/>1.05 [0.200, 7.40]<br/>0.917 (101.6%)</td>
-<td class='firstrow lastrow'>1.88 (270.7%)<br/>1.05 [0.100, 60.5]<br/>1.01 (123.2%)</td>
+<td class="rowlabel firstrow lastrow">V3</td>
+<td class="firstrow lastrow">1.80 (115.5%)<br />1.10 [0.200, 8.90]<br />1.10 (125.2%)</td>
+<td class="firstrow lastrow">2.55 (333.0%)<br />1.00 [0.100, 60.5]<br />1.00 (145.7%)</td>
+<td class="firstrow lastrow">1.29 (93.6%)<br />1.05 [0.200, 7.40]<br />0.917 (101.6%)</td>
+<td class="firstrow lastrow">1.88 (270.7%)<br />1.05 [0.100, 60.5]<br />1.01 (123.2%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'>V4</td>
-<td class='firstrow lastrow'>1.44 (107.6%)<br/>0.900 [0.200, 6.70]<br/>0.956 (106.6%)</td>
-<td class='firstrow lastrow'>1.70 (150.8%)<br/>1.20 [0.100, 18.0]<br/>1.06 (121.8%)</td>
-<td class='firstrow lastrow'>1.97 (129.1%)<br/>0.850 [0.100, 12.2]<br/>1.04 (157.2%)</td>
-<td class='firstrow lastrow'>1.70 (132.9%)<br/>0.900 [0.100, 18.0]<br/>1.02 (127.0%)</td>
+<td class="rowlabel firstrow lastrow">V4</td>
+<td class="firstrow lastrow">1.44 (107.6%)<br />0.900 [0.200, 6.70]<br />0.956 (106.6%)</td>
+<td class="firstrow lastrow">1.70 (150.8%)<br />1.20 [0.100, 18.0]<br />1.06 (121.8%)</td>
+<td class="firstrow lastrow">1.97 (129.1%)<br />0.850 [0.100, 12.2]<br />1.04 (157.2%)</td>
+<td class="firstrow lastrow">1.70 (132.9%)<br />0.900 [0.100, 18.0]<br />1.02 (127.0%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'>V5</td>
-<td class='firstrow lastrow'>1.25 (105.2%)<br/>0.800 [0.100, 7.70]<br/>0.840 (112.3%)</td>
-<td class='firstrow lastrow'>1.94 (128.5%)<br/>1.15 [0.100, 15.1]<br/>1.15 (138.2%)</td>
-<td class='firstrow lastrow'>1.73 (80.3%)<br/>1.40 [0.100, 7.10]<br/>1.24 (113.0%)</td>
-<td class='firstrow lastrow'>1.64 (111.2%)<br/>1.15 [0.100, 15.1]<br/>1.06 (122.7%)</td>
+<td class="rowlabel firstrow lastrow">V5</td>
+<td class="firstrow lastrow">1.25 (105.2%)<br />0.800 [0.100, 7.70]<br />0.840 (112.3%)</td>
+<td class="firstrow lastrow">1.94 (128.5%)<br />1.15 [0.100, 15.1]<br />1.15 (138.2%)</td>
+<td class="firstrow lastrow">1.73 (80.3%)<br />1.40 [0.100, 7.10]<br />1.24 (113.0%)</td>
+<td class="firstrow lastrow">1.64 (111.2%)<br />1.15 [0.100, 15.1]<br />1.06 (122.7%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'>V6</td>
-<td class='firstrow lastrow'>1.87 (204.2%)<br/>0.900 [0.100, 26.4]<br/>0.925 (157.1%)</td>
-<td class='firstrow lastrow'>1.96 (152.9%)<br/>1.00 [0.100, 19.9]<br/>1.00 (174.5%)</td>
-<td class='firstrow lastrow'>2.06 (125.6%)<br/>1.00 [0.100, 12.0]<br/>1.13 (150.1%)</td>
-<td class='firstrow lastrow'>1.96 (160.8%)<br/>1.00 [0.100, 26.4]<br/>1.02 (159.3%)</td>
+<td class="rowlabel firstrow lastrow">V6</td>
+<td class="firstrow lastrow">1.87 (204.2%)<br />0.900 [0.100, 26.4]<br />0.925 (157.1%)</td>
+<td class="firstrow lastrow">1.96 (152.9%)<br />1.00 [0.100, 19.9]<br />1.00 (174.5%)</td>
+<td class="firstrow lastrow">2.06 (125.6%)<br />1.00 [0.100, 12.0]<br />1.13 (150.1%)</td>
+<td class="firstrow lastrow">1.96 (160.8%)<br />1.00 [0.100, 26.4]<br />1.02 (159.3%)</td>
 </tr>
 </tbody>
 </table>
@@ -1848,51 +1855,51 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="Rtable1"><table class="Rtable1-grid Rtable1-center">
 <thead>
 <tr>
-<th class='rowlabel firstrow lastrow'></th>
-<th class='firstrow lastrow'>V1</th>
-<th class='firstrow lastrow'>V2</th>
-<th class='firstrow lastrow'>V3</th>
-<th class='firstrow lastrow'>V4</th>
-<th class='firstrow lastrow'>V5</th>
-<th class='firstrow lastrow'>V6</th>
+<th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow">V1</th>
+<th class="firstrow lastrow">V2</th>
+<th class="firstrow lastrow">V3</th>
+<th class="firstrow lastrow">V4</th>
+<th class="firstrow lastrow">V5</th>
+<th class="firstrow lastrow">V6</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>A<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.60 (122.5%)<br/>1.15 [0.100, 12.7]<br/>0.968 (148.9%)</td>
-<td class='firstrow lastrow'>1.31 (139.0%)<br/>0.850 [0.100, 11.4]<br/>0.778 (130.4%)</td>
-<td class='firstrow lastrow'>1.80 (115.5%)<br/>1.10 [0.200, 8.90]<br/>1.10 (125.2%)</td>
-<td class='firstrow lastrow'>1.44 (107.6%)<br/>0.900 [0.200, 6.70]<br/>0.956 (106.6%)</td>
-<td class='firstrow lastrow'>1.25 (105.2%)<br/>0.800 [0.100, 7.70]<br/>0.840 (112.3%)</td>
-<td class='firstrow lastrow'>1.87 (204.2%)<br/>0.900 [0.100, 26.4]<br/>0.925 (157.1%)</td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">A<br><span class="stratn">(N=50)</span></span></td>
+<td class="firstrow lastrow">1.60 (122.5%)<br />1.15 [0.100, 12.7]<br />0.968 (148.9%)</td>
+<td class="firstrow lastrow">1.31 (139.0%)<br />0.850 [0.100, 11.4]<br />0.778 (130.4%)</td>
+<td class="firstrow lastrow">1.80 (115.5%)<br />1.10 [0.200, 8.90]<br />1.10 (125.2%)</td>
+<td class="firstrow lastrow">1.44 (107.6%)<br />0.900 [0.200, 6.70]<br />0.956 (106.6%)</td>
+<td class="firstrow lastrow">1.25 (105.2%)<br />0.800 [0.100, 7.70]<br />0.840 (112.3%)</td>
+<td class="firstrow lastrow">1.87 (204.2%)<br />0.900 [0.100, 26.4]<br />0.925 (157.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>B<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.62 (152.1%)<br/>1.00 [0.100, 13.6]<br/>0.829 (169.3%)</td>
-<td class='firstrow lastrow'>1.51 (102.3%)<br/>0.900 [0.100, 7.00]<br/>0.913 (146.1%)</td>
-<td class='firstrow lastrow'>2.55 (333.0%)<br/>1.00 [0.100, 60.5]<br/>1.00 (145.7%)</td>
-<td class='firstrow lastrow'>1.70 (150.8%)<br/>1.20 [0.100, 18.0]<br/>1.06 (121.8%)</td>
-<td class='firstrow lastrow'>1.94 (128.5%)<br/>1.15 [0.100, 15.1]<br/>1.15 (138.2%)</td>
-<td class='firstrow lastrow'>1.96 (152.9%)<br/>1.00 [0.100, 19.9]<br/>1.00 (174.5%)</td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">B<br><span class="stratn">(N=50)</span></span></td>
+<td class="firstrow lastrow">1.62 (152.1%)<br />1.00 [0.100, 13.6]<br />0.829 (169.3%)</td>
+<td class="firstrow lastrow">1.51 (102.3%)<br />0.900 [0.100, 7.00]<br />0.913 (146.1%)</td>
+<td class="firstrow lastrow">2.55 (333.0%)<br />1.00 [0.100, 60.5]<br />1.00 (145.7%)</td>
+<td class="firstrow lastrow">1.70 (150.8%)<br />1.20 [0.100, 18.0]<br />1.06 (121.8%)</td>
+<td class="firstrow lastrow">1.94 (128.5%)<br />1.15 [0.100, 15.1]<br />1.15 (138.2%)</td>
+<td class="firstrow lastrow">1.96 (152.9%)<br />1.00 [0.100, 19.9]<br />1.00 (174.5%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>C<br><span class='stratn'>(N=50)</span></span></td>
-<td class='firstrow lastrow'>1.39 (141.5%)<br/>1.00 [0.200, 13.4]<br/>0.884 (113.7%)</td>
-<td class='firstrow lastrow'>1.48 (158.2%)<br/>0.800 [0.100, 13.4]<br/>0.834 (135.1%)</td>
-<td class='firstrow lastrow'>1.29 (93.6%)<br/>1.05 [0.200, 7.40]<br/>0.917 (101.6%)</td>
-<td class='firstrow lastrow'>1.97 (129.1%)<br/>0.850 [0.100, 12.2]<br/>1.04 (157.2%)</td>
-<td class='firstrow lastrow'>1.73 (80.3%)<br/>1.40 [0.100, 7.10]<br/>1.24 (113.0%)</td>
-<td class='firstrow lastrow'>2.06 (125.6%)<br/>1.00 [0.100, 12.0]<br/>1.13 (150.1%)</td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">C<br><span class="stratn">(N=50)</span></span></td>
+<td class="firstrow lastrow">1.39 (141.5%)<br />1.00 [0.200, 13.4]<br />0.884 (113.7%)</td>
+<td class="firstrow lastrow">1.48 (158.2%)<br />0.800 [0.100, 13.4]<br />0.834 (135.1%)</td>
+<td class="firstrow lastrow">1.29 (93.6%)<br />1.05 [0.200, 7.40]<br />0.917 (101.6%)</td>
+<td class="firstrow lastrow">1.97 (129.1%)<br />0.850 [0.100, 12.2]<br />1.04 (157.2%)</td>
+<td class="firstrow lastrow">1.73 (80.3%)<br />1.40 [0.100, 7.10]<br />1.24 (113.0%)</td>
+<td class="firstrow lastrow">2.06 (125.6%)<br />1.00 [0.100, 12.0]<br />1.13 (150.1%)</td>
 </tr>
 <tr>
-<td class='rowlabel firstrow lastrow'><span class='stratlabel'>Overall<br><span class='stratn'>(N=150)</span></span></td>
-<td class='firstrow lastrow'>1.54 (138.7%)<br/>1.00 [0.100, 13.6]<br/>0.892 (142.2%)</td>
-<td class='firstrow lastrow'>1.43 (134.0%)<br/>0.900 [0.100, 13.4]<br/>0.840 (136.1%)</td>
-<td class='firstrow lastrow'>1.88 (270.7%)<br/>1.05 [0.100, 60.5]<br/>1.01 (123.2%)</td>
-<td class='firstrow lastrow'>1.70 (132.9%)<br/>0.900 [0.100, 18.0]<br/>1.02 (127.0%)</td>
-<td class='firstrow lastrow'>1.64 (111.2%)<br/>1.15 [0.100, 15.1]<br/>1.06 (122.7%)</td>
-<td class='firstrow lastrow'>1.96 (160.8%)<br/>1.00 [0.100, 26.4]<br/>1.02 (159.3%)</td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=150)</span></span></td>
+<td class="firstrow lastrow">1.54 (138.7%)<br />1.00 [0.100, 13.6]<br />0.892 (142.2%)</td>
+<td class="firstrow lastrow">1.43 (134.0%)<br />0.900 [0.100, 13.4]<br />0.840 (136.1%)</td>
+<td class="firstrow lastrow">1.88 (270.7%)<br />1.05 [0.100, 60.5]<br />1.01 (123.2%)</td>
+<td class="firstrow lastrow">1.70 (132.9%)<br />0.900 [0.100, 18.0]<br />1.02 (127.0%)</td>
+<td class="firstrow lastrow">1.64 (111.2%)<br />1.15 [0.100, 15.1]<br />1.06 (122.7%)</td>
+<td class="firstrow lastrow">1.96 (160.8%)<br />1.00 [0.100, 26.4]<br />1.02 (159.3%)</td>
 </tr>
 </tbody>
 </table>
