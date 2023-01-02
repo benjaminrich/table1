@@ -786,10 +786,10 @@ has.units <- function(x) {
 #' as data in the table (as rows) from those used for stratification (i.e.
 #' columns). There can be at most 2 variables for stratification (and only one
 #' if \code{transpose = TRUE} is specified), and if 2 are specified, the second
-#' is nested within the first. The formula may contain a dot (".") to refer to
-#' "all variables in \code{data} other than those that appear elsewhere in the
-#' formula". It is legitimate to use functions inside the formula to create new
-#' variables.
+#' is nested within the first. Stratification variables may not contain missing
+#' values. The formula may contain a dot (".") to refer to "all variables in
+#' \code{data} other than those that appear elsewhere in the formula". It is
+#' legitimate to use functions inside the formula to create new variables.
 #'
 #' For the default version, is is expected that \code{x} is a named
 #' list of \code{data.frame}s, one for each stratum, with names corresponding to
@@ -1346,6 +1346,9 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
         if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
+        }
+        if (any(sapply(m2, function(xx) any(is.na(xx))))) {
+            stop("Stratification variable(s) should not contain missing values.")
         }
         m2 <- lapply(m2, as.factor)
         if (droplevels) {
