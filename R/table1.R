@@ -1129,6 +1129,7 @@ as.data.frame.table1 <- function(x, ...) {
 #' @param ... Further options passed to \code{tablefn}.
 #' @return A \code{flextable} object.
 #' @note The \code{flextable} package needs to be installed for this to work.
+#' @importFrom utils getFromNamespace
 #' @export
 t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...) {
     if (!requireNamespace("flextable", quietly = TRUE)) {
