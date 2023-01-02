@@ -16,5 +16,6 @@ Depends: R (>= 3.5.0)
 Imports: stats,Formula,knitr,htmltools,yaml
 Suggests: boot,MatchIt,rmarkdown,printr,kableExtra,flextable
 VignetteBuilder: knitr
+Language: en-US
 Encoding: UTF-8
 RoxygenNote: 7.2.2
