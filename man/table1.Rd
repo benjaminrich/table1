@@ -79,7 +79,9 @@ a flag indicating whether we are in transpose mode or not. See
 variables in \code{x} should be taken.}
 
 \item{overall}{A label for the "Overall" column. Specify \code{NULL} or
-\code{FALSE} to omit the column altogether.}
+\code{FALSE} to omit the column altogether. By default, the "Overall" column
+appears at the right end of the table; to place it on the left instead use a
+named \code{character} with the name "left", e.g. \code{c(left="Overall")}.}
 
 \item{droplevels}{Should empty factor levels be dropped?}
 }

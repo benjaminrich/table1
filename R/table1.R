@@ -818,7 +818,9 @@ has.units <- function(x) {
 #' @param data For the formula interface, a \code{data.frame} from which the
 #' variables in \code{x} should be taken.
 #' @param overall A label for the "Overall" column. Specify \code{NULL} or
-#' \code{FALSE} to omit the column altogether.
+#' \code{FALSE} to omit the column altogether. By default, the "Overall" column
+#' appears at the right end of the table; to place it on the left instead use a
+#' named \code{character} with the name "left", e.g. \code{c(left="Overall")}.
 #' @param labels A list containing labels for variables, strata and groups (see Details).
 #' @param groupspan A vector of integers specifying the number of strata to group together.
 #' @param rowlabelhead A heading for the first column of the table, which contains the row labels.
@@ -1317,6 +1319,9 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
     if (length(length(f)) != 2 || length(f)[2] < 1 || length(f)[2] > 2) {
         stop(paste0("Invalid formula: ", paste0(x, collapse="")))
     }
+    if (!is.null(overall) && length(overall) != 1) {
+        stop("overall should have length 1 (unless NULL)")
+    }
     if (length(f)[1] > 0) {
         warning("Unexpected LHS in formula ignored (table1 expects a 1-sided formula)")
     }
@@ -1360,14 +1365,22 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             groupspan <- sapply(collabels, length)
             stratlabel <- unlist(collabels)
             if (!is.null(overall) && overall != FALSE) {
-                grouplabel <- c(grouplabel, overall)
+                if (!is.null(names(overall)) && names(overall) == "left") {
+                    grouplabel <- c(overall, grouplabel)
+                } else {
+                    grouplabel <- c(grouplabel, overall)
+                }
                 groupspan <- c(groupspan, nlevels(m2[[2]]))
                 stratlabel <- c(stratlabel, levels(m2[[2]]))
             }
         } else {
             stratlabel <- levels(m2[[1]])
             if (!is.null(overall) && overall != FALSE) {
-                stratlabel <- c(stratlabel, overall)
+                if (!is.null(names(overall)) && names(overall) == "left") {
+                    stratlabel <- c(overall, stratlabel)
+                } else {
+                    stratlabel <- c(stratlabel, overall)
+                }
             }
         }
     } else {
@@ -1392,9 +1405,14 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         }
         if (!is.null(overall) && overall != FALSE) {
             if (length(m2) > 1) {
-                strata <- c(strata, split(m1, data.frame(m2[[2]], overall="overall")))
+                overall.strata <- split(m1, data.frame(m2[[2]], overall="overall"))
             } else {
-                strata <- c(strata, list(overall=m1))
+                overall.strata <- list(overall=m1)
+            }
+            if (!is.null(names(overall)) && names(overall) == "left") {
+                strata <- c(overall.strata, strata)
+            } else {
+                strata <- c(strata, overall.strata)
             }
         }
     } else {
