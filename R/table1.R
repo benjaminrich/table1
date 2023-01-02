@@ -1166,7 +1166,7 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
             out <- flextable::set_caption(out, caption=caption)
         }
         if (!is.null(footnote)) {
-            out <- flextable::footnote(out, i=1, j=1, value=as_paragraph(footnote), ref_symbols="")
+            out <- flextable::add_footer_lines(out, values=footnote)
         }
         out
     })
