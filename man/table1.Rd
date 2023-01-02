@@ -137,11 +137,11 @@ strata. Note that this feature is not available when the option
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{default}: The default interface, where \code{x} is a \code{data.frame}.
+\item \code{table1(default)}: The default interface, where \code{x} is a \code{data.frame}.
 
-\item \code{formula}: The \code{formula} interface.
+\item \code{table1(formula)}: The \code{formula} interface.
+
 }}
-
 \examples{
 
 dat <- expand.grid(id=1:10, sex=c("Male", "Female"), treat=c("Treated", "Placebo"))

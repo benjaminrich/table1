@@ -65,9 +65,9 @@ for an example.
 }
 \section{Functions}{
 \itemize{
-\item \code{eqcut.default.labeling}: The default labeling function.
-}}
+\item \code{eqcut.default.labeling()}: The default labeling function.
 
+}}
 \examples{
 x <- sample(100)
 table(eqcut(x, 2))

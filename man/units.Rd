@@ -22,11 +22,11 @@ Units attribute.
 }
 \section{Functions}{
 \itemize{
-\item \code{units<-}: Set units attribute.
+\item \code{units(x) <- value}: Set units attribute.
 
-\item \code{has.units}: Check for attribute.
+\item \code{has.units()}: Check for attribute.
+
 }}
-
 \examples{
 x <- 1:10
 units(x) <- "cm"

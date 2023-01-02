@@ -25,13 +25,13 @@ Label attribute.
 }
 \section{Functions}{
 \itemize{
-\item \code{label<-}: Set label attribute.
+\item \code{label(x) <- value}: Set label attribute.
 
-\item \code{setLabel}: Set label attribute.
+\item \code{setLabel()}: Set label attribute.
 
-\item \code{has.label}: Check for label attribute.
+\item \code{has.label()}: Check for label attribute.
+
 }}
-
 \examples{
 x <- 1:10
 label(x) <- "Foo"

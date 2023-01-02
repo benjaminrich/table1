@@ -58,9 +58,9 @@ of cells.
 }
 \section{Functions}{
 \itemize{
-\item \code{table.data}: Convert to HTML table data (cells).
-}}
+\item \code{table.data()}: Convert to HTML table data (cells).
 
+}}
 \examples{
 x <- matrix(signif_pad(exp(rnorm(5*5, 1, 1))), 5, 5)
 table.data(x)
