@@ -1156,7 +1156,8 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
         out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
         out <- flextable::bold(out, i=i, j=1)
         if (!is.null(groupspan)) {
-            out <- flextable::add_header_row(out, values=c("", labels$groups), colwidths=c(1, groupspan))
+            zzz <- ncol(df) - sum(groupspan) - 1
+            out <- flextable::add_header_row(out, values=c("", labels$groups, rep("", zzz)), colwidths=c(1, groupspan, rep(1, zzz)))
             out <- flextable::align(out, i=1, align="center", part="header")
         }
         if (!is.null(caption)) {
@@ -1228,8 +1229,9 @@ t1kable <- function(x, booktabs=TRUE, ..., format) {
         #out <- kableExtra::pack_rows(out, index=i)
         if (!is.null(groupspan)) {
             groupspan <- setNames(groupspan, labels$groups)
+            zzz <- ncol(df) - sum(groupspan) - 1
             out <- kableExtra::add_header_above(out,
-                data.frame(c(" ", names(groupspan)), c(1, groupspan)))
+                data.frame(c(" ", names(groupspan), rep(" ", zzz)), c(1, groupspan, rep(1, zzz))))
         }
         if (!is.null(footnote)) {
             out <- kableExtra::footnote(out, general=footnote, general_title="")
