@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2023-01-02" />
+<meta name="date" content="2023-01-04" />
 
 <title>Using the table1 Package to Create HTML Tables of Descriptive Statistics</title>
 
@@ -27,6 +27,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -110,13 +111,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -143,7 +151,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Using the table1 Package to Create HTML Tables of Descriptive Statistics</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2023-01-02</h4>
+<h4 class="date">2023-01-04</h4>
 
 
 <div id="TOC">
@@ -286,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 </div>
 <p>Note that the <code>table1</code> package uses a familiar formula interface, where the variables to include in the table are separated by ‘+’ symbols, the “stratification” variable (which creates the columns) appears to the right of a “conditioning” symbol ‘|’, and the <code>data</code> argument specifies a <code>data.frame</code> that contains the variables in the formula.</p>
-<p>But because we don’t have nice labels for the variables and categories, it doesn’t look great. To improve things, we can create factors with descriptive labels for the categorical variables (<code>sex</code> and <code>ulcer</code>), label each variable the way we want, and specify units for the continuous variables (<code>age</code> and <code>thickness</code>), like this:</p>
+<p>But because we don’t have nice labels for the variables and categories, it doesn’t look great. To improve things, we can create factors with descriptive labels for the categorical variables (<code>sex</code> and <code>ulcer</code>), label each variable the way we want, and specify units for the continuous variables (<code>age</code> and <code>thickness</code>). We also specify that the overall column to be labeled “Total” and be positioned on the left, and add a caption and footnote:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>melanoma2<span class="sc">$</span>sex <span class="ot">&lt;-</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">factor</span>(melanoma2<span class="sc">$</span>sex, <span class="at">levels=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>),</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">labels=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, </span>
@@ -300,21 +308,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>sex)       <span class="ot">&lt;-</span> <span class="st">&quot;Sex&quot;</span></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>age)       <span class="ot">&lt;-</span> <span class="st">&quot;Age&quot;</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>ulcer)     <span class="ot">&lt;-</span> <span class="st">&quot;Ulceration&quot;</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>thickness) <span class="ot">&lt;-</span> <span class="st">&quot;Thickness&quot;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="fu">label</span>(melanoma2<span class="sc">$</span>thickness) <span class="ot">&lt;-</span> <span class="st">&quot;Thicknessᵃ&quot;</span></span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(melanoma2<span class="sc">$</span>age)       <span class="ot">&lt;-</span> <span class="st">&quot;years&quot;</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">units</span>(melanoma2<span class="sc">$</span>thickness) <span class="ot">&lt;-</span> <span class="st">&quot;mm&quot;</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> sex <span class="sc">+</span> age <span class="sc">+</span> ulcer <span class="sc">+</span> thickness <span class="sc">|</span> status, <span class="at">data=</span>melanoma2, <span class="at">overall=</span><span class="st">&quot;Total&quot;</span>)</span></code></pre></div>
-<div class="Rtable1"><table class="Rtable1">
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>caption  <span class="ot">&lt;-</span> <span class="st">&quot;Basic stats&quot;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>footnote <span class="ot">&lt;-</span> <span class="st">&quot;ᵃ Also known as Breslow thickness&quot;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> sex <span class="sc">+</span> age <span class="sc">+</span> ulcer <span class="sc">+</span> thickness <span class="sc">|</span> status, <span class="at">data=</span>melanoma2,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">overall=</span><span class="fu">c</span>(<span class="at">left=</span><span class="st">&quot;Total&quot;</span>), <span class="at">caption=</span>caption, <span class="at">footnote=</span>footnote)</span></code></pre></div>
+<div class="Rtable1"><table class="Rtable1"><caption>Basic stats</caption>
+
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
+<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
 <th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
 <th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br><span class="stratn">(N=57)</span></span></th>
 <th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br><span class="stratn">(N=14)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
 </tr>
+<tfoot><tr><td colspan="5" class="Rtable1-footnote"><p>ᵃ Also known as Breslow thickness</p>
+</td></tr></tfoot>
 </thead>
 <tbody>
 <tr>
@@ -326,17 +341,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr>
 <td class="rowlabel">Male</td>
+<td>79 (38.5%)</td>
 <td>43 (32.1%)</td>
 <td>29 (50.9%)</td>
 <td>7 (50.0%)</td>
-<td>79 (38.5%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">Female</td>
+<td class="lastrow">126 (61.5%)</td>
 <td class="lastrow">91 (67.9%)</td>
 <td class="lastrow">28 (49.1%)</td>
 <td class="lastrow">7 (50.0%)</td>
-<td class="lastrow">126 (61.5%)</td>
 </tr>
 <tr>
 <td class="rowlabel firstrow">Age (years)</td>
@@ -347,17 +362,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr>
 <td class="rowlabel">Mean (SD)</td>
+<td>52.5 (16.7)</td>
 <td>50.0 (15.9)</td>
 <td>55.1 (17.9)</td>
 <td>65.3 (10.9)</td>
-<td>52.5 (16.7)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">54.0 [4.00, 95.0]</td>
 <td class="lastrow">52.0 [4.00, 84.0]</td>
 <td class="lastrow">56.0 [14.0, 95.0]</td>
 <td class="lastrow">65.0 [49.0, 86.0]</td>
-<td class="lastrow">54.0 [4.00, 95.0]</td>
 </tr>
 <tr>
 <td class="rowlabel firstrow">Ulceration</td>
@@ -368,20 +383,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr>
 <td class="rowlabel">Absent</td>
+<td>115 (56.1%)</td>
 <td>92 (68.7%)</td>
 <td>16 (28.1%)</td>
 <td>7 (50.0%)</td>
-<td>115 (56.1%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">Present</td>
+<td class="lastrow">90 (43.9%)</td>
 <td class="lastrow">42 (31.3%)</td>
 <td class="lastrow">41 (71.9%)</td>
 <td class="lastrow">7 (50.0%)</td>
-<td class="lastrow">90 (43.9%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Thickness (mm)</td>
+<td class="rowlabel firstrow">Thicknessᵃ (mm)</td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -389,28 +404,28 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </tr>
 <tr>
 <td class="rowlabel">Mean (SD)</td>
+<td>2.92 (2.96)</td>
 <td>2.24 (2.33)</td>
 <td>4.31 (3.57)</td>
 <td>3.72 (3.63)</td>
-<td>2.92 (2.96)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">Median [Min, Max]</td>
+<td class="lastrow">1.94 [0.100, 17.4]</td>
 <td class="lastrow">1.36 [0.100, 12.9]</td>
 <td class="lastrow">3.54 [0.320, 17.4]</td>
 <td class="lastrow">2.26 [0.160, 12.6]</td>
-<td class="lastrow">1.94 [0.100, 17.4]</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>This looks better, but still not quite the same as the original blog post: in the blog post the “Total” column is on the left, while we have it on the right; the two “Death” strata (Melanoma and Non-melanoma) should be grouped together under a common heading; the continuous variables Age and Thickness show only Means (SD) (with a ±), and not Median [Min, Max] like the <code>table1</code> default output; most values are displayed with two significant digits rather than three (I will not concern myself with the footnote here, but it could be added as well). To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
+<p>This looks better, but still not quite the same as the original blog post: the two “Death” strata (Melanoma and Non-melanoma) should be grouped together under a common heading; the continuous variables Age and Thickness show only Means (SD) (with a ±), and not Median [Min, Max] like the <code>table1</code> default output; most values are displayed with two significant digits rather than three. To achieve the same result, we need to customize the output further, and in this case that involves using the slightly more complicated “default” (i.e. non-formula) interface to <code>table1</code>.</p>
 <p>First, we set up our labels differently, using a list:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>labels <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">variables=</span><span class="fu">list</span>(<span class="at">sex=</span><span class="st">&quot;Sex&quot;</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">age=</span><span class="st">&quot;Age (years)&quot;</span>,</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">ulcer=</span><span class="st">&quot;Ulceration&quot;</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">thickness=</span><span class="st">&quot;Thickness (mm)&quot;</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                   <span class="at">thickness=</span><span class="st">&quot;Thicknessᵃ (mm)&quot;</span>),</span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">groups=</span><span class="fu">list</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Death&quot;</span>))</span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the word &quot;death&quot; from the labels, since it now appears above</span></span>
@@ -427,9 +442,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sprintf</span>(<span class="st">&quot;%d (%0.0f %%)&quot;</span>, FREQ, PCT))))</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>And here is the result:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(strata, labels, <span class="at">groupspan=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table1</span>(strata, labels, <span class="at">groupspan=</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>), <span class="at">caption=</span>caption, <span class="at">footnote=</span>footnote,</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">render.continuous=</span>my.render.cont, <span class="at">render.categorical=</span>my.render.cat)</span></code></pre></div>
-<div class="Rtable1"><table class="Rtable1">
+<div class="Rtable1"><table class="Rtable1"><caption>Basic stats</caption>
+
 <thead>
 <tr>
 <th class="grouplabel"></th>
@@ -444,6 +460,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <th class="firstrow lastrow"><span class="stratlabel">Melanoma<br><span class="stratn">(N=57)</span></span></th>
 <th class="firstrow lastrow"><span class="stratlabel">Non-melanoma<br><span class="stratn">(N=14)</span></span></th>
 </tr>
+<tfoot><tr><td colspan="5" class="Rtable1-footnote"><p>ᵃ Also known as Breslow thickness</p>
+</td></tr></tfoot>
 </thead>
 <tbody>
 <tr>
@@ -503,7 +521,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <td class="lastrow">7 (50 %)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Thickness (mm)</td>
+<td class="rowlabel firstrow">Thicknessᵃ (mm)</td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>

@@ -74,7 +74,8 @@ But because we don't have nice labels for the variables and categories, it
 doesn't look great. To improve things, we can create factors with descriptive
 labels for the categorical variables (`sex` and `ulcer`), label each variable
 the way we want, and specify units for the continuous variables (`age` and
-`thickness`), like this:
+`thickness`). We also specify that the overall column to be labeled "Total" and be
+positioned on the left, and add a caption and footnote:
 
 
 ```{r}
@@ -91,22 +92,24 @@ melanoma2$ulcer <-
 label(melanoma2$sex)       <- "Sex"
 label(melanoma2$age)       <- "Age"
 label(melanoma2$ulcer)     <- "Ulceration"
-label(melanoma2$thickness) <- "Thickness"
+label(melanoma2$thickness) <- "Thicknessᵃ"
 
 units(melanoma2$age)       <- "years"
 units(melanoma2$thickness) <- "mm"
 
-table1(~ sex + age + ulcer + thickness | status, data=melanoma2, overall="Total")
+caption  <- "Basic stats"
+footnote <- "ᵃ Also known as Breslow thickness"
+
+table1(~ sex + age + ulcer + thickness | status, data=melanoma2,
+    overall=c(left="Total"), caption=caption, footnote=footnote)
 ```
 
-This looks better, but still not quite the same as the original blog post: in
-the blog post the "Total" column is on the left, while we have it on the right;
+This looks better, but still not quite the same as the original blog post:
 the two "Death" strata (Melanoma and Non-melanoma) should be grouped together
 under a common heading; the continuous variables Age and Thickness show only
 Means (SD) (with a &plusmn;), and not Median [Min, Max] like the `table1`
 default output; most values are displayed with two significant digits rather
-than three (I will not concern myself with the footnote here, but it could be
-added as  well). To achieve the same result, we need to customize the output
+than three. To achieve the same result, we need to customize the output
 further, and in this case that involves using the slightly more complicated
 "default"  (i.e. non-formula) interface to `table1`.
 
@@ -117,7 +120,7 @@ labels <- list(
     variables=list(sex="Sex",
                    age="Age (years)",
                    ulcer="Ulceration",
-                   thickness="Thickness (mm)"),
+                   thickness="Thicknessᵃ (mm)"),
     groups=list("", "", "Death"))
 
 # Remove the word "death" from the labels, since it now appears above
@@ -152,7 +155,7 @@ my.render.cat <- function(x) {
 And here is the result:
 
 ```{r}
-table1(strata, labels, groupspan=c(1, 1, 2),
+table1(strata, labels, groupspan=c(1, 1, 2), caption=caption, footnote=footnote,
        render.continuous=my.render.cont, render.categorical=my.render.cat)
 ```
 
