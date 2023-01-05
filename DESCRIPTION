@@ -1,7 +1,7 @@
 Package: table1
 Type: Package
 Version: 1.4.3
-Date: 2023-01-02
+Date: 2023-01-05
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 Author: Benjamin Rich [aut, cre, cph]
