@@ -1,7 +1,12 @@
 # Version 1.4.3
 
+Note: second submission (first one failed  because I forgot to delete the 'revdep' directory).
+
+## Test environments
+
 * Local:
   - Windows 10, R 4.2.2 (x86_64-w64-mingw32/x64 (64-bit))
+  - Linux (NixOS), R 4.2.2 (x86_64-pc-linux-gnu)
 * win-builder:
   - Windows Server 2022 (release 4.2.2 (2022-10-31 ucrt) and devel (unstable))
 * R-hub builder (https://builder.r-hub.io)
