@@ -460,7 +460,7 @@ function(code, ...) {
         g <- function(ss) {
             res <- codestr
             for (nm in names(ss)) {
-                res <- gsub(paste0("\\b", nm, "\\b"), ss[[nm]], res, ignore.case=T)
+                res <- gsub(paste0("\\b", nm, "\\b"), paste0(ss[[nm]]), res, ignore.case=T)
             }
             names(res) <- names(codestr)
             res
