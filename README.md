@@ -1,8 +1,10 @@
 # table1
 
-[![R-CMD-check](https://github.com/benjaminrich/table1/workflows/R-CMD-check/badge.svg)](https://github.com/benjaminrich/table1/actions)
-[![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/table1)](https://CRAN.R-project.org/package=table1)
-[![CRAN\_Download\_Badge](https://cranlogs.r-pkg.org/badges/table1)](https://CRAN.R-project.org/package=table1)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/benjaminrich/table1/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/benjaminrich/table1/actions/workflows/R-CMD-check.yaml)
+[![CRAN status](https://www.r-pkg.org/badges/version/table1)](https://CRAN.R-project.org/package=table1)
+[![CRAN Download Badge](https://cranlogs.r-pkg.org/badges/table1)](https://CRAN.R-project.org/package=table1)
+<!-- badges: end -->
 
 An R package for generating tables of descriptive statistics in HTML.
 
