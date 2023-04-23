@@ -967,6 +967,10 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         headings <- rbind(labels$strata[names(x)], strat_n)
         if (!is.null(extra.col)) {
             headings <- cbind(headings, rbind(names(extra.col), rep(NA, length(extra.col))))
+            if (!is.null(groupspan)) {
+                groupspan <- c(groupspan, rep(1, length(extra.col)))
+                labels$groups <- c(labels$groups, rep("", length(extra.col)))
+            }
             if (!is.null(extra.col.pos)) {
                 if (!is.numeric(extra.col.pos) || any(extra.col.pos > ncol(headings))) {
                     stop("extra.col.pos should be a vector of column positions")
@@ -981,6 +985,12 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 colpermute[extra.col.pos] <- s1
                 colpermute[-extra.col.pos] <- s2
                 headings <- headings[, colpermute, drop=F]
+                if (!is.null(groupspan)) {
+                    grpermute <- rep(1:length(groupspan), times=groupspan)[colpermute]
+                    grpermute <- grpermute[!duplicated(grpermute)]
+                    groupspan <- groupspan[grpermute]
+                    labels$groups <- labels$groups[grpermute]
+                }
             }
         }
         ncolumns <- ncol(headings)
