@@ -1151,18 +1151,33 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
             y
         })
         df <- do.call(rbind, z)
-        colnames(df) <- c(rlh, sprintf(
-            ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,]))
-        rownames(df) <- NULL
-        out <- tablefn(df, ...)
-        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="body")
-        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
-        out <- flextable::bold(out, i=i, j=1)
+
+        header_df <- data.frame(
+            labels = c(rlh, sprintf( ifelse(is.na(headings[2,]), "%s", "%s\n(N=%s)"), headings[1,], headings[2,])),
+            keys   = LETTERS[1:ncol(df)]
+        )
+
         if (!is.null(groupspan)) {
             zzz <- ncol(df) - sum(groupspan) - 1
-            out <- flextable::add_header_row(out, values=c("", labels$groups, rep("", zzz)), colwidths=c(1, groupspan, rep(1, zzz)))
-            out <- flextable::align(out, i=1, align="center", part="header")
+            label2 <- c("", rep(labels$groups, times=groupspan), rep("", zzz))
+            header_df <- cbind(data.frame(label2=label2), header_df)
         }
+
+        colnames(df) <- header_df$keys
+        rownames(df) <- NULL
+
+        out <- tablefn(df, ...)
+        out <- flextable::set_header_df(out,  header_df, key="keys")
+        out <- flextable::merge_h(out, part = "header", i = 1)
+        #out <- flextable::merge_v(out, part = "header", j = 1)
+        #out <- flextable::theme_booktabs(out, bold_header = TRUE)
+        out <- flextable::hline_top(out, border = officer::fp_border(width=1.5), part = "header")
+        out <- flextable::hline_bottom(out, border = officer::fp_border(width=1.5), part = "header")
+        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="body")
+        out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
+        out <- flextable::bold(out, part="header")
+        out <- flextable::bold(out, i=i, j=1)
+
         if (!is.null(caption)) {
             out <- flextable::set_caption(out, caption=caption)
         }
