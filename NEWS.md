@@ -1,3 +1,11 @@
+# table1 1.4.4
+
+* Fix extra columns with column groups (#106).
+
+* Fix bug in `t1flex()` (#103).
+
+* Handle `NA` in `parse.abbrev.render.code()`.
+
 # table1 1.4.3
 
 * Change space in `as.data.frame.table1()` (#60).
