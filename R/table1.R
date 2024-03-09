@@ -1098,10 +1098,11 @@ update_html <- function(x) {
             sprintf('<table%s>%s\n<thead>\n', topclass, caption),
             thead0,
             table.rows(thead, row.labels=rowlabelhead, th=T),
-            tfoot,
             '</thead>\n<tbody>\n',
             paste(sapply(contents, table.rows), collapse=""),
-            '</tbody>\n</table>\n')
+            '</tbody>\n',
+            tfoot,
+            '</table>\n')
 
         structure(x, class=c("table1", "html", "character"), html=TRUE, obj=obj)
     })
