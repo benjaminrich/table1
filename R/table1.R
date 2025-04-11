@@ -162,15 +162,29 @@ format_n <- function (x, ...) {
 #' @export
 #' @importFrom stats sd median quantile IQR na.omit
 stats.default <- function(x, quantile.type=7, ...) {
+    if (!is.null(w <- weights.weighted(x))) {
+        table <- function(x, ...) Hmisc::wtd.table(x, weights=w, type="table", na.rm=TRUE)
+        mean <- function(...) Hmisc::wtd.mean(..., weights=w)
+        sd <- function(...) sqrt(Hmisc::wtd.var(..., weights=w))
+        quantile <- function(...) Hmisc::wtd.quantile(..., weights=w)
+        qtypes <- eval(formals(Hmisc::wtd.quantile)$type)
+        if (!(quantile.type %in% qtypes)) {
+            quantile.type <- qtypes[1]
+        }
+    }
     if (is.logical(x)) {
-        x <- factor(1-x, levels=c(0, 1), labels=c("Yes", "No"))
+        x <- factorp(x, levels=c(TRUE, FALSE), labels=c("Yes", "No"))
     }
     if (is.factor(x) || is.character(x)) {
         y <- table(x, useNA="no")
         nn <- names(y)
         nn[is.na(nn)] <- "Missing"
         names(y) <- nn
-        lapply(y, function(z) list(FREQ=z, PCT=100*z/length(x), PCTnoNA=100*z/sum(y), NMISS=sum(is.na(x))))
+        lapply(y, function(z) list(
+            FREQ=z,
+            PCT=100*z/sum(table(rep(1, length(x)))),
+            PCTnoNA=100*z/sum(y)
+        ))
     } else if (is.numeric(x) && sum(!is.na(x)) == 0) {
         list(
             N=sum(!is.na(x)),
@@ -203,7 +217,9 @@ stats.default <- function(x, quantile.type=7, ...) {
             T1=NA,
             T2=NA)
     } else if (is.numeric(x)) {
-        q <- quantile(x, probs=c(0.01, 0.025, 0.05, 0.1, 0.25, 1/3, 0.5, 2/3, 0.75, 0.9, 0.95, 0.975, 0.99), na.rm=TRUE, type=quantile.type)
+        p <- c(0.01, 0.025, 0.05, 0.1, 0.25, 1/3, 0.5, 2/3, 0.75, 0.9, 0.95, 0.975, 0.99) 
+        q <- quantile(x, probs=p, na.rm=TRUE, type=quantile.type)
+        names(q) <- c("0.01", "0.025", "0.05", "0.1", "0.25", "1/3", "0.5", "2/3", "0.75", "0.9", "0.95", "0.975", "0.99") 
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
@@ -214,26 +230,27 @@ stats.default <- function(x, quantile.type=7, ...) {
             GMEAN=if (any(na.omit(x) <= 0)) NA else exp(mean(log(x), na.rm=TRUE)),
             GSD=if (any(na.omit(x) <= 0)) NA else exp(sd(log(x), na.rm=TRUE)),
             GCV=if (any(na.omit(x) <= 0)) NA else 100*sqrt(exp(sd(log(x), na.rm=TRUE)^2) -1),
-            MEDIAN=median(x, na.rm=TRUE),
+            #MEDIAN=median(x, na.rm=TRUE),
+            MEDIAN=q["0.5"],
             MIN=min(x, na.rm=TRUE),
             MAX=max(x, na.rm=TRUE),
-            q01=q["1%"],
-            q02.5=q["2.5%"],
-            q05=q["5%"],
-            q10=q["10%"],
-            q25=q["25%"],
-            q50=q["50%"],
-            q75=q["75%"],
-            q90=q["90%"],
-            q95=q["95%"],
-            q97.5=q["97.5%"],
-            q99=q["99%"],
-            Q1=q["25%"],
-            Q2=q["50%"],
-            Q3=q["75%"],
-            IQR=q["75%"] - q["25%"],
-            T1=q["33.33333%"],
-            T2=q["66.66667%"])
+            q01=q["0.01"],
+            q02.5=q["0.025"],
+            q05=q["0.05"],
+            q10=q["0.1"],
+            q25=q["0.25"],
+            q50=q["0.5"],
+            q75=q["0.75"],
+            q90=q["0.9"],
+            q95=q["0.95"],
+            q97.5=q["0.975"],
+            q99=q["0.99"],
+            Q1=q["0.25"],
+            Q2=q["0.5"],
+            Q3=q["0.75"],
+            IQR=q["0.75"] - q["0.25"],
+            T1=q["1/3"],
+            T2=q["2/3"])
     } else {
         stop(paste("Unrecognized variable type:", class(x)))
     }
@@ -385,9 +402,9 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
         return(render.empty)
     }
     if (is.logical(x)) {
-        x <- factor(x, levels=c(T, F), labels=c("Yes", "No"))
+        x <- factorp(x, levels=c(TRUE, FALSE), labels=c("Yes", "No"))
     }
-    if (is.factor(x) || is.character(x)) {
+    if (is.factor(x) || is.character(x) || is.logical(x)) {
         r <- do.call(render.categorical, c(list(x=x), list(...)))
     } else if (is.numeric(x)) {
         r <- do.call(render.continuous, c(list(x=x), list(...)))
@@ -399,10 +416,10 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
     }
     if (transpose) {
         if (!is.null(names(r))) {
-            r <- paste0(sprintf("%s: %s", names(r), r), collapse="<br/>")
-        } else {
-            r <- paste0(r, collapse="<br/>")
+            i <- r != ""
+            r[i] <- sprintf("%s: %s", names(r), r)[i]
         }
+        r <- paste0(r, collapse="<br/>")
     }
     r
 }
@@ -558,7 +575,12 @@ render.categorical.default <- function(x, ..., na.is.category=TRUE) {
 #' @keywords utilities
 #' @export
 render.missing.default <- function(x, ...) {
-    with(stats.apply.rounding(stats.default(is.na(x), ...), ...)$Yes,
+    if (!is.null(w <- weights.weighted(x))) {
+        missingx <- weighted.default(is.na(x), w)
+    } else {
+        missingx <- is.na(x)
+    }
+    with(stats.apply.rounding(stats.default(missingx, ...), ...)$Yes,
         c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
 }
 
@@ -840,6 +862,7 @@ has.units <- function(x) {
 #' \code{\link{render.strat.default}} for an example.
 #' @param extra.col An optional names list of functions that produce extra columns in the table (see Details).
 #' @param extra.col.pos An optional integer vector given the positions of extra columns (see Details).
+#' @param stratn An integer vector given the N for each stratum.
 #' @param ... Further arguments, passed to \code{render}.
 #'
 #' @return An object of class "table1".
@@ -903,9 +926,9 @@ table1 <- function(x, ...) {
     UseMethod("table1")
 }
 
-#' @describeIn table1 The default interface, where \code{x} is a \code{data.frame}.
+#' @describeIn table1 The default interface, where \code{x} is a \code{list} of \code{data.frame}s.
 #' @export
-table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
+table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, stratn=sapply(x, nrow), ...) {
     .table1.internal(
         x             = x,
         labels        = labels,
@@ -918,10 +941,11 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
         render        = render,
         render.strat  = render.strat,
         extra.col     = extra.col,
-        extra.col.pos = extra.col.pos, ...)
+        extra.col.pos = extra.col.pos,
+        stratn        = stratn, ...)
 }
 
-.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, ...) {
+.table1.internal <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose=FALSE, topclass="Rtable1", footnote=NULL, caption=NULL, render=render.default, render.strat=render.strat.default, extra.col=NULL, extra.col.pos=NULL, stratn=sapply(x, nrow), ...) {
     if (is.null(labels$strata)) {
         labels$strata <- names(x)
     }
@@ -934,13 +958,13 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 
     # Convert any character columns to factor
     char2factor <- function(df) {
-        df[sapply(df, is.character)] <- lapply(df[sapply(df, is.character)], as.factor)
+        df[,sapply(df, is.character)] <- lapply(df[,sapply(df, is.character)], factorp)
         df
     }
     x <- lapply(x, char2factor)
 
     # Number of rows per stratum
-    strat_n <- format_n(sapply(x, nrow), ...)
+    strat_n <- format_n(stratn, ...)
 
     any.missing <- sapply(names(labels$variables), function(v) do.call(sum, lapply(x, function(s) sum(is.na(s[[v]])))) > 0)
 
@@ -955,7 +979,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 lvls <- unique(do.call(c, lapply(x, function(s) levels(s[[v]]))))
                 z <- x[[s]][[v]]
                 if (!is.null(lvls)) {
-                    z <- factor(z, levels=lvls)
+                    z <- factorp(z, levels=lvls)
                 }
                 y <- render(x=z, name=v, missing=any.missing[v], transpose=T, ...)
                 y <- paste0(y, collapse="<br/>")
@@ -1002,7 +1026,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
             y <- do.call(cbind, lapply(x, function(s) {
                 z <- s[[v]]
                 if (!is.null(lvls)) {
-                    z <- factor(z, levels=lvls)
+                    z <- factorp(z, levels=lvls)
                 }
                 render(x=z, name=v, missing=any.missing[v], ...)}))
 
@@ -1043,7 +1067,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 #' Update HTML.
 #'
 #' Used to (re-)generate the HTML code for a \code{link{table1}} object. In
-#' most cases, this should not be used direction, unless you know what you are
+#' most cases, this should not be used directly, unless you know what you are
 #' doing.
 #'
 #' @param x An object returned by \code{\link{table1}}.
@@ -1369,6 +1393,12 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         }
 
         m1 <- model.frame(formula(f2, rhs=2), data=data, na.action=na.pass)
+        if (inherits(data, "weighted") && !is.null(w <- weights.weighted(data))) {
+            m1 <- weighted.default(m1, w=w)
+        }
+        if (inherits(data, "indexed") && !is.null(i <- indices.indexed(data))) {
+            m1 <- indexed.default(m1, i=i)
+        }
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
         if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
@@ -1376,7 +1406,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (any(sapply(m2, function(xx) any(is.na(xx))))) {
             stop("Stratification variable(s) should not contain missing values.")
         }
-        m2 <- lapply(m2, as.factor)
+        m2 <- lapply(m2, factorp)
         if (droplevels) {
             m2 <- lapply(m2, droplevels)
         }
@@ -1428,24 +1458,41 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
 
     if (!is.null(m2)) {
         strata <- split(m1, rev(m2))
-        if (droplevels) {
+        if (!is.null(w <- weights.weighted(m1))) {
+            stratn <- Hmisc::wtd.table(do.call(interaction, rev(m2)), weights=w, type="table", na.rm=TRUE)
+        } else {
             stratn <- sapply(strata, nrow)
+        }
+        if (droplevels) {
             strata[stratn == 0] <- NULL
         }
         if (!is.null(overall) && overall != FALSE) {
             if (length(m2) > 1) {
                 overall.strata <- split(m1, data.frame(m2[[2]], overall="overall"))
+                if (!is.null(w <- weights.weighted(m1))) {
+                    overall.stratn <- Hmisc::wtd.table(do.call(interaction, data.frame(m2[[2]], overall="overall")), weights=w, type="table", na.rm=TRUE)
+                } else {
+                    overall.stratn <- sapply(overall.strata, nrow)
+                }
             } else {
                 overall.strata <- list(overall=m1)
+                if (!is.null(w <- weights.weighted(m1))) {
+                    overall.stratn <- Hmisc::wtd.table(do.call(interaction, data.frame(overall=rep("overall", nrow(m1)))), weights=w, type="table", na.rm=TRUE)
+                } else {
+                    overall.stratn <- sapply(overall.strata, nrow)
+                }
             }
             if (!is.null(names(overall)) && names(overall) == "left") {
                 strata <- c(overall.strata, strata)
+                stratan <- c(overall.stratn, stratn)
             } else {
                 strata <- c(strata, overall.strata)
+                stratn <- c(stratn, overall.stratn)
             }
         }
     } else {
         strata <- list(overall=m1)
+        stratn <- sapply(strata, nrow)
     }
 
     labels <- list(
@@ -1467,7 +1514,8 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             render        = render,
             render.strat  = render.strat,
             extra.col     = extra.col,
-            extra.col.pos = extra.col.pos, ...)
+            extra.col.pos = extra.col.pos,
+            stratn        = stratn, ...)
     } else {
         table1.default(
             x             = strata,
@@ -1480,7 +1528,8 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
             render        = render,
             render.strat  = render.strat,
             extra.col     = extra.col,
-            extra.col.pos = extra.col.pos, ...)
+            extra.col.pos = extra.col.pos,
+            stratn        = stratn, ...)
     }
 }
 
@@ -1514,10 +1563,229 @@ subsetp <- function(x, ..., droplevels=TRUE) {
     y
 }
 
+#' Factor creation function that preserves column attributes.
+#'
+#' @param x An object to be converted to a a \code{\link{factor}}.
+#' @param ... Further arguments passed to \code{\link{factor}}.
+#' @return An \code{factor} with the attributes of \code{x} other than
+#' \code{"class"} and \code{"levels"} preserved.
+#' @seealso
+#' \code{\link{factor}}
+#' @keywords utilities
+#' @export
+factorp <- function(x, ...) {
+    a <- attributes(x)
+    y <- factor(x, ...)
+    a <- c(a[setdiff(names(a), names(attributes(y)))], attributes(y))
+    attributes(y) <- a
+    if (inherits(x, "weighted")) {
+        class(y) <- union("weighted", class(y))
+    }
+    if (inherits(x, "indexed")) {
+        class(y) <- union("indexed", class(y))
+    }
+    y
+}
+
 .isFALSE <- function (x) {
     is.logical(x) && length(x) == 1L && !is.na(x) && !x
 }
 .isTRUE <- function (x) {
     is.logical(x) && length(x) == 1L && !is.na(x) && x
+}
+
+
+#' A simple class for weighted data.
+#'
+#' @param x An atomic vector or \code{\link{data.frame}}.
+#' @param w An numeric vector of weights.
+#'
+#' @return An object identical to \code{x} but with the additional class
+#' \code{weighted} and a \code{weights} attribute.
+#'
+#' @examples
+#' x <- c(3.7, 3.3, 3.5, 2.8)
+#' y <- c(1, 2, 1, 2)
+#' w <- c(5, 3, 4, 1)
+#' 
+#' z <- weighted(x=x, w=w)
+#' z      |> str()
+#' z[2:3] |> str()  # Weights are preserved
+#' 
+#' d <- weighted(
+#'   data.frame(
+#'     x=x,
+#'     y=y
+#'   ),
+#'   w
+#' )
+#' 
+#' d               |> str()
+#' d[[1]]          |> str()
+#' d$x             |> str()
+#' subset(d, y==1) |> str()
+#' split(d, d$y)   |> str()
+#' @export
+weighted <- function(x, w) {
+    UseMethod("weighted")
+}
+
+#' @export
+weighted.data.frame <- function(x, w) {
+    w <- eval(substitute(w), x, parent.frame())
+    weighted.default(x, w)
+}
+
+#' @export
+weighted.default <- function(x, w) {
+    if (!is.null(dim(x))) {
+        n <- dim(x)[1]
+    } else {
+        n <- length(x)
+    }
+    if (!is.numeric(w) || length(w) != n) {
+        stop("w should be a numeric vector of the same length as x")
+    }
+    structure(x, class=union("weighted", class(x)), weights=w)
+}
+
+#' @exportS3Method stats::weights
+weights.weighted <- function(object, ...) {
+    attr(object, "weights", exact=TRUE)
+}
+
+#' @export
+`[.weighted` <- function(x, i, ...) {
+    w <- weights.weighted(x)[i]
+    x <- NextMethod("[")
+    weighted.default(x, w)
+}
+
+#' @export
+`[[.weighted` <- function(x, i, ...) {
+    if (is.data.frame(x)) {
+        w <- weights.weighted(x)
+        x <- NextMethod("[[")
+        weighted.default(x, w)
+    } else {
+        NextMethod("[[")
+    }
+}
+
+#' @export
+`$.weighted` <- function(x, i, ...) {
+    if (is.data.frame(x)) {
+        w <- weights.weighted(x)
+        x <- NextMethod("$")
+        weighted.default(x, w)
+    } else {
+        NextMethod("$")
+    }
+}
+
+
+#' A simple class for indexed data.
+#'
+#' @param x An atomic vector or \code{\link{data.frame}}.
+#' @param i An optional vector of indices (dafaults to \code{1:n}, where
+#' \code{n} is the number of elements in \code{x}).
+#' @param ... Other arguments passed to methods.
+#'
+#' @return An object identical to \code{x} but with the additional class
+#' \code{indexed} and a \code{indices} attribute.
+#'
+#' @examples
+#' x <- c(3.7, 3.3, 3.5, 2.8)
+#' y <- c(1, 2, 1, 2)
+#' 
+#' z <- indexed(x=x)
+#' z      |> str()
+#' z[2:3] |> str()  # Weights are preserved
+#' 
+#' d <- indexed(
+#'   data.frame(
+#'     x=x,
+#'     y=y
+#'   )
+#' )
+#' 
+#' d               |> str()
+#' d[[1]]          |> str()
+#' d$x             |> str()
+#' subset(d, y==1) |> str()
+#' split(d, d$y)   |> str()
+#' @export
+indexed <- function(x, i, ...) {
+    UseMethod("indexed")
+}
+
+#' @export
+indexed.data.frame <- function(x, i, ...) {
+    if (missing(i)) {
+        i <- 1:nrow(x)
+    } else {
+        i <- eval(substitute(i), x, parent.frame())
+    }
+    indexed.default(x, i)
+}
+
+#' @export
+indexed.default <- function(x, i, ...) {
+    if (!is.null(dim(x))) {
+        n <- dim(x)[1]
+    } else {
+        n <- length(x)
+    }
+    if (missing(i)) {
+        i <- 1:n
+    }
+    if (!is.numeric(i) || length(i) != n) {
+        stop("i should be a numeric vector of the same length as x")
+    }
+    structure(x, class=union("indexed", class(x)), indices=i)
+}
+
+#' Extract indices from and indexed object.
+#'
+#' @param x An object of class \code{\link{indexed}}.
+#' @param ... Other arguments passed to methods.
+#' @return A vector of indices extracted from object \code{x}.
+#' @export
+indices <- function(x, ...) {
+    UseMethod("indices")
+}
+
+#' @export
+indices.indexed <- function(x, ...) {
+    attr(x, "indices", exact=TRUE)
+}
+
+#' @export
+`[.indexed` <- function(x, i, ...) {
+    j <- indices.indexed(x)[i]
+    x <- NextMethod("[")
+    indexed.default(x, j)
+}
+
+#' @export
+`[[.indexed` <- function(x, i, ...) {
+    if (is.data.frame(x)) {
+        j <- indices.indexed(x)
+        x <- NextMethod("[[")
+        indexed.default(x, j)
+    } else {
+        NextMethod("[[")
+    }
+}
+
+#' @export
+`$.indexed` <- function(x, i, ...) {
+    if (is.data.frame(x)) {
+        j <- indices.indexed(x)
+        x <- NextMethod("$")
+        indexed.default(x, j)
+    } else {
+        NextMethod("$")
+    }
 }
 

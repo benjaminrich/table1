@@ -21,6 +21,7 @@ table1(x, ...)
   render.strat = render.strat.default,
   extra.col = NULL,
   extra.col.pos = NULL,
+  stratn = sapply(x, nrow),
   ...
 )
 
@@ -74,6 +75,8 @@ a flag indicating whether we are in transpose mode or not. See
 \item{extra.col}{An optional names list of functions that produce extra columns in the table (see Details).}
 
 \item{extra.col.pos}{An optional integer vector given the positions of extra columns (see Details).}
+
+\item{stratn}{An integer vector given the N for each stratum.}
 
 \item{data}{For the formula interface, a \code{data.frame} from which the
 variables in \code{x} should be taken.}
@@ -139,7 +142,7 @@ strata. Note that this feature is not available when the option
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{table1(default)}: The default interface, where \code{x} is a \code{data.frame}.
+\item \code{table1(default)}: The default interface, where \code{x} is a \code{list} of \code{data.frame}s.
 
 \item \code{table1(formula)}: The \code{formula} interface.
 

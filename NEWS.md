@@ -1,4 +1,6 @@
-# table1 1.4.4
+# table1 1.5
+
+* Add weighted statistics
 
 * Fix extra columns with column groups (#106).
 

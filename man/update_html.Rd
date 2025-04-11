@@ -14,6 +14,6 @@ An object of class "table1" which contains the updated HTML.
 }
 \description{
 Used to (re-)generate the HTML code for a \code{link{table1}} object. In
-most cases, this should not be used direction, unless you know what you are
+most cases, this should not be used directly, unless you know what you are
 doing.
 }
