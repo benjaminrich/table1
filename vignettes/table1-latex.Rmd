@@ -102,14 +102,21 @@ specify formatting (like bold text for variable labels, for instance).
 
 Next, we can try the `t1kable()` function, to produce a `kableExtra` object:
 
-```{r}
+```{r, results='asis'}
 t1kable(x)
 ```
 
-This looks a bit better: it uses the `booktabs` option by default, and also
-has bold variable labels. But because of a limitation with multiline headers
-(i.e. headers that contain line breaks), the `N=XX` for each column is placed
-in the first row of the table, which is less than ideal.
+This looks better: it uses the `booktabs` option by default, variable labels
+and column headers are bold, and the alignment matches the HTML defaults (first
+column left-aligned, the remainder centered). Additional customizations can be
+done using function arguments or additional functions from the `kableExtra`
+package. One important thing to note is that the object is created using the
+`escape = FALSE` option from the `kable()` function. This has the advantage
+that HTML or \LaTeX{} code can be inserted directly into the output, but care
+must be taken to escape any special symbols manually or else the table won't
+look as expected, or it might even lead to an error on compilation of the
+\LaTeX{}. The one exception is the the percent symbol ("%") will be escaped
+internally automatically.
 
 Finally, we can try using the `t1flex()` function to produce a  `flextable` object:
 

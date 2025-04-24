@@ -4,7 +4,7 @@
 \alias{t1kable}
 \title{Convert a \code{table1} object to \code{kabelExtra}.}
 \usage{
-t1kable(x, booktabs = TRUE, ..., format)
+t1kable(x, booktabs = TRUE, ..., format, align, bold.headers = TRUE)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{table1}}.}
@@ -14,6 +14,11 @@ t1kable(x, booktabs = TRUE, ..., format)
 \item{...}{Other options passed to \code{kbl}.}
 
 \item{format}{Passed to \code{kbl} (optional).}
+
+\item{align}{Passed to \code{kbl} (optional). The default is to left align
+the labels (first column) and center everything else.}
+
+\item{bold.headers}{Should the column headers be bolded?}
 }
 \value{
 A \code{kabelExtra} object.

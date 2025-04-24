@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2025-04-10" />
+<meta name="date" content="2025-04-21" />
 
 <title>Using the table1 Package to Create HTML Tables of Descriptive Statistics</title>
 
@@ -29,102 +29,7 @@ document.addEventListener('DOMContentLoaded', function(e) {
   }
 });
 </script>
-<style type="text/css">
-.Rtable1 table, table.Rtable1 {
-font-family: "Arial", Arial, sans-serif;
-font-size: 10pt;
-border-collapse: collapse;
-padding: 0px;
-margin: 0px;
-
-}
-.Rtable1 td {
-white-space:nowrap;
-}
-.Rtable1 th, .Rtable1 td {
-border: 0;
-text-align: center;
-padding: 0.5ex 1.5ex;
-margin: 0px;
-}
-.Rtable1 thead>tr:first-child>th {
-border-top: 2pt solid black;
-}
-.Rtable1 thead>tr:last-child>th {
-border-bottom: 1pt solid black;
-}
-.Rtable1 tbody>tr:last-child>td {
-border-bottom: 2pt solid black;
-}
-.Rtable1 th.grouplabel {
-padding-left: 0;
-padding-right: 0;
-}
-.Rtable1 th.grouplabel>div {
-margin-left: 1.5ex;
-margin-right: 1.5ex;
-border-bottom: 1pt solid black;
-}
-.Rtable1 th.grouplabel:last-child>div {
-margin-right: 0;
-}
-.Rtable1 .rowlabel {
-text-align: left;
-padding-left: 2.5ex;
-}
-.Rtable1 .firstrow.rowlabel {
-padding-left: 0.5ex;
-font-weight: bold;
-}
-
-.Rtable1-zebra tbody tr:nth-child(odd) {
-background-color: #eee;
-}
-
-table.Rtable1-times {
-font-family: "Times New Roman", Times, serif;
-}
-
-.Rtable1-shade th {
-background-color: #ccc;
-}
-
-.Rtable1-grid th, .Rtable1-grid td {
-border-left: 1pt solid black;
-border-right: 1pt solid black;
-}
-.Rtable1-grid thead>tr:first-child>th {
-border-top: 1pt solid black;
-}
-.Rtable1-grid thead>tr:last-child>th {
-border-bottom: 1pt solid black;
-}
-.Rtable1-grid tbody>tr:last-child>td {
-border-bottom: 1pt solid black;
-}
-.Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {
-border-top: 1pt solid black;
-}
-.Rtable1-grid th.grouplabel>div {
-margin-left: 0;
-margin-right: 0;
-border-bottom: 0;
-}
-
-.Rtable1-center td.rowlabel, .Rtable1-center td.firstrow.rowlabel {
-font-weight: bold;
-text-align: center;
-padding: 0.5ex 1.5ex;
-}
-
-.Rtable1 .Rtable1-footnote {
-font-size: smaller;
-padding: 0px;
-margin: 0px;
-text-align: left;
-white-space: normal;
-}
-</style>
+<style type="text/css">.Rtable1 table, table.Rtable1 {font-family: "Arial", Arial, sans-serif;font-size: 10pt;border-collapse: collapse;padding: 0px;margin: 0px;}.Rtable1 td {white-space:nowrap;}.Rtable1 th, .Rtable1 td {border: 0;text-align: center;padding: 0.5ex 1.5ex;margin: 0px;}.Rtable1 thead>tr:first-child>th {border-top: 2pt solid black;}.Rtable1 thead>tr:last-child>th {border-bottom: 1pt solid black;}.Rtable1 tbody>tr:last-child>td {border-bottom: 2pt solid black;}.Rtable1 th.grouplabel {padding-left: 0;padding-right: 0;}.Rtable1 th.grouplabel>div {margin-left: 1.5ex;margin-right: 1.5ex;border-bottom: 1pt solid black;}.Rtable1 th.grouplabel:last-child>div {margin-right: 0;}.Rtable1 .rowlabel {text-align: left;padding-left: 2.5ex;}.Rtable1 .firstrow.rowlabel {padding-left: 0.5ex;font-weight: bold;}.Rtable1-zebra tbody tr:nth-child(odd) {background-color: #eee;}table.Rtable1-times {font-family: "Times New Roman", Times, serif;}.Rtable1-shade th {background-color: #ccc;}.Rtable1-grid th, .Rtable1-grid td {border-left: 1pt solid black;border-right: 1pt solid black;}.Rtable1-grid thead>tr:first-child>th {border-top: 1pt solid black;}.Rtable1-grid thead>tr:last-child>th {border-bottom: 1pt solid black;}.Rtable1-grid tbody>tr:last-child>td {border-bottom: 1pt solid black;}.Rtable1-grid .firstrow, .Rtable1-grid .firstrow ~ td {border-top: 1pt solid black;}.Rtable1-grid th.grouplabel>div {margin-left: 0;margin-right: 0;border-bottom: 0;}.Rtable1-center td.rowlabel, .Rtable1-center td.firstrow.rowlabel {font-weight: bold;text-align: center;padding: 0.5ex 1.5ex;}.Rtable1 .Rtable1-footnote {font-size: smaller;padding: 0px;margin: 0px;text-align: left;white-space: normal;}</style>
 
 <style type="text/css">
 code{white-space: pre-wrap;}
@@ -258,7 +163,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 <h1 class="title toc-ignore">Using the table1 Package to Create HTML
 Tables of Descriptive Statistics</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2025-04-10</h4>
+<h4 class="date">2025-04-21</h4>
 
 
 <div id="TOC">
@@ -331,15 +236,15 @@ copied here the code used to prepare the data:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br><span class="stratn">(N=57)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br><span class="stratn">(N=14)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=205)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br /><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br /><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br /><span class="stratn">(N=14)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=205)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">factor(sex)</td>
+<td class="rowlabel firstrow"><span class="varlabel">factor(sex)</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -360,7 +265,7 @@ copied here the code used to prepare the data:</p>
 <td class="lastrow">79 (38.5%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">age</td>
+<td class="rowlabel firstrow"><span class="varlabel">age</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -381,7 +286,7 @@ copied here the code used to prepare the data:</p>
 <td class="lastrow">54.0 [4.00, 95.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">factor(ulcer)</td>
+<td class="rowlabel firstrow"><span class="varlabel">factor(ulcer)</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -402,7 +307,7 @@ copied here the code used to prepare the data:</p>
 <td class="lastrow">90 (43.9%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">thickness</td>
+<td class="rowlabel firstrow"><span class="varlabel">thickness</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -467,17 +372,17 @@ add a caption and footnote:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br><span class="stratn">(N=57)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br><span class="stratn">(N=14)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Total<br /><span class="stratn">(N=205)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br /><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma death<br /><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma death<br /><span class="stratn">(N=14)</span></span></th>
 </tr>
 <tfoot><tr><td colspan="5" class="Rtable1-footnote"><p>ᵃ Also known as Breslow thickness</p>
 </td></tr></tfoot>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -498,7 +403,7 @@ add a caption and footnote:</p>
 <td class="lastrow">7 (50.0%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -519,7 +424,7 @@ add a caption and footnote:</p>
 <td class="lastrow">65.0 [49.0, 86.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Ulceration</td>
+<td class="rowlabel firstrow"><span class="varlabel">Ulceration</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -540,7 +445,7 @@ add a caption and footnote:</p>
 <td class="lastrow">7 (50.0%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Thicknessᵃ (mm)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Thicknessᵃ<span class="varunits"> (mm)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -614,17 +519,17 @@ categorical variables as follows:</p>
 </tr>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Total<br><span class="stratn">(N=205)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Alive<br><span class="stratn">(N=134)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Melanoma<br><span class="stratn">(N=57)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma<br><span class="stratn">(N=14)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Total<br /><span class="stratn">(N=205)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Alive<br /><span class="stratn">(N=134)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Melanoma<br /><span class="stratn">(N=57)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Non-melanoma<br /><span class="stratn">(N=14)</span></span></th>
 </tr>
 <tfoot><tr><td colspan="5" class="Rtable1-footnote"><p>ᵃ Also known as Breslow thickness</p>
 </td></tr></tfoot>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -645,7 +550,7 @@ categorical variables as follows:</p>
 <td class="lastrow">7 (50 %)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age (years)</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -659,7 +564,7 @@ categorical variables as follows:</p>
 <td class="lastrow">65 (± 11)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Ulceration</td>
+<td class="rowlabel firstrow"><span class="varlabel">Ulceration</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -680,7 +585,7 @@ categorical variables as follows:</p>
 <td class="lastrow">7 (50 %)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Thicknessᵃ (mm)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Thicknessᵃ (mm)</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -747,14 +652,14 @@ consider three baseline characteristics: age, sex and weight.</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -772,7 +677,7 @@ consider three baseline characteristics: age, sex and weight.</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -790,7 +695,7 @@ consider three baseline characteristics: age, sex and weight.</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -825,13 +730,13 @@ continuous or categorical, these are reported as a distinct category
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 </tr>
@@ -846,7 +751,7 @@ continuous or categorical, these are reported as a distinct category
 <td class="lastrow">39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 </tr>
@@ -861,7 +766,7 @@ continuous or categorical, these are reported as a distinct category
 <td class="lastrow">41 (43.6%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 </tr>
@@ -896,17 +801,17 @@ are nested. For example, to see each treatment group split by sex:</p>
 </tr>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=34)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=18)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=53)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=41)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Female<br><span class="stratn">(N=87)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Male<br><span class="stratn">(N=59)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br /><span class="stratn">(N=34)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br /><span class="stratn">(N=18)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br /><span class="stratn">(N=53)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br /><span class="stratn">(N=41)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Female<br /><span class="stratn">(N=87)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Male<br /><span class="stratn">(N=59)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -933,7 +838,7 @@ are nested. For example, to see each treatment group split by sex:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -983,17 +888,17 @@ are nested. For example, to see each treatment group split by sex:</p>
 </tr>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=34)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=53)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=18)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=41)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=34)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=53)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=18)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=41)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1020,7 +925,7 @@ are nested. For example, to see each treatment group split by sex:</p>
 <td class="lastrow">39.5 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1064,12 +969,12 @@ are nested. For example, to see each treatment group split by sex:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Treatment Group</td>
+<td class="rowlabel firstrow"><span class="varlabel">Treatment Group</span></td>
 <td class="firstrow"></td>
 </tr>
 <tr>
@@ -1081,7 +986,7 @@ are nested. For example, to see each treatment group split by sex:</p>
 <td class="lastrow">94 (64.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 </tr>
 <tr>
@@ -1093,7 +998,7 @@ are nested. For example, to see each treatment group split by sex:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 </tr>
 <tr>
@@ -1105,7 +1010,7 @@ are nested. For example, to see each treatment group split by sex:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 </tr>
 <tr>
@@ -1151,16 +1056,16 @@ subjects.</p>
 </tr>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">5 mg<br><span class="stratn">(N=43)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">10 mg<br><span class="stratn">(N=51)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">All treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">5 mg<br /><span class="stratn">(N=43)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">10 mg<br /><span class="stratn">(N=51)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">All treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1184,7 +1089,7 @@ subjects.</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1208,7 +1113,7 @@ subjects.</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1277,16 +1182,16 @@ desired result:</p>
 </tr>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">5 mg<br><span class="stratn">(N=43)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">10 mg<br><span class="stratn">(N=51)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">All treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">5 mg<br /><span class="stratn">(N=43)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">10 mg<br /><span class="stratn">(N=51)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">All treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1318,7 +1223,7 @@ desired result:</p>
 <td class="lastrow">37.4 (37.6%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1342,7 +1247,7 @@ desired result:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1404,14 +1309,14 @@ custom render function as follows:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1429,7 +1334,7 @@ custom render function as follows:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1447,7 +1352,7 @@ custom render function as follows:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1504,14 +1409,14 @@ of <code>table1</code>. Some examples follow:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1529,7 +1434,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1547,7 +1452,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1578,14 +1483,14 @@ of <code>table1</code>. Some examples follow:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1603,7 +1508,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1621,7 +1526,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1652,14 +1557,14 @@ of <code>table1</code>. Some examples follow:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1677,7 +1582,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1695,7 +1600,7 @@ of <code>table1</code>. Some examples follow:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1763,14 +1668,14 @@ following definitions:</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Placebo<br><span class="stratn">(N=52)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treated<br><span class="stratn">(N=94)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=146)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Placebo<br /><span class="stratn">(N=52)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treated<br /><span class="stratn">(N=94)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=146)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1788,7 +1693,7 @@ following definitions:</p>
 <td class="lastrow">39.0 [18.0, 65.0]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Sex</td>
+<td class="rowlabel firstrow"><span class="varlabel">Sex</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1806,7 +1711,7 @@ following definitions:</p>
 <td class="lastrow">59 (40.4%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Weight (kg)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Weight<span class="varunits"> (kg)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1912,14 +1817,17 @@ which will appear as the column label (heading).</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Control<br><span class="stratn">(N=429)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Treatment<br><span class="stratn">(N=185)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Control
+(N=429)</span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Treatment
+(N=185)</span></th>
+<th class="firstrow lastrow"><span class="stratlabel">P-value</span></th>
 <th class="firstrow lastrow"><span class="stratlabel">P-value</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1937,7 +1845,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Race</td>
+<td class="rowlabel firstrow"><span class="varlabel">Race</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1961,7 +1869,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Married</td>
+<td class="rowlabel firstrow"><span class="varlabel">Married</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1979,7 +1887,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">No high school diploma</td>
+<td class="rowlabel firstrow"><span class="varlabel">No high school diploma</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -1997,7 +1905,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">1974 Income</td>
+<td class="rowlabel firstrow"><span class="varlabel">1974 Income</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -2015,7 +1923,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">1975 Income</td>
+<td class="rowlabel firstrow"><span class="varlabel">1975 Income</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -2033,7 +1941,7 @@ which will appear as the column label (heading).</p>
 <td class="lastrow"></td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">1978 Income</td>
+<td class="rowlabel firstrow"><span class="varlabel">1978 Income</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -2078,50 +1986,50 @@ option.</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">A<br><span class="stratn">(N=50)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">B<br><span class="stratn">(N=50)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">C<br><span class="stratn">(N=50)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=150)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">A<br /><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">B<br /><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">C<br /><span class="stratn">(N=50)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=150)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow lastrow">V1</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V1</span></td>
 <td class="firstrow lastrow">1.60 (122.5%)<br />1.15 [0.100, 12.7]<br />0.968 (148.9%)</td>
 <td class="firstrow lastrow">1.62 (152.1%)<br />1.00 [0.100, 13.6]<br />0.829 (169.3%)</td>
 <td class="firstrow lastrow">1.39 (141.5%)<br />1.00 [0.200, 13.4]<br />0.884 (113.7%)</td>
 <td class="firstrow lastrow">1.54 (138.7%)<br />1.00 [0.100, 13.6]<br />0.892 (142.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow">V2</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V2</span></td>
 <td class="firstrow lastrow">1.31 (139.0%)<br />0.850 [0.100, 11.4]<br />0.778 (130.4%)</td>
 <td class="firstrow lastrow">1.51 (102.3%)<br />0.900 [0.100, 7.00]<br />0.913 (146.1%)</td>
 <td class="firstrow lastrow">1.48 (158.2%)<br />0.800 [0.100, 13.4]<br />0.834 (135.1%)</td>
 <td class="firstrow lastrow">1.43 (134.0%)<br />0.900 [0.100, 13.4]<br />0.840 (136.1%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow">V3</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V3</span></td>
 <td class="firstrow lastrow">1.80 (115.5%)<br />1.10 [0.200, 8.90]<br />1.10 (125.2%)</td>
 <td class="firstrow lastrow">2.55 (333.0%)<br />1.00 [0.100, 60.5]<br />1.00 (145.7%)</td>
 <td class="firstrow lastrow">1.29 (93.6%)<br />1.05 [0.200, 7.40]<br />0.917 (101.6%)</td>
 <td class="firstrow lastrow">1.88 (270.7%)<br />1.05 [0.100, 60.5]<br />1.01 (123.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow">V4</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V4</span></td>
 <td class="firstrow lastrow">1.44 (107.6%)<br />0.900 [0.200, 6.70]<br />0.956 (106.6%)</td>
 <td class="firstrow lastrow">1.70 (150.8%)<br />1.20 [0.100, 18.0]<br />1.06 (121.8%)</td>
 <td class="firstrow lastrow">1.97 (129.1%)<br />0.850 [0.100, 12.2]<br />1.04 (157.2%)</td>
 <td class="firstrow lastrow">1.70 (132.9%)<br />0.900 [0.100, 18.0]<br />1.02 (127.0%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow">V5</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V5</span></td>
 <td class="firstrow lastrow">1.25 (105.2%)<br />0.800 [0.100, 7.70]<br />0.840 (112.3%)</td>
 <td class="firstrow lastrow">1.94 (128.5%)<br />1.15 [0.100, 15.1]<br />1.15 (138.2%)</td>
 <td class="firstrow lastrow">1.73 (80.3%)<br />1.40 [0.100, 7.10]<br />1.24 (113.0%)</td>
 <td class="firstrow lastrow">1.64 (111.2%)<br />1.15 [0.100, 15.1]<br />1.06 (122.7%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow">V6</td>
+<td class="rowlabel firstrow lastrow"><span class="varlabel">V6</span></td>
 <td class="firstrow lastrow">1.87 (204.2%)<br />0.900 [0.100, 26.4]<br />0.925 (157.1%)</td>
 <td class="firstrow lastrow">1.96 (152.9%)<br />1.00 [0.100, 19.9]<br />1.00 (174.5%)</td>
 <td class="firstrow lastrow">2.06 (125.6%)<br />1.00 [0.100, 12.0]<br />1.13 (150.1%)</td>
@@ -2139,17 +2047,17 @@ option.</p>
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow">V1</th>
-<th class="firstrow lastrow">V2</th>
-<th class="firstrow lastrow">V3</th>
-<th class="firstrow lastrow">V4</th>
-<th class="firstrow lastrow">V5</th>
-<th class="firstrow lastrow">V6</th>
+<th class="firstrow lastrow"><span class="varlabel">V1</span></th>
+<th class="firstrow lastrow"><span class="varlabel">V2</span></th>
+<th class="firstrow lastrow"><span class="varlabel">V3</span></th>
+<th class="firstrow lastrow"><span class="varlabel">V4</span></th>
+<th class="firstrow lastrow"><span class="varlabel">V5</span></th>
+<th class="firstrow lastrow"><span class="varlabel">V6</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">A<br><span class="stratn">(N=50)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">A<br /><span class="stratn">(N=50)</span></span></td>
 <td class="firstrow lastrow">1.60 (122.5%)<br />1.15 [0.100, 12.7]<br />0.968 (148.9%)</td>
 <td class="firstrow lastrow">1.31 (139.0%)<br />0.850 [0.100, 11.4]<br />0.778 (130.4%)</td>
 <td class="firstrow lastrow">1.80 (115.5%)<br />1.10 [0.200, 8.90]<br />1.10 (125.2%)</td>
@@ -2158,7 +2066,7 @@ option.</p>
 <td class="firstrow lastrow">1.87 (204.2%)<br />0.900 [0.100, 26.4]<br />0.925 (157.1%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">B<br><span class="stratn">(N=50)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">B<br /><span class="stratn">(N=50)</span></span></td>
 <td class="firstrow lastrow">1.62 (152.1%)<br />1.00 [0.100, 13.6]<br />0.829 (169.3%)</td>
 <td class="firstrow lastrow">1.51 (102.3%)<br />0.900 [0.100, 7.00]<br />0.913 (146.1%)</td>
 <td class="firstrow lastrow">2.55 (333.0%)<br />1.00 [0.100, 60.5]<br />1.00 (145.7%)</td>
@@ -2167,7 +2075,7 @@ option.</p>
 <td class="firstrow lastrow">1.96 (152.9%)<br />1.00 [0.100, 19.9]<br />1.00 (174.5%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">C<br><span class="stratn">(N=50)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">C<br /><span class="stratn">(N=50)</span></span></td>
 <td class="firstrow lastrow">1.39 (141.5%)<br />1.00 [0.200, 13.4]<br />0.884 (113.7%)</td>
 <td class="firstrow lastrow">1.48 (158.2%)<br />0.800 [0.100, 13.4]<br />0.834 (135.1%)</td>
 <td class="firstrow lastrow">1.29 (93.6%)<br />1.05 [0.200, 7.40]<br />0.917 (101.6%)</td>
@@ -2176,7 +2084,7 @@ option.</p>
 <td class="firstrow lastrow">2.06 (125.6%)<br />1.00 [0.100, 12.0]<br />1.13 (150.1%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=150)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=150)</span></span></td>
 <td class="firstrow lastrow">1.54 (138.7%)<br />1.00 [0.100, 13.6]<br />0.892 (142.2%)</td>
 <td class="firstrow lastrow">1.43 (134.0%)<br />0.900 [0.100, 13.4]<br />0.840 (136.1%)</td>
 <td class="firstrow lastrow">1.88 (270.7%)<br />1.05 [0.100, 60.5]<br />1.01 (123.2%)</td>

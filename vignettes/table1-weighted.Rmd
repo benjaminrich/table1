@@ -49,13 +49,13 @@ units(myco$Age) <- "years"
 label(myco$AgeCat) <- "Age Group"
 label(myco$ScarL) <- "BCG vaccination scar"
 
-table1(~ ScarL + Age + AgeCat | Leprosy, data=weighted(myco, wt))
+table1(~ ScarL + Age + AgeCat | Leprosy, data=weighted(myco, wt), big.mark=",")
 ```
 
 It also works in "transpose" mode:
 
 ```{r}
-table1(~ Age + ScarL | Leprosy, data=weighted(myco, wt), transpose=T)
+table1(~ Age + ScarL | Leprosy, data=weighted(myco, wt), transpose=T, big.mark=",")
 ```
 
 For more flexibility, we may not want the weighting to be applied globally, but
@@ -64,7 +64,7 @@ individual variables:
 
 
 ```{r}
-table1(~ weighted(ScarL, wt) + Age + AgeCat | Leprosy, data=myco)
+table1(~ weighted(ScarL, wt) + Age + AgeCat | Leprosy, data=myco, big.mark=",")
 ```
 
 This implementation allows for simple weighted statistics, but does not
@@ -103,10 +103,10 @@ myrender <- function(x, name, ...) {
     if (is.numeric(x)) {
         r <- svymean(as.formula(paste0("~", name)), subset(dclus1, (1:nrow(dclus1)) %in% indices(x)))
         r <- c(Mean=as.numeric(r), SE=sqrt(attr(r, "var", exact=T)))
-        r <- unlist(stats.apply.rounding(as.list(r)))
+        r <- unlist(stats.apply.rounding(as.list(r), big.mark=","))
     } else {
         r <- svytable(as.formula(paste0("~", name)), subset(dclus1, (1:nrow(dclus1)) %in% indices(x)))
-        r <- unlist(stats.apply.rounding(as.list(r), digits=1, rounding.fn=round_pad))
+        r <- unlist(stats.apply.rounding(as.list(r), big.mark=",", digits=1, rounding.fn=round_pad))
     }
     c("", r)
 }
@@ -119,7 +119,7 @@ label(apiclus1$api00)    <- "API in 2000"
 label(apiclus1$sch.wide) <- "Met school-wide growth target?"
 
 table1(~ api99 + api00 + sch.wide | stype2, indexed(apiclus1), render=myrender,
-    render.strat=function(x, ...) {x})
+    render.strat=names)
 ```
 
 

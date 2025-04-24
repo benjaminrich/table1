@@ -4,11 +4,13 @@
 \alias{render.varlabel}
 \title{Render variable labels for table output.}
 \usage{
-render.varlabel(x, transpose = F)
+render.varlabel(x, ..., transpose = F)
 }
 \arguments{
 \item{x}{A vector, usually with the \code{\link{label}} and (if appropriate)
 \code{\link{unit}} attributes.}
+
+\item{...}{Additional arguments.}
 
 \item{transpose}{Logical indicating whether on not the table is transposed.}
 }

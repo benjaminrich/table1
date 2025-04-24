@@ -18,10 +18,9 @@ table1(x, ...)
   footnote = NULL,
   caption = NULL,
   render = render.default,
-  render.strat = render.strat.default,
+  render.strat = table1::render.strat,
   extra.col = NULL,
   extra.col.pos = NULL,
-  stratn = sapply(x, nrow),
   ...
 )
 
@@ -36,7 +35,8 @@ table1(x, ...)
   footnote = NULL,
   caption = NULL,
   render = render.default,
-  render.strat = render.strat.default,
+  render.strat = table1::render.strat,
+  render.varlabel = table1::render.varlabel,
   extra.col = NULL,
   extra.col.pos = NULL,
   ...
@@ -54,7 +54,8 @@ table1(x, ...)
 \item{rowlabelhead}{A heading for the first column of the table, which contains the row labels.}
 
 \item{transpose}{Logical. Should the table be transposed (i.e. strata as
-rows and variables as columns)?}
+rows and variables as columns)?  This flag is also passed to
+\code{render.strat} and \code{render.varlabel}.}
 
 \item{topclass}{A class attribute for the outermost (i.e. \code{<table>}) tag.}
 
@@ -67,16 +68,13 @@ The default \code{NULL} causes the caption to be omitted.}
 
 \item{render}{A function to render the table cells (see Details).}
 
-\item{render.strat}{A function to render the stratum labels. Accepts 3
-arguments: the stratum label, the stratum size (number of observations), and
-a flag indicating whether we are in transpose mode or not. See
-\code{\link{render.strat.default}} for an example.}
+\item{render.strat}{A function to render the stratum labels. The first
+argument is a named list of \code{data.frame}s, and it should also accept
+\code{...} arguments. See \code{\link{render.strat}} for an example.}
 
 \item{extra.col}{An optional names list of functions that produce extra columns in the table (see Details).}
 
 \item{extra.col.pos}{An optional integer vector given the positions of extra columns (see Details).}
-
-\item{stratn}{An integer vector given the N for each stratum.}
 
 \item{data}{For the formula interface, a \code{data.frame} from which the
 variables in \code{x} should be taken.}
@@ -87,6 +85,10 @@ appears at the right end of the table; to place it on the left instead use a
 named \code{character} with the name "left", e.g. \code{c(left="Overall")}.}
 
 \item{droplevels}{Should empty factor levels be dropped?}
+
+\item{render.varlabel}{A function to render the variable labels. The first
+argument is a vector, and it should also accept \code{...} arguments. See
+\code{\link{render.varlabel}} for an example.}
 }
 \value{
 An object of class "table1".

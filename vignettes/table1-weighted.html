@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2025-04-11" />
+<meta name="date" content="2025-04-24" />
 
 <title>Weighted Statistics With table1</title>
 
@@ -162,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <h1 class="title toc-ignore">Weighted Statistics With table1</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2025-04-11</h4>
+<h4 class="date">2025-04-24</h4>
 
 
 <div id="TOC">
@@ -207,19 +207,19 @@ application):</p>
 <span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a><span class="fu">label</span>(myco<span class="sc">$</span>AgeCat) <span class="ot">&lt;-</span> <span class="st">&quot;Age Group&quot;</span></span>
 <span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="fu">label</span>(myco<span class="sc">$</span>ScarL) <span class="ot">&lt;-</span> <span class="st">&quot;BCG vaccination scar&quot;</span></span>
 <span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> ScarL <span class="sc">+</span> Age <span class="sc">+</span> AgeCat <span class="sc">|</span> Leprosy, <span class="at">data=</span><span class="fu">weighted</span>(myco, wt))</span></code></pre></div>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> ScarL <span class="sc">+</span> Age <span class="sc">+</span> AgeCat <span class="sc">|</span> Leprosy, <span class="at">data=</span><span class="fu">weighted</span>(myco, wt), <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Leprosy Cases<br><span class="stratn">(N=258)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Controls<br><span class="stratn">(N=61310)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=61568)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Leprosy Cases<br /><span class="stratn">(N=258)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Controls<br /><span class="stratn">(N=61,310)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=61,568)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">BCG vaccination scar</td>
+<td class="rowlabel firstrow"><span class="varlabel">BCG vaccination scar</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -227,17 +227,17 @@ application):</p>
 <tr>
 <td class="rowlabel">Yes</td>
 <td>100 (38.8%)</td>
-<td>34846 (56.8%)</td>
-<td>34946 (56.8%)</td>
+<td>34,846 (56.8%)</td>
+<td>34,946 (56.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">No</td>
 <td class="lastrow">158 (61.2%)</td>
-<td class="lastrow">26463 (43.2%)</td>
-<td class="lastrow">26621 (43.2%)</td>
+<td class="lastrow">26,463 (43.2%)</td>
+<td class="lastrow">26,621 (43.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -255,7 +255,7 @@ application):</p>
 <td class="lastrow">17.5 [7.50, 32.5]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age Group</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age Group</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -263,67 +263,67 @@ application):</p>
 <tr>
 <td class="rowlabel">5 to 9</td>
 <td>25 (9.7%)</td>
-<td>17327 (28.3%)</td>
-<td>17352 (28.2%)</td>
+<td>17,327 (28.3%)</td>
+<td>17,352 (28.2%)</td>
 </tr>
 <tr>
 <td class="rowlabel">10 to 14</td>
 <td>50 (19.4%)</td>
-<td>13172 (21.5%)</td>
-<td>13222 (21.5%)</td>
+<td>13,172 (21.5%)</td>
+<td>13,222 (21.5%)</td>
 </tr>
 <tr>
 <td class="rowlabel">15 to 19</td>
 <td>44 (17.1%)</td>
-<td>10325 (16.8%)</td>
-<td>10369 (16.8%)</td>
+<td>10,325 (16.8%)</td>
+<td>10,369 (16.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel">20 to 24</td>
 <td>39 (15.1%)</td>
-<td>8026 (13.1%)</td>
-<td>8065 (13.1%)</td>
+<td>8,026 (13.1%)</td>
+<td>8,065 (13.1%)</td>
 </tr>
 <tr>
 <td class="rowlabel">25 to 29</td>
 <td>47 (18.2%)</td>
-<td>5981 (9.8%)</td>
-<td>6028 (9.8%)</td>
+<td>5,981 (9.8%)</td>
+<td>6,028 (9.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">30 to 34</td>
 <td class="lastrow">53 (20.5%)</td>
-<td class="lastrow">6479 (10.6%)</td>
-<td class="lastrow">6532 (10.6%)</td>
+<td class="lastrow">6,479 (10.6%)</td>
+<td class="lastrow">6,532 (10.6%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>It also works in “transpose” mode:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> Age <span class="sc">+</span> ScarL <span class="sc">|</span> Leprosy, <span class="at">data=</span><span class="fu">weighted</span>(myco, wt), <span class="at">transpose=</span>T)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> Age <span class="sc">+</span> ScarL <span class="sc">|</span> Leprosy, <span class="at">data=</span><span class="fu">weighted</span>(myco, wt), <span class="at">transpose=</span>T, <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow">Age (years)</th>
-<th class="firstrow lastrow">BCG vaccination scar</th>
+<th class="firstrow lastrow"><span class="varlabel">Age<br /><span class="varunits">(years)</span></span></th>
+<th class="firstrow lastrow"><span class="varlabel">BCG vaccination scar</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">Leprosy Cases<br><span class="stratn">(N=258)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">Leprosy Cases<br /><span class="stratn">(N=258)</span></span></td>
 <td class="firstrow lastrow"><br />Mean (SD): 21.2 (8.32)<br />Median [Min, Max]: 22.5 [7.50, 32.5]</td>
 <td class="firstrow lastrow"><br />Yes: 100 (38.8%)<br />No: 158 (61.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">Controls<br><span class="stratn">(N=61310)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">Controls<br /><span class="stratn">(N=61,310)</span></span></td>
 <td class="firstrow lastrow"><br />Mean (SD): 16.8 (8.36)<br />Median [Min, Max]: 17.5 [7.50, 32.5]</td>
-<td class="firstrow lastrow"><br />Yes: 34846 (56.8%)<br />No: 26463 (43.2%)</td>
+<td class="firstrow lastrow"><br />Yes: 34,846 (56.8%)<br />No: 26,463 (43.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=61568)</span></span></td>
+<td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=61,568)</span></span></td>
 <td class="firstrow lastrow"><br />Mean (SD): 16.8 (8.37)<br />Median [Min, Max]: 17.5 [7.50, 32.5]</td>
-<td class="firstrow lastrow"><br />Yes: 34946 (56.8%)<br />No: 26621 (43.2%)</td>
+<td class="firstrow lastrow"><br />Yes: 34,946 (56.8%)<br />No: 26,621 (43.2%)</td>
 </tr>
 </tbody>
 </table>
@@ -331,19 +331,19 @@ application):</p>
 <p>For more flexibility, we may not want the weighting to be applied
 globally, but only to some of the variables? We can do this as well, by
 using <code>weighted</code> on individual variables:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> <span class="fu">weighted</span>(ScarL, wt) <span class="sc">+</span> Age <span class="sc">+</span> AgeCat <span class="sc">|</span> Leprosy, <span class="at">data=</span>myco)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> <span class="fu">weighted</span>(ScarL, wt) <span class="sc">+</span> Age <span class="sc">+</span> AgeCat <span class="sc">|</span> Leprosy, <span class="at">data=</span>myco, <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow"><span class="stratlabel">Leprosy Cases<br><span class="stratn">(N=258)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Controls<br><span class="stratn">(N=258)</span></span></th>
-<th class="firstrow lastrow"><span class="stratlabel">Overall<br><span class="stratn">(N=516)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Leprosy Cases<br /><span class="stratn">(N=258)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Controls<br /><span class="stratn">(N=258)</span></span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=516)</span></span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">BCG vaccination scar</td>
+<td class="rowlabel firstrow"><span class="varlabel">BCG vaccination scar</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -351,17 +351,17 @@ using <code>weighted</code> on individual variables:</p>
 <tr>
 <td class="rowlabel">Yes</td>
 <td>100 (38.8%)</td>
-<td>34846 (56.8%)</td>
-<td>34946 (56.8%)</td>
+<td>34,846 (56.8%)</td>
+<td>34,946 (56.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">No</td>
 <td class="lastrow">158 (61.2%)</td>
-<td class="lastrow">26463 (43.2%)</td>
-<td class="lastrow">26621 (43.2%)</td>
+<td class="lastrow">26,463 (43.2%)</td>
+<td class="lastrow">26,621 (43.2%)</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age (years)</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age<span class="varunits"> (years)</span></span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -379,7 +379,7 @@ using <code>weighted</code> on individual variables:</p>
 <td class="lastrow">22.5 [7.50, 32.5]</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Age Group</td>
+<td class="rowlabel firstrow"><span class="varlabel">Age Group</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -460,10 +460,10 @@ beautifully:</p>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">is.numeric</span>(x)) {</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">svymean</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;~&quot;</span>, name)), <span class="fu">subset</span>(dclus1, (<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dclus1)) <span class="sc">%in%</span> <span class="fu">indices</span>(x)))</span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Mean=</span><span class="fu">as.numeric</span>(r), <span class="at">SE=</span><span class="fu">sqrt</span>(<span class="fu">attr</span>(r, <span class="st">&quot;var&quot;</span>, <span class="at">exact=</span>T)))</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">stats.apply.rounding</span>(<span class="fu">as.list</span>(r)))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">stats.apply.rounding</span>(<span class="fu">as.list</span>(r), <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>))</span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">svytable</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;~&quot;</span>, name)), <span class="fu">subset</span>(dclus1, (<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dclus1)) <span class="sc">%in%</span> <span class="fu">indices</span>(x)))</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">stats.apply.rounding</span>(<span class="fu">as.list</span>(r), <span class="at">digits=</span><span class="dv">1</span>, <span class="at">rounding.fn=</span>round_pad))</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>        r <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">stats.apply.rounding</span>(<span class="fu">as.list</span>(r), <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>, <span class="at">digits=</span><span class="dv">1</span>, <span class="at">rounding.fn=</span>round_pad))</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    }</span>
 <span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, r)</span>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>}</span>
@@ -476,20 +476,20 @@ beautifully:</p>
 <span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="fu">label</span>(apiclus1<span class="sc">$</span>sch.wide) <span class="ot">&lt;-</span> <span class="st">&quot;Met school-wide growth target?&quot;</span></span>
 <span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a></span>
 <span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> api99 <span class="sc">+</span> api00 <span class="sc">+</span> sch.wide <span class="sc">|</span> stype2, <span class="fu">indexed</span>(apiclus1), <span class="at">render=</span>myrender,</span>
-<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    <span class="at">render.strat=</span><span class="cf">function</span>(x, ...) x)</span></code></pre></div>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>    <span class="at">render.strat=</span>names)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
 <thead>
 <tr>
 <th class="rowlabel firstrow lastrow"></th>
-<th class="firstrow lastrow">Elementary</th>
-<th class="firstrow lastrow">Middle School</th>
-<th class="firstrow lastrow">High School</th>
-<th class="firstrow lastrow">Overall</th>
+<th class="firstrow lastrow"><span class="stratlabel">Elementary</span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Middle School</span></th>
+<th class="firstrow lastrow"><span class="stratlabel">High School</span></th>
+<th class="firstrow lastrow"><span class="stratlabel">Overall</span></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="rowlabel firstrow">API in 1999</td>
+<td class="rowlabel firstrow"><span class="varlabel">API in 1999</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -510,7 +510,7 @@ beautifully:</p>
 <td class="lastrow">24.2</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">API in 2000</td>
+<td class="rowlabel firstrow"><span class="varlabel">API in 2000</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -531,7 +531,7 @@ beautifully:</p>
 <td class="lastrow">23.5</td>
 </tr>
 <tr>
-<td class="rowlabel firstrow">Met school-wide growth target?</td>
+<td class="rowlabel firstrow"><span class="varlabel">Met school-wide growth target?</span></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
 <td class="firstrow"></td>
@@ -546,10 +546,10 @@ beautifully:</p>
 </tr>
 <tr>
 <td class="rowlabel lastrow">Yes</td>
-<td class="lastrow">4467.8</td>
+<td class="lastrow">4,467.8</td>
 <td class="lastrow">575.4</td>
 <td class="lastrow">372.3</td>
-<td class="lastrow">5415.5</td>
+<td class="lastrow">5,415.5</td>
 </tr>
 </tbody>
 </table>
