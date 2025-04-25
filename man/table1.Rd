@@ -70,7 +70,8 @@ The default \code{NULL} causes the caption to be omitted.}
 
 \item{render.strat}{A function to render the stratum labels. The first
 argument is a named list of \code{data.frame}s, and it should also accept
-\code{...} arguments. See \code{\link{render.strat}} for an example.}
+\code{...} arguments. The default is \code{\link{render.strat}}, but it can
+be overriden with a user-supplied function.}
 
 \item{extra.col}{An optional names list of functions that produce extra columns in the table (see Details).}
 
@@ -87,8 +88,9 @@ named \code{character} with the name "left", e.g. \code{c(left="Overall")}.}
 \item{droplevels}{Should empty factor levels be dropped?}
 
 \item{render.varlabel}{A function to render the variable labels. The first
-argument is a vector, and it should also accept \code{...} arguments. See
-\code{\link{render.varlabel}} for an example.}
+argument is a vector, and it should also accept \code{...} arguments. The
+default is \code{\link{render.varlabel}}, but it can be overriden with a
+user-supplied function.}
 }
 \value{
 An object of class "table1".

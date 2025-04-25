@@ -15,23 +15,30 @@
 
 0 errors | 0 warnings | 2 notes
 
-- checking for future file timestamps ... NOTE
+* checking for future file timestamps ... NOTE
   unable to verify current time
 
   - This seems to be a known issue (<https://stackoverflow.com/questions/63613301/>)
 
-- checking sizes of PDF files under 'inst/doc' ... NOTE
+* checking sizes of PDF files under 'inst/doc' ... NOTE
   Unable to find GhostScript executable to run checks on size reduction
 
   - Because I don't have GhostScript installed
 
 ## Reverse dependencies
 
-* pmxpartab: OK
+* BiVariAn: OK
+* abmR: OK
 * ggquickeda: OK
 * coveffectsplot: OK
+* lulab.utils:  ERROR --> package maintainer has been notified
+* pmxpartab: OK
+* metalite.table1: OK
+* SelectionBias: OK
 * rUM: OK
+* psborrow2: OK
 * ttt: OK
-* abmR: ERROR in an example --> package maintainer has been notified
+* public.ctn0094data: OK
 * yamlet: OK
+
 

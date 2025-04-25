@@ -2,7 +2,7 @@
 % Please edit documentation in R/table1.R
 \name{render.strat}
 \alias{render.strat}
-\title{Render strata labels for table output.}
+\title{Render strata labels for default table1 output.}
 \usage{
 render.strat(strata, ..., transpose = F)
 }
@@ -17,8 +17,9 @@ render.strat(strata, ..., transpose = F)
 A \code{character}, which may contain HTML markup.
 }
 \description{
-Called from \code{\link{table1}} to render the strata labels for display
-in the table.
+Called from \code{\link{table1}} to render the strata labels for display in
+the table. This is the default function, but it can be overriden by a
+user-supplied function.
 }
 \examples{
 dat <- expand.grid(id=1:10, sex=c("Male", "Female"), treat=c("Treated", "Placebo"))

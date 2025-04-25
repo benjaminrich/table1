@@ -584,10 +584,11 @@ render.missing.default <- function(x, ...) {
         c(Missing=sprintf("%s (%s%%)", FREQ, PCT)))
 }
 
-#' Render variable labels for table output.
+#' Render variable labels for default table1 output.
 #'
-#' Called from \code{\link{table1.formula}} by default to render variable labels
-#' for displaying in the table.
+#' Called from \code{\link{table1.formula}} by default to render variable
+#' labels for displaying in the table. This is the default function, but it can
+#' be overriden by a user-supplied function.
 #'
 #' @param x A vector, usually with the \code{\link{label}} and (if appropriate)
 #' \code{\link{unit}} attributes.
@@ -624,10 +625,11 @@ render.varlabel<- function(x, ..., transpose=F) {
     l
 }
 
-#' Render strata labels for table output.
+#' Render strata labels for default table1 output.
 #'
-#' Called from \code{\link{table1}} to render the strata labels for display
-#' in the table.
+#' Called from \code{\link{table1}} to render the strata labels for display in
+#' the table. This is the default function, but it can be overriden by a
+#' user-supplied function.
 #'
 #' @param strata A named \code{list} of \code{data.frame}s.
 #' @param ... Additional arguments.
@@ -881,10 +883,12 @@ has.units <- function(x) {
 #' @param render A function to render the table cells (see Details).
 #' @param render.strat A function to render the stratum labels. The first
 #' argument is a named list of \code{data.frame}s, and it should also accept
-#' \code{...} arguments. See \code{\link{render.strat}} for an example.
+#' \code{...} arguments. The default is \code{\link{render.strat}}, but it can
+#' be overriden with a user-supplied function.
 #' @param render.varlabel A function to render the variable labels. The first
-#' argument is a vector, and it should also accept \code{...} arguments. See
-#' \code{\link{render.varlabel}} for an example.
+#' argument is a vector, and it should also accept \code{...} arguments. The
+#' default is \code{\link{render.varlabel}}, but it can be overriden with a
+#' user-supplied function.
 #' @param extra.col An optional names list of functions that produce extra columns in the table (see Details).
 #' @param extra.col.pos An optional integer vector given the positions of extra columns (see Details).
 #' @param ... Further arguments, passed to \code{render}.
