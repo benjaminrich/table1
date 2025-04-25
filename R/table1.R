@@ -1677,8 +1677,8 @@ factorp <- function(x, ...) {
 #' w <- c(5, 3, 4, 1)
 #' 
 #' z <- weighted(x=x, w=w)
-#' z      |> str()
-#' z[2:3] |> str()  # Weights are preserved
+#' weights(z)
+#' weights(z[2:3])  # Weights are preserved
 #' 
 #' d <- weighted(
 #'   data.frame(
@@ -1688,11 +1688,11 @@ factorp <- function(x, ...) {
 #'   w
 #' )
 #' 
-#' d               |> str()
-#' d[[1]]          |> str()
-#' d$x             |> str()
-#' subset(d, y==1) |> str()
-#' split(d, d$y)   |> str()
+#' weights(d)
+#' weights(d[[1]])
+#' weights(d$x)
+#' weights(subset(d, y==1))
+#' lapply(split(d, d$y), weights)
 #' @export
 weighted <- function(x, w) {
     UseMethod("weighted")
@@ -1767,8 +1767,8 @@ weights.weighted <- function(object, ...) {
 #' y <- c(1, 2, 1, 2)
 #' 
 #' z <- indexed(x=x)
-#' z      |> str()
-#' z[2:3] |> str()  # Weights are preserved
+#' indices(z)
+#' indices(z[2:3])  # Indices are preserved
 #' 
 #' d <- indexed(
 #'   data.frame(
@@ -1777,11 +1777,11 @@ weights.weighted <- function(object, ...) {
 #'   )
 #' )
 #' 
-#' d               |> str()
-#' d[[1]]          |> str()
-#' d$x             |> str()
-#' subset(d, y==1) |> str()
-#' split(d, d$y)   |> str()
+#' indices(d)
+#' indices(d[[1]])
+#' indices(d$x)
+#' indices(subset(d, y==1))
+#' lapply(split(d, d$y), indices)
 #' @export
 indexed <- function(x, i, ...) {
     UseMethod("indexed")

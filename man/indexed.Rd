@@ -26,8 +26,8 @@ x <- c(3.7, 3.3, 3.5, 2.8)
 y <- c(1, 2, 1, 2)
 
 z <- indexed(x=x)
-z      |> str()
-z[2:3] |> str()  # Weights are preserved
+indices(z)
+indices(z[2:3])  # Indices are preserved
 
 d <- indexed(
   data.frame(
@@ -36,9 +36,9 @@ d <- indexed(
   )
 )
 
-d               |> str()
-d[[1]]          |> str()
-d$x             |> str()
-subset(d, y==1) |> str()
-split(d, d$y)   |> str()
+indices(d)
+indices(d[[1]])
+indices(d$x)
+indices(subset(d, y==1))
+lapply(split(d, d$y), indices)
 }
