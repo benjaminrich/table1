@@ -450,12 +450,16 @@ categorical variables.
 
 ```{r}
 pvalue <- function(x, ...) {
+    # Uncomment for the column overall/total:
+    #x$overall <- NULL
     # Construct vectors of data y, and groups (strata) g
     y <- unlist(x)
     g <- factor(rep(1:length(x), times=sapply(x, length)))
     if (is.numeric(y)) {
         # For numeric variables, perform a standard 2-sample t-test
         p <- t.test(y ~ g)$p.value
+        # Uncomment for Wilcoxon test :
+        #p <- wilcox.test(y ~ g)$p.value
     } else {
         # For categorical variables, perform a chi-squared test of independence
         p <- chisq.test(table(y, g))$p.value
@@ -470,10 +474,10 @@ pvalue <- function(x, ...) {
 Note that this function expects a specific input, namely a list with 2
 components corresponding to the 2 strata "Treatment" and "Control" in the
 `lalonde` data. These are the only 2 elements the list will have, because we
-will use `overall=F` in `table1` (otherwise, there would be a third element
-in the list corresponding to the overall column). Thus, this function is in some
-sense specifically tailored to this examples, and would need to be adapted to
-other situations (such as more than 2 strata, where a t-test would not work).
+will use `overall=F` in `table1`. If you wan to include the column overall, 
+you have to include`x$overall <- NULL` in the `pvalue` function. If you want to
+use the non-parametric Wilcoxon test instead of the t-test, include 
+`p <- wilcox.test(y ~ g)$p.value`.
 
 Now, we supply our function in the `extra.col` list argument to `table1` with
 the name `P-value`, which will appear as the column label (heading).
