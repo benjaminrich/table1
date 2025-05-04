@@ -457,8 +457,13 @@ pvalue <- function(x, ...) {
         # For numeric variables, perform a standard 2-sample t-test
         p <- t.test(y ~ g)$p.value
     } else {
-        # For categorical variables, perform a chi-squared test of independence
-        p <- chisq.test(table(y, g))$p.value
+        p <- tryCatch({
+            # For categorical variables, perform a chi-squared test of independence
+            chisq.test(table(y, g))$p.value
+        }, warning = function(w) {
+            # If a warning appears (due to expected cell counts <5 or too few observations), use Fisher's Exact test
+            return(fisher.test(table(y, g))$p.value)
+        })
     }
     # Format the p-value, using an HTML entity for the less-than sign.
     # The initial empty string places the output on the line below the variable label.
