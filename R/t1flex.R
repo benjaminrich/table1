@@ -4,11 +4,12 @@
 #' @param tablefn Choose a function from the \code{flextable} package to use as
 #' the basis for the table.
 #' @param ... Further options passed to \code{tablefn}.
+#' @param label_colspan Have variable labels span all columns in the table
 #' @return A \code{flextable} object.
 #' @note The \code{flextable} package needs to be installed for this to work.
 #' @importFrom utils getFromNamespace
 #' @export
-t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...) {
+t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ..., label_colspan = FALSE) {
   if (!requireNamespace("flextable", quietly = TRUE)) {
     stop("This function requires package 'flextable'. Please install it and try again.", call. = FALSE) # nocov
   }
@@ -18,29 +19,31 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
   rlh <- if (is.null(obj$rowlabelhead) || obj$rowlabelhead=="") "\U{00A0}" else obj$rowlabelhead
   i <- vapply(X = obj$contents, FUN = nrow, FUN.VALUE = 1)
   i <- cumsum(c(1, i[-length(i)]))
-  z <- lapply(obj$contents, function(y) {
+  each_group_df <- lapply(obj$contents, function(y) {
     y <- as.data.frame(y, stringsAsFactors = FALSE)
     y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors = FALSE)
     y <- cbind(setNames(y2, rlh), y)
+    if (label_colspan) {
+      y[1,] <- y[1,1]
+    }
     y
   })
-  df <- do.call(rbind, z)
+  all_group_df <- do.call(rbind, each_group_df)
 
   header_df <- data.frame(
     labels = c(rlh, obj$headings),
-    keys   = LETTERS[1:ncol(df)]
+    keys   = LETTERS[1:ncol(all_group_df)]
   )
 
   if (!is.null(obj$groupspan)) {
-    zzz <- ncol(df) - sum(obj$groupspan) - 1
+    zzz <- ncol(all_group_df) - sum(obj$groupspan) - 1
     label2 <- c("", rep(obj$labels$groups, times=obj$groupspan), rep("", zzz))
     header_df <- cbind(data.frame(label2=label2), header_df)
   }
 
-  colnames(df) <- header_df$keys
-  rownames(df) <- NULL
-
-  out <- tablefn(df, ...)
+  colnames(all_group_df) <- header_df$keys
+  rownames(all_group_df) <- NULL
+  out <- tablefn(all_group_df, ...)
   out <- flextable::set_header_df(out,  header_df, key="keys")
   out <- flextable::merge_h(out, part = "header", i = 1)
   #out <- flextable::merge_v(out, part = "header", j = 1)
@@ -57,6 +60,9 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
   out <- flextable::bold(out, part="header")
   # Make the category headers bold
   out <- flextable::bold(out, i=i, j=1)
+  if (label_colspan) {
+    out <- flextable::merge_h(out, i = i)
+  }
 
   if (!is.null(obj$caption)) {
     out <- flextable::set_caption(out, caption=obj$caption)

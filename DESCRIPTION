@@ -1,6 +1,6 @@
 Package: table1
 Type: Package
-Version: 1.5
+Version: 1.5.9000
 Date: 2025-04-25
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
@@ -14,8 +14,19 @@ Description: Create HTML tables of descriptive statistics, as one would expect
 License: GPL-3
 Depends: R (>= 3.5.0)
 Imports: stats,Formula,knitr,htmltools,yaml,methods
-Suggests: boot,MatchIt,rmarkdown,printr,kableExtra,flextable,officer,Hmisc,survey
+Suggests: 
+    boot,
+    MatchIt,
+    rmarkdown,
+    printr,
+    kableExtra,
+    flextable,
+    officer,
+    Hmisc,
+    survey,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Language: en-US
 Encoding: UTF-8
 RoxygenNote: 7.3.2
+Config/testthat/edition: 3

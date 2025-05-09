@@ -4,7 +4,12 @@
 \alias{t1flex}
 \title{Convert a \code{table1} object to \code{flextable}.}
 \usage{
-t1flex(x, tablefn = c("qflextable", "flextable", "regulartable"), ...)
+t1flex(
+  x,
+  tablefn = c("qflextable", "flextable", "regulartable"),
+  ...,
+  label_colspan = FALSE
+)
 }
 \arguments{
 \item{x}{An object returned by \code{\link{table1}}.}
@@ -13,6 +18,8 @@ t1flex(x, tablefn = c("qflextable", "flextable", "regulartable"), ...)
 the basis for the table.}
 
 \item{...}{Further options passed to \code{tablefn}.}
+
+\item{label_colspan}{Have variable labels span all columns in the table}
 }
 \value{
 A \code{flextable} object.
