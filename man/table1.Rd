@@ -195,7 +195,7 @@ labels <- list(
     groups=list("", "Treated", ""))
 
 my.render.cont <- function(x) {
-    with(stats.default(x), 
+    with(stats.default(x),
         sprintf("\%0.2f (\%0.1f)", MEAN, SD))
 }
 
