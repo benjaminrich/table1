@@ -16,9 +16,7 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
   tablefn <- getFromNamespace(tablefn, "flextable")
   obj <- attr(x, "obj", exact = TRUE)
   rlh <- if (is.null(obj$rowlabelhead) || obj$rowlabelhead=="") "\U{00A0}" else obj$rowlabelhead
-  i <- lapply(obj$contents, function(y) {
-    nrow(y)
-  })
+  i <- vapply(X = obj$contents, FUN = nrow, FUN.VALUE = 1)
   i <- cumsum(c(1, i[-length(i)]))
   z <- lapply(obj$contents, function(y) {
     y <- as.data.frame(y, stringsAsFactors = FALSE)
@@ -47,11 +45,17 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
   out <- flextable::merge_h(out, part = "header", i = 1)
   #out <- flextable::merge_v(out, part = "header", j = 1)
   #out <- flextable::theme_booktabs(out, bold_header = TRUE)
+
+  # Add line above the top of the table
   out <- flextable::hline_top(out, border = officer::fp_border(width=1.5), part = "header")
+  # Add line below the bottom of the header
   out <- flextable::hline_bottom(out, border = officer::fp_border(width=1.5), part = "header")
+  # Center both data and header cells, except for the first column
   out <- flextable::align(out, j=2:(obj$ncolumns+1), align="center", part="body")
   out <- flextable::align(out, j=2:(obj$ncolumns+1), align="center", part="header")
+  # Make the top header bold
   out <- flextable::bold(out, part="header")
+  # Make the category headers bold
   out <- flextable::bold(out, i=i, j=1)
 
   if (!is.null(obj$caption)) {
