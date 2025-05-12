@@ -1245,6 +1245,7 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
             y <- as.data.frame(y, stringsAsFactors=F)
             y2 <- data.frame(x=paste0(c("", rep("\U{00A0}\U{00A0}", nrow(y) - 1)), rownames(y)), stringsAsFactors=F)
             y <- cbind(setNames(y2, rlh), y)
+            y[1,] <- y[1,1] # Setup for labels spanning columns
             y
         })
         df <- do.call(rbind, z)
@@ -1274,6 +1275,7 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
         out <- flextable::align(out, j=2:(ncolumns+1), align="center", part="header")
         out <- flextable::bold(out, part="header")
         out <- flextable::bold(out, i=i, j=1)
+        out <- flextable::merge_h(out, i = i) # Make labels span columns
 
         if (!is.null(caption)) {
             out <- flextable::set_caption(out, caption=caption)
