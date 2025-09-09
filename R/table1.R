@@ -91,12 +91,12 @@ round_pad <- function (x, digits=2, round5up=TRUE, dec, ...) {
 }
 
 # Internal function
-format_n <- function (x, ...) {
+format_n <- function(x, ...) {
     args <- list(...)
     args <- args[!(names(args) %in% c("format"))]
 
     cx <- do.call(formatC,
-        c(list(x=x, format="d"),
+        c(list(x=round(x), format="d"),
           args[names(args) %in% names(formals(formatC))]))
     ifelse(is.na(x), NA, cx)
 }
@@ -163,7 +163,12 @@ format_n <- function (x, ...) {
 #' @importFrom stats sd median quantile IQR na.omit
 stats.default <- function(x, quantile.type=7, ...) {
     if (!is.null(w <- weights.weighted(x))) {
-        table <- function(x, ...) Hmisc::wtd.table(x, weights=w, type="table", na.rm=TRUE)
+        table <- function(x, ...) {
+            t1 <- base::table(x, ...)
+            t2 <- Hmisc::wtd.table(x, weights=w, type="table", na.rm=TRUE)
+            t1[names(t2)] <- t2
+            t1
+        }
         mean <- function(...) Hmisc::wtd.mean(..., weights=w)
         sd <- function(...) sqrt(Hmisc::wtd.var(..., weights=w))
         quantile <- function(...) Hmisc::wtd.quantile(..., weights=w)
@@ -610,19 +615,22 @@ render.missing.default <- function(x, ...) {
 #' @keywords utilities
 #' @export
 render.varlabel<- function(x, ..., transpose=F) {
-    l <- if (has.units(x)) {
-        sprintf("%s (%s)", label(x), units(x))
-    } else {
-        sprintf("%s", label(x))
-    }
-    attr(l, "html") <- if (has.units(x) && transpose) {
+    html <- if (has.units(x) && transpose) {
         sprintf("%s<br/><span class='varunits'>(%s)</span>", label(x), units(x))
     } else if (has.units(x)) {
         sprintf("%s<span class='varunits'> (%s)</span>", label(x), units(x))
     } else {
         sprintf("%s", label(x))
     }
-    l
+
+    nohtml <- if (has.units(x)) {
+        sprintf("%s (%s)", label(x), units(x))
+    } else {
+        sprintf("%s", label(x))
+    }
+
+    setNames(html, nohtml)
+    
 }
 
 #' Render strata labels for default table1 output.
@@ -655,15 +663,17 @@ render.strat <- function(strata, ..., transpose=F) {
 
     stratn <- format_n(sapply(strata, get_n), ...)
 
-    l <- ifelse(is.na(stratn), names(strata), sprintf("%s\n(N=%s)", names(strata), stratn))
+    html <- ifelse(is.na(stratn), 
+        names(strata),
+        sprintf("%s<br/><span class='stratn'>(N=%s)</span>", names(strata), stratn)
+    )
 
-    attr(l, "html") <- {
-        ifelse(is.na(stratn), 
-            names(strata),
-            sprintf("%s<br/><span class='stratn'>(N=%s)</span>", names(strata), stratn)
-        )
-    }
-    l
+    nohtml <- ifelse(is.na(stratn),
+        names(strata),
+        sprintf("%s\n(N=%s)", names(strata), stratn)
+    )
+
+    setNames(html, nohtml)
 }
 
 #' Convert to HTML table rows.
@@ -999,6 +1009,9 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
     } else {
         headings <- render.strat(x)
     }
+    if (is.null(names(headings))) {
+        names(headings) <- headings
+    }
 
     if (transpose) {
         ncolumns <- length(labels$variables)
@@ -1014,13 +1027,20 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
                 }
                 y <- render(x=z, name=v, missing=any.missing[v], transpose=T, ...)
                 y <- paste0(y, collapse="<br/>")
-                names(y) <- labels$variables[[v]]
+                names(y) <- if (!is.null(names(labels$variables[[v]]))) {
+                    names(labels$variables[[v]])
+                } else {
+                    labels$variables[[v]]
+                }
+
                 y <- t(y)
                 rownames(y) <- s
-                y }))})
+                y
+            }))
+        })
     } else {
         if (!is.null(extra.col)) {
-            headings <- cbind(headings, names(extra.col))
+            headings <- c(headings, names(extra.col))
             if (!is.null(groupspan)) {
                 groupspan <- c(groupspan, rep(1, length(extra.col)))
                 labels$groups <- c(labels$groups, rep("", length(extra.col)))
@@ -1074,7 +1094,11 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
             }
 
             rownames(y) <- paste(rownames(y), sep="")
-            rownames(y)[1] <- labels$variables[[v]]
+            rownames(y)[1] <- if (!is.null(names(labels$variables[[v]]))) {
+                names(labels$variables[[v]])
+            } else {
+                labels$variables[[v]]
+            }
             y })
     }
 
@@ -1107,33 +1131,17 @@ update_html <- function(x) {
     with(obj, {
         if (transpose) {
             thead <- sapply(labels$variables, function(x) {
-                if (!is.null(html.varlabel <- attr(x, "html", exact=TRUE))) {
-                    sprintf("<span class='varlabel'>%s</span>", html.varlabel)
-                } else {
-                    sprintf("<span class='varlabel'>%s</span>", x)
-                }
+                sprintf("<span class='varlabel'>%s</span>", x)
             })
 
             for (i in seq_along(contents)) {
-                rownames(contents[[i]]) <- if (!is.null(html.headings <- attr(headings, "html", exact=TRUE))) {
-                    sprintf("<span class='stratlabel'>%s</span>", html.headings[i])
-                } else {
-                    sprintf("<span class='stratlabel'>%s</span>", headings[i])
-                }
+                rownames(contents[[i]]) <- sprintf("<span class='stratlabel'>%s</span>", headings[i])
             }
         } else {
-            thead <- if (!is.null(html.headings <- attr(headings, "html", exact=TRUE))) {
-                sprintf("<span class='stratlabel'>%s</span>", html.headings)
-            } else {
-                sprintf("<span class='stratlabel'>%s</span>", headings)
-            }
+            thead <- sprintf("<span class='stratlabel'>%s</span>", headings)
 
             for (i in seq_along(contents)) {
-                rownames(contents[[i]])[1] <- if (!is.null(html.varlabel <- attr(labels$variables[[i]], "html", exact=TRUE))) {
-                    sprintf("<span class='varlabel'>%s</span>", html.varlabel)
-                } else {
-                    sprintf("<span class='varlabel'>%s</span>", labels$variables[[i]])
-                }
+                rownames(contents[[i]])[1] <- sprintf("<span class='varlabel'>%s</span>", labels$variables[[i]])
             }
         }
 
@@ -1204,6 +1212,11 @@ as.data.frame.table1 <- function(x, ...) {
         })
         df <- do.call(rbind, z)
 
+        # Use the non-HTML version of headings, if any
+        if (!is.null(names(headings))) {
+            headings <- names(headings)
+        }
+
         # Put the (N=xx) as first row of the table
         headings <- strsplit(headings, "\n")
         headings.rows <- max(sapply(headings, length))
@@ -1248,6 +1261,11 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
             y
         })
         df <- do.call(rbind, z)
+
+        # Use the non-HTML version of headings, if any
+        if (!is.null(names(headings))) {
+            headings <- names(headings)
+        }
 
         header_df <- data.frame(
             labels = c(rlh, headings),
@@ -1329,17 +1347,15 @@ t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
         names(i) <- labels$variables
         df <- do.call(rbind, z)
 
-
         if (format == "html") {
-            headings <- if (!is.null(html.headings <- attr(headings, "html", exact=TRUE))) {
-                sprintf("<span class='stratlabel'>%s</span>", html.headings)
-            } else {
-                sprintf("<span class='stratlabel'>%s</span>", headings)
-            }
             cn <- c(rlh, headings)
         }
         # Create multiline header
         if (format == "latex") {
+            # Use the non-HTML version of headings, if any
+            if (!is.null(names(headings))) {
+                headings <- names(headings)
+            }
             cn <- c(rlh, headings)
             cn <- kableExtra::linebreak(cn, align="c")
 
@@ -1571,7 +1587,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
 
     labels <- list(
         strata=stratlabel,
-        variables=lapply(m1, render.varlabel, transpose=transpose))
+        variables=lapply(m1, render.varlabel, html=T, transpose=transpose))
     names(labels$strata) <- names(strata)
 
     if (!is.null(m2) && length(m2) > 1) {

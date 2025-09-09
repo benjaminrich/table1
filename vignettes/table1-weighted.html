@@ -12,7 +12,7 @@
 
 <meta name="author" content="Benjamin Rich" />
 
-<meta name="date" content="2025-04-25" />
+<meta name="date" content="2025-08-18" />
 
 <title>Weighted Statistics With table1</title>
 
@@ -162,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; }
 
 <h1 class="title toc-ignore">Weighted Statistics With table1</h1>
 <h4 class="author">Benjamin Rich</h4>
-<h4 class="date">2025-04-25</h4>
+<h4 class="date">2025-08-18</h4>
 
 
 <div id="TOC">
@@ -227,8 +227,8 @@ application):</p>
 <tr>
 <td class="rowlabel">Yes</td>
 <td>100 (38.8%)</td>
-<td>34,846 (56.8%)</td>
-<td>34,946 (56.8%)</td>
+<td>34,847 (56.8%)</td>
+<td>34,947 (56.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">No</td>
@@ -318,18 +318,18 @@ application):</p>
 <tr>
 <td class="rowlabel firstrow lastrow"><span class="stratlabel">Controls<br /><span class="stratn">(N=61,310)</span></span></td>
 <td class="firstrow lastrow"><br />Mean (SD): 16.8 (8.36)<br />Median [Min, Max]: 17.5 [7.50, 32.5]</td>
-<td class="firstrow lastrow"><br />Yes: 34,846 (56.8%)<br />No: 26,463 (43.2%)</td>
+<td class="firstrow lastrow"><br />Yes: 34,847 (56.8%)<br />No: 26,463 (43.2%)</td>
 </tr>
 <tr>
 <td class="rowlabel firstrow lastrow"><span class="stratlabel">Overall<br /><span class="stratn">(N=61,568)</span></span></td>
 <td class="firstrow lastrow"><br />Mean (SD): 16.8 (8.37)<br />Median [Min, Max]: 17.5 [7.50, 32.5]</td>
-<td class="firstrow lastrow"><br />Yes: 34,946 (56.8%)<br />No: 26,621 (43.2%)</td>
+<td class="firstrow lastrow"><br />Yes: 34,947 (56.8%)<br />No: 26,621 (43.2%)</td>
 </tr>
 </tbody>
 </table>
 </div>
 <p>For more flexibility, we may not want the weighting to be applied
-globally, but only to some of the variables? We can do this as well, by
+globally, but only to some of the variables. We can do this as well, by
 using <code>weighted</code> on individual variables:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">table1</span>(<span class="sc">~</span> <span class="fu">weighted</span>(ScarL, wt) <span class="sc">+</span> Age <span class="sc">+</span> AgeCat <span class="sc">|</span> Leprosy, <span class="at">data=</span>myco, <span class="at">big.mark=</span><span class="st">&quot;,&quot;</span>)</span></code></pre></div>
 <div class="Rtable1"><table class="Rtable1">
@@ -351,8 +351,8 @@ using <code>weighted</code> on individual variables:</p>
 <tr>
 <td class="rowlabel">Yes</td>
 <td>100 (38.8%)</td>
-<td>34,846 (56.8%)</td>
-<td>34,946 (56.8%)</td>
+<td>34,847 (56.8%)</td>
+<td>34,947 (56.8%)</td>
 </tr>
 <tr>
 <td class="rowlabel lastrow">No</td>

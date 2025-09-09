@@ -60,7 +60,7 @@ table1(~ Age + ScarL | Leprosy, data=weighted(myco, wt), transpose=T, big.mark="
 ```
 
 For more flexibility, we may not want the weighting to be applied globally, but
-only to some of the variables? We can do this as well, by using `weighted` on
+only to some of the variables. We can do this as well, by using `weighted` on
 individual variables:
 
 
