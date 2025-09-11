@@ -1,7 +1,7 @@
 Package: table1
 Type: Package
 Version: 1.5
-Date: 2025-04-25
+Date: 2025-09-11
 Title: Tables of Descriptive Statistics in HTML
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 Author: Benjamin Rich [aut, cre, cph]
@@ -18,4 +18,4 @@ Suggests: boot,MatchIt,rmarkdown,printr,kableExtra,flextable,officer,Hmisc,surve
 VignetteBuilder: knitr
 Language: en-US
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3

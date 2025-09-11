@@ -3,13 +3,21 @@
 ## Test environments
 
 * Local:
-  - Windows 11, R 4.4.3 (x86_64-w64-mingw32/x64 (64-bit))
+  - Windows 11 x64 (build 26100) (x86_64-w64-mingw32/x64), R version 4.5.1 (2025-06-13 ucrt)
 * win-builder:
-  - Windows Server 2022 (release 4.2.2 (2022-10-31 ucrt) and devel (unstable))
-* R-hub builder (https://builder.r-hub.io)
-  - Windows Server 2022, R-devel, 64 bit
-  - Ubuntu Linux 20.04.1 LTS, R-release, GCC
-  - Fedora Linux, R-devel, clang, gfortran
+  - R Under development (unstable) (2025-09-10 r88809 ucrt)
+  - R version 4.5.1 (2025-06-13 ucrt)
+* With GitHub actions:
+  - ubuntu-latest (devel)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R Under development (unstable) (2025-09-08 r88798)
+  - ubuntu-latest (release)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R version 4.5.1 (2025-06-13)
+  - ubuntu-latest (oldrel-1)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R version 4.4.3 (2025-02-28)
+  - windows-latest
+    - Windows Server 2022 x64 (build 26100) (x86_64, mingw32), R version 4.5.1 (2025-06-13 ucrt)
+  - macos-latest
+    - macOS Sequoia 15.5 (aarch64, darwin20), R version 4.5.1 (2025-06-13)
 
 ## R CMD check results
 
@@ -28,17 +36,14 @@
 ## Reverse dependencies
 
 * BiVariAn: OK
-* abmR: OK
-* ggquickeda: OK
 * coveffectsplot: OK
+* ggquickeda: OK
 * lulab.utils:  ERROR --> package maintainer has been notified
-* pmxpartab: OK
 * metalite.table1: OK
-* SelectionBias: OK
-* rUM: OK
+* pmxpartab: OK
 * psborrow2: OK
-* ttt: OK
 * public.ctn0094data: OK
+* rUM: OK
+* SelectionBias: OK
+* ttt: OK
 * yamlet: OK
-
-
