@@ -81,7 +81,7 @@ subsetted appropriately during operations like slicing or subsetting. See
 `?weighted` for some examples.
 
 The `indexed` class is similar, but it simply maintains the indices of a vector
-(row indices for a `data.frame`) when a subset or slide is taken. This leeds to
+(row indices for a `data.frame`) when a subset or slide is taken. This leads to
 some interesting possibilities when we want to do more complex things.
 
 The following example also comes from the `survey` package:
