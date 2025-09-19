@@ -1,4 +1,6 @@
-# Version 1.5
+# Version 1.5.1
+
+Note: This minor release fixes a bug that was introduced in version 1.5.0.
 
 ## Test environments
 

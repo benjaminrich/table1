@@ -997,7 +997,7 @@ table1.default <- function(x, labels, groupspan=NULL, rowlabelhead="", transpose
 
     # Convert any character columns to factor
     char2factor <- function(df) {
-        df[,sapply(df, is.character)] <- lapply(df[,sapply(df, is.character)], factorp)
+        df[,sapply(df, is.character)] <- lapply(df[,sapply(df, is.character), drop=FALSE], factorp)
         df
     }
     x <- lapply(x, char2factor)
