@@ -12,7 +12,7 @@
 #' @export
 t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
   if (!requireNamespace("kableExtra", quietly = TRUE)) {
-    stop("This function requires package 'kableExtra'. Please install it and try again.", call.=F)
+    stop("This function requires package 'kableExtra'. Please install it and try again.", call.=FALSE)
   }
   if (missing(format) || is.null(format)) {
     format <- if (knitr::is_latex_output()) "latex" else "html"
@@ -23,18 +23,18 @@ t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
   with(obj, {
     rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
     i <- lapply(contents, function(y) {
-      if (all(y[1,, drop=T] == "")) {
+      if (all(y[1,, drop=TRUE] == "")) {
         nrow(y) - 1
       } else {
         nrow(y)
       }
     })
     z <- lapply(contents, function(y) {
-      if (all(y[1,, drop=T] == "")) {
-        y <- as.data.frame(y[-1,, drop=F], stringsAsFactors=F)
-        y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
+      if (all(y[1,, drop=TRUE] == "")) {
+        y <- as.data.frame(y[-1,, drop=FALSE], stringsAsFactors=FALSE)
+        y2 <- data.frame(x=rownames(y), stringsAsFactors=FALSE)
       } else {
-        y2 <- data.frame(x="", stringsAsFactors=F)
+        y2 <- data.frame(x="", stringsAsFactors=FALSE)
       }
       y <- cbind(setNames(y2, rlh), y)
       y
@@ -68,8 +68,8 @@ t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
                            format    = format,
                            align     = align,
                            col.names = cn,
-                           row.names = F,
-                           escape    = F,
+                           row.names = FALSE,
+                           escape    = FALSE,
                            booktabs  = booktabs,
                            caption   = caption,
                            ...
