@@ -39,7 +39,11 @@ t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
       y <- cbind(setNames(y2, rlh), y)
       y
     })
-    names(i) <- labels$variables
+    if (format == "html") {
+      names(i) <- labels$variables
+    } else {
+      names(i) <- vapply(X = labels$variables, FUN = names, FUN.VALUE = "")
+    }
     df <- do.call(rbind, z)
 
     if (format == "html") {
@@ -74,7 +78,7 @@ t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
                            caption   = caption,
                            ...
     )
-    out <- kableExtra::pack_rows(out, index=i)
+    out <- kableExtra::pack_rows(out, index=i, escape = FALSE)
 
     if (.isTRUE(bold.headers)) {
       out <- kableExtra::row_spec(out, 0, bold=TRUE) # Bold column headers
