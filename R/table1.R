@@ -33,20 +33,20 @@
 #' x <- c(0.9001, 12345, 1.2, 1., 0.1, 0.00001 , 1e5)
 #' signif_pad(x, digits=3)
 #' signif_pad(x, digits=3, round.integers=TRUE)
-#' 
+#'
 #' # Compare:
 #' as.character(signif(x, digits=3))
 #' format(x, digits=3, nsmall=3)
 #' prettyNum(x, digits=3, drop0trailing=TRUE)
 #' prettyNum(x, digits=3, drop0trailing=FALSE)
-#' 
+#'
 #' # This is very close.
-#' formatC(x, format="fg", flag="#", digits=3) 
+#' formatC(x, format="fg", flag="#", digits=3)
 #' formatC(signif(x, 3), format="fg", flag="#", digits=3)
-#' 
+#'
 #' # Could always remove the trailing "."
 #' sub("[.]$", "", formatC(x, format="fg", flag="#", digits=3))
-#' 
+#'
 #' @keywords utilities
 #' @export
 signif_pad <- function(x, digits=3, round.integers=TRUE, round5up=TRUE, dec, ...) {
@@ -152,7 +152,7 @@ format_n <- function(x, ...) {
 #' @examples
 #' x <- exp(rnorm(100, 1, 1))
 #' stats.default(x)
-#' 
+#'
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
 #' stats.default(y)
@@ -222,9 +222,9 @@ stats.default <- function(x, quantile.type=7, ...) {
             T1=NA,
             T2=NA)
     } else if (is.numeric(x)) {
-        p <- c(0.01, 0.025, 0.05, 0.1, 0.25, 1/3, 0.5, 2/3, 0.75, 0.9, 0.95, 0.975, 0.99) 
+        p <- c(0.01, 0.025, 0.05, 0.1, 0.25, 1/3, 0.5, 2/3, 0.75, 0.9, 0.95, 0.975, 0.99)
         q <- quantile(x, probs=p, na.rm=TRUE, type=quantile.type)
-        names(q) <- c("0.01", "0.025", "0.05", "0.1", "0.25", "1/3", "0.5", "2/3", "0.75", "0.9", "0.95", "0.975", "0.99") 
+        names(q) <- c("0.01", "0.025", "0.05", "0.1", "0.25", "1/3", "0.5", "2/3", "0.75", "0.9", "0.95", "0.975", "0.99")
         list(
             N=sum(!is.na(x)),
             NMISS=sum(is.na(x)),
@@ -288,7 +288,7 @@ stats.default <- function(x, quantile.type=7, ...) {
 #'
 #' @return A list with the same number of elements as \code{x}. The rounded
 #' values will be \code{character} (not \code{numeric}) and will have 0 padding
-#' to ensure consistent number of significant digits. 
+#' to ensure consistent number of significant digits.
 #'
 #' @seealso
 #' \code{\link{signif_pad}}
@@ -349,7 +349,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' the table output.
 #'
 #' @param x A vector or numeric, factor, character or logical values.
-#' @param name Name of the variable to be rendered (ignored). 
+#' @param name Name of the variable to be rendered (ignored).
 #' @param missing Should missing values be included?
 #' @param transpose Logical indicating whether on not the table is transposed.
 #' @param render.empty A \code{character} to return when \code{x} is empty.
@@ -376,7 +376,7 @@ stats.apply.rounding <- function(x, digits=3, digits.pct=1, round.median.min.max
 #' x <- exp(rnorm(100, 1, 1))
 #' render.default(x)
 #' render.default(x, TRUE)
-#' 
+#'
 #' y <- factor(sample(0:1, 99, replace=TRUE), labels=c("Female", "Male"))
 #' y[1:10] <- NA
 #' render.default(y)
@@ -432,7 +432,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' Parse abbreviated code for rendering table output.
 #'
 #' @param code A \code{character} vector specifying the statistics to display
-#' in abbreviated code. See Details. 
+#' in abbreviated code. See Details.
 #' @param ... Further arguments, passed to \code{\link{stats.apply.rounding}}.
 #'
 #' @return A function that takes a single argument and returns a
@@ -461,7 +461,7 @@ render.default <- function(x, name, missing=any(is.na(x)), transpose=F,
 #' f2(x)
 #' f3 <- parse.abbrev.render.code(c("Mean (SD)"), 3)
 #' f3(x)
-#' 
+#'
 #' x <- sample(c("Male", "Female"), 30, replace=T)
 #' stats.default(x)
 #' f <- parse.abbrev.render.code("Freq (Pct%)")
@@ -495,7 +495,7 @@ function(code, ...) {
             nm <- ifelse(sapply(res, seq_along)==1, "1", "")
             nm[nm=="1"] <- names(s)
             res <- unlist(res)
-            names(res) <- nm 
+            names(res) <- nm
             c("", res)
         } else {
             if (length(codestr) == 1 && is.null(names(codestr))) {
@@ -524,7 +524,7 @@ function(code, ...) {
 #' @examples
 #' x <- exp(rnorm(100, 1, 1))
 #' render.continuous.default(x)
-#' 
+#'
 #' @keywords utilities
 #' @export
 render.continuous.default <- function(x, ...) {
@@ -630,7 +630,7 @@ render.varlabel<- function(x, ..., transpose=F) {
     }
 
     setNames(html, nohtml)
-    
+
 }
 
 #' Render strata labels for default table1 output.
@@ -663,7 +663,7 @@ render.strat <- function(strata, ..., transpose=F) {
 
     stratn <- format_n(sapply(strata, get_n), ...)
 
-    html <- ifelse(is.na(stratn), 
+    html <- ifelse(is.na(stratn),
         names(strata),
         sprintf("%s<br/><span class='stratn'>(N=%s)</span>", names(strata), stratn)
     )
@@ -684,11 +684,11 @@ render.strat <- function(strata, ..., transpose=F) {
 #' label the rows of the table. Row labels, if specified, can have a special
 #' HTML \code{class} designated, which can be useful as a hook to customize
 #' their appearance using CSS. The same is true for the the first and last row
-#' of cells. 
+#' of cells.
 #'
 #' @param x A vector or table-like structure (e.g. a \code{\link{data.frame}} or \code{\link{matrix}}).
 #' @param row.labels Values for the first column, typically used to label the row, or \code{NULL} to omit.
-#' @param th A logical. Should \code{th} tags be used rather than \code{td}? 
+#' @param th A logical. Should \code{th} tags be used rather than \code{td}?
 #' @param class HTML class attribute. Can be a single \code{character}, a vector or a matrix.
 #' @param rowlabelclass HTML class attribute for the row labels (i.e. first column).
 #' @param firstrowclass HTML class attribute for the first row of cells.
@@ -810,7 +810,7 @@ has.label <- function(x) {
 #' @describeIn units Set units attribute.
 #' @export
 'units<-' <- function(x, value) {
-    attr(x, "units") <- value 
+    attr(x, "units") <- value
     x
 }
 
@@ -836,7 +836,7 @@ has.units <- function(x) {
 #' deliberately not attempted, as this is best accomplished with CSS. To
 #' facilitate this, some tags (such as row labels) are given specific classes
 #' for easy CSS selection.
-#' 
+#'
 #' For the formula version, the formula is expected to be a one-sided formula,
 #' optionally  with a vertical bar separating the variables that are to appear
 #' as data in the table (as rows) from those used for stratification (i.e.
@@ -911,53 +911,53 @@ has.units <- function(x) {
 #' dat$age <- runif(nrow(dat), 10, 50)
 #' dat$age[3] <- NA  # Add a missing value
 #' dat$wt <- exp(rnorm(nrow(dat), log(70), 0.2))
-#' 
+#'
 #' label(dat$sex) <- "Sex"
 #' label(dat$age) <- "Age"
 #' label(dat$treat) <- "Treatment Group"
 #' label(dat$wt) <- "Weight"
-#' 
+#'
 #' units(dat$age) <- "years"
 #' units(dat$wt) <- "kg"
-#' 
+#'
 #' # One level of stratification
 #' table1(~ sex + age + wt | treat, data=dat)
-#' 
+#'
 #' # Two levels of stratification (nesting)
 #' table1(~ age + wt | treat*sex, data=dat)
-#' 
+#'
 #' # Switch the order or nesting
 #' table1(~ age + wt | sex*treat, data=dat)
-#' 
+#'
 #' # No stratification
 #' table1(~ treat + sex + age + wt, data=dat)
-#' 
+#'
 #' # Something more complicated
-#' 
+#'
 #' dat$dose <- ifelse(dat$treat=="Placebo", "Placebo",
 #'                    sample(c("5 mg", "10 mg"), nrow(dat), replace=TRUE))
 #' dat$dose <- factor(dat$dose, levels=c("Placebo", "5 mg", "10 mg"))
-#' 
+#'
 #' strata <- c(split(dat, dat$dose),
 #'             list("All treated"=subset(dat, treat=="Treated")),
 #'             list(Overall=dat))
-#' 
+#'
 #' labels <- list(
 #'     variables=list(sex=render.varlabel(dat$sex),
 #'                    age=render.varlabel(dat$age),
 #'                    wt=render.varlabel(dat$wt)),
 #'     groups=list("", "Treated", ""))
-#' 
+#'
 #' my.render.cont <- function(x) {
-#'     with(stats.default(x), 
+#'     with(stats.default(x),
 #'         sprintf("%0.2f (%0.1f)", MEAN, SD))
 #' }
-#' 
+#'
 #' table1(strata, labels, groupspan=c(1, 3, 1), render.continuous=my.render.cont)
 #'
 #' # Transposed table
 #' table1(~ age + wt | treat, data=dat, transpose=TRUE)
-#' 
+#'
 #' @keywords utilities
 #' @export
 table1 <- function(x, ...) {
@@ -1303,103 +1303,6 @@ t1flex <- function(x, tablefn=c("qflextable", "flextable", "regulartable"), ...)
     })
 }
 
-#' Convert a \code{table1} object to \code{kabelExtra}.
-#'
-#' @param x An object returned by \code{\link{table1}}.
-#' @param booktabs Passed to \code{kbl} (default \code{TRUE}).
-#' @param ... Other options passed to \code{kbl}.
-#' @param format Passed to \code{kbl} (optional).
-#' @param align Passed to \code{kbl} (optional). The default is to left align
-#' the labels (first column) and center everything else.
-#' @param bold.headers Should the column headers be bolded?
-#' @return A \code{kabelExtra} object.
-#' @note The \code{kableExtra} package needs to be installed for this to work.
-#' @export
-t1kable <- function(x, booktabs=TRUE, ..., format, align, bold.headers=TRUE) {
-    if (!requireNamespace("kableExtra", quietly = TRUE)) {
-        stop("This function requires package 'kableExtra'. Please install it and try again.", call.=F)
-    }
-    if (missing(format) || is.null(format)) {
-        format <- if (knitr::is_latex_output()) "latex" else "html"
-    }
-    default.align <- missing(align)
-
-    obj <- attr(x, "obj", exact=TRUE)
-    with(obj, {
-        rlh <- if (is.null(rowlabelhead) || rowlabelhead=="") "\U{00A0}" else rowlabelhead
-        i <- lapply(contents, function(y) {
-            if (all(y[1,, drop=T] == "")) {
-                nrow(y) - 1
-            } else {
-                nrow(y)
-            }
-        })
-        z <- lapply(contents, function(y) {
-            if (all(y[1,, drop=T] == "")) {
-                y <- as.data.frame(y[-1,, drop=F], stringsAsFactors=F)
-                y2 <- data.frame(x=rownames(y), stringsAsFactors=F)
-            } else {
-                y2 <- data.frame(x="", stringsAsFactors=F)
-            }
-            y <- cbind(setNames(y2, rlh), y)
-            y
-        })
-        names(i) <- labels$variables
-        df <- do.call(rbind, z)
-
-        if (format == "html") {
-            cn <- c(rlh, headings)
-        }
-        # Create multiline header
-        if (format == "latex") {
-            # Use the non-HTML version of headings, if any
-            if (!is.null(names(headings))) {
-                headings <- names(headings)
-            }
-            cn <- c(rlh, headings)
-            cn <- kableExtra::linebreak(cn, align="c")
-
-            # Escape '%', but nothing else(?)
-            df <- as.data.frame(gsub("%", "\\\\%", as.matrix(df)))
-        }
-
-        # Use the default alignment, first column left and others centered
-        if (default.align) {
-            align <- c("l", rep("c", ncol(df)-1))
-        }
-
-        rownames(df) <- NULL
-        out <- kableExtra::kbl(df,
-            format    = format,
-            align     = align,
-            col.names = cn,
-            row.names = F,
-            escape    = F,
-            booktabs  = booktabs,
-            caption   = caption,
-            ...
-        )
-        out <- kableExtra::pack_rows(out, index=i)
-
-        if (.isTRUE(bold.headers)) {
-            out <- kableExtra::row_spec(out, 0, bold=TRUE) # Bold column headers
-        }
-
-        if (!is.null(groupspan)) {
-            groupspan <- setNames(groupspan, labels$groups)
-            zzz <- ncol(df) - sum(groupspan) - 1
-            out <- kableExtra::add_header_above(out, bold=bold.headers,
-                data.frame(c(" ", names(groupspan), rep(" ", zzz)), c(1, groupspan, rep(1, zzz))))
-        }
-
-        if (!is.null(footnote)) {
-            out <- kableExtra::footnote(out, general=footnote, general_title="")
-        }
-
-        out
-    })
-}
-
 #' Print \code{table1} object.
 #'
 #' @param x An object returned by \code{\link{table1}}.
@@ -1555,7 +1458,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (is.null(overall) || (is.logical(overall) && overall == FALSE)) {
             stop("Table has no columns?!")
         }
-        stratlabel <- overall 
+        stratlabel <- overall
     }
     for (i in 1:ncol(m1)) {
         if (!has.label(m1[[i]])) {
@@ -1695,11 +1598,11 @@ factorp <- function(x, ...) {
 #' x <- c(3.7, 3.3, 3.5, 2.8)
 #' y <- c(1, 2, 1, 2)
 #' w <- c(5, 3, 4, 1)
-#' 
+#'
 #' z <- weighted(x=x, w=w)
 #' weights(z)
 #' weights(z[2:3])  # Weights are preserved
-#' 
+#'
 #' d <- weighted(
 #'   data.frame(
 #'     x=x,
@@ -1707,7 +1610,7 @@ factorp <- function(x, ...) {
 #'   ),
 #'   w
 #' )
-#' 
+#'
 #' weights(d)
 #' weights(d[[1]])
 #' weights(d$x)
@@ -1785,18 +1688,18 @@ weights.weighted <- function(object, ...) {
 #' @examples
 #' x <- c(3.7, 3.3, 3.5, 2.8)
 #' y <- c(1, 2, 1, 2)
-#' 
+#'
 #' z <- indexed(x=x)
 #' indices(z)
 #' indices(z[2:3])  # Indices are preserved
-#' 
+#'
 #' d <- indexed(
 #'   data.frame(
 #'     x=x,
 #'     y=y
 #'   )
 #' )
-#' 
+#'
 #' indices(d)
 #' indices(d[[1]])
 #' indices(d$x)

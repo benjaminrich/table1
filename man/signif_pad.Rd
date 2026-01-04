@@ -51,7 +51,7 @@ prettyNum(x, digits=3, drop0trailing=TRUE)
 prettyNum(x, digits=3, drop0trailing=FALSE)
 
 # This is very close.
-formatC(x, format="fg", flag="#", digits=3) 
+formatC(x, format="fg", flag="#", digits=3)
 formatC(signif(x, 3), format="fg", flag="#", digits=3)
 
 # Could always remove the trailing "."
