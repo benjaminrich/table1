@@ -1513,7 +1513,7 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (any(sapply(m2, function(xx) any(is.na(xx))))) {
             stop("Stratification variable(s) should not contain missing values.")
         }
-        m2 <- lapply(m2, factorp)
+        m2 <- lapply(m2, function(x) factorp(x, levels = levels(x)))
         if (droplevels) {
             m2 <- lapply(m2, droplevels)
         }
