@@ -1500,12 +1500,6 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         }
 
         m1 <- model.frame(formula(f2, rhs=2), data=data, na.action=na.pass)
-        if (inherits(data, "weighted") && !is.null(w <- weights.weighted(data))) {
-            m1 <- weighted.default(m1, w=w)
-        }
-        if (inherits(data, "indexed") && !is.null(i <- indices.indexed(data))) {
-            m1 <- indexed.default(m1, i=i)
-        }
         m2 <- model.frame(formula(f, rhs=2), data=data, na.action=na.pass)
         if (!all(sapply(m2, is.factor) | sapply(m2, is.character))) {
             warning("Terms to the right of '|' in formula 'x' define table columns and are expected to be factors with meaningful labels.")
@@ -1561,6 +1555,12 @@ table1.formula <- function(x, data, overall="Overall", rowlabelhead="", transpos
         if (!has.label(m1[[i]])) {
             label(m1[[i]]) <- names(m1)[i]
         }
+    }
+    if (inherits(data, "weighted") && !is.null(w <- weights.weighted(data))) {
+        m1 <- weighted.default(m1, w=w)
+    }
+    if (inherits(data, "indexed") && !is.null(i <- indices.indexed(data))) {
+        m1 <- indexed.default(m1, i=i)
     }
 
     if (!is.null(m2)) {
